@@ -11,34 +11,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/ChangeConfig.ps1">
-      <publishTime>02/27/2014 13:11:40</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/download.ps1">
-      <publishTime>02/27/2014 13:11:40</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Microsoft.NodejsTools.WebRole.dll">
-      <publishTime>04/01/2014 12:13:56</publishTime>
+      <publishTime>01/04/2014 12:13:56</publishTime>
     </File>
     <File Include="bin/node.cmd">
-      <publishTime>02/27/2014 13:11:40</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/setup_web.cmd">
-      <publishTime>03/07/2014 13:56:38</publishTime>
+      <publishTime>07/03/2014 13:56:38</publishTime>
     </File>
     <File Include="package.json">
-      <publishTime>09/19/2014 17:52:15</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="README.md">
-      <publishTime>09/19/2014 17:52:15</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="server.js">
-      <publishTime>03/07/2014 13:56:38</publishTime>
+      <publishTime>07/03/2014 13:56:38</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/19/2014 17:53:51</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Web.Debug.config">
-      <publishTime>09/19/2014 17:52:15</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
   </ItemGroup>
 </Project>

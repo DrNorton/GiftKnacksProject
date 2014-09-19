@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAwgcU/qdigE+Mu3nGLgc/PAAAAAACAAAAAAAQZgAAAAEAACAAAAAkkmeIy9BX1kLvg+FXsWQQPZCfTA/VgJU0L8OQ7W6h4QAAAAAOgAAAAAIAACAAAAA3/mPL6Kxt62lQnXo/wZhkPXcsZwpm/VpSUCth02laYoAAAADHg7MccQaUMkEh/Y7SU04BNyRDx73edv9esxrN5mw4fmFn7FLwK+p2dfNu0WHROctTafmKCvqGhzfWBe8PKHTXOSmKZLXKisUVxt+dfUFncP7CYK4gbuKPsCnYICtzLlDbwsMc/kYdSnvZSzwaudQXfgh0/hDP6dM5N3voM59/vUAAAACaZcjJz8JC84LaMCbuqAE/mBHd5G39+yubXruUw4pv35jInqGxx/Txz1rT/02QtBCRVn5CAfo2sGf2ANEMacD4</EncryptedPassword>
+    <_PublishTargetUrl>ftp://waws-prod-db3-011.ftp.azurewebsites.windows.net/site/wwwroot</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/ChangeConfig.ps1">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="bin/download.ps1">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="bin/Microsoft.NodejsTools.WebRole.dll">
+      <publishTime>07/21/2014 17:01:18</publishTime>
+    </File>
+    <File Include="bin/node.cmd">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="bin/setup_web.cmd">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="package.json">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="README.md">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="server.js">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="Views/home.handlebars">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="Views/layouts/main.handlebars">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+    <File Include="Web.Debug.config">
+      <publishTime>09/19/2014 20:24:37</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

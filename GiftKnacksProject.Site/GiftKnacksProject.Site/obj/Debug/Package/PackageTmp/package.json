@@ -6,5 +6,10 @@
   "author": {
     "name": "WinPhone",
     "email": ""
+  },
+  "dependencies": {
+    "connect": "^3.2.0",
+    "express": "^4.9.3",
+    "express3-handlebars": "^0.5.2"
   }
 }
