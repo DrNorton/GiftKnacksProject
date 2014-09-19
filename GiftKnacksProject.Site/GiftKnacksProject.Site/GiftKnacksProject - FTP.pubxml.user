@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAALNqyo+dhpU2Z8TeEiw3MuwAAAAACAAAAAAAQZgAAAAEAACAAAABbm3eK8QOg4R+vvf6QXQDZYS17A8qDCyzTI8YrdO3YswAAAAAOgAAAAAIAACAAAAA/8X9olSfw4mWT+usnpYOp3WRoXyhEKh5oDwdYmgRY44AAAABhTZIDaYGq/zex9qVskjhfgZBzHYk5mjCg4+9YMAKdHwyaYJj0fY8exDej1Z2RJbWkmiJT75IGjcVksXTn+VSHctUZqpVmvqyYIX0wColqG4RnNLKnFudbOJmCsa4S0UMSj52ve+9QNS96dJusza0H8ipHjmfp25T1fL3N7nlNDUAAAABNgpbiTBMzAZJDrbfbmDq2AsXtltfHwzeI1h6kCMGZ0iD6YnE4HWVkIKbAWWhIYP5x4whL4snnXXWiTJRnVn1V</EncryptedPassword>
+    <_PublishTargetUrl>ftp://waws-prod-db3-011.ftp.azurewebsites.windows.net/site/wwwroot</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/ChangeConfig.ps1">
+      <publishTime>02/27/2014 13:11:40</publishTime>
+    </File>
+    <File Include="bin/download.ps1">
+      <publishTime>02/27/2014 13:11:40</publishTime>
+    </File>
+    <File Include="bin/Microsoft.NodejsTools.WebRole.dll">
+      <publishTime>04/01/2014 12:13:56</publishTime>
+    </File>
+    <File Include="bin/node.cmd">
+      <publishTime>02/27/2014 13:11:40</publishTime>
+    </File>
+    <File Include="bin/setup_web.cmd">
+      <publishTime>03/07/2014 13:56:38</publishTime>
+    </File>
+    <File Include="package.json">
+      <publishTime>09/19/2014 17:52:15</publishTime>
+    </File>
+    <File Include="README.md">
+      <publishTime>09/19/2014 17:52:15</publishTime>
+    </File>
+    <File Include="server.js">
+      <publishTime>03/07/2014 13:56:38</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>09/19/2014 17:53:51</publishTime>
+    </File>
+    <File Include="Web.Debug.config">
+      <publishTime>09/19/2014 17:52:15</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

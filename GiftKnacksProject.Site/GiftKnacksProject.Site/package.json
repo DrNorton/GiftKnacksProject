@@ -1,0 +1,10 @@
+{
+  "name": "GiftKnacksProject.Site",
+  "version": "0.0.0",
+  "description": "GiftKnacksProject.Site",
+  "main": "server.js",
+  "author": {
+    "name": "WinPhone",
+    "email": ""
+  }
+}
