@@ -5,7 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>GiftKnacksProject.Site</Name>
     <RootNamespace>GiftKnacksProject.Site</RootNamespace>
-    <NameOfLastUsedPublishProfile>GiftKnacksProject - FTP (2)</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>GiftKnacksProject - FTP</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>

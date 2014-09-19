@@ -11,40 +11,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/ChangeConfig.ps1">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/download.ps1">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Microsoft.NodejsTools.WebRole.dll">
-      <publishTime>07/21/2014 17:01:18</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/node.cmd">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/setup_web.cmd">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="package.json">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="README.md">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="server.js">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/home.handlebars">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/layouts/main.handlebars">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Web.Debug.config">
-      <publishTime>09/19/2014 20:24:37</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
   </ItemGroup>
 </Project>
