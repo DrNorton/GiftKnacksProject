@@ -1,5 +1,0 @@
-C:\Users\WinPhone\Documents\Visual Studio 2013\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\bin\Debug\GiftKnacksProject.Db.dacpac
-C:\Users\WinPhone\Documents\Visual Studio 2013\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\bin\Debug\GiftKnacksProject.Db.dll
-C:\Users\WinPhone\Documents\Visual Studio 2013\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\bin\Debug\GiftKnacksProject.Db.pdb
-C:\Users\WinPhone\Documents\Visual Studio 2013\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\obj\Debug\GiftKnacksProject.Db.dll
-C:\Users\WinPhone\Documents\Visual Studio 2013\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\obj\Debug\GiftKnacksProject.Db.pdb

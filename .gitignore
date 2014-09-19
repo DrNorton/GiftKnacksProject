@@ -1,5 +1,4 @@
-bin
-/GiftKnacksProject.Site/GiftKnacksProject.Site/obj
 /GiftKnacksProject.Db/*.suo
-/GiftKnacksProject.Site/*.suo
-/GiftKnacksProject.Site/*.PublishSettings
+/GiftKnacksProject.Site/GiftKnacksProject.Site.v12.suo
+/GiftKnacksProject.Db/GiftKnacksProject.Db/obj
+obj
