@@ -31,11 +31,14 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="api\managers\auth_manager.js" />
+    <Compile Include="api\managers\sql_manager.js" />
+    <Compile Include="api\routers\auth_router.js" />
+    <Compile Include="api\routers\base_router.js" />
+    <Compile Include="api\routers\response.js" />
+    <Compile Include="route_configs\api_routes_config.js" />
     <Compile Include="server.js" />
-    <None Include="GiftKnacksProject - Web Deploy.pubxml" />
-    <None Include="GiftKnacksProject - FTP.pubxml" />
-    <None Include="GiftKnacksProject - Web Deploy %282%29.pubxml" />
-    <None Include="GiftKnacksProject - FTP %282%29.pubxml" />
+    <Compile Include="api\settings\config.js" />
     <Content Include="Views\home.handlebars" />
     <Content Include="Views\layouts\main.handlebars" />
     <Content Include="Web.config" />
@@ -48,7 +51,12 @@
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="api\managers\" />
+    <Folder Include="api\routers\" />
     <Folder Include="bin\" />
+    <Folder Include="api\" />
+    <Folder Include="api\settings\" />
+    <Folder Include="route_configs\" />
     <Folder Include="Views\" />
     <Folder Include="Views\layouts\" />
   </ItemGroup>
