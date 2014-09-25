@@ -12,14 +12,15 @@ AuthRouter.prototype._doRoute = function (action, params, response, req) {
    
     switch (action) {
         case 'logon':
-            this.authManager.logon(params, function (login, userId) {
-                req.session.authorized = true;
-                req.session.username = login;
-                req.session.userId = userId;
-                response.sendResult(login);
-            }, function (errorMessage, code) {
-                self._sendError(response, errorMessage, code);
-            });
+
+            //this.authManager.logon(params, function (login, userId) {
+            //    req.session.authorized = true;
+            //    req.session.username = login;
+            //    req.session.userId = userId;
+            //    response.sendResult(login);
+            //}, function (errorMessage, code) {
+            //    self._sendError(response, errorMessage, code);
+            //});
 
             break;
 
