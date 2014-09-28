@@ -3,7 +3,7 @@
         "host": "localhost",
         "port": 8023,
         "schema": "http",
-        "url": "http://domain.tld"
+        "url": "http://localhost:1337"
     },
 
     "session": {

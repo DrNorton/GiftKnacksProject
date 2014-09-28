@@ -1,26 +1,37 @@
-﻿var BaseRouter = require('./base_router').BaseRouter;
+﻿var passport = require('passport');
+var BaseRouter = require('./base_router').BaseRouter;
 var AuthManager = require('../managers/auth_manager').AuthManager;
 
-var AuthRouter = function () {
+
+var AuthRouter = function (passport) {
+    this.passport = passport;
     this.authManager = new AuthManager();
 };
 
 AuthRouter.prototype = new BaseRouter();
 
-AuthRouter.prototype._doRoute = function (action, params, response, req) {
+AuthRouter.prototype._doRoute = function (action, params, req, response,next) {
     var self = this;
    
     switch (action) {
         case 'logon':
 
-            //this.authManager.logon(params, function (login, userId) {
-            //    req.session.authorized = true;
-            //    req.session.username = login;
-            //    req.session.userId = userId;
-            //    response.sendResult(login);
-            //}, function (errorMessage, code) {
-            //    self._sendError(response, errorMessage, code);
-            //});
+            passport.authenticate('local', function (err, user, info) {
+                if (err) { response.sendError("BadLogin", 401); }
+                if (!user) {
+                    //Фейл регистрации
+                    self._sendError(response, "BadLogin", 401);
+                } else {
+                    req.logIn(user, function (err) {
+                        if (err) {
+                            onError(err, 1);
+                        }
+                        response.sendResult(user);
+                    });  
+                }
+             
+            })(req, response, next);
+    
 
             break;
 

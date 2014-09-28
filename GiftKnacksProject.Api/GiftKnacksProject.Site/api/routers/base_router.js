@@ -5,11 +5,11 @@ var BaseRouter = function () {
 
 };
 
-BaseRouter.prototype.route = function (req, res) {
-    this._doRoute(req.params.action, req.query, new Response(res), req);
+BaseRouter.prototype.route = function (req, res,next) {
+    this._doRoute(req.params.action, req.query,req, new Response(res),next);
 };
 
-BaseRouter.prototype._doRoute = function (action, params, response, req) {
+BaseRouter.prototype._doRoute = function (action, params, req, res,next) {
 
 };
 
