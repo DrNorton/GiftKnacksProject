@@ -1,23 +1,42 @@
 ﻿var sql = require("mssql");
-var config = require('../settings/config').config;
+var nconf = require("nconf");
+
+var config = {
+    user: nconf.get("database:user"),
+    password: nconf.get("database:password"),
+    server: nconf.get("database:server"), // You can use 'localhost\\instance' to connect to named instance
+    database: nconf.get("database:database"),
+
+    options: {
+        encrypt: true // Use this if you're on Windows Azure
+    }
+};
 
 var SqlManager = function () {
 
 };
 
-SqlManager.prototype.invoke = function (query, onSuccess, onError) {
-    sql.connect(config, function (err) {
+SqlManager.prototype.invoke = function(procedureName,params, onSuccess, onError) {
+    sql.connect(config, function(err) {
         if (err) {
             onError("Could not connect to database", "0");
-        }
-        else {
+        } else {
             var request = new sql.Request();
-            request.query(query, function (err, recordset) {
+            params.forEach(function(par) {
+                if (par.isOutput) {
+                    request.output(par.name, par.type);
+                    
+                } else {
+                    request.input(par.name, par.type, par.value);
+                }
+            });
+            
+            request.execute(procedureName, function(err, recordset, returnValue) {
                 if (err != null) {
                     onError(err.message, err.code);
                 }
-                if (recordset == undefined) {
-                    onSuccess("success");
+                if (recordset.length===0) {
+                    onSuccess(recordset.returnValue);
                 } else {
                     onSuccess(recordset);
                 }
@@ -25,6 +44,6 @@ SqlManager.prototype.invoke = function (query, onSuccess, onError) {
             });
         }
     });
-}
+};
 
 exports.SqlManager = SqlManager;

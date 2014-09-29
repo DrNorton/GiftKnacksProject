@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="api\managers\auth_manager.js" />
+    <Compile Include="api\managers\passwordHelper.js" />
     <Compile Include="api\managers\sql_manager.js" />
     <Compile Include="api\routers\auth_router.js" />
     <Compile Include="api\routers\base_router.js" />

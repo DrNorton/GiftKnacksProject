@@ -1,15 +1,13 @@
 ﻿var express = require('express');
 var router = express.Router();
 var AuthRouter = require('../api/routers/auth_router').AuthRouter;
+var authRouter = new AuthRouter();
 
-module.exports.configureAuthRouter = function (passport) {
-    var authRouter = new AuthRouter(passport);
-    router.route('/auth/:action').get(function (req, res,next) {
-        authRouter.route(req, res,next);
-    }).post(function (req, res,next) {
-        authRouter.route(req, res,next);
-    });
-};
+router.route('/auth/:action').get(function (req, res, next) {
+    authRouter.route(req, res, next);
+}).post(function (req, res, next) {
+    authRouter.route(req, res, next);
+});
 
 module.exports.router = router;
 

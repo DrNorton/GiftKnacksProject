@@ -16,11 +16,9 @@ module.exports = function (app) {
     app.set('port', process.env.PORT || 3000);
     app.set('view engine', 'jade');
     app.use(cookieParser());
-    app.use(connectSession({ secret: 'your secret here', maxAge: 24 * 60 * 60 * 1000, cookie: { httpOnly: false } }));
+    app.use(connectSession({ secret: config.get("session:secret"), maxAge: config.get("session:maxAge"), cookie: { httpOnly: config.get("session:cookie:httpOnly"), path: config.get("session:cookie:path"), } }));
     app.use(bodyParser());
     app.use(flash());
-  
- 
     app.use(passport.initialize());
     app.use(passport.session());
 };

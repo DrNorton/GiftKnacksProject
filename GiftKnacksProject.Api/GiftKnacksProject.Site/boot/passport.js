@@ -1,43 +1,28 @@
 ﻿var config = require("nconf");
 var passport = require('passport');
-var AuthLocalStrategy = require('passport-local').Strategy;
-var AuthFacebookStrategy = require('passport-facebook').Strategy;
-var AuthVKStrategy = require('passport-vkontakte').Strategy;
 
-passport.use('local', new AuthLocalStrategy(
-    function (username, password, done) {
-
-        if (username == "admin" && password == "admin") {
-            return done(null, {
-                username: "admin",
-                photoUrl: "url_to_avatar",
-                profileUrl: "url_to_profile"
-            });
-        }
-
-        return done(null, false, {
-            message: 'Неверный логин или пароль'
-        });
-    }
-));
+//var AuthFacebookStrategy = require('passport-facebook').Strategy;
+//var AuthVKStrategy = require('passport-vkontakte').Strategy;
 
 
-passport.use('vk', new AuthVKStrategy({
-    clientID: config.get("auth:vk:app_id"),
-    clientSecret: config.get("auth:vk:secret"),
-    callbackURL: config.get("app:url") + "/auth/vk/callback"
-},
-    function (accessToken, refreshToken, profile, done) {
 
-        //console.log("facebook auth: ", profile);
 
-        return done(null, {
-            username: profile.displayName,
-            photoUrl: profile.photos[0].value,
-            profileUrl: profile.profileUrl
-        });
-    }
-));
+//passport.use('vk', new AuthVKStrategy({
+//    clientID: config.get("auth:vk:app_id"),
+//    clientSecret: config.get("auth:vk:secret"),
+//    callbackURL: config.get("app:url") + "/auth/vk/callback"
+//},
+//    function (accessToken, refreshToken, profile, done) {
+
+//        //console.log("facebook auth: ", profile);
+
+//        return done(null, {
+//            username: profile.displayName,
+//            photoUrl: profile.photos[0].value,
+//            profileUrl: profile.profileUrl
+//        });
+//    }
+//));
 
 passport.serializeUser(function (user, done) {
     done(null, JSON.stringify(user));
