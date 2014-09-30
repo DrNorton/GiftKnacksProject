@@ -24,8 +24,16 @@ AuthRouter.prototype._doRoute = function (action, params, req, response,next) {
             break;
 
         case 'register':
-            var login = params.login;
-            var pass = params.pass;
+            var login, pass;
+            if (req.method == "GET") {
+                login = params.login;
+                pass = params.pass;
+            }
+            if (req.method == "POST") {
+                login = req.body.login;
+                pass = req.body.pass;
+            }
+
             this.authManager.register(login,pass, function (result) {
                 response.sendResult(result);
             },  response.sendError);

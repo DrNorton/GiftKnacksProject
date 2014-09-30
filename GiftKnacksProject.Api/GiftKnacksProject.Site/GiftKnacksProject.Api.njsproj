@@ -5,7 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>GiftKnacksProject.Api</Name>
     <RootNamespace>GiftKnacksProject.Site</RootNamespace>
-    <NameOfLastUsedPublishProfile>GiftKnacksProject - FTP (2)</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>GiftKnacksProject - FTP</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -47,7 +47,6 @@
     <None Include="GiftKnacksProject - Web Deploy.pubxml" />
     <None Include="GiftKnacksProject - FTP.pubxml" />
     <None Include="GiftKnacksProject - Web Deploy %282%29.pubxml" />
-    <None Include="GiftKnacksProject - FTP %282%29.pubxml" />
     <Content Include="config.json" />
     <Content Include="Views\auth.jade" />
     <Content Include="Views\index.jade" />

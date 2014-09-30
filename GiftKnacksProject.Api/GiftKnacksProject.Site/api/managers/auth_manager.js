@@ -7,23 +7,17 @@ var AuthLocalStrategy = require('passport-local').Strategy;
 var sqlManager = new SqlManager();
 
 var AuthManager = function () {
-    this.sqlManager = sqlManager;
+   
     this.passwordHelper = new PasswordHelper();
 };
 
 var sqlManager = new SqlManager();
 
-var AuthManager = function () {
-  
-};
+
 passport.use('local', new AuthLocalStrategy(
     function (username, password, done) {
-        FindUserByLogin(username, function() {
-            return done(null, {
-                username: "admin",
-                photoUrl: "url_to_avatar",
-                profileUrl: "url_to_profile"
-            });
+        FindUserByLogin(username, function(result) {
+            return done(null, result);
         }, function(code,message) {
                 return done(null, false, {
                     message: 'Неверный логин или пароль'
@@ -37,11 +31,11 @@ passport.use('local', new AuthLocalStrategy(
 AuthManager.prototype.logon = function (req, response, next,params, onSuccess, onError) {
     passport.authenticate('local', function (err, user, info) {
         if (err) {
-            onError("BadLogin", 401);
+            onError("Ошибка авторизации", 400);
         }
         if (!user) {
             //Фейл регистрации
-            onError("BadLogin", 401);
+            onError("Неверный логин или пароль", 400);
         } else {
             onSuccess(user);
         }
@@ -54,19 +48,19 @@ AuthManager.prototype.register = function (login, pass, onSuccess, onError) {
     CheckEmailExists(login, function() {
         //Такая почта не зарегана
         var params = [{ name: "Email", type: sql.NVarChar(50), value: login, isOutput: false },{ name: "Password", type: sql.NVarChar(50), value: md5Hash, isOutput: false },{ name: "new_identity", type: sql.BigInt, isOutput: true }];
-        this.sqlManager.invoke("[dbo].[Register]", params, function (result) {
-            onSuccess(result);
+        sqlManager.invoke("[dbo].[Register]", params, function (result) {
+            onSuccess({ "UserId": result });
         }, onError);
     }, function() {
         //Такая почта уже существует
-        onError("Данный почтовый адрес уже зарегистрирован", 1);
+        onError("Данный почтовый адрес уже зарегистрирован", 401);
     }, onError);
 };
 
 function CheckEmailExists(login, onNotExists, onExists, onError) {
     var params = [{ name: "Email", type: sql.NVarChar(50), value: login, isOutput: false }];
-    this.sqlManager.invoke("[dbo].[GetUserByEmail]",params, function (result) {
-        if (result.length == 0) {
+    sqlManager.invoke("[dbo].[GetUserByEmail]",params, function (result) {
+        if (result[0].length === 0) {
             onNotExists();
         }
         else {
@@ -79,7 +73,7 @@ var FindUserByLogin=function(login, onSuccess, onError) {
     var self = this;
     var params = [{ name: "Email", type: sql.NVarChar(50), value: login, isOutput: false }];
     sqlManager.invoke("[dbo].[GetUserByEmail]", params, function (result) {
-        if (result.length == 0) {
+        if (result.length != 0) {
             onSuccess(result);
         }
         else {
