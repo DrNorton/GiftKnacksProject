@@ -7,25 +7,34 @@ var AuthLocalStrategy = require('passport-local').Strategy;
 var sqlManager = new SqlManager();
 
 var AuthManager = function () {
-   
     this.passwordHelper = new PasswordHelper();
 };
 
 var sqlManager = new SqlManager();
+var passwordHelper = new PasswordHelper();
 
 
 passport.use('local', new AuthLocalStrategy(
     function (username, password, done) {
-        FindUserByLogin(username, function(result) {
+    getUserByEmail(username, function (result) {
+        validatePassword(password, result.Password, function() {
             return done(null, result);
-        }, function(code,message) {
-                return done(null, false, {
-                    message: 'Неверный логин или пароль'
-                });
+        }, function() {
+            return done(null, false, {
+                message: 'Не верный пароль'
+            });
         });
-   
-    
-}
+
+    },function() {
+            return done(null, false, {
+                message: 'Такой пользователь не заристрирован'
+            });
+        }, function () {
+        return done(null, false, {
+            message: 'Ошибка'
+        });
+    });
+    }
 ));
 
 AuthManager.prototype.logon = function (req, response, next,params, onSuccess, onError) {
@@ -35,56 +44,83 @@ AuthManager.prototype.logon = function (req, response, next,params, onSuccess, o
         }
         if (!user) {
             //Фейл регистрации
-            onError("Неверный логин или пароль", 400);
+            onError(info.message, 400);
         } else {
-            onSuccess(user);
+            //Записываем в  сессию id
+            req.session.userid = user.UserId;
+            onSuccess(user.UserId);
         }
              
     })(req, response, next);
 };
 
-AuthManager.prototype.register = function (login, pass, onSuccess, onError) {
-    var md5Hash = this.passwordHelper.createHash(pass);
-    CheckEmailExists(login, function() {
-        //Такая почта не зарегана
-        var params = [{ name: "Email", type: sql.NVarChar(50), value: login, isOutput: false },{ name: "Password", type: sql.NVarChar(50), value: md5Hash, isOutput: false },{ name: "new_identity", type: sql.BigInt, isOutput: true }];
-        sqlManager.invoke("[dbo].[Register]", params, function (result) {
-            onSuccess({ "UserId": result });
-        }, onError);
+AuthManager.prototype.register = function(email, pass, onSuccess, onError) {
+    getUserByEmail(email, function (result) {
+        onError("Пользователь уже существует", 402);
     }, function() {
-        //Такая почта уже существует
-        onError("Данный почтовый адрес уже зарегистрирован", 401);
-    }, onError);
+        //пользователь не существует, регистрируемся
+        addUser({ email: email, pass: pass }, onSuccess, onError);
+    },onError);
 };
 
-function CheckEmailExists(login, onNotExists, onExists, onError) {
-    var params = [{ name: "Email", type: sql.NVarChar(50), value: login, isOutput: false }];
-    sqlManager.invoke("[dbo].[GetUserByEmail]",params, function (result) {
-        if (result[0].length === 0) {
-            onNotExists();
-        }
-        else {
-            onExists();
-        }
-    }, onError);
+AuthManager.prototype.changePassword = function(userid,oldpass, newpass, onSuccess, onError) {
+    getUserById(userid,function(user) {
+        validatePassword(oldpass, user.Password, function() {
+            //Старый пароль норм
+            updatePassword(userid, newpass, onSuccess, onError);
+        }, onError);
+    },onError);
 };
 
-var FindUserByLogin=function(login, onSuccess, onError) {
-    var self = this;
-    var params = [{ name: "Email", type: sql.NVarChar(50), value: login, isOutput: false }];
+
+var getUserByEmail = function (email, onExist, onNotExist,onError) {
+    var params = [{ name: "Email", type: sql.NVarChar(50), value: email, isOutput: false }];
     sqlManager.invoke("[dbo].[GetUserByEmail]", params, function (result) {
-        if (result.length != 0) {
-            onSuccess(result);
+        if (result[0].length === 0) {
+            onNotExist();
         }
         else {
-            onError();
+            onExist(result[0][0]);
         }
     }, onError);
 };
 
+var getUserById = function (userid, onExist, onNotExist, onError) {
+    var params = [{ name: "Id", type: sql.BigInt, value: userid, isOutput: false }];
+    sqlManager.invoke("[dbo].[GetUserById]", params, function (result) {
+        if (result[0].length === 0) {
+            onNotExist();
+        }
+        else {
+            onExist(result[0][0]);
+        }
+    }, onError);
+};
 
+var validatePassword = function(password, passwordHash, onSuccess, onError) {
+    var validateResult = passwordHelper.validateHash(passwordHash, password);
+    if (validateResult) {
+        onSuccess();
+    } else {
+        onError("Неверный пароль",400);
+    }
+};
+var addUser = function (userinfo, onSuccess, onError) {
+    var email = userinfo.email;
+    var pass = userinfo.pass;
+    var md5Hash = passwordHelper.createHash(pass);
+    var params = [{ name: "Email", type: sql.NVarChar(50), value: email, isOutput: false },{ name: "Password", type: sql.NVarChar(50), value: md5Hash, isOutput: false },{ name: "new_identity", type: sql.BigInt, isOutput: true }];
+    sqlManager.invoke("[dbo].[Register]", params, function (result) {
+        onSuccess({ "UserId": result });
+    }, onError);
+};
 
-
-
+var updatePassword = function (userid, newpass, onSuccess, onError) {
+    var md5Hash = passwordHelper.createHash(newpass);
+    var params = [{ name: "UserId", type: sql.BigInt, value: userid, isOutput: false },{ name: "newpass", type: sql.NVarChar(50), value: md5Hash, isOutput: false }];
+    sqlManager.invoke("[dbo].[UpdatePassword]", params, function (result) {
+        onSuccess({ "UserId": userid });
+    }, onError);
+};
 
 exports.AuthManager = AuthManager;

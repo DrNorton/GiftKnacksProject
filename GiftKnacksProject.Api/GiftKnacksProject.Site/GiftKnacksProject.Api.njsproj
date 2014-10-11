@@ -35,9 +35,11 @@
     <Compile Include="api\managers\auth_manager.js" />
     <Compile Include="api\managers\passwordHelper.js" />
     <Compile Include="api\managers\sql_manager.js" />
+    <Compile Include="api\managers\wish_manager.js" />
     <Compile Include="api\routers\auth_router.js" />
     <Compile Include="api\routers\base_router.js" />
     <Compile Include="api\routers\response.js" />
+    <Compile Include="api\routers\wish_router.js" />
     <Compile Include="api\settings\config.js" />
     <Compile Include="boot\express.js" />
     <Compile Include="boot\index.js" />
@@ -46,9 +48,11 @@
     <Compile Include="server.js" />
     <None Include="GiftKnacksProject - Web Deploy.pubxml" />
     <None Include="GiftKnacksProject - FTP.pubxml" />
-    <None Include="GiftKnacksProject - Web Deploy %282%29.pubxml" />
     <Content Include="config.json" />
+    <Content Include="Views\addwish.jade" />
     <Content Include="Views\auth.jade" />
+    <Content Include="Views\changepassword.jade" />
+    <Content Include="Views\deletewish.jade" />
     <Content Include="Views\index.jade" />
     <Content Include="Views\layout.jade" />
     <Content Include="Web.config" />
