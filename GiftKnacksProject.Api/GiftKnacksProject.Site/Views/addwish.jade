@@ -1,0 +1,19 @@
+﻿extends layout
+
+block content
+  h1= title
+  div(class="demo")
+    a(class="permalink", href=".") ← главная
+    h1 Авторизация
+    div(class="auth-form")
+      #error
+        if(error.length>0)
+          div(class="error-msg")= error
+      form(action="/api/wish/addwish" method="post")
+        div
+         input(type="text" name="wishname" class="input wishname" placeholder="Имя желания")
+        div
+         input(type="text" name="description" class="input description" placeholder="Описание желания")
+        div(class="buttons")
+         span Логин и пароль <strong>admin</strong>&nbsp;
+         button(type="submit") Добавить
