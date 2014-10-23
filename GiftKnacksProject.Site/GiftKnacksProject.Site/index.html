@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="giftKnacksProject">
+<html ng-app="project">
 <head>
     <title>GiftKnacksProject</title>
     <!-- Latest compiled and minified CSS -->
@@ -8,12 +8,9 @@
 </head>
 <body>
     <div class="mynav">
-        <a href="#" class="btn btn-primary">Home</a>
-        <a href="#/pagea" class="btn btn-default">Page A</a>
+        nav
     </div>
-    <div id="appPage" ng-controller="AppCtrl">
-        <div ng-view></div>
-    </div>
+    <div ng-view></div>
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
@@ -21,7 +18,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.3/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.3/angular-route.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.3/angular-resource.min.js"></script>
-
+    <script src="https://cdn.firebase.com/js/client/1.0.18/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.min.js"></script>
     <script src="js/project.js"></script>
 </body>
 </html>
