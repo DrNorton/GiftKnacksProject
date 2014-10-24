@@ -1,69 +1,109 @@
 'use strict';
 angular.module('giftknacksApp')
-  .factory('authService', ['$http', '$q', function ($http, $q) {
+  .factory('AuthService', function ($http, Session) {
 
-  var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
-  var authServiceFactory = {};
+    var serviceBase = 'http://localhost:1337/';
+    var authService = {};
 
-  var _authentication = {
-    isAuth: false,
-    userName : ""
-  };
+    authService.signup = function (credentials) {
+      return $http
+        .post(serviceBase + 'api/auth/register', credentials)
+        .then(function (res) {
+          return res.data;
+        });
+    };
 
-  var _saveRegistration = function (registration) {
+    authService.login = function (credentials) {
+      return $http
+        .post('/login', credentials)
+        .then(function (res) {
+          Session.create(res.data.id, res.data.user.id,
+            res.data.user.role);
+          return res.data.user;
+        });
+    };
 
-    _logOut();
+    authService.isAuthenticated = function () {
+      return !!Session.userId;
+    };
 
-    return $http.post(serviceBase + 'api/auth/register', registration).then(function (response) {
-      return response;
-    });
+    authService.isAuthorized = function (authorizedRoles) {
+      if (!angular.isArray(authorizedRoles)) {
+        authorizedRoles = [authorizedRoles];
+      }
+      return (authService.isAuthenticated() &&
+      authorizedRoles.indexOf(Session.userRole) !== -1);
+    };
 
-  };
+    return authService;
+  });
 
-  var _login = function (loginData) {
 
-    var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
 
-    var deferred = $q.defer();
 
-    $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+  /*.factory('authServiceOld', ['$http', '$q', function ($http, $q) {
 
-      _authentication.isAuth = true;
-      _authentication.userName = loginData.userName;
+    var serviceBase = 'http://localhost:1337/';
+    var authServiceFactory = {};
 
-      deferred.resolve(response);
+    var _authentication = {
+      isAuth: false,
+      userName: ""
+    };
 
-    }).error(function (err, status) {
+    var _saveRegistration = function (registration) {
+
       _logOut();
-      deferred.reject(err);
-    });
 
-    return deferred.promise;
+      return $http.post(serviceBase + 'api/auth/register', registration).then(function (response) {
+        return response.data;
+      });
 
-  };
+    };
 
-  var _logOut = function () {
+    var _login = function (loginData) {
 
-    _authentication.isAuth = false;
-    _authentication.userName = "";
+      var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
 
-  };
+      var deferred = $q.defer();
 
-  var _fillAuthData = function () {
+      $http.post(serviceBase + 'token', data, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(function (response) {
 
-    if (authData)
-    {
-      _authentication.isAuth = true;
-      _authentication.userName = authData.userName;
+        _authentication.isAuth = true;
+        _authentication.userName = loginData.userName;
+
+        deferred.resolve(response);
+
+      }).error(function (err, status) {
+        _logOut();
+        deferred.reject(err);
+      });
+
+      return deferred.promise;
+
+    };
+
+    var _logOut = function () {
+
+      _authentication.isAuth = false;
+      _authentication.userName = "";
+
+    };
+
+    var _fillAuthData = function () {
+
+      if (authData) {
+        _authentication.isAuth = true;
+        _authentication.userName = authData.userName;
+      }
+
     }
 
-  }
+    authServiceFactory.saveRegistration = _saveRegistration;
+    authServiceFactory.login = _login;
+    authServiceFactory.logOut = _logOut;
+    authServiceFactory.fillAuthData = _fillAuthData;
+    authServiceFactory.authentication = _authentication;
 
-  authServiceFactory.saveRegistration = _saveRegistration;
-  authServiceFactory.login = _login;
-  authServiceFactory.logOut = _logOut;
-  authServiceFactory.fillAuthData = _fillAuthData;
-  authServiceFactory.authentication = _authentication;
-
-  return authServiceFactory;
-}]);
+    return authServiceFactory;
+  }]);*/

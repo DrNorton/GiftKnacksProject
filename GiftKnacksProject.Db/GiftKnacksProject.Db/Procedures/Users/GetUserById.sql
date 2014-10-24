@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[GetUserById]
-	@id bigint
+	@Id bigint
 AS
-	SELECT * from [dbo].[Users] Where UserId=@id
+	SELECT * from [dbo].[Users] Where UserId=@Id
 RETURN 0

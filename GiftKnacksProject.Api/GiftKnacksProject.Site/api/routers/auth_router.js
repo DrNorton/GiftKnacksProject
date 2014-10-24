@@ -24,12 +24,24 @@ AuthRouter.prototype._doRoute = function (action, params, req, response,next) {
             break;
 
         case 'register':
-            var login = params.login;
-            var pass = params.pass;
-            this.authManager.register(login,pass, function (result) {
+            var email, pass;
+                email = req.body.login;
+                pass = req.body.pass;
+
+            this.authManager.register(email,pass, function (result) {
                 response.sendResult(result);
             },  response.sendError);
             
+            break;
+
+        case 'changepassword':
+            var oldpass = req.body.oldpass;
+            var newpass = req.body.newpass;
+            var userid=req.session.userid;
+            this.authManager.changePassword(userid,oldpass, newpass, function (result) {
+                response.sendResult(result);
+            }, response.sendError);
+
             break;
     }
 
