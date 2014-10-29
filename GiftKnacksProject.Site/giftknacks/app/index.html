@@ -22,11 +22,8 @@
 	<div class="container">
 		<div class="header">
 			<ul class="nav nav-pills">
-				<li class="active"><a ng-href="#">GiftKnacks</a></li>
-        <li ng-show="isAuthenticated"><a ng-href="#/dashboard">Dashboard</a></li>
-				<li><a ng-href="#/about">About</a></li>
-				<li><a ng-href="#">Contact</a></li>
-        <li class="pull-right"><a ng-href="#/login">Login</a></li>
+        <li ng-repeat="navLink in navLinks" ng-show="navLink.show" ng-class="navClass('{{navLink.title}}')"> <a href='#/{{navLink.title}}' ng-bind="navLink.text"></a></li>
+        <li class="pull-right"><button button class="btn btn-primary" ng-click="open('login.html', 'UserCtrl', 'sm')">Login</button></li>
 			</ul>
 		</div>
 		<div ng-view=""></div>
@@ -75,17 +72,13 @@
 	<script src="bower_components/angular-animate/angular-animate.js"></script>
 	<script src="bower_components/angular-touch/angular-touch.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<!-- endbower -->
 	<!-- endbuild -->
 	<!-- build:js({.tmp,app}) scripts/scripts.js -->
 	<script src="scripts/app.js"></script>
-	<script src="scripts/controllers/main.js"></script>
-	<script src="scripts/controllers/about.js"></script>
-  <script src="scripts/controllers/signup.js"></script>
-  <script src="scripts/controllers/application.js"></script>
-  <script src="scripts/controllers/login.js"></script>
-  <script src="scripts/controllers/dashboard.js"></script>
-  <script src="scripts/services/authService.js"></script>
+	<script src="scripts/controllers/controllers.js"></script>
+  <script src="scripts/services/services.js"></script>
   <script src="scripts/constants/constant.js"></script>
 	<!-- endbuild -->
 </body>
