@@ -12,8 +12,9 @@ AuthRouter.prototype = new BaseRouter();
 AuthRouter.prototype._doRoute = function (action, params, req, response,next) {
     var self = this;
     switch (action) {
-        case 'logon':
-            this.authManager.logon(req, response, next,params, function (user) {
+        case 'login':
+			this.authManager.login(req, response, next, params,
+							 function (user) {
                 req.logIn(user, function (err) {
                     if (err) {
                         response.sendError(response, err, 1);

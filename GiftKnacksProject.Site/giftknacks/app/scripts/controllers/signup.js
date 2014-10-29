@@ -8,32 +8,28 @@
  * Controller of the giftknacksApp
  */
 angular.module('giftknacksApp')
-  .controller('SignupCtrl', function ($scope, $rootScope, $timeout, $location, AUTH_EVENTS, AuthService) {
+  .controller('SignupCtrl', function ($scope, $rootScope, $timeout, $location, AuthService) {
 
-    $scope.savedSuccessfully = false;// TODO: заменить на константу
+    $scope.savedSuccessfully = false;
     $scope.message = "";
 
-    $scope.credentials = {
+    $scope.user = {
       login: '',
       pass: ''
     };
-    $scope.signup = function (credentials) {
-      AuthService.signup(credentials).then(function (data) {
+    $scope.submit = function () {
+      AuthService.signup($scope.user).then(function (data) {
         if (parseInt(data.errorCode, 10)===0) {
-          $rootScope.$broadcast(AUTH_EVENTS.registerSuccess);
-          $scope.savedSuccessfully = true;// TODO: заменить на константу
+          $scope.savedSuccessfully = true;
           $scope.message = "User has been registered successfully, you will be redirected to login page in 2 seconds.";
           startTimer();
-
         } else {
-          $rootScope.$broadcast(AUTH_EVENTS.registerFailed);
-          $scope.savedSuccessfully = false;// TODO: заменить на константу
+          $scope.savedSuccessfully = false;
           $scope.message = "Failed to register user due to: " + data.errorMessage;
         }
 
       }, function () {
-        $rootScope.$broadcast(AUTH_EVENTS.registerFailed);
-        $scope.savedSuccessfully = false;// TODO: заменить на константу
+        $scope.savedSuccessfully = false;
         $scope.message = "Failed to register user due to: " + data.errorMessage;
       });
     };

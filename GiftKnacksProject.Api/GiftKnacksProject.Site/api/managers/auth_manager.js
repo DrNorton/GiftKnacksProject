@@ -37,7 +37,7 @@ passport.use('local', new AuthLocalStrategy(
     }
 ));
 
-AuthManager.prototype.logon = function (req, response, next,params, onSuccess, onError) {
+AuthManager.prototype.login = function (req, response, next,params, onSuccess, onError) {
     passport.authenticate('local', function (err, user, info) {
         if (err) {
             onError("Ошибка авторизации", 400);

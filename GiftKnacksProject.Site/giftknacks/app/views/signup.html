@@ -1,7 +1,7 @@
-<form name="signupForm" ng-submit="signup(credentials)">
-  <input class="form-control" type="email" placeholder="Username" ng-model="credentials.login" required autofocus>
-  <input class="form-control" type="password" placeholder="Password" ng-model="credentials.pass" required>
-  <button class="btn btn-lg btn-info btn-block" type="submit">Submit</button>
+<form name="signupForm" ng-submit="submit()">
+  <input class="form-control" type="email" placeholder="Username" ng-model="user.login" required autofocus>
+  <input class="form-control" type="password" placeholder="Password" ng-model="user.pass" required>
+  <button class="btn btn-lg btn-info btn-block" type="submit">Sign up</button>
   <div ng-hide="message == ''" ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
     {{message}}
   </div>

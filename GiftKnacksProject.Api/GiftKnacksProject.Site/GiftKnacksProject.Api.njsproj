@@ -40,7 +40,6 @@
     <Compile Include="api\routers\base_router.js" />
     <Compile Include="api\routers\response.js" />
     <Compile Include="api\routers\wish_router.js" />
-    <Compile Include="api\settings\config.js" />
     <Compile Include="boot\express.js" />
     <Compile Include="boot\index.js" />
     <Compile Include="boot\passport.js" />

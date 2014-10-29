@@ -23,9 +23,10 @@
 		<div class="header">
 			<ul class="nav nav-pills">
 				<li class="active"><a ng-href="#">GiftKnacks</a></li>
+        <li ng-show="isAuthenticated"><a ng-href="#/dashboard">Dashboard</a></li>
 				<li><a ng-href="#/about">About</a></li>
 				<li><a ng-href="#">Contact</a></li>
-        <li class="pull-right"><a ng-href="#">Sign In</a></li>
+        <li class="pull-right"><a ng-href="#/login">Login</a></li>
 			</ul>
 		</div>
 		<div ng-view=""></div>
@@ -83,8 +84,8 @@
   <script src="scripts/controllers/signup.js"></script>
   <script src="scripts/controllers/application.js"></script>
   <script src="scripts/controllers/login.js"></script>
+  <script src="scripts/controllers/dashboard.js"></script>
   <script src="scripts/services/authService.js"></script>
-  <script src="scripts/services/session.js"></script>
   <script src="scripts/constants/constant.js"></script>
 	<!-- endbuild -->
 </body>

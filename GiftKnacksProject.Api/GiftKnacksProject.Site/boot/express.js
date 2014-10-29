@@ -9,22 +9,10 @@ var connectSession = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
 var cors = require('cors');
+var jwt = require('jsonwebtoken'); //https://npmjs.org/package/node-jsonwebtoken
+var expressJwt = require('express-jwt'); //https://npmjs.org/package/express-jwt
 
 var path = require('path');
-
-/*var allowCrossDomain = function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-	
-	// intercept OPTIONS method
-	if ('OPTIONS' == req.method) {
-		res.status(200).end();
-	}
-	else {
-		next();
-	}
-};*/
 
 module.exports = function (app) {
 	app.set('port', process.env.PORT || 3000);
