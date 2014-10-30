@@ -17,7 +17,7 @@ Response.prototype.sendError = function (errorMessage, errorCode) {
 
 Response.prototype.sendResult = function (result) {
     //console.log(result);
-    var res = { errorCode: '0', errorMessage: '', result: result };
+    var res = { errorCode: 0, errorMessage: '', result: result };
     respon.charset = 'utf-8';
 	respon.contentType('text');
     respon.end(JSON.stringify(res));
