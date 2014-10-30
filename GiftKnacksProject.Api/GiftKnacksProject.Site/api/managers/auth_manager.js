@@ -5,6 +5,8 @@ var passport = require('passport');
 var PasswordHelper = require("./passwordHelper").PasswordHelper;
 var AuthLocalStrategy = require('passport-local').Strategy;
 var sqlManager = new SqlManager();
+var jwt = require('jsonwebtoken');
+var config = require("nconf");
 
 var AuthManager = function () {
     this.passwordHelper = new PasswordHelper();
@@ -46,9 +48,9 @@ AuthManager.prototype.login = function (req, response, next,params, onSuccess, o
             //Фейл регистрации
             onError(info.message, 400);
         } else {
-            //Записываем в  сессию id
-            req.session.userid = user.UserId;
-            onSuccess(user.UserId);
+        
+            var token = jwt.sign(user, config.get("session:secret") , { expiresInMinutes: 60 * 5 });
+            onSuccess({ token: token });
         }
              
     })(req, response, next);

@@ -28,7 +28,7 @@ WishRouter.prototype._doRoute = function(action, params, req, response, next) {
             break;
 
         case 'deletewish':
-            var userid = req.session.userid;
+            var userid = req.user.UserId;
             var wishid = req.body.wishid;
             this.wishManager.deletewish(userid,wishid, function (result) {
                 response.sendResult(result);

@@ -10,46 +10,11 @@ config.argv()
 require('./boot/index')(app);
 
 
-//routers
+//routers с авторизацией
 app.use('/api', require('./route_configs/api_routes_config').router);
 
-
- app.get('/auth', function (req, res) {
-        if (req.isAuthenticated()) {
-            res.redirect('/');
-            return;
-        }
-        res.render('auth', {
-            error: req.flash('error')
-        });
-});
-
-app.get('/changepassword', function (req, res) {
-    if (req.isAuthenticated()) {
-        res.render('changepassword', {
-            error: req.flash('error')
-        });
-        return;
-    }
-});
-
-app.get('/addwish', function (req, res) {
-    if (req.isAuthenticated()) {
-        res.render('addwish', {
-            error: req.flash('error')
-        });
-        return;
-    }
-});
-
-app.get('/deletewish', function (req, res) {
-    if (req.isAuthenticated()) {
-        res.render('deletewish', {
-            error: req.flash('error')
-        });
-        return;
-    }
-});
+//auth RESTRICT без авторизации
+app.use(require('./route_configs/no_auth_routes_config').router);
 
  
 app.listen(app.get('port'), function () {

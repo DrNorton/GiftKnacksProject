@@ -14,13 +14,7 @@
     },
 
     "session": {
-        "secret": "it:demo:secret",
-        "key": "sid",
-        "cookie": {
-            "path": "/",
-            "httpOnly": true,
-            "maxAge": null
-        }
+        "secret": "it:demo:secret"
     },
 
    

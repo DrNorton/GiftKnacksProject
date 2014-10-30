@@ -19,7 +19,7 @@ var SqlManager = function () {
 SqlManager.prototype.invoke = function(procedureName,params, onSuccess, onError) {
     sql.connect(config, function(err) {
         if (err) {
-            onError("Could not connect to database", "0");
+            onError("Невозможно подключиться к базе", 500);
         } else {
             var request = new sql.Request();
             params.forEach(function(par) {
