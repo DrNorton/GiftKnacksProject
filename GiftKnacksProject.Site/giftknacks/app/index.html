@@ -23,7 +23,7 @@
 		<div class="header">
 			<ul class="nav nav-pills">
         <li ng-repeat="navLink in navLinks" ng-show="navLink.show" ng-class="navClass('{{navLink.title}}')"> <a href='#/{{navLink.title}}' ng-bind="navLink.text"></a></li>
-        <li class="pull-right"><button button class="btn btn-primary" ng-click="open('login.html', 'UserCtrl', 'sm')">Login</button></li>
+        <li class="pull-right" ng-hide="isAuthenticated"><button button class="btn btn-primary" ng-click="open('login.html', 'UserCtrl', 'sm')">Login</button></li>
 			</ul>
 		</div>
 		<div ng-view=""></div>
