@@ -1,9 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "GiftKnacksProject.Api", "GiftKnacksProject.Site\GiftKnacksProject.Api.njsproj", "{206DE72A-3125-4EFC-AED6-02902593E5E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api", "GiftKnacksProject.Api\GiftKnacksProject.Api.csproj", "{D4CDF438-C121-4B5F-B13F-B985B65B2C44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.Controllers", "GiftKnacksProject.Api.Controllers\GiftKnacksProject.Api.Controllers.csproj", "{DFAE09AE-A782-441C-9861-A29192D19DE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.Dao", "GiftKnacksProject.Api.Dao\GiftKnacksProject.Api.Dao.csproj", "{FF0FA806-2745-4D30-93BA-E1FD8C171D21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.Dto", "GiftKnacksProject.Api.Dto\GiftKnacksProject.Api.Dto.csproj", "{CA6F7446-8C7F-4909-9A02-2203565598C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.EfDao", "GiftKnacksProject.Api.EfDao\GiftKnacksProject.Api.EfDao.csproj", "{722E5D82-F83E-43D7-AF6F-DD1D16DE2741}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{2282BB18-8427-4FFC-B3D4-E5801CD4F54D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.Dependencies", "GiftKnacksProject.Api.Dependencies\GiftKnacksProject.Api.Dependencies.csproj", "{D08AA878-EA84-423A-BB89-1C67DDADC275}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{45EBB265-9FCE-46D5-950F-083B53D77117}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +30,35 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{206DE72A-3125-4EFC-AED6-02902593E5E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{206DE72A-3125-4EFC-AED6-02902593E5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{206DE72A-3125-4EFC-AED6-02902593E5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{206DE72A-3125-4EFC-AED6-02902593E5E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4CDF438-C121-4B5F-B13F-B985B65B2C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4CDF438-C121-4B5F-B13F-B985B65B2C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4CDF438-C121-4B5F-B13F-B985B65B2C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4CDF438-C121-4B5F-B13F-B985B65B2C44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFAE09AE-A782-441C-9861-A29192D19DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFAE09AE-A782-441C-9861-A29192D19DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFAE09AE-A782-441C-9861-A29192D19DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFAE09AE-A782-441C-9861-A29192D19DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF0FA806-2745-4D30-93BA-E1FD8C171D21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF0FA806-2745-4D30-93BA-E1FD8C171D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF0FA806-2745-4D30-93BA-E1FD8C171D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0FA806-2745-4D30-93BA-E1FD8C171D21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA6F7446-8C7F-4909-9A02-2203565598C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA6F7446-8C7F-4909-9A02-2203565598C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA6F7446-8C7F-4909-9A02-2203565598C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA6F7446-8C7F-4909-9A02-2203565598C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722E5D82-F83E-43D7-AF6F-DD1D16DE2741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722E5D82-F83E-43D7-AF6F-DD1D16DE2741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722E5D82-F83E-43D7-AF6F-DD1D16DE2741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722E5D82-F83E-43D7-AF6F-DD1D16DE2741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D08AA878-EA84-423A-BB89-1C67DDADC275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D08AA878-EA84-423A-BB89-1C67DDADC275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D08AA878-EA84-423A-BB89-1C67DDADC275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D08AA878-EA84-423A-BB89-1C67DDADC275}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D08AA878-EA84-423A-BB89-1C67DDADC275} = {2282BB18-8427-4FFC-B3D4-E5801CD4F54D}
 	EndGlobalSection
 EndGlobal
