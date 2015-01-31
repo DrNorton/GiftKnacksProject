@@ -1,9 +1,13 @@
 ﻿CREATE TABLE [dbo].[Profiles]
 (
-	[ProfileId] BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1), 
-    [FirstName] VARCHAR(50) NULL, 
-    [LastName] VARCHAR(50) NULL, 
-    [Country] VARCHAR(50) NULL, 
-    [AvatarUrl] VARCHAR(150) NULL, 
-    CONSTRAINT [FK_Profiles_ToUsers] FOREIGN KEY ([ProfileId]) REFERENCES [Users]([UserId])
+	[Id] BIGINT NOT NULL, 
+    [FirstName] NVARCHAR(50) NULL, 
+	[LastName] NVARCHAR(50) NULL, 
+	[Country] NVARCHAR(50) NULL, 
+	[City] NVARCHAR(50) NULL , 
+    [AvatarUrl] NVARCHAR(50) NULL, 
+    [AboutMe] NVARCHAR(250) NULL,
+	[Birthday] datetime, 
+    CONSTRAINT [PK_Profiles] PRIMARY KEY ([Id]), 
+    CONSTRAINT [FK_Profiles_USERS] FOREIGN KEY ([Id]) REFERENCES [Users]([Id])
 )

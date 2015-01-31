@@ -57,24 +57,11 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Procedures" />
-    <Folder Include="Procedures\Users" />
-    <Folder Include="Procedures\Wishes" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Users.sql" />
     <Build Include="Profiles.sql" />
-    <Build Include="Procedures\Users\Register.sql" />
-    <Build Include="Procedures\Users\GetUsers.sql" />
-    <Build Include="Procedures\Users\GetUserByEmail.sql" />
-    <Build Include="Procedures\Users\UpdatePassword.sql" />
-    <Build Include="Procedures\Users\GetUserById.sql" />
-    <Build Include="Wishes.sql" />
-    <Build Include="Procedures\Wishes\GetAllWishes.sql" />
-    <Build Include="Procedures\Wishes\AddWish.sql" />
-    <Build Include="Procedures\Wishes\DeleteWish.sql" />
-    <Build Include="Procedures\Wishes\GetWishByWisherId.sql" />
-    <Build Include="Procedures\Wishes\GetWishById.sql" />
+    <Build Include="Contacts.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="GiftKnacksProject.Db.refactorlog" />
