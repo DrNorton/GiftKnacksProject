@@ -18,7 +18,7 @@ namespace GiftKnacksProject.Api.Controllers.ApiResults
             foreach (var message in messages)
             {
                 result.Append(message);
-                result.Append(";");
+                
             }
 
             return new ApiResult(Request, errorCode, result.ToString(), null);

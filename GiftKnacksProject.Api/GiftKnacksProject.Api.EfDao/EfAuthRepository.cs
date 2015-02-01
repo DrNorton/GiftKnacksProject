@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using FamilyTasks.EfDao;
+using GiftKnacksProject.Api.Dao.AuthUsers;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Users;
 using Microsoft.AspNet.Identity;
@@ -29,33 +31,36 @@ namespace GiftKnacksProject.Api.EfDao
             user.Profile.Id = user.Id;
             Db.Set<User>().Add(user);
             Db.SaveChanges();
-            await ConfirmEmail(user);
             return IdentityResult.Success;
         }
 
-        private Task ConfirmEmail(User user)
-        {
-            var mailMessage = new MailMessage(new MailAddress("dimaivanov1@mail.ru", "Web Registration"),
-                       new MailAddress(user.Email));
-            mailMessage.Subject = "Email confirmation";
-            mailMessage.Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to comlete your registration:",user.Id);
-            mailMessage.IsBodyHtml = true;
-            var smtp = new SmtpClient("smtp.mail.ru");
-            smtp.Credentials = new System.Net.NetworkCredential("dimaivanov1@mail.ru", "dimarianon1990");
-            smtp.EnableSsl = true;
-             return smtp.SendMailAsync(mailMessage); 
-        }
 
-        public async Task<IdentityUser> FindUser(string userName, string password)
+        public async Task<AppUser> FindUser(string userName, string password)
         {
             var user = Db.Set<User>().FirstOrDefault(x => x.Email == userName);
 
            if (user != null)
            {
-               return new IdentityUser(userName);
+               var findedUser= new AppUser();
+               findedUser.Id = user.Id;
+               findedUser.Email = user.Email;
+               findedUser.UserName = user.Email;
+               return findedUser;
            }
 
            return null;
+        }
+
+        public async Task<IdentityResult> ChangePassword(string email, string newPassword, string oldPassword)
+        {
+            var user = Db.Set<User>().FirstOrDefault(x => x.Email == email);
+            if (user.Password == oldPassword)
+            {
+                user.Password = newPassword;
+                Save();
+                return IdentityResult.Success;
+            }
+            return new IdentityResult(new List<string>() { "Incorrect old password" });
         }
     }
 }
