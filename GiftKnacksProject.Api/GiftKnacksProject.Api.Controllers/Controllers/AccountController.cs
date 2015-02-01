@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using GiftKnacksProject.Api.Controllers.ApiResults;
@@ -28,10 +29,11 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errorsMessages=ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return ErrorApiResult(1,errorsMessages);
             }
 
-            IdentityResult result = await _authRepository.RegisterUser(new CreateUserDto(userModel.Phone, userModel.Password));
+            IdentityResult result = await _authRepository.RegisterUser(new CreateUserDto(userModel.Email, userModel.Password));
 
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -42,6 +44,31 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
 
             return EmptyApiResult();
         }
+
+        //[AllowAnonymous]
+        //public async Task<IHttpActionResult> ConfirmEmail(string Token, string Email)
+        //{
+        //    ApplicationUser user = this.UserManager.FindById(Token);
+        //    if (user != null)
+        //    {
+        //        if (user.Email == Email)
+        //        {
+        //            user.ConfirmedEmail = true;
+        //            await UserManager.UpdateAsync(user);
+        //            await SignInAsync(user, isPersistent: false);
+        //            return RedirectToAction("Index", "Home", new { ConfirmedEmail = user.Email });
+        //        }
+        //        else
+        //        {
+        //            return RedirectToAction("Confirm", "Account", new { Email = user.Email });
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Confirm", "Account", new { Email = "" });
+        //    }
+
+        //} 
 
         protected override void Dispose(bool disposing)
         {
@@ -73,10 +100,10 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 if (ModelState.IsValid)
                 {
                     // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return BadRequest();
+                    return ErrorApiResult(1, "Bad request");
                 }
 
-                return BadRequest(ModelState);
+                return ErrorApiResult(100, ModelState.ToString());
             }
 
             return null;

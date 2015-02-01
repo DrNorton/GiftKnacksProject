@@ -18,6 +18,7 @@ namespace GiftKnacksProject.Api.EfDao
         public string Email { get; set; }
         public string Password { get; set; }
         public System.DateTime DateRegister { get; set; }
+        public Nullable<bool> ConfirmMail { get; set; }
     
         public virtual Profile Profile { get; set; }
     }

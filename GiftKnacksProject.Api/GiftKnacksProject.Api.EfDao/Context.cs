@@ -5,7 +5,7 @@ namespace GiftKnacksProject.Api.EfDao
     public class EfContext : DbContext
     {
         public EfContext()
-           : base("name=familytasks_dbEntities")
+            : base("name=giftKnacksConnectionString")
         {
 
         }
