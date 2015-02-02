@@ -14,6 +14,11 @@ namespace GiftKnacksProject.Web
 						bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
 												"~/Scripts/jquery.validate*"));
 
+						bundles.Add(new ScriptBundle("~/bundles/vendors").Include(
+												"~/Scripts/loading-bar.js",
+												"~/Scripts/common.js",
+												"~/Scripts/angular-local-storage.js"));
+
 						// Use the development version of Modernizr to develop with and learn from. Then, when you're
 						// ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
 						bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -22,7 +27,7 @@ namespace GiftKnacksProject.Web
 						bundles.Add(new ScriptBundle("~/bundles/angular").Include(
 											"~/Scripts/angular.js",
 											"~/Scripts/angular-route.js",
-											"~/Scripts/angular-ui/ui-bootstrap.js"));
+											"~/Scripts/angular-ui/ui-bootstrap-tpls-0.12.0.min.js"));
 
 						bundles.Add(new ScriptBundle("~/bundles/app").Include(
 											"~/Scripts/app/app.js",
@@ -36,6 +41,7 @@ namespace GiftKnacksProject.Web
 
 						bundles.Add(new StyleBundle("~/Content/css").Include(
 											"~/Content/bootstrap.css",
+											"~/Content/loading-bar.css",
 											"~/Content/site.css"));
 
 						// Set EnableOptimizations to false for debugging. For more information,

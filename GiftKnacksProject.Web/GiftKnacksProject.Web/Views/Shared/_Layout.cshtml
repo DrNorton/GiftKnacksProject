@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body ng-app="giftknacksApp" ng-controller="RootController">
+<body data-ng-app="giftknacksApp" ng-cloak class="ng-cloak">
 
 	@RenderBody()
 
@@ -17,6 +17,7 @@
 	@Scripts.Render("~/bundles/angular")
 	@Scripts.Render("~/bundles/app")
 	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/vendors")
 	@RenderSection("scripts", required: false)
 </body>
 </html>
