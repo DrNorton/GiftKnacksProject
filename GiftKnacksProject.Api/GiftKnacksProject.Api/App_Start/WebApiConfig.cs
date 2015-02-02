@@ -14,6 +14,7 @@ namespace FamilyTasks.Api
         {
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.EnableCors();
             GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerActivator),
                 new WindsorCompositionRoot(container));
             config.Routes.MapHttpRoute(

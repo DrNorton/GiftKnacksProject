@@ -1,6 +1,8 @@
-﻿using System.Security.Claims;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
+using GiftKnacksProject.Api.EfDao;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security.OAuth;
 
@@ -24,7 +26,8 @@ namespace GiftKnacksProject.Api.Controllers
         {
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
-            IdentityUser user = await _authRepository.FindUser(context.UserName, context.Password);
+            var user = await _authRepository.FindUser(context.UserName, context.Password);
+           
             
             if (user == null)
             {
@@ -33,8 +36,11 @@ namespace GiftKnacksProject.Api.Controllers
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+            
+            
             identity.AddClaim(new Claim("sub", context.UserName));
             identity.AddClaim(new Claim("role", "user"));
+            identity.AddClaim(new Claim("id",user.Id.ToString()));
 
             context.Validated(identity);
 

@@ -2,7 +2,7 @@
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 
-namespace FamilyTasks.Dependencies.Castle
+namespace GiftKnacksProject.Api.Dependencies
 {
     public class CastleInstaller
     {

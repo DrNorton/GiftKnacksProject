@@ -5,7 +5,7 @@ using System.Web.Http.Dependencies;
 using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
 
-namespace FamilyTasks.Dependencies.Castle
+namespace GiftKnacksProject.Api.Dependencies
 {
     public class WindsorDependencyScope : IDependencyScope
     {

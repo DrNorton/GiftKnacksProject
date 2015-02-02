@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Http.Dependencies;
 using Castle.Windsor;
 
-namespace FamilyTasks.Dependencies.Castle
+namespace GiftKnacksProject.Api.Dependencies
 {
     public sealed class WindsorDependencyResolver : IDependencyResolver
     {
