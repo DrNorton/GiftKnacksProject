@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 
 namespace GiftKnacksProject.Api.Controllers.ApiResults
 {
@@ -24,6 +25,7 @@ namespace GiftKnacksProject.Api.Controllers.ApiResults
             return new ApiResult(Request, errorCode, result.ToString(), null);
         }
 
+       
         public ApiResult EmptyApiResult()
         {
             return new ApiResult(Request, 0, null, null);

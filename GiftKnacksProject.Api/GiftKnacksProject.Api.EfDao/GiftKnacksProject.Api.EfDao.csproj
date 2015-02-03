@@ -94,6 +94,10 @@
       <Project>{ca6f7446-8c7f-4909-9a02-2203565598c9}</Project>
       <Name>GiftKnacksProject.Api.Dto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GiftKnacksProject.Api.Helpers\GiftKnacksProject.Api.Helpers.csproj">
+      <Project>{4d2c2555-f671-4268-b729-980ee1fd07d9}</Project>
+      <Name>GiftKnacksProject.Api.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

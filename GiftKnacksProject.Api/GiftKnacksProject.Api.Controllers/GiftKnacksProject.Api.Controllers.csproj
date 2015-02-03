@@ -166,7 +166,6 @@
   <ItemGroup>
     <Compile Include="ApiResults\ApiResult.cs" />
     <Compile Include="ApiResults\CustomApiController.cs" />
-    <Compile Include="AuthContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\EmailModel.cs" />

@@ -12,7 +12,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <NameOfLastUsedPublishProfile>GiftKnacksProject - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>GiftKnacksProject - FTP</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
