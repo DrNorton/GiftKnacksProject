@@ -8,10 +8,11 @@ using System.Web.Http.Cors;
 using System.Web.Mvc;
 using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Controllers.Models;
-
+using GiftKnacksProject.Api.Dao.AuthUsers;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Users;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
 {
@@ -19,14 +20,12 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     [EnableCors(origins: "http://giftknacksproject.azurewebsites.net", headers: "*", methods: "*")]
     public class AccountController : CustomApiController
     {
-        private readonly IAuthRepository _authRepository;
-       
+        private readonly CustomUserManager _userManager;
 
-        public AccountController(IAuthRepository authRepository)
+
+        public AccountController(CustomUserManager userManager)
         {
-            if (authRepository == null) throw new ArgumentNullException("authRepository");
-            _authRepository = authRepository;
-         
+            _userManager = userManager;
         }
 
         // POST api/Account/Register
@@ -41,36 +40,24 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 return ErrorApiResult(1,errorsMessages);
             }
 
-            IdentityResult result = await _authRepository.RegisterUser(new CreateUserDto(userModel.Email, userModel.Password));
 
-            if (result == IdentityResult.Success)
+            var user = new ApplicationUser()
             {
-                //отправляем мыльцо
-                try
-                {
-                    //_emailService.VerificationEmail(new EmailModel()
-                    //{
-                    //    Body = userModel.Email,
-                    //    From = "dimaivanov1@mail.ru",
-                    //    Subject = "Test",
-                    //    To = userModel.Email
-                    //});
-                }
-                    
-                catch (Exception e)
-                {
-                  Debug.Write(e);  
-                }
-                
-            }
-            IHttpActionResult errorResult = GetErrorResult(result);
+                UserName = userModel.Email,
+            };
 
-            if (errorResult != null)
+            var result = await _userManager.CreateAsync(user, userModel.Password);
+
+            if (result.Succeeded)
             {
-                return errorResult;
+                return EmptyApiResult();
             }
-
-            return EmptyApiResult();
+            else
+            {
+                var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return ErrorApiResult(1, errorsMessages);
+            }
+            
         }
 
         [System.Web.Http.Authorize]
@@ -86,7 +73,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             if (disposing)
             {
-                _authRepository.Dispose();
+                _userManager.Dispose();
             }
 
             base.Dispose(disposing);
@@ -145,18 +132,18 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
                 return ErrorApiResult(1, errorsMessages);
             }
-
-            var identity = (ClaimsIdentity)User.Identity;
-            var email = identity.Claims.FirstOrDefault(x => x.Type == "sub").Value;
-            IdentityResult result = await _authRepository.ChangePassword(email,model.NewPassword,model.OldPassword);
-            IHttpActionResult errorResult = GetErrorResult(result);
-
-            if (errorResult != null)
+            var name = User.Identity.GetUserName();
+            var userId =long.Parse(User.Identity.GetUserId());
+           var result=await _userManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
             {
-                return errorResult;
+                return EmptyApiResult();
             }
-
-            return EmptyApiResult();
+            else
+            {
+                return ErrorApiResult(2, result.Errors);
+            }
+            
             // _authRepository.ChangePassword();
 
 

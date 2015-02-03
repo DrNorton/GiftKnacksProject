@@ -9,11 +9,15 @@ namespace GiftKnacksProject.Api.Dao.Repositories
 {
     public interface IAuthRepository : IDisposable
     {
-        Task<IdentityResult> RegisterUser(CreateUserDto createUserDto);
+        Task RegisterUser(ApplicationUser createUserDto);
 
-        Task<AppUser> FindUser(string userName, string password);
+  
 
 
         Task<IdentityResult> ChangePassword(string email, string newPassword, string oldPassword);
+        Task<ApplicationUser> FindUser(string userName, string password);
+        Task<ApplicationUser> FindUser(long id);
+
+        Task UpdateUser(ApplicationUser appUser);
     }
 }

@@ -54,7 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthUsers\AppUser.cs" />
+    <Compile Include="AuthUsers\ApplicationUser.cs" />
+    <Compile Include="AuthUsers\CustomPasswordHasher.cs" />
+    <Compile Include="AuthUsers\CustomUserManager.cs" />
+    <Compile Include="AuthUsers\CustomUserStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IAuthRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />

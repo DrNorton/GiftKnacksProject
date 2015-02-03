@@ -10,4 +10,6 @@
 	[Birthday] datetime, 
     CONSTRAINT [PK_Profiles] PRIMARY KEY ([Id]), 
     CONSTRAINT [FK_Profiles_USERS] FOREIGN KEY ([Id]) REFERENCES [Users]([Id])
+
 )
+
