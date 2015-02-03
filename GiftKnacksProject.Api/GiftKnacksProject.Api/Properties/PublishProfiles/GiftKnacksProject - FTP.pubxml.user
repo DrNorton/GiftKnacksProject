@@ -7,5 +7,227 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAaybyh6WnskCnDsOThaIQIwAAAAACAAAAAAAQZgAAAAEAACAAAAAnK2ojVVutNtVRH/9ySuTcdyAmAIeqeZaShNQsrqUmaQAAAAAOgAAAAAIAACAAAADOb4l/RpqTtWPQU+LXLktnQs9zj0pGOKFvF7O8wveQdYAAAABWsdcezXIp2BMkGR5rs/ptZq+q7rPSKFWgTZ4rIDCsxIFXxzhTP8tb7kpHwnNNtmQskAOS7Ad5tTBB80atAEwm4yu9HF9HuNdt1YsPiz47n6iJTJxg7JqThIo+3zGPkL6BPbpEjkrd5J+nPVSYF3SzF0+xr9v3vNShqexb+1HiQEAAAACGk8rK9BOVL0ieySJm01UoJCltKV9f22akEpKVcB3T9ikzqjNHMv06mYe5ALwUIdikyhb625/lnx3T8q2L1NvO</EncryptedPassword>
+    <_PublishTargetUrl>ftp://waws-prod-db3-011.ftp.azurewebsites.windows.net/site/wwwroot</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>02/03/2015 17:40:16</publishTime>
+    </File>
+    <File Include="bin/Castle.Core.dll">
+      <publishTime>02/03/2015 17:40:16</publishTime>
+    </File>
+    <File Include="bin/Castle.Windsor.dll">
+      <publishTime>02/03/2015 17:40:16</publishTime>
+    </File>
+    <File Include="bin/de/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/de/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/de/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>02/03/2015 17:40:23</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>02/03/2015 17:40:21</publishTime>
+    </File>
+    <File Include="bin/es/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/es/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/es/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/fr/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/fr/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/fr/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/GiftKnacksProject.Api.Controllers.dll">
+      <publishTime>02/03/2015 21:09:44</publishTime>
+    </File>
+    <File Include="bin/GiftKnacksProject.Api.Dao.dll">
+      <publishTime>02/03/2015 21:09:41</publishTime>
+    </File>
+    <File Include="bin/GiftKnacksProject.Api.Dependencies.dll">
+      <publishTime>02/03/2015 21:09:46</publishTime>
+    </File>
+    <File Include="bin/GiftKnacksProject.Api.dll">
+      <publishTime>02/03/2015 21:10:45</publishTime>
+    </File>
+    <File Include="bin/GiftKnacksProject.Api.Dto.dll">
+      <publishTime>02/03/2015 21:09:41</publishTime>
+    </File>
+    <File Include="bin/GiftKnacksProject.Api.EfDao.dll">
+      <publishTime>02/03/2015 21:09:43</publishTime>
+    </File>
+    <File Include="bin/it/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/it/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/it/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/ja/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/ja/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/ja/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/ko/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/ko/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/ko/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>02/03/2015 17:40:58</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>02/03/2015 17:40:58</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>02/03/2015 17:40:59</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Data.Edm.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Data.OData.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Cors.dll">
+      <publishTime>02/03/2015 17:41:21</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>02/03/2015 17:41:21</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
+      <publishTime>02/03/2015 17:41:21</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>02/03/2015 17:41:21</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>02/03/2015 17:41:21</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>02/03/2015 17:41:21</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>02/03/2015 17:41:21</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>02/03/2015 17:41:21</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/ru/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/ru/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/ru/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>02/03/2015 17:41:07</publishTime>
+    </File>
+    <File Include="bin/System.Spatial.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/System.Web.Cors.dll">
+      <publishTime>02/03/2015 17:40:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>02/03/2015 17:41:14</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Cors.dll">
+      <publishTime>02/03/2015 17:41:08</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>02/03/2015 17:41:08</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.OData.dll">
+      <publishTime>02/03/2015 17:41:13</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Owin.dll">
+      <publishTime>02/03/2015 17:41:13</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Tracing.dll">
+      <publishTime>02/03/2015 17:41:13</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>02/03/2015 17:41:13</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>02/03/2015 17:40:59</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>02/03/2015 17:41:07</publishTime>
+    </File>
+    <File Include="bin/System.Web.Providers.dll">
+      <publishTime>02/03/2015 17:41:03</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>02/03/2015 17:41:07</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>02/03/2015 17:41:14</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>02/03/2015 17:41:14</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>02/03/2015 17:41:14</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="bin/zh-Hant/Microsoft.Data.Edm.resources.dll">
+      <publishTime>02/03/2015 17:41:16</publishTime>
+    </File>
+    <File Include="bin/zh-Hant/Microsoft.Data.OData.resources.dll">
+      <publishTime>02/03/2015 17:41:17</publishTime>
+    </File>
+    <File Include="bin/zh-Hant/System.Spatial.resources.dll">
+      <publishTime>02/03/2015 17:41:22</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>02/03/2015 17:40:15</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>02/03/2015 17:40:15</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>02/03/2015 21:10:47</publishTime>
+    </File>
+  </ItemGroup>
 </Project>
