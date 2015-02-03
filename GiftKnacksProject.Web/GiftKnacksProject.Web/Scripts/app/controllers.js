@@ -14,7 +14,14 @@ app.controller( 'RootCtrl', ['$scope', '$location', 'authService', function ( $s
 	}
 
 	$scope.authentication = authService.authentication;
-
+	$scope.$on('$locationChangeStart', function (event, next, current) {
+		if ( next!==current &&current.indexOf( 'profile' ) > -1 ) {
+			var answer = confirm('Are you sure you want to leave this page?');
+			if (!answer) {
+				event.preventDefault();
+			}
+		}    
+	});
 }] );
 /**
  * @ngdoc function
