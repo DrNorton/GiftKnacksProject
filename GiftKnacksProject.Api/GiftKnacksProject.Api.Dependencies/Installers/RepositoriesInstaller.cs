@@ -13,7 +13,8 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
             container.Register(Component.For<EfContext>().LifestyleTransient());
             
             container.Register(Component.For<IAuthRepository, EfAuthRepository>().LifestyleTransient());
-
+           
+            container.Register(Component.For<IProfileRepository, ProfileRepository>().LifestyleTransient());
         }
     }
 }

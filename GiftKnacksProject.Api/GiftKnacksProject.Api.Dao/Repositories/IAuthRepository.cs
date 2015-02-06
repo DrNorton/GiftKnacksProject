@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.AuthUsers;
-using GiftKnacksProject.Api.Dto.Users;
+using GiftKnacksProject.Api.Dto.AuthUsers;
+
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -11,10 +12,6 @@ namespace GiftKnacksProject.Api.Dao.Repositories
     {
         Task RegisterUser(ApplicationUser createUserDto);
 
-  
-
-
-        Task<IdentityResult> ChangePassword(string email, string newPassword, string oldPassword);
         Task<ApplicationUser> FindUser(string userName, string password);
         Task<ApplicationUser> FindUser(long id);
 

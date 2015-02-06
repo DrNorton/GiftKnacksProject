@@ -10,7 +10,9 @@ using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.AuthUsers;
 using GiftKnacksProject.Api.Dao.Repositories;
-using GiftKnacksProject.Api.Dto.Users;
+using GiftKnacksProject.Api.Dto.AuthUsers;
+using GiftKnacksProject.Api.Dto.Dtos;
+using GiftKnacksProject.Api.EfDao;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -21,11 +23,13 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     public class AccountController : CustomApiController
     {
         private readonly CustomUserManager _userManager;
+        private readonly IProfileRepository _profileRepository;
 
 
-        public AccountController(CustomUserManager userManager)
+        public AccountController(CustomUserManager userManager,IProfileRepository profileRepository)
         {
             _userManager = userManager;
+            _profileRepository = profileRepository;
         }
 
         // POST api/Account/Register
@@ -36,8 +40,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var errorsMessages=ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
-                return ErrorApiResult(1,errorsMessages);
+                var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return ErrorApiResult(1, errorsMessages);
             }
 
 
@@ -45,8 +49,39 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             {
                 UserName = userModel.Email,
             };
-
+          
             var result = await _userManager.CreateAsync(user, userModel.Password);
+
+            if (result.Succeeded)
+            {
+                
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Route("ConfirmEmail", new { userId = user.Id, code = code });
+                    await _userManager.SendEmailAsync(user.Id, "ConfirmEmail", callbackUrl);
+              
+            
+                return EmptyApiResult();
+            }
+            else
+            {
+                var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return ErrorApiResult(1, errorsMessages);
+            }
+
+        }
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.Route("ConfirmEmail")]
+        [System.Web.Http.Route(Name = "ConfirmEmail")]
+        [System.Web.Http.HttpGet]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return ErrorApiResult(1, "Нет параметров");
+            }
+
+            IdentityResult result = await _userManager.ConfirmEmailAsync(long.Parse(userId), code);
 
             if (result.Succeeded)
             {
@@ -57,7 +92,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
                 return ErrorApiResult(1, errorsMessages);
             }
-            
+
+            return EmptyApiResult();
         }
 
         [System.Web.Http.Authorize]
@@ -109,19 +145,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             return null;
         }
 
-        [System.Web.Http.Authorize]
-        [System.Web.Http.Route("Profile")]
-        [System.Web.Http.HttpGet]
-        public async Task<IHttpActionResult> Profile()
-        {
-            return SuccessApiResult(new UserDto() { 
-                AvatarUrl = @"http://forum.navi-gaming.com/avatarz/avatar_31901_1340598250.png",
-                DisplayName = "Андрей Козак",
-                Email = "dimaivanov1@mail.ru",
-            FirstName = "Андрей",
-            LastName = "Козак",
-            Phone = "+79166728879"});
-        }
+      
 
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("ChangePassword")]
@@ -133,8 +157,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 return ErrorApiResult(1, errorsMessages);
             }
             var name = User.Identity.GetUserName();
-            var userId =long.Parse(User.Identity.GetUserId());
-           var result=await _userManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword);
+            var userId = long.Parse(User.Identity.GetUserId());
+            var result = await _userManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
                 return EmptyApiResult();
@@ -143,10 +167,37 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             {
                 return ErrorApiResult(2, result.Errors);
             }
-            
-            // _authRepository.ChangePassword();
-
 
         }
+
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("GetProfile")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetProfile()
+        {
+            var userId = long.Parse(User.Identity.GetUserId());
+            var profile=await _profileRepository.GetProfile(userId);
+            if (profile == null)
+            {
+                return ErrorApiResult(12, "Profile not finded");
+            }
+            else
+            {
+                return SuccessApiResult(profile);
+            }
+        }
+
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("UpdateProfile")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> UpdateProfile(ProfileDto profileDto)
+        {
+            var userId = long.Parse(User.Identity.GetUserId());
+            profileDto.Id = userId;
+            await _profileRepository.UpdateProfile(profileDto);
+            return EmptyApiResult();
+        }
+
+
     }
 }

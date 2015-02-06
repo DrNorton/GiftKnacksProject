@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
           <Property Name="Skype" Type="nvarchar" MaxLength="10" />
           <Property Name="Facebook" Type="nvarchar" MaxLength="50" />
           <Property Name="Vk" Type="nvarchar" MaxLength="50" />
@@ -36,7 +36,8 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="DateRegister" Type="datetime" Nullable="false" />
-          <Property Name="ConfirmMail" Type="bit" />
+          <Property Name="ConfirmMail" Type="bit" Nullable="false" />
+          <Property Name="EmailStamp" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <Association Name="FK_Contacts_Profiles">
           <End Role="Profiles" Type="Self.Profiles" Multiplicity="1" />
@@ -114,7 +115,8 @@
           <Property Name="Password" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="DateRegister" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Profile" Relationship="Self.FK_Profiles_USERS" FromRole="Users" ToRole="Profiles" />
-          <Property Name="ConfirmMail" Type="Boolean" />
+          <Property Name="ConfirmMail" Type="Boolean" Nullable="false" />
+          <Property Name="EmailStamp" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Contacts_Profiles">
           <End Role="Profiles" Type="Self.Profile" Multiplicity="1" />
@@ -187,6 +189,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="EmailStamp" ColumnName="EmailStamp" />
                 <ScalarProperty Name="ConfirmMail" ColumnName="ConfirmMail" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

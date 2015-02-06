@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Castle.Windsor;
 using GiftKnacksProject.Api.Dao.AuthUsers;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.EfDao;
@@ -12,14 +13,14 @@ namespace GiftKnacksProject.Api.Controllers
 {
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
-        private readonly CustomUserManager _userManager;
+        private readonly IWindsorContainer _container;
+       
       
 
 
-        public SimpleAuthorizationServerProvider(CustomUserManager userManager )
+        public SimpleAuthorizationServerProvider(IWindsorContainer container)
         {
-            _userManager = userManager;
-          
+            _container = container;
         }
 
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -29,9 +30,9 @@ namespace GiftKnacksProject.Api.Controllers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-
+            var userManager = _container.Resolve<CustomUserManager>();
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
-            var user = await _userManager.FindByNameAsync(context.UserName);
+            var user = await userManager.FindByNameAsync(context.UserName);
             
            
             if (user == null)
@@ -39,10 +40,16 @@ namespace GiftKnacksProject.Api.Controllers
                 context.SetError("invalid_grant", "The user name doesnt Exist");
                 return;
             }
-            var passwordCorrect=await _userManager.CheckPasswordAsync(user, context.Password);
+            var passwordCorrect=await userManager.CheckPasswordAsync(user, context.Password);
             if (!passwordCorrect)
             {
                 context.SetError("invalid_grant", "The password is fake");
+                return;
+            }
+
+            if (!user.ConfirmEmail)
+            {
+                context.SetError("invalid_grant", "Validate your email");
                 return;
             }
 

@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
+using GiftKnacksProject.Api.Dto.AuthUsers;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace GiftKnacksProject.Api.Dao.AuthUsers
 {
-    public class CustomUserStore : IUserStore<ApplicationUser,long>,IUserPasswordStore<ApplicationUser,long>
+    public class CustomUserStore : IUserStore<ApplicationUser,long>,IUserPasswordStore<ApplicationUser,long>,IUserEmailStore<ApplicationUser,long>,IUserSecurityStampStore<ApplicationUser,long>
     {
         private readonly IAuthRepository _repository;
 
         public CustomUserStore(IAuthRepository repository)
         {
             _repository = repository;
-            
+        
         }
 
         public Task CreateAsync(ApplicationUser user)
@@ -68,6 +70,46 @@ namespace GiftKnacksProject.Api.Dao.AuthUsers
         public Task SetPasswordHashAsync(ApplicationUser user, string passwordHash)
         {
             return Task.FromResult(user.PasswordHash = passwordHash);
+        }
+
+        public Task<ApplicationUser> FindByEmailAsync(string email)
+        {
+            return FindByNameAsync(email);
+        }
+
+        public Task<string> GetEmailAsync(ApplicationUser user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(ApplicationUser user)
+        {
+            return Task.FromResult(user.ConfirmEmail);
+        }
+
+        public Task SetEmailAsync(ApplicationUser user, string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetEmailConfirmedAsync(ApplicationUser user, bool confirmed)
+        {
+            return Task.FromResult(user.ConfirmEmail=confirmed);
+        }
+
+        public Task<string> GetSecurityStampAsync(ApplicationUser user)
+        {
+            return Task.FromResult(user.EmailStamp);
+        }
+
+        public Task SetSecurityStampAsync(ApplicationUser user, string stamp)
+        {
+            return Task.FromResult(user.EmailStamp=stamp);
         }
     }
 }
