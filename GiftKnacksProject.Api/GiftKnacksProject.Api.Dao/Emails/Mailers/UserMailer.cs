@@ -31,7 +31,21 @@ namespace GiftKnacksProject.Api.Dao.Emails.Mailers
           return SendEmail("dima@mail.ru",email,"Valid Acc",result,true);
         }
 
-       
+        public Task RecoveryPasswordEmail(string email, string code)
+        {
+            string template =
+             @"<html>
+                  <head>
+                    <title>Hello @Model.Email</title>
+                  </head>
+                  <body>
+                    Email: @Model.Url
+                  </body>
+                </html>";
+
+            var result = Razor.Parse(template, new { Email = email, Url = code });
+            return SendEmail("dima@mail.ru", email, "Valid Acc", result, true);
+        }
 
         private  Task SendEmail(string from, string to, string subject, string body, bool isHtml)
         {

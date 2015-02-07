@@ -26,7 +26,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         private readonly IProfileRepository _profileRepository;
 
 
-        public AccountController(CustomUserManager userManager,IProfileRepository profileRepository)
+        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository)
         {
             _userManager = userManager;
             _profileRepository = profileRepository;
@@ -49,17 +49,17 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             {
                 UserName = userModel.Email,
             };
-          
+
             var result = await _userManager.CreateAsync(user, userModel.Password);
 
             if (result.Succeeded)
             {
-                
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Route("ConfirmEmail", new { userId = user.Id, code = code });
-                    await _userManager.SendEmailAsync(user.Id, "ConfirmEmail", callbackUrl);
-              
-            
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = Url.Route("ConfirmEmail", new { userId = user.Id, code = code });
+                await _userManager.SendEmailAsync(user.Id, "ConfirmEmail", callbackUrl);
+
+
                 return EmptyApiResult();
             }
             else
@@ -145,7 +145,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             return null;
         }
 
-      
+
 
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("ChangePassword")]
@@ -176,7 +176,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> GetProfile()
         {
             var userId = long.Parse(User.Identity.GetUserId());
-            var profile=await _profileRepository.GetProfile(userId);
+            var profile = await _profileRepository.GetProfile(userId);
             if (profile == null)
             {
                 return ErrorApiResult(12, "Profile not finded");
@@ -196,6 +196,52 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             profileDto.Id = userId;
             await _profileRepository.UpdateProfile(profileDto);
             return EmptyApiResult();
+        }
+
+
+        [System.Web.Http.Route("RecoverPassword")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> RecoverPassword(RecoverPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return ErrorApiResult(1, errorsMessages);
+            }
+            var user = _userManager.FindByEmailAsync(model.Email);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user.Result.Id);
+            var callbackUrl = String.Format("http://localhost/recover?email={0}&token={1}",model.Email, token );
+            await _userManager.SendEmailAsync(user.Result.Id, "RecoverPassword", callbackUrl);
+            return EmptyApiResult();
+        }
+
+        [System.Web.Http.Route("ResetPassword")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return ErrorApiResult(1, errorsMessages);
+            }
+            var user = await _userManager.FindByNameAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "No user found.");
+                var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return ErrorApiResult(1, errorsMessages);
+            }
+            IdentityResult result = await _userManager.ResetPasswordAsync(user.Id, model.Code, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return EmptyApiResult();
+            }
+            else
+            {
+                var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return ErrorApiResult(1, errorsMessages);
+            }
+
         }
 
 
