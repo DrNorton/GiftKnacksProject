@@ -55,10 +55,16 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             if (result.Succeeded)
             {
 
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                var callbackUrl = Url.Route("ConfirmEmail", new { userId = user.Id, code = code });
-                await _userManager.SendEmailAsync(user.Id, "ConfirmEmail", callbackUrl);
-
+                try
+                {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Route("ConfirmEmail", new {userId = user.Id, code = code});
+                    await _userManager.SendEmailAsync(user.Id, "ConfirmEmail", callbackUrl);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
 
                 return EmptyApiResult();
             }
