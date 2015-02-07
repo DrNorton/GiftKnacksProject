@@ -29,11 +29,20 @@ namespace GiftKnacksProject.Api.Dao.Emails
                      return SentConfirmEmail(message.Body,message.Destination);
                     break;
 
+                case "RecoverPassword":
+                    return SentRecover(message.Body, message.Destination);
+                    break;
+
                  default:
                     return Task.FromResult(0);
                     break;
             }
          
+        }
+
+        private Task SentRecover(string confirmCode, string email)
+        {
+            return _mailer.RecoveryPasswordEmail(email, confirmCode);
         }
 
         private  Task SentConfirmEmail(string confirmCode,string email)

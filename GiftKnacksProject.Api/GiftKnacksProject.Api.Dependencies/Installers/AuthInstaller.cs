@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Security;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -21,9 +22,9 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            var provider = new DpapiDataProtectionProvider("Sample");
-          
-            IDataProtector protector = provider.Create("EmailConfirmation");
+            var provider = new MachineKeyProtectionProvider();
+
+            IDataProtector protector = provider.Create("ResetPasswordPurpose");
             container.Register(Component.For<IDataProtector>().Instance(protector));
             container.Register(
                 Component.For<DataProtectorTokenProvider<ApplicationUser, long>>().LifestyleTransient());
@@ -54,4 +55,32 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
            
         }
     }
+
+    public class MachineKeyProtectionProvider : IDataProtectionProvider
+{
+    public IDataProtector Create(params string[] purposes)
+    {
+        return new MachineKeyDataProtector(purposes);
+    }
+}
+
+public class MachineKeyDataProtector : IDataProtector
+{
+    private readonly string[] _purposes;
+
+    public MachineKeyDataProtector(string[] purposes)
+    {
+        _purposes = purposes;
+    }
+
+    public byte[] Protect(byte[] userData)
+    {
+        return MachineKey.Protect(userData, _purposes);
+    }
+
+    public byte[] Unprotect(byte[] protectedData)
+    {
+        return MachineKey.Unprotect(protectedData, _purposes);
+    }
+}
 }
