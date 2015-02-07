@@ -19,13 +19,24 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 
 	};
 
-	var _changePassword = function ( password ) {
+	var _resetPassword = function ( registration ) {
 
-		return $http.post( serviceBase + 'api/account/changepassword', password ).then( function ( response ) {
+		_logOut();
+
+		return $http.post( serviceBase + 'api/account/resetpassword', registration ).then( function ( response ) {
 			return response;
 		} );
 
 	};
+
+	var _changePassword = function ( passwords ) {
+
+		return $http.post( serviceBase + 'api/account/changepassword', passwords ).then( function ( response ) {
+			return response;
+		} );
+
+	};
+
 	var _changeEmail = function ( email ) {
 
 		return $http.post( serviceBase + 'api/account/changeemail', email ).then( function ( response ) {
@@ -84,8 +95,29 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 	authServiceFactory.changeEmail = _changeEmail;
 	authServiceFactory.fillAuthData = _fillAuthData;
 	authServiceFactory.authentication = _authentication;
+	authServiceFactory.resetPassword = _resetPassword;
 
 	return authServiceFactory;
+}] );
+
+app.factory( "profileService", ['$http', function ( $http ) {
+	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+	var profileServiceFactory = {};
+
+	var _getPtofile = function () {
+		return $http.post( serviceBase + 'api/account/getprofile' ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _updatePtofile = function (profile) {
+		return $http.post( serviceBase + 'api/account/updateprofile', profile ).then( function ( response ) {
+			return response;
+		} );
+	};
+
+	profileServiceFactory.getPtofile = _getPtofile;
+	profileServiceFactory.updatePtofile = _updatePtofile;
+	return profileServiceFactory;
 }] );
 
 app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService', function ( $q, $location, localStorageService ) {
@@ -115,29 +147,4 @@ app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService'
 	authInterceptorServiceFactory.responseError = _responseError;
 
 	return authInterceptorServiceFactory;
-}] );
-
-app.factory( 'ordersService', ['$http', function ( $http ) {
-
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
-	var ordersServiceFactory = {};
-
-	var _getOrders = function () {
-
-		return $http.post( serviceBase + 'api/account/getorders', {} ).success(function(data, status, headers, config) {
-			// this callback will be called asynchronously
-			// when the response is available
-			
-		}).
-  error(function(data, status, headers, config) {
-  	// called asynchronously if an error occurs
-  	// or server returns response with an error status.
-  	
-  });
-	};
-
-	ordersServiceFactory.getOrders = _getOrders;
-
-	return ordersServiceFactory;
-
 }] );
