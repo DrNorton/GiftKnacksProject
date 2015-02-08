@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace GiftKnacksProject.Api.Dto.Dtos
 {
@@ -15,8 +17,9 @@ namespace GiftKnacksProject.Api.Dto.Dtos
         public string City { get; set; }
         public string AvatarUrl { get; set; }
         public string AboutMe { get; set; }
+   
         public Nullable<System.DateTime> Birthday { get; set; }
-
+        public bool IsFilled { get; set; }
         public ContactsDto Contacts { get; set; }
     }
 }

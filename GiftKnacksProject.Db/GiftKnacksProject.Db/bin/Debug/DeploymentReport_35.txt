@@ -1,0 +1,23 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The type for column IsFilled in table [dbo].[Profiles] is currently  BIGINT NOT NULL but is being changed to  BIT NOT
+         NULL. Data loss could occur.
+
+** User actions
+     Drop
+       unnamed constraint on [dbo].[Profiles] (Default Constraint)
+     Alter
+       [dbo].[Profiles] (Table)
+
+** Supporting actions
+     Create
+       Default Constraint: unnamed constraint on [dbo].[Profiles] (Default Constraint)
+
+The type for column IsFilled in table [dbo].[Profiles] is currently  BIGINT NOT NULL but is being changed to  BIT NOT NULL. Data loss could occur.
+

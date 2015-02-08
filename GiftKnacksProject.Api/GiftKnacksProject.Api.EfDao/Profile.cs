@@ -22,6 +22,7 @@ namespace GiftKnacksProject.Api.EfDao
         public string AvatarUrl { get; set; }
         public string AboutMe { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
+        public bool IsFilled { get; set; }
     
         public virtual Contact Contact { get; set; }
         public virtual User User { get; set; }

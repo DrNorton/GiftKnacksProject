@@ -27,6 +27,7 @@
           <Property Name="AvatarUrl" Type="nvarchar" MaxLength="50" />
           <Property Name="AboutMe" Type="nvarchar" MaxLength="250" />
           <Property Name="Birthday" Type="datetime" />
+          <Property Name="IsFilled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -105,6 +106,7 @@
           <Property Name="Birthday" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Contact" Relationship="Self.FK_Contacts_Profiles" FromRole="Profiles" ToRole="Contacts" />
           <NavigationProperty Name="User" Relationship="Self.FK_Profiles_USERS" FromRole="Profiles" ToRole="Users" />
+          <Property Name="IsFilled" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -175,6 +177,7 @@
           <EntitySetMapping Name="Profiles">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.Profile">
               <MappingFragment StoreEntitySet="Profiles">
+                <ScalarProperty Name="IsFilled" ColumnName="IsFilled" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />

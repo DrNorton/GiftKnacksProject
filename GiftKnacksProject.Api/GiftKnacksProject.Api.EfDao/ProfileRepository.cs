@@ -33,7 +33,8 @@ namespace GiftKnacksProject.Api.EfDao
                 Country = profile.Country, 
                 FirstName = profile.FirstName,
                 Id = profile.Id,
-                LastName = profile.LastName ,
+                LastName = profile.LastName,
+                IsFilled = profile.IsFilled,
                 Contacts = new ContactsDto() { Facebook = contacts.Facebook,Skype = contacts.Skype,Telephone = contacts.Telephone,Vk = contacts.Vk}
             };
         }
@@ -50,6 +51,7 @@ namespace GiftKnacksProject.Api.EfDao
             findedProfile.AboutMe = profile.AboutMe;
             findedProfile.AvatarUrl = profile.AvatarUrl;
             findedProfile.Birthday = profile.Birthday;
+            findedProfile.IsFilled = profile.IsFilled;
             findedProfile.City = profile.City;
             findedProfile.Contact.Facebook = profile.Contacts.Facebook;
             findedProfile.Contact.Skype = profile.Contacts.Skype;
