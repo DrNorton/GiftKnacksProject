@@ -51,13 +51,15 @@ app.controller( 'DashboardCtrl', ['$scope', function ( $scope) {
  * # Контроллер профиля
  * Controller of the giftknacksApp
  */
-app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService', function ( $scope, $location, $timeout, authService ) {
+app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService', 'profileService', 'initialData', function ( $scope, $location, $timeout, authService,profileService, initialData ) {
 	$scope.passwordSavedSuccessfully = false;
 	$scope.emailSavedSuccessfully = false;
 	$scope.profileSavedSuccessfully = false;
+	$scope.profileGetSuccessfully = false;
 	$scope.passwordMessage = "";
 	$scope.emailMessage = "";
 	$scope.profileMessage = "";
+	$scope.profileGetMessage = "";
 	$scope.openBio = false;
 
 	$scope.passwordData = {
@@ -68,19 +70,18 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.emailData = {
 		newEmail: ""
 	};
-	$scope.profile = {
-		name: 'val',
-		surname: 'Kurashova',
-		birthday: '02.12.1991',
-		hideBirthday:true,
-		country: 'Russia',
-		city: 'Moscow',
-		skype: 'extrudedwad',
-		facebook: '',
-		vk: '',
-		mainContact: 'email',
-		bio: 'nyasha'
-	};
+	$scope.profile = {};
+
+	//если данные профиля получены
+	if ( initialData.data && !initialData.data.ErrorCode ) {
+		$scope.profile = initialData.data.Result;
+		$scope.profileGetMessage = "";
+		$scope.profileGetSuccessfully = true;
+	} else {
+		$scope.profileGetMessage = "Failed to get user data:" + initialData.data.ErrorMessage;
+		$scope.profileGetSuccessfully = false;
+	}
+	
 	$scope.authentication = authService.authentication;
 
 	$scope.changeEmail = function () {
@@ -102,7 +103,9 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		 			errors.push( response.data.modelState[key][i] );
 		 		}
 		 	}
-		 	$scope.emailMessage = "Failed to change email user due to:" + errors.join( ' ' );
+		 	$scope.emailSavedSuccessfully = false;
+		 	var msg = errors.length ? errors.join( ' ' ) : response.data.message;
+		 	$scope.emailMessage = "Failed to change email user due to:" + msg;
 		 } );
 	};
 
@@ -111,6 +114,11 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		authService.changePassword( $scope.passwordData ).then( function ( response ) {
 			if ( response.data && !response.data.ErrorCode ) {
 				$scope.passwordSavedSuccessfully = true;
+				$scope.passwordData = {
+					oldPassword: "",
+					newPassword: "",
+					confirmNewPassword: ""
+				};
 				$scope.passwordMessage = "Password has been changed successfully.";
 			} else {
 				$scope.passwordSavedSuccessfully = false;
@@ -124,10 +132,33 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		 			errors.push( response.data.modelState[key][i] );
 		 		}
 		 	}
-		 	$scope.passwordMessage = "Failed to change password user due to:" + errors.join( ' ' );
+		 	$scope.passwordSavedSuccessfully = false;
+		 	var msg = errors.length ? errors.join( ' ' ) : response.data.message;
+		 	$scope.passwordMessage = "Failed to change password user due to:" + msg;
 		 } );
 	};
-	$scope.changeProfile = function () {
+
+	$scope.updatePtofile = function () {
+		profileService.updatePtofile( $scope.profile ).then( function ( response ) {
+			if ( response.data && !response.data.ErrorCode ) {
+				$scope.profileSavedSuccessfully = true;
+				$scope.profileMessage = "Profile has been saved successfully.";
+			} else {
+				$scope.profileSavedSuccessfully = false;
+				$scope.profileMessage = response.data.ErrorMessage;
+			}
+		},
+		 function ( response ) {
+		 	var errors = [];
+		 	for ( var key in response.data.modelState ) {
+		 		for ( var i = 0; i < response.data.modelState[key].length; i++ ) {
+		 			errors.push( response.data.modelState[key][i] );
+		 		}
+		 	}
+		 	$scope.profileSavedSuccessfully = false;
+		 	var msg = errors.length ? errors.join( ' ' ) : response.data.message;
+		 	$scope.profileMessage = "Failed to save profile due to: " + msg;
+		 } );
 	};
 
 	var startTimer = function () {
@@ -148,6 +179,8 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
+	$scope.title = 'Sign Up';
+
 
 	$scope.registration = {
 		email: "",
@@ -155,12 +188,12 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 		confirmPassword: ""
 	};
 
-	$scope.signUp = function () {
+	$scope.submit = function () {
 
 		authService.saveRegistration( $scope.registration ).then( function ( response ) {
 			if ( response.data && !response.data.ErrorCode ) {
 				$scope.savedSuccessfully = true;
-				$scope.message = "User has been registered successfully, you will be redicted to login page in 2 seconds.";
+				$scope.message = "Thanks for signing up on KnacksGifter! We just sent you a confirmation email to " + $scope.registration.email + ". You will be redicted to home page in 10 seconds.";
 				startTimer();
 			} else {
 				$scope.savedSuccessfully = false;
@@ -176,15 +209,17 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 		 			errors.push( response.data.modelState[key][i] );
 		 		}
 		 	}
-		 	$scope.message = "Failed to register user due to:" + errors.join( ' ' );
+		 	$scope.savedSuccessfully = false;
+		 	var msg = errors.length ? errors.join( ' ' ) : response.data.message;
+		 	$scope.message = "Failed to register user due to:" + msg;
 		 } );
 	};
 
 	var startTimer = function () {
 		var timer = $timeout( function () {
 			$timeout.cancel( timer );
-			$location.path( '/login' );
-		}, 2000 );
+			$location.path( '/landing' );
+		}, 10000 );
 	}
 
 }] );
@@ -198,6 +233,7 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
  */
 app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', function ( $scope, $location, authService ) {
 	authService.logOut();
+
 	$scope.loginData = {
 		userName: "",
 		password: ""
@@ -216,5 +252,62 @@ app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', function ( $
 		 	$scope.message = err.error_description;
 		 } );
 	};
+
+}] );
+
+
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:RecoverCtrl
+ * @description
+ * # Контроллер восстановления пораля
+ * Controller of the giftknacksApp
+ */
+app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', 'authService', function ( $scope, $location, $timeout, authService ) {
+
+	$scope.savedSuccessfully = false;
+	$scope.message = "";
+	$scope.title = 'Reset password';
+
+
+	$scope.registration = {
+		email: "",
+		password: "",
+		confirmPassword: ""
+	};
+	//TODO: parse href for email and token 
+	$scope.submit = function () {
+
+		authService.resetPassword( $scope.registration ).then( function ( response ) {
+			if ( response.data && !response.data.ErrorCode ) {
+				$scope.savedSuccessfully = true;
+				$scope.message = "Your password was reset. You will be redicted to login page in 2 seconds.";
+				startTimer();
+			} else {
+				$scope.savedSuccessfully = false;
+				$scope.message = response.data.ErrorMessage;
+			}
+
+
+		},
+		 function ( response ) {
+		 	var errors = [];
+		 	for ( var key in response.data.modelState ) {
+		 		for ( var i = 0; i < response.data.modelState[key].length; i++ ) {
+		 			errors.push( response.data.modelState[key][i] );
+		 		}
+		 	}
+		 	$scope.savedSuccessfully = false;
+		 	var msg = errors.length ? errors.join( ' ' ) : response.data.message;
+		 	$scope.message = "Failed to reset password due to:" + msg;
+		 } );
+	};
+
+	var startTimer = function () {
+		var timer = $timeout( function () {
+			$timeout.cancel( timer );
+			$location.path( '/login' );
+		}, 2000 );
+	}
 
 }] );
