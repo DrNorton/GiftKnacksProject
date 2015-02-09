@@ -1,27 +1,31 @@
 ﻿[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+		display: none !important;
 }
-.body-content{
-		margin-top:50px;
+
+.body-content {
+		margin-top: 50px;
 }
-[data-toggle=buttons]{
-		.btn{
-				&>input[type=radio]{
-						display: none;
-				}
+
+.btn {
+		& > input[type=radio] {
+				display: none;
 		}
 }
-.block-bio{
-		margin-top:50px;
+
+.block-bio {
+		margin-top: 50px;
 }
-.header-inline{
-		float:left;
+
+.header-inline {
+		float: left;
 }
-.progress{
-margin: 25px 0 0 20px;
-height: 30px;
+
+.progress {
+		margin: 25px 0 0 20px;
+		height: 30px;
 }
-.progress-bar{
+
+.progress-bar {
 		font-size: 14px;
-line-height: 30px;
+		line-height: 30px;
 }

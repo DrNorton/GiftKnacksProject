@@ -4,7 +4,7 @@
 .body-content {
   margin-top: 50px; }
 
-[data-toggle=buttons] .btn > input[type=radio] {
+.btn > input[type=radio] {
   display: none; }
 
 .block-bio {

@@ -15,9 +15,11 @@ namespace GiftKnacksProject.Web
 												"~/Scripts/jquery.validate*"));
 
 						bundles.Add(new ScriptBundle("~/bundles/vendors").Include(
-												"~/Scripts/loading-bar.js",
-												"~/Scripts/common.js",
-												"~/Scripts/angular-local-storage.js"));
+												"~/Scripts/vendors/loading-bar.js",
+												"~/Scripts/vendors/common.js",
+												"~/Scripts/vendors/angular-local-storage.js",
+												"~/Scripts/vendors/inputmask/jquery.inputmask.js",
+												"~/Scripts/vendors/inputmask/jquery.inputmask.date.extensions.js"));
 
 						// Use the development version of Modernizr to develop with and learn from. Then, when you're
 						// ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
