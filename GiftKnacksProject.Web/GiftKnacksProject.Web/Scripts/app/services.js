@@ -97,6 +97,14 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		}
 
 	}
+	var _setIsFilled = function ( value ) {
+		_authentication.isFilled = value;
+		var authData = localStorageService.get( 'authorizationData' );
+		if ( authData ) {
+			localStorageService.set( 'authorizationData', { token: authData.token, userName: authData.userName, isFilled: value } );
+		}
+		
+	}
 
 	var authServiceFactory = {
 		saveRegistration: _saveRegistration,
@@ -107,7 +115,9 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		authentication: _authentication,
 		resetPassword: _resetPassword,
 		sendReset: _sendReset,
-		verifyEmail: _verifyEmail
+		verifyEmail: _verifyEmail,
+		setIsFilled: _setIsFilled
+
 	}
 	return authServiceFactory;
 }] );

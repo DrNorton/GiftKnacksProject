@@ -30,8 +30,11 @@ app.controller( 'RootCtrl', ['$scope', '$location', 'authService', function ( $s
  * # Контроллер главной страницы
  * Controller of the giftknacksApp
  */
-app.controller( 'MainCtrl', function ( $scope ) {
-} );
+app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $scope, $location, authService ) {
+	if ( authService.authentication.isAuth ) {
+		$location.path( '/dashboard' );
+	}
+}] );
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:DashboardCtrl
@@ -78,6 +81,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		$scope.profile = initialData.data.Result;
 		$scope.profileGetMessage = "";
 		$scope.profileGetSuccessfully = true;
+		$scope.avatarExist = !!$scope.profile.AvatarUrl;
 
 		//обработка массива контактов
 		for ( var i = 0; i < $scope.profile.Contacts.length; i++ ) {
@@ -103,14 +107,29 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 			contact.MainContact = contact.Name === name;
 		}
 	}
-	//добавит контакт из списка
+	//добавить контакт из списка
 	$scope.updateContacts = function () {
 		var index = $scope.profile.ContactTypes.indexOf( $scope.newContact );
 		$scope.profile.ContactTypes.splice( index, 1 );
 		$scope.profile.Contacts.push( { Name: $scope.newContact, Value: '', MainContact: false } );
 		$scope.newContact = 'new';
 	}
-	$scope.authentication = authService.authentication;
+	//удалить контакт
+	$scope.removeContact = function ( name ) {
+		var setNewMain = false;
+		for ( var i = 0; i < $scope.profile.Contacts.length; i++ ) {
+			var contact = $scope.profile.Contacts[i];
+			if ( contact.Name === name ) {
+					setNewMain = contact.MainContact;
+				$scope.profile.Contacts.splice( i, 1 );
+				break;
+			}
+		}
+		if ( setNewMain ) {
+			$scope.profile.Contacts[0].MainContact = true;
+			$scope.profile.MainContact = $scope.profile.Contacts[0].Name;
+		}
+	}
 
 	//обноление пароля
 	$scope.changePassword = function () {
@@ -136,20 +155,24 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		 } );
 	};
 
-	$scope.updatePtofile = function () {
-		profileService.updatePtofile( $scope.profile ).then( function ( response ) {
-			if ( response.data && !response.data.ErrorCode ) {
-				$scope.profile.ProfileProgress = response.data.Result.ProfileProgress;
-				$scope.profileSavedSuccessfully = true;
-				$scope.profileMessage = "Profile has been saved successfully.";
-			} else {
+	$scope.updatePtofile = function ( isValid ) {
+		if ( isValid ) {
+			profileService.updatePtofile( $scope.profile ).then( function ( response ) {
+				if ( response.data && !response.data.ErrorCode ) {
+					$scope.profile.ProfileProgress = response.data.Result.ProfileProgress;
+					$scope.profileSavedSuccessfully = true;
+					authService.setIsFilled( true );
+					$scope.profileMessage = "Profile has been saved successfully.";
+				} else {
+					$scope.profileSavedSuccessfully = false;
+					$scope.profileMessage = response.data.ErrorMessage;
+				}
+			}, function ( response ) {
 				$scope.profileSavedSuccessfully = false;
-				$scope.profileMessage = response.data.ErrorMessage;
-			}
-		},		 function ( response ) {
-		 	$scope.profileSavedSuccessfully = false;
-		 	$scope.profileMessage = "Failed to save profile due to: " + commonService.displayError;
-		 } );
+				$scope.profileMessage = "Failed to save profile due to: " + commonService.displayError;
+			} );
+		}
+
 	};
 
 	var startTimer = function () {

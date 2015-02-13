@@ -35,7 +35,8 @@
     vertical-align: middle;
     text-align: center; }
     .fileinput .thumbnail > img {
-      max-height: 100%; }
+      /*max-height: 100%;*/
+      max-height: 150px; }
   .fileinput .btn {
     vertical-align: middle; }
 
