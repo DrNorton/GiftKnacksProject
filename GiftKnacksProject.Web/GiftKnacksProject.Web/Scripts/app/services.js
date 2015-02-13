@@ -2,11 +2,11 @@
 app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $http, $q, localStorageService ) {
 
 	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
-	var authServiceFactory = {};
 
 	var _authentication = {
 		isAuth: false,
-		userName: ""
+		userName: "",
+		isFilled:false
 	};
 
 	var _saveRegistration = function ( registration ) {
@@ -28,7 +28,15 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		} );
 
 	};
+	var _sendReset = function ( email ) {
 
+		_logOut();
+
+		return $http.post( serviceBase + 'api/account/recoverpassword', email ).then( function ( response ) {
+			return response;
+		} );
+
+	};
 	var _changePassword = function ( passwords ) {
 
 		return $http.post( serviceBase + 'api/account/changepassword', passwords ).then( function ( response ) {
@@ -36,10 +44,9 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		} );
 
 	};
+	var _verifyEmail = function ( data ) {
 
-	var _changeEmail = function ( email ) {
-
-		return $http.post( serviceBase + 'api/account/changeemail', email ).then( function ( response ) {
+		return $http.post( serviceBase + 'api/account/verifyemail', data ).then( function ( response ) {
 			return response;
 		} );
 
@@ -53,10 +60,11 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 
 		$http.post( serviceBase + 'api/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } } ).success( function ( response ) {
 
-			localStorageService.set( 'authorizationData', { token: response.access_token, userName: loginData.userName } );
+			localStorageService.set( 'authorizationData', { token: response.access_token, userName: loginData.userName, isFilled: response.isFilled } );
 
 			_authentication.isAuth = true;
 			_authentication.userName = loginData.userName;
+			_authentication.isFilled = response.isFilled;
 
 			deferred.resolve( response );
 
@@ -75,6 +83,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 
 		_authentication.isAuth = false;
 		_authentication.userName = "";
+		_authentication.isFilled = false;
 
 	};
 
@@ -84,45 +93,47 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		if ( authData ) {
 			_authentication.isAuth = true;
 			_authentication.userName = authData.userName;
+			_authentication.isFilled = authData.isFilled;
 		}
 
 	}
 
-	authServiceFactory.saveRegistration = _saveRegistration;
-	authServiceFactory.login = _login;
-	authServiceFactory.logOut = _logOut;
-	authServiceFactory.changePassword = _changePassword;
-	authServiceFactory.changeEmail = _changeEmail;
-	authServiceFactory.fillAuthData = _fillAuthData;
-	authServiceFactory.authentication = _authentication;
-	authServiceFactory.resetPassword = _resetPassword;
-
+	var authServiceFactory = {
+		saveRegistration: _saveRegistration,
+		login: _login,
+		logOut: _logOut,
+		changePassword: _changePassword,
+		fillAuthData: _fillAuthData,
+		authentication: _authentication,
+		resetPassword: _resetPassword,
+		sendReset: _sendReset,
+		verifyEmail: _verifyEmail
+	}
 	return authServiceFactory;
 }] );
 
 app.factory( "profileService", ['$http', function ( $http ) {
 	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
-	var profileServiceFactory = {};
 
 	var _getPtofile = function () {
 		return $http.post( serviceBase + 'api/account/getprofile' ).then( function ( response ) {
 			return response;
 		} );
 	};
-	var _updatePtofile = function (profile) {
+	var _updatePtofile = function ( profile ) {
 		return $http.post( serviceBase + 'api/account/updateprofile', profile ).then( function ( response ) {
 			return response;
 		} );
 	};
 
-	profileServiceFactory.getPtofile = _getPtofile;
-	profileServiceFactory.updatePtofile = _updatePtofile;
+	var profileServiceFactory = {
+		getPtofile: _getPtofile,
+		updatePtofile: _updatePtofile
+	};
 	return profileServiceFactory;
 }] );
 
 app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService', function ( $q, $location, localStorageService ) {
-
-	var authInterceptorServiceFactory = {};
 
 	var _request = function ( config ) {
 
@@ -143,8 +154,30 @@ app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService'
 		return $q.reject( rejection );
 	}
 
-	authInterceptorServiceFactory.request = _request;
-	authInterceptorServiceFactory.responseError = _responseError;
-
+	var authInterceptorServiceFactory = {
+		request: _request,
+		responseError: _responseError
+	};
 	return authInterceptorServiceFactory;
+	
+}] );
+
+app.factory( 'commonService', [ function (  ) {
+
+	var _displayError = function ( response) {
+		var errors = [];
+		for ( var key in response.data.modelState ) {
+			for ( var i = 0; i < response.data.modelState[key].length; i++ ) {
+				errors.push( response.data.modelState[key][i] );
+			}
+		}
+		var msg = errors.length ? errors.join( ' ' ) : response.data.message;
+		return msg;
+	}
+
+	var commonServiceFactory = {
+		displayError: _displayError
+	};
+	return commonServiceFactory;
+
 }] );
