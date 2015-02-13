@@ -5,7 +5,8 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 
 	var _authentication = {
 		isAuth: false,
-		userName: ""
+		userName: "",
+		isFilled:false
 	};
 
 	var _saveRegistration = function ( registration ) {
@@ -59,10 +60,11 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 
 		$http.post( serviceBase + 'api/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } } ).success( function ( response ) {
 
-			localStorageService.set( 'authorizationData', { token: response.access_token, userName: loginData.userName } );
+			localStorageService.set( 'authorizationData', { token: response.access_token, userName: loginData.userName, isFilled: response.isFilled } );
 
 			_authentication.isAuth = true;
 			_authentication.userName = loginData.userName;
+			_authentication.isFilled = response.isFilled;
 
 			deferred.resolve( response );
 
@@ -81,6 +83,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 
 		_authentication.isAuth = false;
 		_authentication.userName = "";
+		_authentication.isFilled = false;
 
 	};
 
@@ -90,6 +93,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		if ( authData ) {
 			_authentication.isAuth = true;
 			_authentication.userName = authData.userName;
+			_authentication.isFilled = authData.isFilled;
 		}
 
 	}

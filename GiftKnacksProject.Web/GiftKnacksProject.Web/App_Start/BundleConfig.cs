@@ -17,6 +17,7 @@ namespace GiftKnacksProject.Web
 						bundles.Add(new ScriptBundle("~/bundles/vendors").Include(
 												"~/Scripts/vendors/loading-bar.js",
 												"~/Scripts/vendors/common.js",
+												"~/Scripts/vendors/fileinput.js",
 												"~/Scripts/vendors/angular-local-storage.js",
 												"~/Scripts/vendors/inputmask/jquery.inputmask.js",
 												"~/Scripts/vendors/inputmask/jquery.inputmask.date.extensions.js"));

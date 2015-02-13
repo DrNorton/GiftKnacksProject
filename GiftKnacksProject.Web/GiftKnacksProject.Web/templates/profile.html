@@ -7,7 +7,7 @@
 	</div>
 	<div class="row">
 		<h1 class="header header-inline">Profile</h1>
-		<div class="col-sm-4"><progressbar class="progress-striped" value="30" type="success">30%</progressbar></div>
+		<div class="col-sm-4"><progressbar class="progress-striped" value="profile.ProfileProgress" type="success">{{profile.ProfileProgress}}%</progressbar></div>
 	</div>
 
 	<hr class="">
@@ -98,9 +98,14 @@
 		<!-- right column -->
 		<div class="col-md-6">
 			<div class="text-center">
-				<img ng-src="{{profile.AvatarUrl}}" class="avatar img-circle" alt="avatar">
-				<h6 class="">Upload a different photo...</h6>
-				<input type="file" class="form-control">
+				<div class="fileinput fileinput-new" data-provides="fileinput">
+					<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;"></div>
+					<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+					<div>
+						<span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" fileread="profile.UploadAvatar" name="uploadAvatar"></span>
+						<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+					</div>
+				</div>
 				<div class="form-group block-bio">
 					<button id="bio" tooltip="Please, write about yourself" class="btn btn-lg btn-primary btn-block" type="button" data-ng-click="openBio=!openBio">Bio</button>
 					<textarea ng-show="openBio" name="bio" ng-model="profile.AboutMe" class="form-control" rows="10"></textarea>

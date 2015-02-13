@@ -24,7 +24,7 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 						if ( userId ) {
 							var verify = {
 								userId: userId,
-								code:  $route.current.params.code 
+								code:  $route.current.params.code
 							}
 							return authService.verifyEmail( verify )
 						}

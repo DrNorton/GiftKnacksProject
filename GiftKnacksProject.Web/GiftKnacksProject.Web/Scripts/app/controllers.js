@@ -39,8 +39,8 @@ app.controller( 'MainCtrl', function ( $scope ) {
  * # Контроллер страницы с последней активностью пользователя
  * Controller of the giftknacksApp
  */
-app.controller( 'DashboardCtrl', ['$scope', function ( $scope) {
-
+app.controller( 'DashboardCtrl', ['$scope','authService', function ( $scope, authService ) {
+	$scope.enoughData = authService.authentication.isFilled;
 	//ordersService.getOrders().then( function ( results ) {	}, function ( error ) {	} );
 }] );
 
@@ -139,6 +139,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.updatePtofile = function () {
 		profileService.updatePtofile( $scope.profile ).then( function ( response ) {
 			if ( response.data && !response.data.ErrorCode ) {
+				$scope.profile.ProfileProgress = response.data.Result.ProfileProgress;
 				$scope.profileSavedSuccessfully = true;
 				$scope.profileMessage = "Profile has been saved successfully.";
 			} else {

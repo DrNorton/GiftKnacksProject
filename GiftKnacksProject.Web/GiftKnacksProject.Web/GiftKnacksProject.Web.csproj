@@ -977,6 +977,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\loading-bar.css" />
+    <Content Include="Scripts\vendors\fileinput.js" />
     <Content Include="Scripts\vendors\inputmask\jquery.inputmask.date.extensions.js" />
     <Content Include="Scripts\vendors\inputmask\jquery.inputmask.extensions.js" />
     <Content Include="Scripts\vendors\inputmask\jquery.inputmask.js" />
