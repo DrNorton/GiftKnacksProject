@@ -8,9 +8,11 @@
     [AvatarUrl] NVARCHAR(50) NULL, 
     [AboutMe] NVARCHAR(250) NULL,
 	[Birthday] datetime, 
+	[HideBirthday] BIT NOT NULL DEFAULT 0,
     [IsFilled] BIT NOT NULL DEFAULT 0, 
+   
     CONSTRAINT [PK_Profiles] PRIMARY KEY ([Id]), 
-    CONSTRAINT [FK_Profiles_USERS] FOREIGN KEY ([Id]) REFERENCES [Users]([Id])
-
+    CONSTRAINT [FK_Profiles_USERS] FOREIGN KEY ([Id]) REFERENCES [Users]([Id]),
+	
 )
 

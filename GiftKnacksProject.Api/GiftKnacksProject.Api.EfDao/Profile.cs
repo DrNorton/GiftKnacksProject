@@ -14,6 +14,11 @@ namespace GiftKnacksProject.Api.EfDao
     
     public partial class Profile
     {
+        public Profile()
+        {
+            this.Contacts = new HashSet<Contact>();
+        }
+    
         public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -22,9 +27,10 @@ namespace GiftKnacksProject.Api.EfDao
         public string AvatarUrl { get; set; }
         public string AboutMe { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
+        public bool HideBirthday { get; set; }
         public bool IsFilled { get; set; }
     
-        public virtual Contact Contact { get; set; }
+        public virtual ICollection<Contact> Contacts { get; set; }
         public virtual User User { get; set; }
     }
 }

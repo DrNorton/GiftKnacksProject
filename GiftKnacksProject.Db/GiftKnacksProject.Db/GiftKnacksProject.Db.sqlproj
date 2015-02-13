@@ -62,8 +62,12 @@
     <Build Include="Users.sql" />
     <Build Include="Profiles.sql" />
     <Build Include="Contacts.sql" />
+    <Build Include="ContactTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="GiftKnacksProject.Db.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="InsertDataToContactTypes.sql" />
   </ItemGroup>
 </Project>

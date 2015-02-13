@@ -59,6 +59,9 @@
     <Compile Include="Contact.cs">
       <DependentUpon>EfModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ContactType.cs">
+      <DependentUpon>EfModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context.cs" />
     <Compile Include="EfAuthRepository.cs" />
     <Compile Include="EfModel.Context.cs">

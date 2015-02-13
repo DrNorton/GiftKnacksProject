@@ -28,6 +28,18 @@ namespace GiftKnacksProject.Api.Controllers
             context.Validated();
         }
 
+
+        public override Task TokenEndpoint(OAuthTokenEndpointContext context)
+        {
+            var isFilledClaim = context.Identity.Claims.FirstOrDefault(x => x.Type == "profileFiled");
+            if (isFilledClaim != null)
+            {
+                var isFilled = isFilledClaim.Value;
+                context.AdditionalResponseParameters.Add("isFilled",bool.Parse(isFilled));
+            }
+            return base.TokenEndpoint(context);
+        }
+
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = _container.Resolve<CustomUserManager>();
@@ -54,11 +66,11 @@ namespace GiftKnacksProject.Api.Controllers
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-
+     
             identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-
-
+            identity.AddClaim(new Claim("profileFiled",user.IsFilled.ToString()));
+            
             context.Validated(identity);
 
         }

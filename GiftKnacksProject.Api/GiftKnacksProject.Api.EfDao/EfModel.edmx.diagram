@@ -5,11 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="06c9e8a618134ed88f8fcf8c73470beb" Name="Diagram1">
-        <EntityTypeShape EntityType="GiftKnacks_dbModel.Contact" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="GiftKnacks_dbModel.Profile" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="GiftKnacks_dbModel.User" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <AssociationConnector Association="GiftKnacks_dbModel.FK_Contacts_Profiles" ManuallyRouted="false" />
-        <AssociationConnector Association="GiftKnacks_dbModel.FK_Profiles_USERS" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.Contact" Width="1.5" PointX="5.25" PointY="1.625" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.ContactType" Width="1.5" PointX="3" PointY="5.875" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.Profile" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.User" Width="1.5" PointX="0.75" PointY="1.5" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_ContactsTypes_ToContacts" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_Users_ToContacts" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_Profiles_USERS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

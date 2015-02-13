@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,8 @@ namespace GiftKnacksProject.Api.EfDao
             {
                 return null;
             }
-            var contacts = profile.Contact;
+            var types = Db.Set<ContactType>();
+       
             return new ProfileDto() { 
                 AboutMe = profile.AboutMe, 
                 AvatarUrl = profile.AvatarUrl,
@@ -35,9 +37,15 @@ namespace GiftKnacksProject.Api.EfDao
                 Id = profile.Id,
                 LastName = profile.LastName,
                 IsFilled = profile.IsFilled,
-                Contacts = new ContactsDto() { Facebook = contacts.Facebook,Skype = contacts.Skype,Telephone = contacts.Telephone,Vk = contacts.Vk}
+                HideBirthday = profile.HideBirthday,
+                Contacts = profile.Contacts.Select(x=>new ContactDto(){Name = x.ContactType.Name,Value = x.Value,MainContact = x.MainContact}).ToList(),
+                ContactTypes = types.Select(x=>x.Name).ToList()
+                
+                
             };
         }
+
+        
 
 
         public Task UpdateProfile(ProfileDto profile)
@@ -53,13 +61,33 @@ namespace GiftKnacksProject.Api.EfDao
             findedProfile.Birthday = profile.Birthday;
             findedProfile.IsFilled = profile.IsFilled;
             findedProfile.City = profile.City;
-            findedProfile.Contact.Facebook = profile.Contacts.Facebook;
-            findedProfile.Contact.Skype = profile.Contacts.Skype;
-            findedProfile.Contact.Telephone = profile.Contacts.Telephone;
-            findedProfile.Contact.Vk = profile.Contacts.Vk;
+            
+         
+            var contactTypes = Db.Set<ContactType>();
+            foreach (var contact in profile.Contacts)
+            {
+                var findedCurrentContact=findedProfile.Contacts.FirstOrDefault(x => x.ContactType.Name == contact.Name);
+                if (findedCurrentContact != null)
+                {
+                    findedCurrentContact.Value = contact.Value;
+                    findedCurrentContact.MainContact = contact.MainContact;
+                }
+                else
+                {
+                    var type = contactTypes.FirstOrDefault(x => x.Name == contact.Name);
+                    var con = Db.Set<Contact>().Create();
+                    con.ContactType = type;
+                    con.MainContact = contact.MainContact;
+                    con.Value = contact.Value;
+                    findedProfile.Contacts.Add(con);
+                }
+               
+            }
             findedProfile.Country = profile.Country;
             findedProfile.FirstName = profile.FirstName;
             findedProfile.LastName = profile.LastName;
+            findedProfile.HideBirthday = profile.HideBirthday;
+            findedProfile.IsFilled = profile.CalcIsFilled();
             base.Update(findedProfile);
             base.Save();
             return Task.FromResult(0);

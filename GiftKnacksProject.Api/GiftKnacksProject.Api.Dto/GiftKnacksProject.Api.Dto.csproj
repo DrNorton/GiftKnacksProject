@@ -58,7 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthUsers\ApplicationUser.cs" />
-    <Compile Include="Dtos\ContactsDto.cs" />
+    <Compile Include="Dtos\ContactDto.cs" />
+    <Compile Include="Dtos\ImageDto.cs" />
     <Compile Include="Dtos\ProfileDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

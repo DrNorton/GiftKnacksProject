@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Http;
+using Newtonsoft.Json;
 
 namespace GiftKnacksProject.Api.Controllers.ApiResults
 {
@@ -51,7 +52,7 @@ namespace GiftKnacksProject.Api.Controllers.ApiResults
             var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 
-                Content = new StringContent(Json.Encode(this)),
+                Content = new StringContent(JsonConvert.SerializeObject(this)),
                 RequestMessage = _request
             };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
