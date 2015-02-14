@@ -41,14 +41,12 @@
 						</button>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" ng-hide="getCountryError">
 					<label class="col-lg-3 control-label">Country:</label>
 					<div class="col-lg-8">
 						<div class="ui-select">
-							<select id="country" class="form-control" name="country" data-ng-model="profile.Country" required>
-								<option value="Russia" class="">Russia</option>
-								<option value="America" class="">America</option>
-							</select>
+							<input type="text" name="country" ng-model="profile.Country.Name" placeholder="Add your county" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
+							<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 							<div class="label label-danger" ng-show="profileForm.country.$error.required">Required</div>
 						</div>
 					</div>
@@ -57,10 +55,7 @@
 					<label class="col-lg-3 control-label">City:</label>
 					<div class="col-lg-8">
 						<div class="ui-select">
-							<select id="city" class="form-control" name="city" data-ng-model="profile.City" required>
-								<option value="Moscow" class="">Moscow</option>
-								<option value="New York" class="">New York</option>
-							</select>
+							<input type="text" name="city" id="city" ng-model="profile.City" class="form-control" ng-autocomplete options="cityOptions" details="details" required ng-disabled="!getCountryError && (!profile.Country || !countryFromTypehead)" />
 							<div class="label label-danger" ng-show="profileForm.city.$error.required">Required</div>
 						</div>
 					</div>
@@ -69,7 +64,8 @@
 				<div class="form-group" ng-repeat="contact in profile.Contacts">
 					<label class="col-lg-3 control-label">{{contact.Name}}:</label>
 					<div class="col-lg-5">
-						<input class="form-control" type="text" ng-name="{{contact.Name}}" data-ng-model="contact.Value">
+						<input class="form-control" type="text" name="{{contact.Name}}" data-ng-model="contact.Value" ng-required=" profile.ContactTypes.indexOf(contact.Name)==-1">
+						<div class="label label-danger" ng-show="profileForm.{{contact.Name}}.$error.required">Required</div>
 					</div>
 					<div class="col-md-2">
 						<label class="btn btn-info" ng-class="{'active': profile.MainContact===contact.Name}" tooltip="Choose this contact as main method of communication." tooltip-placement="top">

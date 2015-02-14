@@ -172,7 +172,7 @@ app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService'
 	
 }] );
 
-app.factory( 'commonService', [ function (  ) {
+app.factory( 'commonService', ['$http', function ( $http ) {
 
 	var _displayError = function ( response) {
 		var errors = [];
@@ -189,5 +189,19 @@ app.factory( 'commonService', [ function (  ) {
 		displayError: _displayError
 	};
 	return commonServiceFactory;
+
+}] );
+app.factory( 'geoService', ['$http', function ( $http ) {
+	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+	var _getCountry = function ( val ) {
+		return $http.get( serviceBase + 'api/country').then( function ( response ) {
+			return response;
+		} );
+	};
+
+	var geoServiceFactory = {
+		getCountry: _getCountry
+	};
+	return geoServiceFactory;
 
 }] );
