@@ -9,6 +9,7 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+
 INSERT INTO ContactTypes (Name) Values('Email')
 INSERT INTO ContactTypes (Name) Values('Skype')
 INSERT INTO ContactTypes (Name) Values('VK')

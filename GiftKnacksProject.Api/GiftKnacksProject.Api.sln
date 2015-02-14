@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.Depen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.Helpers", "GiftKnacksProject.Api.Helpers\GiftKnacksProject.Api.Helpers.csproj", "{4D2C2555-F671-4268-B729-980EE1FD07D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.Services", "GiftKnacksProject.Api.Services\GiftKnacksProject.Api.Services.csproj", "{476ABD28-C0DC-4FB1-9669-FD10779DBB43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{4D2C2555-F671-4268-B729-980EE1FD07D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D2C2555-F671-4268-B729-980EE1FD07D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D2C2555-F671-4268-B729-980EE1FD07D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{476ABD28-C0DC-4FB1-9669-FD10779DBB43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{476ABD28-C0DC-4FB1-9669-FD10779DBB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{476ABD28-C0DC-4FB1-9669-FD10779DBB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{476ABD28-C0DC-4FB1-9669-FD10779DBB43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -32,5 +32,6 @@ namespace GiftKnacksProject.Api.EfDao
     
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual User User { get; set; }
+        public virtual Country Country1 { get; set; }
     }
 }

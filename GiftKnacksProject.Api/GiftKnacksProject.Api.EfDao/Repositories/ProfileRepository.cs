@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using FamilyTasks.EfDao;
 using GiftKnacksProject.Api.Dto.Dtos;
+using GiftKnacksProject.Api.EfDao.Base;
 
-namespace GiftKnacksProject.Api.EfDao
+namespace GiftKnacksProject.Api.EfDao.Repositories
 {
     public class ProfileRepository : GenericRepository<Profile>, IProfileRepository
     {
@@ -32,7 +28,7 @@ namespace GiftKnacksProject.Api.EfDao
                 AvatarUrl = profile.AvatarUrl,
                 Birthday = profile.Birthday, 
                 City = profile.City, 
-                Country = profile.Country, 
+                Country = profile.Country==null?null:new CountryDto(){Code = profile.Country1.Id,Name = profile.Country1.Name}, 
                 FirstName = profile.FirstName,
                 Id = profile.Id,
                 LastName = profile.LastName,
@@ -44,9 +40,6 @@ namespace GiftKnacksProject.Api.EfDao
                 
             };
         }
-
-        
-
 
         public Task UpdateProfile(ProfileDto profile)
         {
@@ -64,6 +57,16 @@ namespace GiftKnacksProject.Api.EfDao
             
          
             var contactTypes = Db.Set<ContactType>();
+
+            //удаляем контакты если есть
+            foreach (var contactsFromDb in findedProfile.Contacts.ToList())
+            {
+                var deletedContact = profile.Contacts.FirstOrDefault(x => x.Name == contactsFromDb.ContactType.Name);
+                if (deletedContact == null)
+                {
+                    Db.Set<Contact>().Remove(contactsFromDb);
+                }
+            }
             foreach (var contact in profile.Contacts)
             {
                 var findedCurrentContact=findedProfile.Contacts.FirstOrDefault(x => x.ContactType.Name == contact.Name);
@@ -81,9 +84,16 @@ namespace GiftKnacksProject.Api.EfDao
                     con.Value = contact.Value;
                     findedProfile.Contacts.Add(con);
                 }
+
+               
+
                
             }
-            findedProfile.Country = profile.Country;
+            if (profile.Country != null)
+            {
+                  findedProfile.Country1 = Db.Set<Country>().FirstOrDefault(x=>x.Id==profile.Country.Code);
+            }
+          
             findedProfile.FirstName = profile.FirstName;
             findedProfile.LastName = profile.LastName;
             findedProfile.HideBirthday = profile.HideBirthday;

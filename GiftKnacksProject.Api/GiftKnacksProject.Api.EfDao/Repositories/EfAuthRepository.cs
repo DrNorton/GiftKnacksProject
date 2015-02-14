@@ -1,23 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Mail;
-using System.Security.Policy;
 using System.Threading.Tasks;
-using FamilyTasks.EfDao;
-using GiftKnacksProject.Api.Dao.AuthUsers;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.AuthUsers;
+using GiftKnacksProject.Api.EfDao.Base;
 
-using GiftKnacksProject.Api.Helpers.Utils;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-
-namespace GiftKnacksProject.Api.EfDao
+namespace GiftKnacksProject.Api.EfDao.Repositories
 {
     public class EfAuthRepository : GenericRepository<User>, IAuthRepository 
     {

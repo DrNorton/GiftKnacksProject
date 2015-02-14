@@ -12,6 +12,8 @@
         <AssociationConnector Association="GiftKnacks_dbModel.FK_ContactsTypes_ToContacts" />
         <AssociationConnector Association="GiftKnacks_dbModel.FK_Users_ToContacts" />
         <AssociationConnector Association="GiftKnacks_dbModel.FK_Profiles_USERS" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.Country" Width="1.5" PointX="10.25" PointY="3.25" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_Profiles_Countries" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

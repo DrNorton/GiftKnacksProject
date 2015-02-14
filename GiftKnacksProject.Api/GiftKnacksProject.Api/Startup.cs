@@ -1,4 +1,5 @@
-﻿using System.Web.Hosting;
+﻿using System.Configuration;
+using System.Web.Hosting;
 using System.Web.Http;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -20,10 +21,13 @@ namespace GiftKnacksProject.Api
             ConfigureOAuth(app, container);
       
             GlobalConfiguration.Configure(c => WebApiConfig.Register(c, container));
+           
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
             
         }
+
+
 
         public void ConfigureOAuth(IAppBuilder app, IWindsorContainer container)
         {

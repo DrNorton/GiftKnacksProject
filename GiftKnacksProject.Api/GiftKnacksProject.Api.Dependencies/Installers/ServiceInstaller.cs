@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
-
+using GiftKnacksProject.Api.Services;
+using GiftKnacksProject.Api.Services.Interfaces;
+using GiftKnacksProject.Api.Services.Services;
 
 
 namespace GiftKnacksProject.Api.Dependencies.Installers
@@ -13,7 +15,9 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
     {
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
-           // container.Register(Component.For<EmailService>().LifestyleTransient());
+            var fileService = new FileService(container.Resolve<UrlSettings>());
+            fileService.CheckNeededFolderAndIfNotExistsCreate();
+            container.Register(Component.For<IFileService>().Instance(fileService));
         }
     }
 }

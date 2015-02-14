@@ -3,6 +3,8 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.EfDao;
+using GiftKnacksProject.Api.EfDao.Base;
+using GiftKnacksProject.Api.EfDao.Repositories;
 
 namespace GiftKnacksProject.Api.Dependencies.Installers
 {
@@ -15,6 +17,8 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
             container.Register(Component.For<IAuthRepository, EfAuthRepository>().LifestyleTransient());
            
             container.Register(Component.For<IProfileRepository, ProfileRepository>().LifestyleTransient());
+
+            container.Register(Component.For<ICountryRepository, CountryRepository>().LifestyleTransient());
         }
     }
 }

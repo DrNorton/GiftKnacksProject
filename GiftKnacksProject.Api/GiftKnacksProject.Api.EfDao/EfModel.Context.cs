@@ -29,5 +29,6 @@ namespace GiftKnacksProject.Api.EfDao
         public virtual DbSet<ContactType> ContactTypes { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
     }
 }

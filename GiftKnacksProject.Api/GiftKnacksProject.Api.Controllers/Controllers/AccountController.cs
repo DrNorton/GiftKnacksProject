@@ -8,6 +8,7 @@ using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
@@ -18,6 +19,10 @@ using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.AuthUsers;
 using GiftKnacksProject.Api.Dto.Dtos;
 using GiftKnacksProject.Api.EfDao;
+using GiftKnacksProject.Api.EfDao.Base;
+using GiftKnacksProject.Api.Services;
+using GiftKnacksProject.Api.Services.Interfaces;
+using GiftKnacksProject.Api.Services.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json.Linq;
@@ -30,13 +35,17 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     {
         private readonly CustomUserManager _userManager;
         private readonly IProfileRepository _profileRepository;
+        private readonly UrlSettings _urlSettings;
+        private readonly IFileService _fileService;
 
 
-        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository, IEnviropment environment)
+        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService)
         {
             
             _userManager = userManager;
             _profileRepository = profileRepository;
+            _urlSettings = urlSettings;
+            _fileService = fileService;
         }
 
         // POST api/Account/Register
@@ -66,7 +75,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
                    
-                    var callbackUrl = String.Format("http://localhost:49836/#/login?userId={0}&code={1}&email={2}", user.Id,
+                    var callbackUrl = String.Format("{0}/#/login?userId={1}&code={2}&email={3}", _urlSettings.SiteUrl,user.Id,
                         WebUtility.UrlEncode(code), user.UserName);
                     await _userManager.SendEmailAsync(user.Id, "ConfirmEmail", callbackUrl);
                 }
@@ -212,28 +221,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             profileDto.Id = userId;
             if (profileDto.Image != null)
             {
-                var imagestr = profileDto.Image.Result.Split(new char[]{','})[1];
-                var filePath = HttpContext.Current.Server.MapPath("~/avatars");
-                if (!System.IO.Directory.Exists(filePath))
-                {
-                    System.IO.Directory.CreateDirectory(filePath);
-                }
-                var bytes=Convert.FromBase64String(imagestr);
-                try
-                {
-                    using (var fs = new FileStream(filePath+"/"+profileDto.Image.Name, FileMode.OpenOrCreate))
-                    {
-                        fs.Write(bytes, 0, bytes.Length);
-                        fs.Close();
-                    }
-                }
-                catch (Exception e)
-                {
-                    
-                }
-                
-                
-                
+                profileDto.AvatarUrl=_fileService.SaveBase64FileReturnUrl(FileType.Image, profileDto.Image.Type, profileDto.Image.Result);
             }
             await _profileRepository.UpdateProfile(profileDto);
             dynamic jsonObject = new JObject();
@@ -255,7 +243,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
             var user = _userManager.FindByEmailAsync(model.Email);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user.Result.Id);
-            var callbackUrl = String.Format("http://localhost:49836/#/recover?email={0}&token={1}", model.Email, WebUtility.UrlEncode(token));
+           
+            var callbackUrl = String.Format("{0}/#/recover?email={1}&token={2}",_urlSettings.SiteUrl, model.Email, WebUtility.UrlEncode(token));
             await _userManager.SendEmailAsync(user.Result.Id, "RecoverPassword", callbackUrl);
             return EmptyApiResult();
         }

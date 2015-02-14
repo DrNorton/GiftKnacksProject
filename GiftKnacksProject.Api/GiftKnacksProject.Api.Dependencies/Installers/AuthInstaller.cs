@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.Security;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -10,6 +11,7 @@ using GiftKnacksProject.Api.Dao.Emails.Mailers;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.AuthUsers;
 using GiftKnacksProject.Api.Helpers.Utils;
+using GiftKnacksProject.Api.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -37,7 +39,14 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
               Component.For<IUserStore<ApplicationUser, long>>().ImplementedBy<CustomUserStore>().LifestyleTransient());
 
             container.Register(Component.For<CustomUserManager>().LifestyleTransient());
-           
+            container.Register(
+                Component.For<UrlSettings>()
+                    .Instance(new UrlSettings()
+                    {
+                        ApiUrl = ConfigurationManager.AppSettings["ApiUrl"],
+                        SiteUrl = ConfigurationManager.AppSettings["SiteUrl"]
+                    }));
+
          
             container.Register(
                 Component.For<OAuthAuthorizationServerOptions>()

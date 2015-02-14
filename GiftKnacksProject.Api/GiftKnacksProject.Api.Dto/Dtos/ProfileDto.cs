@@ -13,7 +13,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos
         public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Country { get; set; }
+        public CountryDto Country { get; set; }
         public string City { get; set; }
         public string AvatarUrl { get; set; }
         public string AboutMe { get; set; }
@@ -39,7 +39,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos
             double progress = 0;
             if (!String.IsNullOrEmpty(FirstName)) progress++;
             if (!String.IsNullOrEmpty(LastName)) progress++;
-            if (!String.IsNullOrEmpty(Country)) progress++;
+            if (Country!=null) progress++;
             if (!String.IsNullOrEmpty(City)) progress++;
             if (!String.IsNullOrEmpty(AvatarUrl)) progress++;
             if (!String.IsNullOrEmpty(AboutMe)) progress++;
@@ -52,7 +52,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos
         {
            IsFilled = !String.IsNullOrEmpty(FirstName)
                            && !String.IsNullOrEmpty(LastName)
-                           && !String.IsNullOrEmpty(Country) 
+                           && Country!=null 
                            && Birthday!=null;
             return IsFilled;
         }
