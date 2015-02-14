@@ -9,11 +9,25 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
-          <Property Name="Skype" Type="nvarchar" MaxLength="10" />
-          <Property Name="Facebook" Type="nvarchar" MaxLength="50" />
-          <Property Name="Vk" Type="nvarchar" MaxLength="50" />
-          <Property Name="Telephone" Type="nvarchar" MaxLength="12" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContactTypeId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" />
+          <Property Name="MainContact" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
         </EntityType>
         <EntityType Name="Profiles">
           <Key>
@@ -22,11 +36,13 @@
           <Property Name="Id" Type="bigint" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="2" />
           <Property Name="City" Type="nvarchar" MaxLength="50" />
-          <Property Name="AvatarUrl" Type="nvarchar" MaxLength="50" />
+          <Property Name="AvatarUrl" Type="nvarchar" MaxLength="250" />
           <Property Name="AboutMe" Type="nvarchar" MaxLength="250" />
           <Property Name="Birthday" Type="datetime" />
+          <Property Name="HideBirthday" Type="bit" Nullable="false" />
+          <Property Name="IsFilled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -39,15 +55,27 @@
           <Property Name="ConfirmMail" Type="bit" Nullable="false" />
           <Property Name="EmailStamp" Type="nvarchar" MaxLength="200" />
         </EntityType>
-        <Association Name="FK_Contacts_Profiles">
-          <End Role="Profiles" Type="Self.Profiles" Multiplicity="1" />
-          <End Role="Contacts" Type="Self.Contacts" Multiplicity="0..1" />
+        <Association Name="FK_ContactsTypes_ToContacts">
+          <End Role="ContactTypes" Type="Self.ContactTypes" Multiplicity="1" />
+          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Profiles">
+            <Principal Role="ContactTypes">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Contacts">
+              <PropertyRef Name="ContactTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profiles_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Profiles" Type="Self.Profiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
               <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Profiles">
+              <PropertyRef Name="Country" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -63,33 +91,87 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_ToContacts">
+          <End Role="Profiles" Type="Self.Profiles" Multiplicity="1" />
+          <End Role="Contacts" Type="Self.Contacts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profiles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contacts">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="GiftKnacks_dbModelStoreContainer">
           <EntitySet Name="Contacts" EntityType="Self.Contacts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactTypes" EntityType="Self.ContactTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Contacts_Profiles" Association="Self.FK_Contacts_Profiles">
-            <End Role="Profiles" EntitySet="Profiles" />
+          <AssociationSet Name="FK_ContactsTypes_ToContacts" Association="Self.FK_ContactsTypes_ToContacts">
+            <End Role="ContactTypes" EntitySet="ContactTypes" />
             <End Role="Contacts" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profiles_Countries" Association="Self.FK_Profiles_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Profiles" EntitySet="Profiles" />
           </AssociationSet>
           <AssociationSet Name="FK_Profiles_USERS" Association="Self.FK_Profiles_USERS">
             <End Role="Users" EntitySet="Users" />
             <End Role="Profiles" EntitySet="Profiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_ToContacts" Association="Self.FK_Users_ToContacts">
+            <End Role="Profiles" EntitySet="Profiles" />
+            <End Role="Contacts" EntitySet="Contacts" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GiftKnacks_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="giftKnacksConnectionString" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contacts" EntityType="GiftKnacks_dbModel.Contact" />
+          <EntitySet Name="ContactTypes" EntityType="GiftKnacks_dbModel.ContactType" />
+          <EntitySet Name="Profiles" EntityType="GiftKnacks_dbModel.Profile" />
+          <EntitySet Name="Users" EntityType="GiftKnacks_dbModel.User" />
+          <AssociationSet Name="FK_ContactsTypes_ToContacts" Association="GiftKnacks_dbModel.FK_ContactsTypes_ToContacts">
+            <End Role="ContactType" EntitySet="ContactTypes" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_ToContacts" Association="GiftKnacks_dbModel.FK_Users_ToContacts">
+            <End Role="Profile" EntitySet="Profiles" />
+            <End Role="Contact" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profiles_USERS" Association="GiftKnacks_dbModel.FK_Profiles_USERS">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Profile" EntitySet="Profiles" />
+          </AssociationSet>
+          <EntitySet Name="Countries" EntityType="GiftKnacks_dbModel.Country" />
+          <AssociationSet Name="FK_Profiles_Countries" Association="GiftKnacks_dbModel.FK_Profiles_Countries">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Profile" EntitySet="Profiles" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Skype" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Facebook" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Vk" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Telephone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Profile" Relationship="Self.FK_Contacts_Profiles" FromRole="Contacts" ToRole="Profiles" />
+          <Property Name="ContactTypeId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ContactType" Relationship="GiftKnacks_dbModel.FK_ContactsTypes_ToContacts" FromRole="Contact" ToRole="ContactType" />
+          <NavigationProperty Name="Profile" Relationship="GiftKnacks_dbModel.FK_Users_ToContacts" FromRole="Contact" ToRole="Profile" />
+          <Property Name="MainContact" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contacts" Relationship="GiftKnacks_dbModel.FK_ContactsTypes_ToContacts" FromRole="ContactType" ToRole="Contact" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
@@ -98,64 +180,86 @@
           <Property Name="Id" Type="Int64" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AvatarUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AvatarUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="AboutMe" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Birthday" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Contact" Relationship="Self.FK_Contacts_Profiles" FromRole="Profiles" ToRole="Contacts" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Profiles_USERS" FromRole="Profiles" ToRole="Users" />
+          <Property Name="HideBirthday" Type="Boolean" Nullable="false" />
+          <Property Name="IsFilled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Contacts" Relationship="GiftKnacks_dbModel.FK_Users_ToContacts" FromRole="Profile" ToRole="Contact" />
+          <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_Profiles_USERS" FromRole="Profile" ToRole="User" />
+          <NavigationProperty Name="Country1" Relationship="GiftKnacks_dbModel.FK_Profiles_Countries" FromRole="Profile" ToRole="Country" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="DateRegister" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Profile" Relationship="Self.FK_Profiles_USERS" FromRole="Users" ToRole="Profiles" />
           <Property Name="ConfirmMail" Type="Boolean" Nullable="false" />
           <Property Name="EmailStamp" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Profile" Relationship="GiftKnacks_dbModel.FK_Profiles_USERS" FromRole="User" ToRole="Profile" />
         </EntityType>
-        <Association Name="FK_Contacts_Profiles">
-          <End Role="Profiles" Type="Self.Profile" Multiplicity="1" />
-          <End Role="Contacts" Type="Self.Contact" Multiplicity="0..1" />
+        <Association Name="FK_ContactsTypes_ToContacts">
+          <End Type="GiftKnacks_dbModel.ContactType" Role="ContactType" Multiplicity="1" />
+          <End Type="GiftKnacks_dbModel.Contact" Role="Contact" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Profiles">
+            <Principal Role="ContactType">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Contacts">
+            <Dependent Role="Contact">
+              <PropertyRef Name="ContactTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_ToContacts">
+          <End Type="GiftKnacks_dbModel.Profile" Role="Profile" Multiplicity="1" />
+          <End Type="GiftKnacks_dbModel.Contact" Role="Contact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profile">
               <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contact">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Profiles_USERS">
-          <End Role="Users" Type="Self.User" Multiplicity="1" />
-          <End Role="Profiles" Type="Self.Profile" Multiplicity="0..1" />
+          <End Type="GiftKnacks_dbModel.User" Role="User" Multiplicity="1" />
+          <End Type="GiftKnacks_dbModel.Profile" Role="Profile" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Profiles">
+            <Dependent Role="Profile">
               <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="giftKnacksConnectionString" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Contacts" EntityType="Self.Contact" />
-          <EntitySet Name="Profiles" EntityType="Self.Profile" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_Contacts_Profiles" Association="Self.FK_Contacts_Profiles">
-            <End Role="Profiles" EntitySet="Profiles" />
-            <End Role="Contacts" EntitySet="Contacts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Profiles_USERS" Association="Self.FK_Profiles_USERS">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Profiles" EntitySet="Profiles" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Profiles" Relationship="GiftKnacks_dbModel.FK_Profiles_Countries" FromRole="Country" ToRole="Profile" />
+        </EntityType>
+        <Association Name="FK_Profiles_Countries">
+          <End Type="GiftKnacks_dbModel.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="GiftKnacks_dbModel.Profile" Role="Profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Profile">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -164,25 +268,35 @@
           <EntitySetMapping Name="Contacts">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.Contact">
               <MappingFragment StoreEntitySet="Contacts">
+                <ScalarProperty Name="MainContact" ColumnName="MainContact" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ContactTypeId" ColumnName="ContactTypeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Skype" ColumnName="Skype" />
-                <ScalarProperty Name="Facebook" ColumnName="Facebook" />
-                <ScalarProperty Name="Vk" ColumnName="Vk" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactTypes">
+            <EntityTypeMapping TypeName="GiftKnacks_dbModel.ContactType">
+              <MappingFragment StoreEntitySet="ContactTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Profiles">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.Profile">
               <MappingFragment StoreEntitySet="Profiles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="AvatarUrl" ColumnName="AvatarUrl" />
-                <ScalarProperty Name="AboutMe" ColumnName="AboutMe" />
+                <ScalarProperty Name="IsFilled" ColumnName="IsFilled" />
+                <ScalarProperty Name="HideBirthday" ColumnName="HideBirthday" />
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="AboutMe" ColumnName="AboutMe" />
+                <ScalarProperty Name="AvatarUrl" ColumnName="AvatarUrl" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -191,10 +305,18 @@
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="EmailStamp" ColumnName="EmailStamp" />
                 <ScalarProperty Name="ConfirmMail" ColumnName="ConfirmMail" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="DateRegister" ColumnName="DateRegister" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="GiftKnacks_dbModel.Country">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

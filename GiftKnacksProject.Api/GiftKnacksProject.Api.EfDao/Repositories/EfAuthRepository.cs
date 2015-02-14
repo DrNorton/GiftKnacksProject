@@ -1,22 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.Mail;
-using System.Security.Policy;
 using System.Threading.Tasks;
-using FamilyTasks.EfDao;
-using GiftKnacksProject.Api.Dao.AuthUsers;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.AuthUsers;
+using GiftKnacksProject.Api.EfDao.Base;
 
-using GiftKnacksProject.Api.Helpers.Utils;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-
-namespace GiftKnacksProject.Api.EfDao
+namespace GiftKnacksProject.Api.EfDao.Repositories
 {
     public class EfAuthRepository : GenericRepository<User>, IAuthRepository 
     {
@@ -39,8 +29,13 @@ namespace GiftKnacksProject.Api.EfDao
             user.EmailStamp = appUser.EmailStamp;
             user.Profile = Db.Set<Profile>().Create();
             user.Profile.Id = user.Id;
-            user.Profile.Contact = Db.Set<Contact>().Create();
-            user.Profile.Contact.Id = user.Profile.Id;
+            var newContact=Db.Set<Contact>().Create();
+            newContact.ContactType = Db.Set<ContactType>().FirstOrDefault();
+            newContact.Value = appUser.UserName;
+            newContact.MainContact = true;
+            user.Profile.Contacts=new Collection<Contact>();
+            user.Profile.Contacts.Add(newContact);
+        
             base.Insert(user);
             base.Save();
             appUser.Id = user.Id;
@@ -54,7 +49,7 @@ namespace GiftKnacksProject.Api.EfDao
             user.Password = appUser.PasswordHash;
             user.ConfirmMail = appUser.ConfirmEmail;
             user.EmailStamp = appUser.EmailStamp;
-
+      
             base.Update(user);
             base.Save();
 
@@ -69,7 +64,8 @@ namespace GiftKnacksProject.Api.EfDao
             {
                 return null;
             }
-            return new ApplicationUser(){Id = user.Id,PasswordHash = user.Password,UserName = user.Email,ConfirmEmail = user.ConfirmMail,EmailStamp = user.EmailStamp};
+            
+            return new ApplicationUser(){Id = user.Id,PasswordHash = user.Password,UserName = user.Email,ConfirmEmail = user.ConfirmMail,EmailStamp = user.EmailStamp,IsFilled = user.Profile.IsFilled};
         }
 
       

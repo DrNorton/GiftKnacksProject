@@ -44,6 +44,9 @@
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -55,7 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthUsers\ApplicationUser.cs" />
-    <Compile Include="Dtos\ContactsDto.cs" />
+    <Compile Include="Dtos\ContactDto.cs" />
+    <Compile Include="Dtos\CountryDto.cs" />
+    <Compile Include="Dtos\ImageDto.cs" />
     <Compile Include="Dtos\ProfileDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

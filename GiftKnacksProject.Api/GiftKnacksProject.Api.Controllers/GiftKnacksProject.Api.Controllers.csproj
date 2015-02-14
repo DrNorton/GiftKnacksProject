@@ -109,6 +109,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Spatial.5.6.1\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Cors, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.2\lib\net45\System.Web.Cors.dll</HintPath>
@@ -176,12 +177,14 @@
     <Compile Include="ApiResults\ApiResult.cs" />
     <Compile Include="ApiResults\CustomApiController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\RecoverPasswordModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\VerifyEmailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryJsonFilter.cs" />
     <Compile Include="SimpleAuthorizationServerProvider.cs" />
@@ -205,6 +208,10 @@
     <ProjectReference Include="..\GiftKnacksProject.Api.EfDao\GiftKnacksProject.Api.EfDao.csproj">
       <Project>{722e5d82-f83e-43d7-af6f-dd1d16de2741}</Project>
       <Name>GiftKnacksProject.Api.EfDao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GiftKnacksProject.Api.Services\GiftKnacksProject.Api.Services.csproj">
+      <Project>{476abd28-c0dc-4fb1-9669-fd10779dbb43}</Project>
+      <Name>GiftKnacksProject.Api.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

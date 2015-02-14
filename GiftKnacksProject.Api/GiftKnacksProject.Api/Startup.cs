@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System.Configuration;
+using System.Web.Hosting;
+using System.Web.Http;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using FamilyTasks.Api;
@@ -17,12 +19,15 @@ namespace GiftKnacksProject.Api
             var config = new HttpConfiguration();
             var container = ConfigureWindsor(GlobalConfiguration.Configuration);
             ConfigureOAuth(app, container);
-            
+      
             GlobalConfiguration.Configure(c => WebApiConfig.Register(c, container));
+           
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
             
         }
+
+
 
         public void ConfigureOAuth(IAppBuilder app, IWindsorContainer container)
         {
@@ -35,10 +40,16 @@ namespace GiftKnacksProject.Api
         public static IWindsorContainer ConfigureWindsor(HttpConfiguration configuration)
         {
             var container = CastleInstaller.Install();
+           
             var dependencyResolver = new WindsorDependencyResolver(container);
             configuration.DependencyResolver = dependencyResolver;
 
             return container;
         }    
     }
+
+  
+
+    
+   
 }

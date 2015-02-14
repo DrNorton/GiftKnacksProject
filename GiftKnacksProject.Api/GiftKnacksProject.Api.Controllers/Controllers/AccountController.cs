@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
@@ -13,8 +19,13 @@ using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.AuthUsers;
 using GiftKnacksProject.Api.Dto.Dtos;
 using GiftKnacksProject.Api.EfDao;
+using GiftKnacksProject.Api.EfDao.Base;
+using GiftKnacksProject.Api.Services;
+using GiftKnacksProject.Api.Services.Interfaces;
+using GiftKnacksProject.Api.Services.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Newtonsoft.Json.Linq;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
 {
@@ -24,12 +35,17 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     {
         private readonly CustomUserManager _userManager;
         private readonly IProfileRepository _profileRepository;
+        private readonly UrlSettings _urlSettings;
+        private readonly IFileService _fileService;
 
 
-        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository)
+        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService)
         {
+            
             _userManager = userManager;
             _profileRepository = profileRepository;
+            _urlSettings = urlSettings;
+            _fileService = fileService;
         }
 
         // POST api/Account/Register
@@ -58,7 +74,9 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 try
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Route("ConfirmEmail", new {userId = user.Id, code = code});
+                   
+                    var callbackUrl = String.Format("{0}/#/login?userId={1}&code={2}&email={3}", _urlSettings.SiteUrl,user.Id,
+                        WebUtility.UrlEncode(code), user.UserName);
                     await _userManager.SendEmailAsync(user.Id, "ConfirmEmail", callbackUrl);
                 }
                 catch (Exception e)
@@ -71,23 +89,24 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             else
             {
                 var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                if (!errorsMessages.Any()) return ErrorApiResult(12, "User exist");
                 return ErrorApiResult(1, errorsMessages);
             }
 
         }
 
         [System.Web.Http.AllowAnonymous]
-        [System.Web.Http.Route("ConfirmEmail")]
-        [System.Web.Http.Route(Name = "ConfirmEmail")]
-        [System.Web.Http.HttpGet]
-        public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
+        [System.Web.Http.Route("VerifyEmail")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> VerifyEmail(VerifyEmailModel model)
         {
-            if (userId == null || code == null)
+          
+            if (model.UserId == null || model.Code == null)
             {
                 return ErrorApiResult(1, "Нет параметров");
             }
 
-            IdentityResult result = await _userManager.ConfirmEmailAsync(long.Parse(userId), code);
+            IdentityResult result = await _userManager.ConfirmEmailAsync(long.Parse(model.UserId), model.Code);
 
             if (result.Succeeded)
             {
@@ -200,9 +219,17 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
             profileDto.Id = userId;
+            if (profileDto.Image != null)
+            {
+                profileDto.AvatarUrl=_fileService.SaveBase64FileReturnUrl(FileType.Image, profileDto.Image.Type, profileDto.Image.Result);
+            }
             await _profileRepository.UpdateProfile(profileDto);
-            return EmptyApiResult();
+            dynamic jsonObject = new JObject();
+            jsonObject.ProfileProgress = profileDto.ProfileProgress;
+       
+            return SuccessApiResult(jsonObject);
         }
+
 
 
         [System.Web.Http.Route("RecoverPassword")]
@@ -216,7 +243,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
             var user = _userManager.FindByEmailAsync(model.Email);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user.Result.Id);
-            var callbackUrl = String.Format("http://localhost/recover?email={0}&token={1}",model.Email, token );
+           
+            var callbackUrl = String.Format("{0}/#/recover?email={1}&token={2}",_urlSettings.SiteUrl, model.Email, WebUtility.UrlEncode(token));
             await _userManager.SendEmailAsync(user.Result.Id, "RecoverPassword", callbackUrl);
             return EmptyApiResult();
         }
@@ -237,7 +265,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 var errorsMessages = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
                 return ErrorApiResult(1, errorsMessages);
             }
-            IdentityResult result = await _userManager.ResetPasswordAsync(user.Id, model.Code, model.NewPassword);
+            IdentityResult result = await _userManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return EmptyApiResult();
@@ -249,6 +277,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
 
         }
+
+     
 
 
     }

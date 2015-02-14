@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
-using GiftKnacksProject.Api.EfDao;
-using Microsoft.AspNet.Identity;
 
-namespace FamilyTasks.EfDao
+namespace GiftKnacksProject.Api.EfDao.Base
 {
     public class GenericRepository<T> : IDisposable, IGenericRepository<T> where T : class
     {

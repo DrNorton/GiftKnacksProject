@@ -15,11 +15,12 @@ namespace GiftKnacksProject.Api.EfDao
     public partial class Contact
     {
         public long Id { get; set; }
-        public string Skype { get; set; }
-        public string Facebook { get; set; }
-        public string Vk { get; set; }
-        public string Telephone { get; set; }
+        public int ContactTypeId { get; set; }
+        public long UserId { get; set; }
+        public string Value { get; set; }
+        public bool MainContact { get; set; }
     
+        public virtual ContactType ContactType { get; set; }
         public virtual Profile Profile { get; set; }
     }
 }

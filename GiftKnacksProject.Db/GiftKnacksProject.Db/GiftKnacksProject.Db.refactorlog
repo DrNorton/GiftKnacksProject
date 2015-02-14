@@ -21,4 +21,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="WishId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="882b761f-751e-41eb-89f8-0c46ac7486c4" ChangeDateTime="02/08/2015 15:32:30">
+    <Property Name="ElementName" Value="[dbo].[Contacts].[Skype]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Contacts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ContactTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f8c2976d-f78e-497d-b07b-7e2f0db0588c" ChangeDateTime="02/08/2015 15:34:22">
+    <Property Name="ElementName" Value="[dbo].[Contacts].[Facebook]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Contacts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="U" />
+  </Operation>
 </Operations>

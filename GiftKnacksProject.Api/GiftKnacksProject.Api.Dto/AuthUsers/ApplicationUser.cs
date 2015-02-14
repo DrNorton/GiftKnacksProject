@@ -10,5 +10,7 @@ namespace GiftKnacksProject.Api.Dto.AuthUsers
 
         public string EmailStamp { get; set; }
         public bool ConfirmEmail { get; set; }
+
+        public bool IsFilled { get; set; }
     }
 }

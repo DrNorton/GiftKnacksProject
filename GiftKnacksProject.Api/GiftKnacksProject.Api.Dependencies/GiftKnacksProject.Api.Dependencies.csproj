@@ -77,6 +77,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -128,6 +129,7 @@
   <ItemGroup>
     <Compile Include="CastleDependencyResolver.cs" />
     <Compile Include="CastleInstaller.cs" />
+    <Compile Include="IEnviropment.cs" />
     <Compile Include="Installers\AuthInstaller.cs" />
     <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Installers\RepositoriesInstaller.cs" />
@@ -159,6 +161,10 @@
     <ProjectReference Include="..\GiftKnacksProject.Api.Helpers\GiftKnacksProject.Api.Helpers.csproj">
       <Project>{4d2c2555-f671-4268-b729-980ee1fd07d9}</Project>
       <Name>GiftKnacksProject.Api.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GiftKnacksProject.Api.Services\GiftKnacksProject.Api.Services.csproj">
+      <Project>{476abd28-c0dc-4fb1-9669-fd10779dbb43}</Project>
+      <Name>GiftKnacksProject.Api.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
