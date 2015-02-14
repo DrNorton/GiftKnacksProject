@@ -57,7 +57,10 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 				resolve: {
 				initialData: ['profileService', function ( profileService ) {
 						return profileService.getPtofile();
-					}]
+				}],
+				countries: ['geoService', function ( geoService ) {
+					return geoService.getCountry();
+				}]
 				}
 			} )
       .otherwise( {

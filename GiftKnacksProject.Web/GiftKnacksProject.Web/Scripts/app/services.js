@@ -97,6 +97,14 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		}
 
 	}
+	var _setIsFilled = function ( value ) {
+		_authentication.isFilled = value;
+		var authData = localStorageService.get( 'authorizationData' );
+		if ( authData ) {
+			localStorageService.set( 'authorizationData', { token: authData.token, userName: authData.userName, isFilled: value } );
+		}
+		
+	}
 
 	var authServiceFactory = {
 		saveRegistration: _saveRegistration,
@@ -107,7 +115,9 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		authentication: _authentication,
 		resetPassword: _resetPassword,
 		sendReset: _sendReset,
-		verifyEmail: _verifyEmail
+		verifyEmail: _verifyEmail,
+		setIsFilled: _setIsFilled
+
 	}
 	return authServiceFactory;
 }] );
@@ -162,7 +172,7 @@ app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService'
 	
 }] );
 
-app.factory( 'commonService', [ function (  ) {
+app.factory( 'commonService', ['$http', function ( $http ) {
 
 	var _displayError = function ( response) {
 		var errors = [];
@@ -179,5 +189,19 @@ app.factory( 'commonService', [ function (  ) {
 		displayError: _displayError
 	};
 	return commonServiceFactory;
+
+}] );
+app.factory( 'geoService', ['$http', function ( $http ) {
+	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+	var _getCountry = function ( val ) {
+		return $http.get( serviceBase + 'api/country').then( function ( response ) {
+			return response;
+		} );
+	};
+
+	var geoServiceFactory = {
+		getCountry: _getCountry
+	};
+	return geoServiceFactory;
 
 }] );
