@@ -15,7 +15,7 @@ app.controller( 'RootCtrl', ['$scope', '$location', 'authService', function ( $s
 
 	$scope.authentication = authService.authentication;
 	$scope.$on('$locationChangeStart', function (event, next, current) {
-		if ( next!==current &&current.indexOf( 'profile' ) > -1 ) {
+		if ( $scope.authentication.isAuth && next !== current && current.indexOf( 'profile' ) > -1 ) {
 			var answer = confirm('Are you sure you want to leave this page?');
 			if (!answer) {
 				event.preventDefault();
@@ -55,6 +55,8 @@ app.controller( 'DashboardCtrl', ['$scope','authService', function ( $scope, aut
  * Controller of the giftknacksApp
  */
 app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService', 'profileService', 'initialData','countries', 'commonService', 'geoService', function ( $scope, $location, $timeout, authService, profileService, initialData,countries, commonService, geoService ) {
+	$scope.wasSubmitted = false;
+	$scope.wasChangePasswordSubmitted = false;
 	$scope.passwordSavedSuccessfully = false;
 	$scope.emailSavedSuccessfully = false;
 	$scope.profileSavedSuccessfully = false;
@@ -134,7 +136,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.getCountries = function ( term ) {
 	
 		var filterCountries =  $scope.countries.filter( function ( value) {
-			return ((value.Name.toLowerCase()).match( "^" + term ) == term );
+			return value.Name.toLowerCase().startsWith(term.toLowerCase());
 		} );
 		return filterCountries
 	}
@@ -174,11 +176,13 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	//#endregion
 
 	//обноление пароля
-	$scope.changePassword = function () {
-
+	$scope.changePassword = function ( isValid ) {
+		$scope.wasChangePasswordSubmitted = true;
+		if ( isValid ) {
 		authService.changePassword( $scope.passwordData ).then( function ( response ) {
 			if ( response.data && !response.data.ErrorCode ) {
 				$scope.passwordSavedSuccessfully = true;
+				$scope.wasChangePasswordSubmitted = false;
 				$scope.passwordData = {
 					oldPassword: "",
 					newPassword: "",
@@ -195,9 +199,12 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		 	$scope.passwordSavedSuccessfully = false;
 		 	$scope.passwordMessage = "Failed to change password user due to:" + msg;
 		 } );
+		}
+
 	};
 
 	$scope.updatePtofile = function ( isValid ) {
+		$scope.wasSubmitted = true;
 		if ( isValid ) {
 			profileService.updatePtofile( $scope.profile ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
@@ -211,7 +218,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 				}
 			}, function ( response ) {
 				$scope.profileSavedSuccessfully = false;
-				$scope.profileMessage = "Failed to save profile due to: " + commonService.displayError;
+				$scope.profileMessage = "Failed to save profile due to: " + commonService.displayError();
 			} );
 		}
 
@@ -236,7 +243,8 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
 	$scope.title = 'Sign Up';
-
+	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	$scope.wasSubmitted = false;
 
 	$scope.registration = {
 		email: "",
@@ -244,23 +252,26 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 		confirmPassword: ""
 	};
 
-	$scope.submit = function () {
+	$scope.submit = function ( isValid ) {
+		$scope.wasSubmitted = true;
+		if ( isValid ) {
+			authService.saveRegistration( $scope.registration ).then( function ( response ) {
+				if ( response.data && !response.data.ErrorCode ) {
+					$scope.savedSuccessfully = true;
+					$scope.message = "Thanks for signing up on KnacksGifter! We just sent you a confirmation email to " + $scope.registration.email + ". You will be redicted to home page in 10 seconds.";
+					startTimer();
+				} else {
+					$scope.savedSuccessfully = false;
+					$scope.message = response.data.ErrorMessage;
+				}
 
-		authService.saveRegistration( $scope.registration ).then( function ( response ) {
-			if ( response.data && !response.data.ErrorCode ) {
-				$scope.savedSuccessfully = true;
-				$scope.message = "Thanks for signing up on KnacksGifter! We just sent you a confirmation email to " + $scope.registration.email + ". You will be redicted to home page in 10 seconds.";
-				startTimer();
-			} else {
+
+			}, function ( response ) {
 				$scope.savedSuccessfully = false;
-				$scope.message = response.data.ErrorMessage;
-			}
-			
-
-		}, function ( response ) {
-		 	$scope.savedSuccessfully = false;
-		 	$scope.message = "Failed to register user due to:" + commonService.displayError;
-		 } );
+				$scope.message = "Failed to register user due to:" + commonService.displayError();
+			} );
+		}
+		
 	};
 
 	var startTimer = function () {
@@ -282,6 +293,8 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser', '$routeParams', function ( $scope, $location, authService, confirmUser, $routeParams ) {
 	authService.logOut();
 	var email = $routeParams.email || '';
+	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	$scope.wasSubmitted = false;
 	$scope.loginData = {
 		userName: email,
 		password: ""
@@ -289,9 +302,10 @@ app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser
 
 	$scope.message = "";
 
-	$scope.login = function () {
-
-		authService.login( $scope.loginData ).then( function ( response ) {
+	$scope.login = function ( isValid ) {
+		$scope.wasSubmitted = true;
+		if ( isValid ) {
+authService.login( $scope.loginData ).then( function ( response ) {
 			$location.url( $location.path() );
 			$location.path( '/dashboard' );
 
@@ -299,6 +313,8 @@ app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser
 		 function ( err ) {
 		 	$scope.message = err.error_description;
 		 } );
+		}
+		
 	};
 
 }] );
@@ -312,6 +328,8 @@ app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser
  */
 app.controller( 'ForgotPassCtrl', ['$scope', '$location', 'authService', function ( $scope, $location, authService ) {
 	authService.logOut();
+	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	$scope.wasSubmitted = false;
 	$scope.sent = false;
 	$scope.email = {
 		email: ""
@@ -319,8 +337,9 @@ app.controller( 'ForgotPassCtrl', ['$scope', '$location', 'authService', functio
 
 	$scope.message = "";
 
-	$scope.sendReset = function () {
-
+	$scope.sendReset = function (isValid) {
+		$scope.wasSubmitted = true;
+		if ( isValid ) {
 		authService.sendReset( $scope.email ).then( function ( response ) {
 			$scope.sent = true;
 			$scope.message = 'We sent you a reset instructions to ' + $scope.email.email;
@@ -330,6 +349,8 @@ app.controller( 'ForgotPassCtrl', ['$scope', '$location', 'authService', functio
 		 	$scope.sent = false;
 		 	$scope.message = err.error_description;
 		 } );
+		}
+
 	};
 
 }] );
@@ -369,7 +390,7 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout','$routeParams'
 
 		}, function ( response ) {
 		 	$scope.savedSuccessfully = false;
-		 	$scope.message = "Failed to reset password due to:" + commonService.displayError;
+		 	$scope.message = "Failed to reset password due to:" + commonService.displayError();
 		 } );
 	};
 

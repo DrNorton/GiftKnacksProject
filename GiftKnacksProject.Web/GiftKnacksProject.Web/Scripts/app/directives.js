@@ -91,7 +91,7 @@ app.directive('ngAutocomplete', function() {
 
 							scope.details = result;
 
-							controller.$setViewValue(element.val());
+							controller.$setViewValue( element.val() );
 						});
 					}
 					else {
@@ -162,4 +162,60 @@ app.directive('ngAutocomplete', function() {
 
 		}
 	};
-});
+} );
+
+app.directive( "fieldMatch", function () {
+	return {
+		require: "ngModel",
+		scope: {
+			fieldMatch: '='
+		},
+		link: function ( scope, element, attrs, ctrl ) {
+			scope.$watch( function () {
+				var combined;
+
+				if ( scope.fieldMatch || ctrl.$viewValue ) {
+					combined = scope.fieldMatch + '_' + ctrl.$viewValue;
+				}
+				return combined;
+			}, function ( value ) {
+				if ( value ) {
+					ctrl.$parsers.unshift( function ( viewValue ) {
+						var origin = scope.fieldMatch;
+						if ( origin !== viewValue ) {
+							ctrl.$setValidity( "fieldMatch", false );
+							return undefined;
+						} else {
+							ctrl.$setValidity( "fieldMatch", true );
+							return viewValue;
+						}
+					} );
+				}
+			} );
+		}
+	};
+} );
+app.directive( "customContact", function () {
+	return {
+		require: "ngModel",
+		link: function ( scope, element, attrs, ctrl ) {
+			ctrl.$parsers.unshift( function ( value ) {
+				var valid;
+				if ( value ) {
+					switch ( attrs.name.toLowerCase() ) {
+						case 'email':
+							valid = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test( value );
+							break;
+						default:
+							valid = true;
+							break;
+
+					}
+					ctrl.$setValidity( 'customContact', valid );
+				}
+				return value;
+			} );
+
+		}
+	};
+} );

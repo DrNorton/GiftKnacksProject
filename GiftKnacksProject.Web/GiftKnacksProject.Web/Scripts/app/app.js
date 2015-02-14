@@ -73,6 +73,17 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 app.run( ['authService', function ( authService ) {
 	authService.fillAuthData();
 
+	if ( !String.prototype.startsWith ) {
+		Object.defineProperty( String.prototype, 'startsWith', {
+			enumerable: false,
+			configurable: false,
+			writable: false,
+			value: function ( searchString, position ) {
+				position = position || 0;
+				return this.lastIndexOf( searchString, position ) === position;
+			}
+		} );
+	}
 	$( function () {
 		$.extend( $.inputmask.defaults.definitions, {
 			'l': {

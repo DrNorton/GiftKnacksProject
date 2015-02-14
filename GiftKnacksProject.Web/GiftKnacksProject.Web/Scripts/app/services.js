@@ -185,6 +185,7 @@ app.factory( 'commonService', ['$http', function ( $http ) {
 		return msg;
 	}
 
+
 	var commonServiceFactory = {
 		displayError: _displayError
 	};
