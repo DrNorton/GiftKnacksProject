@@ -35,8 +35,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 IsFilled = profile.IsFilled,
                 HideBirthday = profile.HideBirthday,
                 Contacts = profile.Contacts.Select(x=>new ContactDto(){Name = x.ContactType.Name,Value = x.Value,MainContact = x.MainContact}).ToList(),
-                ContactTypes = types.Select(x=>x.Name).ToList()
-                
+                ContactTypes = types.Select(x=>x.Name).ToList(),
+                Gender = GetGenderStringFromBool(profile.Gender)
                 
             };
         }
@@ -54,7 +54,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             findedProfile.Birthday = profile.Birthday;
             findedProfile.IsFilled = profile.IsFilled;
             findedProfile.City = profile.City;
-            
+            findedProfile.Gender = ParseGenderStr(profile.Gender);
          
             var contactTypes = Db.Set<ContactType>();
 
@@ -103,7 +103,19 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             return Task.FromResult(0);
         }
 
+        private bool ParseGenderStr(string gender)
+        {
+            if (gender.ToLower() == "male")
+            {
+                return true;
+            }
+            return false;
+        }
 
-      
+        private string GetGenderStringFromBool(bool gender)
+        {
+            if (gender) return "male";
+            return "female";
+        }
     }
 }

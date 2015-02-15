@@ -22,9 +22,22 @@ namespace GiftKnacksProject.Api.Services.Services
         private string _imagesPath;
         public string SaveBase64FileReturnUrl(FileType fileType,string mimeType, string base64File)
         {
-            var imagestr = PrepareBase64StringFromJs(base64File);
+            var split = base64File.Split(new char[] { ',' }); //Убираем ненужную инфу о файле
+            var imagestr = split[1];
+            
             var bytes = Convert.FromBase64String(imagestr);
-            var tuple = CreateFileUri(mimeType,_urlSettings.ApiUrl);
+            Tuple<string, string> tuple = null;
+            if (mimeType == null)
+            {
+                //old firefox
+                mimeType = base64File.Split(new char[] {';'})[0];
+                tuple = CreateFileUri(mimeType, _urlSettings.ApiUrl);
+            }
+            else
+            {
+                tuple = CreateFileUri(mimeType, _urlSettings.ApiUrl);
+            }
+          
             using (var fs = new FileStream(tuple.Item1, FileMode.OpenOrCreate))
             {
                 fs.Write(bytes, 0, bytes.Length);
@@ -33,11 +46,7 @@ namespace GiftKnacksProject.Api.Services.Services
             return tuple.Item2;
         }
 
-        private static string PrepareBase64StringFromJs(string base64File)
-        {
-            var imagestr = base64File.Split(new char[] {','})[1]; //Убираем ненужную инфу о файле
-            return imagestr;
-        }
+      
 
         private Tuple<string,string> CreateFileUri(string mimeType,string apiUrl)
         {

@@ -29,6 +29,8 @@ namespace GiftKnacksProject.Api.Dto.Dtos
         [JsonProperty("UploadAvatar")]
         public ImageDto Image { get; set; }
 
+        public string Gender { get; set; }
+
         public int ProfileProgress
         {
             get { return CalcProgress(); }

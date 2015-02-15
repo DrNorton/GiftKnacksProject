@@ -37,12 +37,13 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
           <Property Name="Country" Type="nvarchar" MaxLength="2" />
-          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="150" />
           <Property Name="AvatarUrl" Type="nvarchar" MaxLength="250" />
           <Property Name="AboutMe" Type="nvarchar" MaxLength="250" />
           <Property Name="Birthday" Type="datetime" />
           <Property Name="HideBirthday" Type="bit" Nullable="false" />
           <Property Name="IsFilled" Type="bit" Nullable="false" />
+          <Property Name="Gender" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -181,7 +182,7 @@
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Country" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="AvatarUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="AboutMe" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Birthday" Type="DateTime" Precision="3" />
@@ -190,6 +191,7 @@
           <NavigationProperty Name="Contacts" Relationship="GiftKnacks_dbModel.FK_Users_ToContacts" FromRole="Profile" ToRole="Contact" />
           <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_Profiles_USERS" FromRole="Profile" ToRole="User" />
           <NavigationProperty Name="Country1" Relationship="GiftKnacks_dbModel.FK_Profiles_Countries" FromRole="Profile" ToRole="Country" />
+          <Property Name="Gender" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -287,6 +289,7 @@
           <EntitySetMapping Name="Profiles">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.Profile">
               <MappingFragment StoreEntitySet="Profiles">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="IsFilled" ColumnName="IsFilled" />
                 <ScalarProperty Name="HideBirthday" ColumnName="HideBirthday" />
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />
