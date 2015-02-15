@@ -44,7 +44,104 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
  */
 app.controller( 'DashboardCtrl', ['$scope','authService', function ( $scope, authService ) {
 	$scope.enoughData = authService.authentication.isFilled;
-	//ordersService.getOrders().then( function ( results ) {	}, function ( error ) {	} );
+}] );
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:WishFormCtrl
+ * @description
+ * # Контроллер создания нового виша
+ * Controller of the giftknacksApp
+ */
+app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countries', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, countries, commonService, wishAndGiftService ) {
+	$scope.enoughData = authService.authentication.isFilled;
+	$scope.savedSuccessfully = false;
+	$scope.message = "";
+	$scope.wasSubmitted = false;
+	$scope.percent = 0;
+	$scope.overEmergency = 0;
+	$scope.firstAppearance = true;
+	$scope.imageExist = false;
+	$scope.countries = [];
+	$scope.cityOptions = {};
+	$scope.getCountryError = false;
+	$scope.wish = {};
+
+
+	//если начальные данные для виша получены
+	if ( initialData.data && !initialData.data.ErrorCode ) {
+		$scope.wish = initialData.data.Result;
+		$scope.wishCategories = $scope.wish.WishCategories
+		delete $scope.wish['WishCategories'];
+		$scope.wish.Category = '';
+		$scope.imageExist = !!$scope.wish.ImageUrl;
+		$scope.cityOptions.country = $scope.wish.Country ? $scope.wish.Country.Code : '';
+		$scope.cityOptions.types = $scope.wish.Country ? '(cities)' : '';
+		
+	}
+	//#region получение стран и городов
+	$scope.countryFromTypehead = !!$scope.wish.Country;
+
+	if ( countries.data && !countries.data.ErrorCode ) {
+		$scope.countries = countries.data.Result;
+	} else {
+		//TODO: log error
+		$scope.getCountryError = true;
+	}
+	//изменения в input страны
+	$scope.countryChange = function () {
+		$scope.wish.City = '';
+		$scope.wish.Country.Code = '';
+		$scope.countryFromTypehead = false;
+	}
+	//выбор страны из списка
+	$scope.countrySelect = function ( $item, $model, $label ) {
+		$scope.countryFromTypehead = true;
+		$scope.wish.Country.Code = $item.Code;
+		$scope.cityOptions = {
+			types: '(cities)',
+			country: $item.Code
+		}
+	}
+
+	$scope.getCountries = function ( term ) {
+
+		var filterCountries = $scope.countries.filter( function ( value ) {
+			return value.Name.toLowerCase().startsWith( term.toLowerCase() );
+		} );
+		return filterCountries
+	}
+	//#endregion
+
+	//#region emergency
+	$scope.hoveringOver = function ( value ) {
+		$scope.firstAppearance = false;
+		$scope.overEmergency = value;
+		$scope.percent = 100 * ( value / 10 );
+	};
+	//#endregion
+
+	$scope.submit = function ( isValid ) {
+		$scope.wasSubmitted = true;
+		if ( isValid && enoughData ) {
+			wishAndGiftService.addWish( $scope.wish ).then( function ( response ) {
+				if ( response.data && !response.data.ErrorCode ) {
+					$scope.savedSuccessfully = true;
+					$scope.message = "Wish has been added successfully.";
+				} else {
+					$scope.savedSuccessfully = false;
+					$scope.message = response.data.ErrorMessage;
+				}
+			}, function ( response ) {
+				$scope.savedSuccessfully = false;
+				$scope.message = "Failed to add wish due to: " + commonService.displayError();
+			} );
+		}
+	};
+	$scope.reset = function () {
+		$scope.wasSubmitted = false;
+		$scope.wish.Emergency = 0;
+		$scope.percent = 0;
+	};
 }] );
 
 /**
@@ -58,11 +155,9 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.wasSubmitted = false;
 	$scope.wasChangePasswordSubmitted = false;
 	$scope.passwordSavedSuccessfully = false;
-	$scope.emailSavedSuccessfully = false;
 	$scope.profileSavedSuccessfully = false;
 	$scope.profileGetSuccessfully = false;
 	$scope.passwordMessage = "";
-	$scope.emailMessage = "";
 	$scope.profileMessage = "";
 	$scope.profileGetMessage = "";
 	$scope.openBio = false;
@@ -366,6 +461,8 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout','$routeParams'
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
 	$scope.title = 'Reset password';
+	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	$scope.wasSubmitted = false;
 
 
 	$scope.registration = {
@@ -375,8 +472,9 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout','$routeParams'
 		code: $routeParams.token
 	};
 	//TODO: parse href for email and token 
-	$scope.submit = function () {
-
+	$scope.submit = function ( isValid ) {
+		$scope.wasSubmitted = true;
+		if ( isValid ) {
 		authService.resetPassword( $scope.registration ).then( function ( response ) {
 			if ( response.data && !response.data.ErrorCode ) {
 				$scope.savedSuccessfully = true;
@@ -392,6 +490,8 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout','$routeParams'
 		 	$scope.savedSuccessfully = false;
 		 	$scope.message = "Failed to reset password due to:" + commonService.displayError();
 		 } );
+		}
+
 	};
 
 	var startTimer = function () {

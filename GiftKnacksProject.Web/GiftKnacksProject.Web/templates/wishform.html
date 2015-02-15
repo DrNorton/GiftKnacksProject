@@ -1,0 +1,109 @@
+﻿<div class="row"><div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For creating wish fill your <a href="#/profile" class="alert-link">profile.</a></div></div>
+<form class="form-wish form-horizontal " role="form" name="wishForm" novalidate>
+	<div class="row">
+		<div class="col-md-12"><h2 class="form-wish-heading">Create new wish</h2></div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Name:</label>
+			<div class="col-lg-8">
+				<input type="text" class="form-control" name="name" placeholder="Name" data-ng-model="wish.Name" required autofocus />
+				<div class="label label-danger" ng-show="wasSubmitted && wishForm.name.$error.required">Required</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Category:</label>
+			<div class="ui-select col-lg-8">
+				<select class="form-control" name="category" ng-model="wish.Category" required>
+					<option value="" selected>--Select category--</option>
+					<option ng-value="category.Name" ng-repeat="category in wishCategories">{{category.Name}}</option>
+				</select>
+				<div class="label label-danger" ng-show="wasSubmitted && wishForm.category.$error.required">Required</div>
+			</div>
+		</div>
+		<div class="form-group" ng-hide="getCountryError">
+			<label class="col-lg-3 control-label">Country:</label>
+			<div class="col-lg-8">
+				<div class="ui-select">
+					<input type="text" autocomplete="off" name="country" ng-model="wish.Country.Name" placeholder="Add your country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
+					<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+					<div class="label label-danger" ng-show="wasSubmitted && wishForm.country.$error.required">Required</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">City:</label>
+			<div class="col-lg-8">
+				<div class="ui-select">
+					<input type="text" name="city" id="city" ng-model="wish.City" class="form-control" ng-autocomplete options="cityOptions" details="details" required ng-disabled="!getCountryError && (!wish.Country || !countryFromTypehead)" />
+					<div class="label label-danger" ng-show="wasSubmitted && wishForm.city.$error.required">Required</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Meeting place:</label>
+			<div class="col-lg-8">
+				<input type="text" class="form-control" name="location" placeholder="It could be metro, station, your work place etc." data-ng-model="wish.Location" required />
+				<div class="label label-danger" ng-show="wasSubmitted && wishForm.location.$error.required">Required</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Period:</label>
+			<div class="col-lg-4">
+				<input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="wish.FromDate" required />
+				<div class="label label-danger" ng-show="wasSubmitted && wishForm.fromdate.$error.required">Required</div>
+			</div>
+			<div class="col-lg-4">
+				<input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="wish.ToDate" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Emergency:</label>
+			<div class="col-lg-8">
+				<div class="list-group-item">
+					<rating ng-model="wish.Emergency" class="emergency-rating" name="emergency" max="10" state-off="'glyphicon-unchecked'" state-on="'glyphicon-expand'" on-hover="hoveringOver( value )" on-leave="overEmergency=0"></rating>
+					<span class="label" ng-class="{'label-success': percent<30, 'label-warning': percent>=30 && percent<70, 'label-danger': percent>=70}" ng-show="overEmergency" ng-hide="wish.Emergency||firstAppearance">{{percent}}%</span>
+					<span class="label" ng-class="{'label-success': wish.Emergency<3, 'label-warning': wish.Emergency>=3 && wish.Emergency<7, 'label-danger': wish.Emergency>=7}" ng-show="wish.Emergency" ng-hide="overEmergency">{{wish.Emergency*10}}%</span>
+				</div>
+			</div>
+
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Gifter benefit:</label>
+			<div class="col-lg-8">
+				<input type="text" class="form-control" name="benefit" placeholder="Gifter benefit" data-ng-model="wish.Benefit" />
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="text-center">
+			<div ng-class="{'fileinput-new' : !avatarExist, 'fileinput-exists' : avatarExist}" class="fileinput " data-provides="fileinput">
+				<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+					<img ng-hide="avatarExist" src="./img/present.jpg" alt="avatar">
+				</div>
+				<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
+					<img ng-show="imageExist" ng-src="{{wish.ImageUrl}}" alt="avatar">
+				</div>
+				<div>
+					<span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" fileread="wish.Image" name="uploadImage"></span>
+					<a ng-href="" class="btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="imageExist=false;wish.ImageUrl=null">Remove</a>
+				</div>
+			</div>
+			<div class="form-group block-description">
+				<label class="col-lg-12 control-label">Description:</label>
+				<textarea spellcheck="false" name="description" ng-model="wish.Description" class="form-control" rows="8" required></textarea>
+				<div class="label label-danger" ng-show="wasSubmitted && wishForm.description.$error.required">Required</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-md-12 text-center">
+		<button class="btn btn-md btn-primary" type="submit" ng-disabled="!enoughData" data-ng-click="submit(wishForm.$valid)">Submit</button>
+		<button class="btn btn-md btn-primary" type="reset" data-ng-click="reset()">Clear</button>
+	</div>
+	<div class="col-md-12 text-center">
+		<div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+			{{message}}
+		</div>
+	</div>
+</form>

@@ -53,20 +53,16 @@
 				<div class="form-group" ng-hide="getCountryError">
 					<label class="col-lg-3 control-label">Country:</label>
 					<div class="col-lg-8">
-						<div class="ui-select">
 							<input type="text" autocomplete="off" name="country" ng-model="profile.Country.Name" placeholder="Add your country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
 							<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 							<div class="label label-danger" ng-show="wasSubmitted && profileForm.country.$error.required">Required</div>
-						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-lg-3 control-label">City:</label>
 					<div class="col-lg-8">
-						<div class="ui-select">
 							<input type="text" name="city" id="city" ng-model="profile.City" class="form-control" ng-autocomplete options="cityOptions" details="details" required ng-disabled="!getCountryError && (!profile.Country || !countryFromTypehead)" />
 							<div class="label label-danger" ng-show="wasSubmitted && profileForm.city.$error.required">Required</div>
-						</div>
 					</div>
 				</div>
 				<hr class="">

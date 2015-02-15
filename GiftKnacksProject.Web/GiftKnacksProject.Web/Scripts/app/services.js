@@ -142,6 +142,27 @@ app.factory( "profileService", ['$http', function ( $http ) {
 	};
 	return profileServiceFactory;
 }] );
+app.factory( "wishAndGiftService", ['$http', function ( $http ) {
+	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+
+	var _getEmptyWish = function () {
+		return $http.post( serviceBase + 'api/wish/getemptywish' ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _addWish = function ( wish ) {
+		return $http.post( serviceBase + 'api/wish/addwish', wish ).then( function ( response ) {
+			return response;
+		} );
+	};
+
+	var wishAndGiftServiceFactory = {
+		getEmptyWish: _getEmptyWish,
+		addWish: _addWish
+	};
+	return wishAndGiftServiceFactory;
+}] );
+
 
 app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService', function ( $q, $location, localStorageService ) {
 
@@ -192,6 +213,7 @@ app.factory( 'commonService', ['$http', function ( $http ) {
 	return commonServiceFactory;
 
 }] );
+
 app.factory( 'geoService', ['$http', function ( $http ) {
 	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
 	var _getCountry = function ( val ) {

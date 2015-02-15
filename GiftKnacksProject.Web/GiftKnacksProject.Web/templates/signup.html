@@ -1,8 +1,8 @@
 ﻿
 <div class="row">
 	<div class="col-md-4 col-md-offset-4">
-		<form class="form-login" role="form" name="signupForm" novalidate>
-			<h2 class="form-login-heading">{{title}}</h2>
+		<form class="form-signup" role="form" name="signupForm" novalidate>
+			<h2 class="form-signup-heading">{{title}}</h2>
 			<input type="text" class="form-control" name="email" placeholder="Email" data-ng-model="registration.email" required ng-pattern="emailPattern" autofocus>
 			<div class="label label-danger" ng-show="wasSubmitted && signupForm.email.$error.required">Required</div>
 			<div class="label label-danger" ng-show="wasSubmitted && signupForm.email.$error.pattern">Incorrect email</div>

@@ -20,18 +20,18 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 				templateUrl: "/templates/login.html",
 				resolve: {
 					confirmUser: ['authService', '$route', function ( authService, $route ) {
-						var userId= $route.current.params.userId;
+						var userId = $route.current.params.userId;
 						if ( userId ) {
 							var verify = {
 								userId: userId,
-								code:  $route.current.params.code
+								code: $route.current.params.code
 							}
 							return authService.verifyEmail( verify )
 						}
 						else {
 							return false;
 						}
-						
+
 					}]
 				}
 			} )
@@ -51,16 +51,28 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 				controller: "DashboardCtrl",
 				templateUrl: "/templates/dashboard.html"
 			} )
+			.when( "/wishform", {
+				controller: "WishFormCtrl",
+				templateUrl: "/templates/wishform.html",
+				resolve: {
+					initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.getEmptyWish();
+					}],
+					countries: ['geoService', function ( geoService ) {
+						return geoService.getCountry();
+					}]
+				}
+			} )
 			.when( "/profile", {
 				controller: "ProfileCtrl",
 				templateUrl: "/templates/profile.html",
 				resolve: {
-				initialData: ['profileService', function ( profileService ) {
+					initialData: ['profileService', function ( profileService ) {
 						return profileService.getPtofile();
-				}],
-				countries: ['geoService', function ( geoService ) {
-					return geoService.getCountry();
-				}]
+					}],
+					countries: ['geoService', function ( geoService ) {
+						return geoService.getCountry();
+					}]
 				}
 			} )
       .otherwise( {
