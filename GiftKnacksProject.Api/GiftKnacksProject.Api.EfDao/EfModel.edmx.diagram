@@ -12,8 +12,13 @@
         <AssociationConnector Association="GiftKnacks_dbModel.FK_ContactsTypes_ToContacts" />
         <AssociationConnector Association="GiftKnacks_dbModel.FK_Users_ToContacts" />
         <AssociationConnector Association="GiftKnacks_dbModel.FK_Profiles_USERS" />
-        <EntityTypeShape EntityType="GiftKnacks_dbModel.Country" Width="1.5" PointX="10.25" PointY="3.25" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.Country" Width="1.5" PointX="8.375" PointY="3" />
         <AssociationConnector Association="GiftKnacks_dbModel.FK_Profiles_Countries" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.WishCategory" Width="1.5" PointX="10.25" PointY="0.75" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.Wish" Width="1.5" PointX="12.5" PointY="1.75" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_Wishes_Countries" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_Wishes_Users" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_Wishes_Categories" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -178,6 +178,7 @@
     <Compile Include="ApiResults\CustomApiController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\WishController.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />

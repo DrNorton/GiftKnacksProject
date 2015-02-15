@@ -71,4 +71,7 @@
   <ItemGroup>
     <RefactorLog Include="GiftKnacksProject.Db.refactorlog" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\InsertWishCategories.sql" />
+  </ItemGroup>
 </Project>

@@ -62,6 +62,11 @@
     <Compile Include="Dtos\CountryDto.cs" />
     <Compile Include="Dtos\ImageDto.cs" />
     <Compile Include="Dtos\ProfileDto.cs" />
+    <Compile Include="Dtos\Wishes\EmptyWishDto.cs" />
+    <Compile Include="Dtos\Wishes\ImagedWishDto.cs" />
+    <Compile Include="Dtos\Wishes\WishCategoryDto.cs" />
+    <Compile Include="Dtos\Wishes\WishDto.cs" />
+    <Compile Include="JsonConverters\CustomDateTimeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

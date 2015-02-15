@@ -30,5 +30,7 @@ namespace GiftKnacksProject.Api.EfDao
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<WishCategory> WishCategories { get; set; }
+        public virtual DbSet<Wish> Wishes { get; set; }
     }
 }

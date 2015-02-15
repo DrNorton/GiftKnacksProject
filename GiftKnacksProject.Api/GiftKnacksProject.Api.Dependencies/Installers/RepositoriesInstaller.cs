@@ -19,6 +19,7 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
             container.Register(Component.For<IProfileRepository, ProfileRepository>().LifestyleTransient());
 
             container.Register(Component.For<ICountryRepository, CountryRepository>().LifestyleTransient());
+            container.Register(Component.For<IWishRepository, WishRepository>().LifestyleTransient());
         }
     }
 }
