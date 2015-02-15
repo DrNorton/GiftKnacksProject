@@ -1,12 +1,17 @@
 ﻿
 <div class="row">
 	<div class="col-md-4 col-md-offset-4">
-		<form class="form-login" role="form">
-			<h2 class="form-login-heading">{{title}}</h2>
-			<input type="text" class="form-control" placeholder="Username" data-ng-model="registration.email" required autofocus>
-			<input type="password" class="form-control" placeholder="Password" data-ng-model="registration.password" required>
-			<input type="password" class="form-control" placeholder="Confirm Password" data-ng-model="registration.confirmPassword" required>
-			<button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-click="submit()">Submit</button>
+		<form class="form-signup" role="form" name="signupForm" novalidate>
+			<h2 class="form-signup-heading">{{title}}</h2>
+			<input type="text" class="form-control" name="email" placeholder="Email" data-ng-model="registration.email" required ng-pattern="emailPattern" autofocus>
+			<div class="label label-danger" ng-show="wasSubmitted && signupForm.email.$error.required">Required</div>
+			<div class="label label-danger" ng-show="wasSubmitted && signupForm.email.$error.pattern">Incorrect email</div>
+			<input type="password" class="form-control" name="password" placeholder="Password" data-ng-model="registration.password" required>
+			<div class="label label-danger" ng-show="wasSubmitted && signupForm.password.$error.required">Required</div>
+			<input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password" data-ng-model="registration.confirmPassword" required field-match="registration.password">
+			<div class="label label-danger" ng-show="wasSubmitted && signupForm.confirmPassword.$error.required">Required</div>
+			<div class="label label-danger" ng-show="wasSubmitted && signupForm.confirmPassword.$error.fieldMatch">Passwords are not equal</div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-click="submit(signupForm.$valid)">Submit</button>
 			<div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
 				{{message}}
 			</div>

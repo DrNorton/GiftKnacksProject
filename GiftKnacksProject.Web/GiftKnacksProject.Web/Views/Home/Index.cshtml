@@ -7,14 +7,24 @@
 			<button class="btn btn-success navbar-toggle" ng-click="navbarExpanded = !navbarExpanded">
 				<span class="glyphicon glyphicon-chevron-down"></span>
 			</button>
-			<a class="navbar-brand" ng-hide="authentication.isAuth" href="#/">Home</a>
+			<a class="navbar-brand" ng-hide="authentication.isAuth" href="#/landing">Home</a>
 			<a class="navbar-brand" ng-show="authentication.isAuth" href="#/dashboard">My Dashboard</a>
 		</div>
 		<div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
 			<ul class="nav navbar-nav navbar-right">
-				<li ng-show="authentication.isAuth"><a ng-href="">Welcome {{authentication.userName}}</a></li>
-				<li ng-show="authentication.isAuth"><a href="#/profile">My Profile</a></li>
-				<li ng-show="authentication.isAuth"><a href="#/" ng-click="logOut()">Logout</a></li>
+				<li ng-show="authentication.isAuth"> <a href="#/wishform">Create new wish</a></li>
+				<li ng-show="authentication.isAuth"> <a href="#/giftform">Create new gift</a></li>
+				<li ng-show="authentication.isAuth"> <a href="#/search">Search</a></li>
+				<li ng-show="authentication.isAuth" class="dropdown">
+					<a ng-href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">User menu<span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#/profile">My Profile</a></li>
+						<li><a href="#/dashboard">Dashboard</a></li>
+						<li><a href="#/history">History</a></li>
+						<li class="divider"></li>
+						<li><a href="#/" ng-click="logOut()">Logout</a></li>
+					</ul>
+				</li>
 				<li ng-hide="authentication.isAuth"> <a href="#/login">Log In</a></li>
 				<li ng-hide="authentication.isAuth"> <a href="#/signup">Sign Up</a></li>
 			</ul>

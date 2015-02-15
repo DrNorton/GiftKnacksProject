@@ -136,6 +136,9 @@ $state-success-border:#2fbe32;
 		}
 }
 
+textarea {
+    resize: none;
+}
 .block-bio {
 		margin-top: 50px;
 }
@@ -152,4 +155,15 @@ $state-success-border:#2fbe32;
 .progress-bar {
 		font-size: 14px;
 		line-height: 30px;
+}
+.dropdown-toggle{
+		cursor:pointer;
+}
+.block-description{
+		.control-label {
+				text-align:left;
+		}
+}
+.emergency-rating{
+		outline:none;
 }

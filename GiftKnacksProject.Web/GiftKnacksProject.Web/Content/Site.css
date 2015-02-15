@@ -88,6 +88,9 @@
 .btn > input[type=radio] {
   display: none; }
 
+textarea {
+  resize: none; }
+
 .block-bio {
   margin-top: 50px; }
 
@@ -101,5 +104,14 @@
 .progress-bar {
   font-size: 14px;
   line-height: 30px; }
+
+.dropdown-toggle {
+  cursor: pointer; }
+
+.block-description .control-label {
+  text-align: left; }
+
+.emergency-rating {
+  outline: none; }
 
 /*# sourceMappingURL=Site.css.map */
