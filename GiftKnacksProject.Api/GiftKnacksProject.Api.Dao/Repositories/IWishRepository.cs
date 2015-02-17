@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dto.Dtos.Wishes;
 
-namespace GiftKnacksProject.Api.EfDao.Base
+namespace GiftKnacksProject.Api.Dao.Repositories
 {
     public interface IWishRepository
     {

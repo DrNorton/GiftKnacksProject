@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dto.Dtos;
 
-namespace GiftKnacksProject.Api.EfDao.Base
+namespace GiftKnacksProject.Api.Dao.Repositories
 {
     public interface IProfileRepository
     {

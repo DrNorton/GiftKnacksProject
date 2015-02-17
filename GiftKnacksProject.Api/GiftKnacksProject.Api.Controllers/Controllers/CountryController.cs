@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using GiftKnacksProject.Api.Controllers.ApiResults;
+using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.EfDao.Base;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers

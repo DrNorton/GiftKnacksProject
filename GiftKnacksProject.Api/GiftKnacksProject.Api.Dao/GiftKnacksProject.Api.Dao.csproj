@@ -115,7 +115,10 @@
     <Compile Include="Emails\Mailers\UserMailer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IAuthRepository.cs" />
+    <Compile Include="Repositories\ICountryRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\IProfileRepository.cs" />
+    <Compile Include="Repositories\IWishRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GiftKnacksProject.Api.Dto\GiftKnacksProject.Api.Dto.csproj">

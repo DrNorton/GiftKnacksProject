@@ -84,12 +84,9 @@
       <DependentUpon>EfModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Base\GenericRepository.cs" />
-    <Compile Include="Base\IProfileRepository.cs" />
     <Compile Include="Profile.cs">
       <DependentUpon>EfModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Base\ICountryRepository.cs" />
-    <Compile Include="Base\IWishRepository.cs" />
     <Compile Include="Repositories\ProfileRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\WishRepository.cs" />

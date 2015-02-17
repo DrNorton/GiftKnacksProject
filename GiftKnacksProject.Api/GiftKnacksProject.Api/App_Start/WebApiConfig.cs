@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.Filters;
 using Castle.Windsor;
 using GiftKnacksProject.Api;
 using Newtonsoft.Json.Converters;
@@ -30,6 +34,16 @@ namespace FamilyTasks.Api
 
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+            System.Web.Http.GlobalConfiguration.Configuration.Filters.Add(new ExceptionHandler());
+        }
+    }
+
+    public class ExceptionHandler : ExceptionFilterAttribute
+    {
+        public override void OnException(HttpActionExecutedContext context)
+        {
+            //return new ApiResult(Request, errorCode, result.ToString(), null);
+         
         }
     }
 }
