@@ -116,13 +116,13 @@ app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countr
 	$scope.hoveringOver = function ( value ) {
 		$scope.firstAppearance = false;
 		$scope.overEmergency = value;
-		$scope.percent = 100 * ( value / 10 );
+		$scope.percent = Math.round(100 * ( value / 20 ));
 	};
 	//#endregion
 
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
-		if ( isValid && enoughData ) {
+		if ( isValid && $scope.enoughData ) {
 			wishAndGiftService.addWish( $scope.wish ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
 					$scope.savedSuccessfully = true;
@@ -146,6 +146,89 @@ app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countr
 
 /**
  * @ngdoc function
+ * @name giftknacksApp.controller:GiftFormCtrl
+ * @description
+ * # Контроллер создания нового гифта
+ * Controller of the giftknacksApp
+ */
+app.controller( 'GiftFormCtrl', ['$scope', 'authService', 'initialData', 'countries', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, countries, commonService, wishAndGiftService ) {
+	$scope.enoughData = authService.authentication.isFilled;
+	$scope.savedSuccessfully = false;
+	$scope.message = "";
+	$scope.wasSubmitted = false;
+	$scope.firstAppearance = true;
+	$scope.countries = [];
+	$scope.cityOptions = {};
+	$scope.getCountryError = false;
+	$scope.gift = {};
+
+
+	//если начальные данные для виша получены
+	if ( initialData.data && !initialData.data.ErrorCode ) {
+		$scope.gift = initialData.data.Result;
+		$scope.cityOptions.country = $scope.gift.Country ? $scope.gift.Country.Code : '';
+		$scope.cityOptions.types = $scope.gift.Country ? '(cities)' : '';
+
+	}
+	//#region получение стран и городов
+	$scope.countryFromTypehead = !!$scope.gift.Country;
+
+	if ( countries.data && !countries.data.ErrorCode ) {
+		$scope.countries = countries.data.Result;
+	} else {
+		//TODO: log error
+		$scope.getCountryError = true;
+	}
+	//изменения в input страны
+	$scope.countryChange = function () {
+		$scope.gift.City = '';
+		$scope.gift.Country.Code = '';
+		$scope.countryFromTypehead = false;
+	}
+	//выбор страны из списка
+	$scope.countrySelect = function ( $item, $model, $label ) {
+		$scope.countryFromTypehead = true;
+		$scope.gift.Country.Code = $item.Code;
+		$scope.cityOptions = {
+			types: '(cities)',
+			country: $item.Code
+		}
+	}
+
+	$scope.getCountries = function ( term ) {
+
+		var filterCountries = $scope.countries.filter( function ( value ) {
+			return value.Name.toLowerCase().startsWith( term.toLowerCase() );
+		} );
+		return filterCountries
+	}
+	//#endregion
+
+
+	$scope.submit = function ( isValid ) {
+		$scope.wasSubmitted = true;
+		if ( isValid && $scope.enoughData ) {
+			wishAndGiftService.addGift( $scope.gift ).then( function ( response ) {
+				if ( response.data && !response.data.ErrorCode ) {
+					$scope.savedSuccessfully = true;
+					$scope.message = "Gift has been added successfully.";
+				} else {
+					$scope.savedSuccessfully = false;
+					$scope.message = response.data.ErrorMessage;
+				}
+			}, function ( response ) {
+				$scope.savedSuccessfully = false;
+				$scope.message = "Failed to add gift due to: " + commonService.displayError();
+			} );
+		}
+	};
+	$scope.reset = function () {
+		$scope.wasSubmitted = false;
+	};
+}] );
+
+/**
+ * @ngdoc function
  * @name giftknacksApp.controller:ProfileCtrl
  * @description
  * # Контроллер профиля
@@ -160,7 +243,6 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.passwordMessage = "";
 	$scope.profileMessage = "";
 	$scope.profileGetMessage = "";
-	$scope.openBio = false;
 	$scope.newContact = 'new';
 	$scope.countries = [];
 	$scope.cityOptions = {};

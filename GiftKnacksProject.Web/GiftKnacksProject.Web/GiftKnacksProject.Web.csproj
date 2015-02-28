@@ -996,6 +996,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="templates\giftform.html" />
     <Content Include="templates\wishform.html" />
     <Content Include="templates\email.html" />
     <Content Include="templates\profile.html" />

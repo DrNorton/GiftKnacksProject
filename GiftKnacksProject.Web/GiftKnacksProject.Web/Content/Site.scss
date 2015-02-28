@@ -140,6 +140,9 @@ textarea {
     resize: none;
 }
 .block-bio {
+		.control-label {
+				text-align:left;
+		}
 		margin-top: 50px;
 }
 
@@ -166,4 +169,8 @@ textarea {
 }
 .emergency-rating{
 		outline:none;
+}
+.emergency-label{
+padding: .2em .3em .3em;
+
 }
