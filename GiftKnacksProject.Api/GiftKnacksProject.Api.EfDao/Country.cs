@@ -18,6 +18,7 @@ namespace GiftKnacksProject.Api.EfDao
         {
             this.Profiles = new HashSet<Profile>();
             this.Wishes = new HashSet<Wish>();
+            this.Gifts = new HashSet<Gift>();
         }
     
         public string Id { get; set; }
@@ -25,5 +26,6 @@ namespace GiftKnacksProject.Api.EfDao
     
         public virtual ICollection<Profile> Profiles { get; set; }
         public virtual ICollection<Wish> Wishes { get; set; }
+        public virtual ICollection<Gift> Gifts { get; set; }
     }
 }

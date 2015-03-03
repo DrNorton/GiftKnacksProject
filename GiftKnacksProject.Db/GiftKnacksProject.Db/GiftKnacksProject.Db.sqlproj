@@ -67,11 +67,9 @@
     <Build Include="Countries.sql" />
     <Build Include="Wishes.sql" />
     <Build Include="WishCategories.sql" />
+    <Build Include="Gifts.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="GiftKnacksProject.Db.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
-    <PostDeploy Include="Scripts\InsertWishCategories.sql" />
   </ItemGroup>
 </Project>

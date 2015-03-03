@@ -4,7 +4,7 @@
 		link: function ( scope, $elm, attr ) {
 			$( function () {
 				if ( attr.setMask ) {
-					$elm.inputmask( { "mask": attr.setMask, "repeat": attr.maskGreedy ? '*' : false, "greedy": !attr.maskGreedy } );
+				    $elm.inputmask({ "mask": attr.setMask, "clearIncomplete": true, "repeat": attr.maskGreedy ? '*' : false, "greedy": !attr.maskGreedy });
 				}
 			} );
 		}

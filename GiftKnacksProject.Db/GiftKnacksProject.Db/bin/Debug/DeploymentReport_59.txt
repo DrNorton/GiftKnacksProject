@@ -1,0 +1,21 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       [dbo].[Gifts]
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Table rebuild
+       [dbo].[Gifts] (Table)
+
+** Supporting actions
+     Drop
+       [dbo].[FK_Gifts_Countries] (Foreign Key)
+       [dbo].[FK_Gifts_Users] (Foreign Key)
+     Create
+       [dbo].[FK_Gifts_Countries] (Foreign Key)
+       [dbo].[FK_Gifts_Users] (Foreign Key)

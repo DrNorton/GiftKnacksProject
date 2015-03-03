@@ -17,6 +17,7 @@ namespace GiftKnacksProject.Api.EfDao
         public User()
         {
             this.Wishes = new HashSet<Wish>();
+            this.Gifts = new HashSet<Gift>();
         }
     
         public long Id { get; set; }
@@ -28,5 +29,6 @@ namespace GiftKnacksProject.Api.EfDao
     
         public virtual Profile Profile { get; set; }
         public virtual ICollection<Wish> Wishes { get; set; }
+        public virtual ICollection<Gift> Gifts { get; set; }
     }
 }

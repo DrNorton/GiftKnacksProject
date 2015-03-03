@@ -29,6 +29,21 @@
           <Property Name="Id" Type="nvarchar" MaxLength="2" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
         </EntityType>
+        <EntityType Name="Gifts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="2" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="150" />
+          <Property Name="Location" Type="nvarchar" MaxLength="150" />
+          <Property Name="FromDate" Type="datetime" />
+          <Property Name="ToDate" Type="datetime" />
+          <Property Name="Benefit" Type="nvarchar" MaxLength="150" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="Profiles">
           <Key>
             <PropertyRef Name="Id" />
@@ -91,6 +106,30 @@
             </Principal>
             <Dependent Role="Contacts">
               <PropertyRef Name="ContactTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gifts_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Gifts" Type="Self.Gifts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gifts">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gifts_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Gifts" Type="Self.Gifts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gifts">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -170,6 +209,7 @@
           <EntitySet Name="Contacts" EntityType="Self.Contacts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactTypes" EntityType="Self.ContactTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gifts" EntityType="Self.Gifts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WishCategories" EntityType="Self.WishCategories" Schema="dbo" store:Type="Tables" />
@@ -177,6 +217,14 @@
           <AssociationSet Name="FK_ContactsTypes_ToContacts" Association="Self.FK_ContactsTypes_ToContacts">
             <End Role="ContactTypes" EntitySet="ContactTypes" />
             <End Role="Contacts" EntitySet="Contacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gifts_Countries" Association="Self.FK_Gifts_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Gifts" EntitySet="Gifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gifts_Users" Association="Self.FK_Gifts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Gifts" EntitySet="Gifts" />
           </AssociationSet>
           <AssociationSet Name="FK_Profiles_Countries" Association="Self.FK_Profiles_Countries">
             <End Role="Countries" EntitySet="Countries" />
@@ -243,7 +291,16 @@
             <End Role="WishCategory" EntitySet="WishCategories" />
             <End Role="Wish" EntitySet="Wishes" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="Gifts" EntityType="GiftKnacks_dbModel.Gift" />
+          <AssociationSet Name="FK_Gifts_Countries" Association="GiftKnacks_dbModel.FK_Gifts_Countries">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="Gift" EntitySet="Gifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gifts_Users" Association="GiftKnacks_dbModel.FK_Gifts_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Gift" EntitySet="Gifts" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="Id" />
@@ -295,6 +352,7 @@
           <Property Name="EmailStamp" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Profile" Relationship="GiftKnacks_dbModel.FK_Profiles_USERS" FromRole="User" ToRole="Profile" />
           <NavigationProperty Name="Wishes" Relationship="GiftKnacks_dbModel.FK_Wishes_Users" FromRole="User" ToRole="Wish" />
+          <NavigationProperty Name="Gifts" Relationship="GiftKnacks_dbModel.FK_Gifts_Users" FromRole="User" ToRole="Gift" />
         </EntityType>
         <Association Name="FK_ContactsTypes_ToContacts">
           <End Type="GiftKnacks_dbModel.ContactType" Role="ContactType" Multiplicity="1" />
@@ -340,6 +398,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Profiles" Relationship="GiftKnacks_dbModel.FK_Profiles_Countries" FromRole="Country" ToRole="Profile" />
           <NavigationProperty Name="Wishes" Relationship="GiftKnacks_dbModel.FK_Wishes_Countries" FromRole="Country" ToRole="Wish" />
+          <NavigationProperty Name="Gifts" Relationship="GiftKnacks_dbModel.FK_Gifts_Countries" FromRole="Country" ToRole="Gift" />
         </EntityType>
         <Association Name="FK_Profiles_Countries">
           <End Type="GiftKnacks_dbModel.Country" Role="Country" Multiplicity="0..1" />
@@ -416,6 +475,47 @@
             </Principal>
             <Dependent Role="Wish">
               <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Gift">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
+          <Property Name="Benefit" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Country1" Relationship="GiftKnacks_dbModel.FK_Gifts_Countries" FromRole="Gift" ToRole="Country" />
+          <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_Gifts_Users" FromRole="Gift" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Gifts_Countries">
+          <End Type="GiftKnacks_dbModel.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="GiftKnacks_dbModel.Gift" Role="Gift" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gift">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gifts_Users">
+          <End Type="GiftKnacks_dbModel.User" Role="User" Multiplicity="1" />
+          <End Type="GiftKnacks_dbModel.Gift" Role="Gift" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Gift">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -503,6 +603,22 @@
                 <ScalarProperty Name="FromDate" ColumnName="FromDate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gifts">
+            <EntityTypeMapping TypeName="GiftKnacks_dbModel.Gift">
+              <MappingFragment StoreEntitySet="Gifts">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Benefit" ColumnName="Benefit" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
