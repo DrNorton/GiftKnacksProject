@@ -61,9 +61,9 @@
 			<label class="col-lg-3 control-label">Emergency:</label>
 			<div class="col-lg-8">
 				<div class="list-group-item">
-					<rating ng-model="wish.Emergency" class="emergency-rating" name="emergency" max="10" state-off="'glyphicon-unchecked'" state-on="'glyphicon-expand'" on-hover="hoveringOver( value )" on-leave="overEmergency=0"></rating>
-					<span class="label" ng-class="{'label-success': percent<30, 'label-warning': percent>=30 && percent<70, 'label-danger': percent>=70}" ng-show="overEmergency" ng-hide="wish.Emergency||firstAppearance">{{percent}}%</span>
-					<span class="label" ng-class="{'label-success': wish.Emergency<3, 'label-warning': wish.Emergency>=3 && wish.Emergency<7, 'label-danger': wish.Emergency>=7}" ng-show="wish.Emergency" ng-hide="overEmergency">{{wish.Emergency*10}}%</span>
+					<rating ng-model="wish.Emergency" class="emergency-rating" name="emergency" max="20" state-off="'glyphicon-unchecked'" state-on="'glyphicon-expand'" on-hover="hoveringOver( value )" on-leave="overEmergency=0"></rating>
+					<span class="label emergency-label" ng-class="{'label-success': percent<30, 'label-warning': percent>=30 && percent<70, 'label-danger': percent>=70}" ng-show="overEmergency" ng-hide="wish.Emergency||firstAppearance">{{percent}}%</span>
+					<span class="label emergency-label" ng-class="{'label-success': wish.Emergency<6, 'label-warning': wish.Emergency>=6 && wish.Emergency<14, 'label-danger': wish.Emergency>=14}" ng-show="wish.Emergency" ng-hide="overEmergency">{{wish.Emergency*5}}%</span>
 				</div>
 			</div>
 
@@ -71,7 +71,7 @@
 		<div class="form-group">
 			<label class="col-lg-3 control-label">Gifter benefit:</label>
 			<div class="col-lg-8">
-				<input type="text" class="form-control" name="benefit" placeholder="Gifter benefit" data-ng-model="wish.Benefit" />
+				<input type="text" class="form-control" name="benefit" placeholder="please fill this gap if you want to thank the Gifter" data-ng-model="wish.Benefit" />
 			</div>
 		</div>
 	</div>

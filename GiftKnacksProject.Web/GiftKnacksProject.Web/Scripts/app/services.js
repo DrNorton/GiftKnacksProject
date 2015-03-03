@@ -155,10 +155,22 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 			return response;
 		} );
 	};
+	var _getEmptyGift = function () {
+		return $http.post( serviceBase + 'api/wish/getemptygift' ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _addGift = function ( gift ) {
+		return $http.post( serviceBase + 'api/wish/addgift', gift ).then( function ( response ) {
+			return response;
+		} );
+	};
 
 	var wishAndGiftServiceFactory = {
 		getEmptyWish: _getEmptyWish,
-		addWish: _addWish
+		addWish: _addWish,
+		getEmptyGift: _getEmptyGift,
+		addGift: _addGift
 	};
 	return wishAndGiftServiceFactory;
 }] );

@@ -93,6 +93,8 @@ textarea {
 
 .block-bio {
   margin-top: 50px; }
+  .block-bio .control-label {
+    text-align: left; }
 
 .header-inline {
   float: left; }
@@ -113,5 +115,8 @@ textarea {
 
 .emergency-rating {
   outline: none; }
+
+.emergency-label {
+  padding: 0.2em 0.3em 0.3em; }
 
 /*# sourceMappingURL=Site.css.map */

@@ -63,6 +63,18 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 					}]
 				}
 			} )
+				.when( "/giftform", {
+					controller: "GiftFormCtrl",
+					templateUrl: "/templates/giftform.html",
+					resolve: {
+						initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
+							return wishAndGiftService.getEmptyGift();
+						}],
+						countries: ['geoService', function ( geoService ) {
+							return geoService.getCountry();
+						}]
+					}
+				} )
 			.when( "/profile", {
 				controller: "ProfileCtrl",
 				templateUrl: "/templates/profile.html",
