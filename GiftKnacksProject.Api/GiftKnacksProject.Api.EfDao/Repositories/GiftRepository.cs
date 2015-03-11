@@ -57,5 +57,11 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             
             base.Save();
         }
+
+
+        public Task<IEnumerable<GiftDto>> GetGift(GiftFilterDto filter)
+        {
+           
+        }
     }
 }

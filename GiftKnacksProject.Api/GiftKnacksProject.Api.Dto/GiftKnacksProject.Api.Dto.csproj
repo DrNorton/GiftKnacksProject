@@ -62,6 +62,7 @@
     <Compile Include="Dtos\CountryDto.cs" />
     <Compile Include="Dtos\Gifts\EmptyGiftDto.cs" />
     <Compile Include="Dtos\Gifts\GiftDto.cs" />
+    <Compile Include="Dtos\Gifts\GiftFilterDto.cs" />
     <Compile Include="Dtos\ImageDto.cs" />
     <Compile Include="Dtos\ProfileDto.cs" />
     <Compile Include="Dtos\Wishes\EmptyWishDto.cs" />

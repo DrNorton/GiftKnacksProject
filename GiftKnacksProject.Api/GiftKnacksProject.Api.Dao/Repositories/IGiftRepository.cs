@@ -9,5 +9,6 @@ namespace GiftKnacksProject.Api.Dao.Repositories
         Task<IEnumerable<GiftDto>> GetUserGifts(long userId);
         Task<EmptyGiftDto> GetEmptyDtoWithAdditionalInfo(long userId);
         void AddGift(long userId, GiftDto gift);
+        Task<IEnumerable<GiftDto>> GetGift(GiftFilterDto filter);
     }
 }

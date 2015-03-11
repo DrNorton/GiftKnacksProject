@@ -23,6 +23,12 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             _giftRepository = giftRepository;
         }
 
+        public async Task<IHttpActionResult> Get(GiftFilterDto filter)
+        {
+            await _giftRepository.GetGift(filter);
+            return EmptyApiResult();
+        }
+
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("GetEmptyGift")]
         [System.Web.Http.HttpPost]
