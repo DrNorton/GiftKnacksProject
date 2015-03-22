@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar'] )
+var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar', 'infinite-scroll'] )
   .config( ['$routeProvider', '$httpProvider', function ( $routeProvider, $httpProvider ) {
   	$routeProvider
       .when( '/landing', {
@@ -81,6 +81,18 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 				resolve: {
 					initialData: ['profileService', function ( profileService ) {
 						return profileService.getPtofile();
+					}],
+					countries: ['geoService', function ( geoService ) {
+						return geoService.getCountry();
+					}]
+				}
+			} )
+			.when( "/search", {
+				controller: "SearchCtrl",
+				templateUrl: "/templates/search.html",
+				resolve: {
+					initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.getGifts( {Offset:0,Length:20});
 					}],
 					countries: ['geoService', function ( geoService ) {
 						return geoService.getCountry();

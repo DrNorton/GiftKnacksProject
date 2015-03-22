@@ -47,6 +47,73 @@ app.controller( 'DashboardCtrl', ['$scope','authService', function ( $scope, aut
 }] );
 /**
  * @ngdoc function
+ * @name giftknacksApp.controller:SearchCtrl
+ * @description
+ * # Контроллер страницы поиска
+ * Controller of the giftknacksApp
+ */
+app.controller( 'SearchCtrl', ['$scope', 'authService', 'initialData', 'countries', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, countries, commonService, wishAndGiftService ) {
+	$scope.enoughData = authService.authentication.isFilled;
+	$scope.countries = [];
+	$scope.getCountryError = false;
+	$scope.wasSubmittedGift = false;
+	$scope.wasSubmittedWish = false;
+	$scope.queryGift = { busy: false, Offset: 0, Length: 20 };
+	$scope.queryWish = { busy: false, Offset: -50, Length: 20 };
+	$scope.listGift = {};
+	$scope.listWish = {};
+	//laze load
+	$scope.loadGifts = function (offset) {
+		$scope.queryGift.busy = true;
+		$scope.queryGift.Offset = offset || $scope.queryGift.Offset + $scope.queryGift.Length;
+		wishAndGiftService.getGifts( $scope.queryGift ).then( function ( response ) {
+			$scope.queryGift.busy = false;
+			if ( response.data && !response.data.ErrorCode ) {
+				$scope.listGift=$scope.listGift.concat( response.data.Result );
+			} else {
+				$scope.listGift=$scope.listGift.concat({ Name: response.data.ErrorMessage });
+			}
+		}, function ( response ) {
+			$scope.listGift=$scope.listGift.concat({ Name: "Failed to search gifts due to: " + commonService.displayError() });
+			$scope.queryGift.busy = false;
+		} );
+	};
+	//если начальные данные для виша получены
+	if ( initialData.data && !initialData.data.ErrorCode ) {
+		$scope.listGift = initialData.data.Result;
+	}
+	//#region получение стран и городов
+	if ( countries.data && !countries.data.ErrorCode ) {
+		$scope.countries = countries.data.Result;
+	} else {
+		//TODO: log error
+		$scope.getCountryError = true;
+	}
+
+	$scope.getCountries = function ( term ) {
+
+		var filterCountries = $scope.countries.filter( function ( value ) {
+			return value.Name.toLowerCase().startsWith( term.toLowerCase() );
+		} );
+		return filterCountries
+	}
+	//#endregion
+
+	$scope.submitGift = function ( isValid ) {
+		$scope.wasSubmittedGift = true;
+		if ( isValid && $scope.enoughData ) {
+			loadGifts(0);
+		}
+	};
+	$scope.resetGift = function () {
+		$scope.wasSubmittedGift = false;
+	};
+	$scope.resetWish = function () {
+		$scope.wasSubmittedWish = false;
+	};
+}] );
+/**
+ * @ngdoc function
  * @name giftknacksApp.controller:WishFormCtrl
  * @description
  * # Контроллер создания нового виша

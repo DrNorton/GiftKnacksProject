@@ -981,6 +981,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\loading-bar.css" />
     <Content Include="Scripts\vendors\fileinput.js" />
+    <Content Include="Scripts\vendors\infinite-scroll.min.js" />
     <Content Include="Scripts\vendors\inputmask\jquery.inputmask.date.extensions.js" />
     <Content Include="Scripts\vendors\inputmask\jquery.inputmask.extensions.js" />
     <Content Include="Scripts\vendors\inputmask\jquery.inputmask.js" />
@@ -996,6 +997,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="templates\search.html" />
     <Content Include="templates\giftform.html" />
     <Content Include="templates\wishform.html" />
     <Content Include="templates\email.html" />
