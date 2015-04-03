@@ -62,16 +62,16 @@ app.controller( 'SearchCtrl', ['$scope', 'authService', 'initialData', 'countrie
 	$scope.queryWish = { busy: false, Offset: -50, Length: 20 };
 	$scope.listGift = {};
 	$scope.listWish = {};
-	//laze load
-	$scope.loadGifts = function (offset) {
+	//lazy load
+	$scope.loadGifts = function (offset, newSearch) {
 		$scope.queryGift.busy = true;
-		$scope.queryGift.Offset = offset || $scope.queryGift.Offset + $scope.queryGift.Length;
+		$scope.queryGift.Offset = typeof offset == "undefined" ? ( $scope.queryGift.Offset + $scope.queryGift.Length ) : offset;
 		wishAndGiftService.getGifts( $scope.queryGift ).then( function ( response ) {
 			$scope.queryGift.busy = false;
 			if ( response.data && !response.data.ErrorCode ) {
-				$scope.listGift=$scope.listGift.concat( response.data.Result );
+				$scope.listGift = newSearch?response.data.Result: $scope.listGift.concat( response.data.Result );
 			} else {
-				$scope.listGift=$scope.listGift.concat({ Name: response.data.ErrorMessage });
+				$scope.listGift=newSearch?{ Name: response.data.ErrorMessage }:$scope.listGift.concat({ Name: response.data.ErrorMessage });
 			}
 		}, function ( response ) {
 			$scope.listGift=$scope.listGift.concat({ Name: "Failed to search gifts due to: " + commonService.displayError() });
@@ -102,7 +102,7 @@ app.controller( 'SearchCtrl', ['$scope', 'authService', 'initialData', 'countrie
 	$scope.submitGift = function ( isValid ) {
 		$scope.wasSubmittedGift = true;
 		if ( isValid && $scope.enoughData ) {
-			loadGifts(0);
+			$scope.loadGifts(0, true);
 		}
 	};
 	$scope.resetGift = function () {
