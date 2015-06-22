@@ -997,8 +997,10 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="templates\search.html" />
+    <Content Include="templates\findwish.html" />
+    <Content Include="templates\findgift.html" />
     <Content Include="templates\giftform.html" />
+    <Content Include="templates\itemcard.html" />
     <Content Include="templates\wishform.html" />
     <Content Include="templates\email.html" />
     <Content Include="templates\profile.html" />

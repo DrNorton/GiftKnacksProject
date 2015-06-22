@@ -47,41 +47,102 @@ app.controller( 'DashboardCtrl', ['$scope','authService', function ( $scope, aut
 }] );
 /**
  * @ngdoc function
- * @name giftknacksApp.controller:SearchCtrl
+ * @name giftknacksApp.controller:FindWishCtrl
  * @description
- * # Контроллер страницы поиска
+ * # Контроллер страницы поиска вишей
  * Controller of the giftknacksApp
  */
-app.controller( 'SearchCtrl', ['$scope', 'authService', 'initialData', 'countries', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, countries, commonService, wishAndGiftService ) {
+app.controller( 'FindWishCtrl', ['$scope', 'authService', /*'initialData',*/ 'countries', 'commonService', 'wishAndGiftService', function ( $scope, authService, /*initialData,*/ countries, commonService, wishAndGiftService ) {
+	$scope.enoughData = authService.authentication.isFilled;
+	$scope.countries = [];
+	$scope.getCountryError = false;
+	$scope.wasSubmittedWish = false;
+	$scope.queryWish = { busy: false, Offset: -20, Length: 20 };
+	$scope.listWish = [];
+	//lazy load
+
+	$scope.loadWishes = function ( offset, newSearch ) {
+		$scope.queryWish.busy = true;
+		$scope.queryWish.Offset = typeof offset == "undefined" ? ( $scope.queryWish.Offset + $scope.queryWish.Length ) : offset;
+		wishAndGiftService.getWishes( $scope.queryWish ).then( function ( response ) {
+			$scope.queryWish.busy = false;
+			if ( response.data && !response.data.ErrorCode ) {
+				$scope.listWish = newSearch ? response.data.Result : $scope.listWish.concat( response.data.Result );
+			} else {
+				$scope.listWish = newSearch ? { Name: response.data.ErrorMessage } : $scope.listWish.concat( { Name: response.data.ErrorMessage } );
+			}
+		}, function ( response ) {
+			$scope.listWish = $scope.listWish.concat( { Name: "Failed to search wishes due to: " + commonService.displayError() } );
+			$scope.queryWish.busy = false;
+		} );
+	};
+	//если начальные данные для виша получены
+	/*if ( initialData.data && !initialData.data.ErrorCode ) {
+		$scope.listGift = initialData.data.Result;
+	}*/
+	//#region получение стран и городов
+	if ( countries.data && !countries.data.ErrorCode ) {
+		$scope.countries = countries.data.Result;
+	} else {
+		//TODO: log error
+		$scope.getCountryError = true;
+	}
+
+	$scope.getCountries = function ( term ) {
+
+		var filterCountries = $scope.countries.filter( function ( value ) {
+			return value.Name.toLowerCase().startsWith( term.toLowerCase() );
+		} );
+		return filterCountries
+	}
+	//#endregion
+
+	$scope.submitWish = function ( isValid ) {
+		$scope.wasSubmittedWish = true;
+		if ( isValid && $scope.enoughData ) {
+			$scope.loadWishes( 0, true );
+		}
+	};
+
+	$scope.resetWish = function () {
+		$scope.wasSubmittedWish = false;
+	};
+}] );
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:FindGiftCtrl
+ * @description
+ * # Контроллер страницы поиска гифтов
+ * Controller of the giftknacksApp
+ */
+app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'countries', 'commonService', 'wishAndGiftService', function ( $scope, authService, /*initialData,*/ countries, commonService, wishAndGiftService ) {
 	$scope.enoughData = authService.authentication.isFilled;
 	$scope.countries = [];
 	$scope.getCountryError = false;
 	$scope.wasSubmittedGift = false;
-	$scope.wasSubmittedWish = false;
-	$scope.queryGift = { busy: false, Offset: 0, Length: 20 };
-	$scope.queryWish = { busy: false, Offset: -50, Length: 20 };
-	$scope.listGift = {};
-	$scope.listWish = {};
+	$scope.queryGift = { busy: false, Offset: -20, Length: 20 };
+	$scope.listGift = [];
 	//lazy load
-	$scope.loadGifts = function (offset, newSearch) {
+	$scope.loadGifts = function ( offset, newSearch ) {
 		$scope.queryGift.busy = true;
 		$scope.queryGift.Offset = typeof offset == "undefined" ? ( $scope.queryGift.Offset + $scope.queryGift.Length ) : offset;
 		wishAndGiftService.getGifts( $scope.queryGift ).then( function ( response ) {
 			$scope.queryGift.busy = false;
 			if ( response.data && !response.data.ErrorCode ) {
-				$scope.listGift = newSearch?response.data.Result: $scope.listGift.concat( response.data.Result );
+				$scope.listGift = newSearch ? response.data.Result : $scope.listGift.concat( response.data.Result );
 			} else {
-				$scope.listGift=newSearch?{ Name: response.data.ErrorMessage }:$scope.listGift.concat({ Name: response.data.ErrorMessage });
+				$scope.listGift = newSearch ? { Name: response.data.ErrorMessage } : $scope.listGift.concat( { Name: response.data.ErrorMessage } );
 			}
 		}, function ( response ) {
-			$scope.listGift=$scope.listGift.concat({ Name: "Failed to search gifts due to: " + commonService.displayError() });
+			$scope.listGift = $scope.listGift.concat( { Name: "Failed to search gifts due to: " + commonService.displayError() } );
 			$scope.queryGift.busy = false;
 		} );
 	};
+
 	//если начальные данные для виша получены
-	if ( initialData.data && !initialData.data.ErrorCode ) {
+	/*if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.listGift = initialData.data.Result;
-	}
+	}*/
 	//#region получение стран и городов
 	if ( countries.data && !countries.data.ErrorCode ) {
 		$scope.countries = countries.data.Result;
@@ -102,16 +163,29 @@ app.controller( 'SearchCtrl', ['$scope', 'authService', 'initialData', 'countrie
 	$scope.submitGift = function ( isValid ) {
 		$scope.wasSubmittedGift = true;
 		if ( isValid && $scope.enoughData ) {
-			$scope.loadGifts(0, true);
+			$scope.loadGifts( 0, true );
 		}
 	};
 	$scope.resetGift = function () {
 		$scope.wasSubmittedGift = false;
 	};
-	$scope.resetWish = function () {
-		$scope.wasSubmittedWish = false;
-	};
 }] );
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:ItemCardCtrl
+ * @description
+ * # Контроллер страницы информации о гифте или више
+ * Controller of the giftknacksApp
+ */
+app.controller( 'ItemCardCtrl', ['$scope', 'authService', 'initialData', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, commonService, wishAndGiftService ) {
+	$scope.enoughData = authService.authentication.isFilled;
+
+	if ( initialData.data && !initialData.data.ErrorCode ) {
+		$scope.item = initialData.data.Result;
+	}
+
+}] );
+
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:WishFormCtrl

@@ -1,9 +1,14 @@
 ﻿<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="#/profile" class="alert-link">profile.</a></div>
-<tabset type="pills" class="search-tabs">
-	<tab heading="Find Gift">
-		<div class="search-list col-md-8" infinite-scroll='loadGifts()' infinite-scroll-disabled='queryGift.busy' infinite-scroll-distance='1'>
-			<div ng-repeat="gift in listGift">
-				{{gift.Name}}
+	<div class="col-md-12"><h2 class="find-gift-heading">Find gift</h2></div>
+<div class="search-list col-md-8" infinite-scroll='loadGifts()' infinite-scroll-disabled='queryGift.busy' infinite-scroll-distance='1'>
+			<div ng-repeat="gift in listGift" class="list-group">
+				<a href="#/item/1" target="_blank" class="list-group-item">
+					<div class="search-item">
+						<h4 class="list-group-item-heading">{{gift.Name}}</h4>
+						<p class="list-group-item-text">{{gift.City}}</p>
+						<p class="list-group-item-text"><span ng-if="gift.FromDate">From {{gift.FromDate}} </span><span ng-if="gift.ToDate">to {{gift.ToDate}}</span></p>
+					</div>
+				</a>
 			</div>
 		</div>
 		<div class="filters col-md-4">
@@ -43,8 +48,6 @@
 					<button class="btn btn-md btn-primary" type="reset" data-ng-click="resetGift()">Clear</button>
 				</div>
 			</form>
-</div>
-	</tab>
-	<tab heading="Find Wish">Wish Form</tab>
-</tabset>
+		</div>
+
 

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "KnacksGifter";
+	ViewBag.Title = "KnacksGifter";
 }
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="RootCtrl" ng-cloak class="ng-cloak">
 	<div class="container">
@@ -14,7 +14,13 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li ng-show="authentication.isAuth"> <a href="#/wishform">Create new wish</a></li>
 				<li ng-show="authentication.isAuth"> <a href="#/giftform">Create new gift</a></li>
-				<li ng-show="authentication.isAuth"> <a href="#/search">Search</a></li>
+				<li ng-show="authentication.isAuth" class="dropdown">
+					<a ng-href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Searching<span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#/findwish">Find wish</a></li>
+						<li><a href="#/findgift">Find gift</a></li>
+					</ul>
+				</li>
 				<li ng-show="authentication.isAuth" class="dropdown">
 					<a ng-href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">User menu<span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
