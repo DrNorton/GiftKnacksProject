@@ -20,7 +20,8 @@ namespace GiftKnacksProject.Web
 												"~/Scripts/vendors/fileinput.js",
 												"~/Scripts/vendors/angular-local-storage.js",
 												"~/Scripts/vendors/inputmask/jquery.inputmask.js",
-												"~/Scripts/vendors/inputmask/jquery.inputmask.date.extensions.js"));
+												"~/Scripts/vendors/inputmask/jquery.inputmask.date.extensions.js",
+												"~/Scripts/vendors/infinite-scroll.min.js"));
 
 						// Use the development version of Modernizr to develop with and learn from. Then, when you're
 						// ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

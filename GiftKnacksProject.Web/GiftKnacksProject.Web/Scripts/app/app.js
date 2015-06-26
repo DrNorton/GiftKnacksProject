@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar'] )
+var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar', 'infinite-scroll'] )
   .config( ['$routeProvider', '$httpProvider', function ( $routeProvider, $httpProvider ) {
   	$routeProvider
       .when( '/landing', {
@@ -87,6 +87,39 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 					}]
 				}
 			} )
+			.when( "/findgift", {
+				controller: "FindGiftCtrl",
+				templateUrl: "/templates/findgift.html",
+				resolve: {
+					/*initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.getGifts( {Offset:0,Length:20});
+					}],*/
+					countries: ['geoService', function ( geoService ) {
+						return geoService.getCountry();
+					}]
+				}
+			} )
+			.when( "/findwish", {
+				controller: "FindWishCtrl",
+				templateUrl: "/templates/findwish.html",
+				resolve: {
+					/*initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.getWishes( { Offset: 0, Length: 20 } );
+					}],*/
+					countries: ['geoService', function ( geoService ) {
+						return geoService.getCountry();
+					}]
+				}
+			} )
+				.when( "/item/:itemId", {
+					controller: "ItemCardCtrl",
+					templateUrl: "/templates/itemcard.html",
+					resolve: {
+						initialData: ['$route', 'wishAndGiftService', function ( $route, wishAndGiftService ) {
+							return wishAndGiftService.getItemById( $route.current.params.itemId );
+						}]
+					}
+				} )
       .otherwise( {
       	redirectTo: '/landing'
       } );

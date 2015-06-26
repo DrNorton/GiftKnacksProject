@@ -165,12 +165,34 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 			return response;
 		} );
 	};
+	var _getGifts = function ( query ) {
+		return $http.post( serviceBase + 'api/gift/get', query ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _getWishes = function ( query ) {
+		return $http.post( serviceBase + 'api/gift/get', query ).then( function ( response ) {//TODO: change to wish
+			return response;
+		} );
+	};
+	var _getItemById = function ( id ) {
+		var response = {
+			data: {
+				ErrorCode: 0,
+				Result:{Name:'Test Item'}
+			}
+		}
+		return response;
+	};
 
 	var wishAndGiftServiceFactory = {
 		getEmptyWish: _getEmptyWish,
 		addWish: _addWish,
 		getEmptyGift: _getEmptyGift,
-		addGift: _addGift
+		addGift: _addGift,
+		getGifts: _getGifts,
+		getWishes: _getWishes,
+		getItemById: _getItemById
 	};
 	return wishAndGiftServiceFactory;
 }] );
