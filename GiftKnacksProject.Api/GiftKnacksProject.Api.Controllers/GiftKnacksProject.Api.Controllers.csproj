@@ -183,6 +183,7 @@
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />
+    <Compile Include="Models\IdModel.cs" />
     <Compile Include="Models\RecoverPasswordModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\UserModel.cs" />

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using GiftKnacksProject.Api.Controllers.ApiResults;
+using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos;
 using GiftKnacksProject.Api.Dto.Dtos.Gifts;
@@ -27,11 +28,27 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         }
 
         //[System.Web.Http.Authorize]
+        [System.Web.Http.Route("Getall")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetAll(FilterDto filter)
+        {
+            var result=await _giftRepository.GetGifts(filter);
+            return SuccessApiResult(result);
+        }
+
         [System.Web.Http.Route("Get")]
         [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> Get(GiftFilterDto filter)
+        public async Task<IHttpActionResult> Get(IdModel id)
         {
-            var result=await _giftRepository.GetGift(filter);
+            if (id == null)
+            {
+                return ErrorApiResult(300, "Не передан id.Либо левый формат");
+            }
+            var result = await _giftRepository.GetGift(id.Id);
+            if (result == null)
+            {
+                return ErrorApiResult(300, "Не найден");
+            }
             return SuccessApiResult(result);
         }
 

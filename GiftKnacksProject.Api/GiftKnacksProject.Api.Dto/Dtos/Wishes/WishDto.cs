@@ -10,6 +10,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Wishes
 {
     public class WishDto
     {
+        public long Id { get; set; }
         public string Name { get; set; }
         public CountryDto Country { get; set; }
         public string City { get; set; }
@@ -24,6 +25,9 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Wishes
         public string Location { get; set; }
         public string ImageUrl { get; set; }
         public int Emergency { get; set; }
+
+        public CreatorDto Creator { get; set; }
+
          
     }
 }

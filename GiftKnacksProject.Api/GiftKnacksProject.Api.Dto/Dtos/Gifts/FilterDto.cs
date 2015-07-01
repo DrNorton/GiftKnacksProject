@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GiftKnacksProject.Api.Dto.Dtos.Gifts
 {
-    public class GiftFilterDto:PagingDto
+    public class FilterDto:PagingDto
     {
         public CountryDto Country { get; set; }
         public string City { get; set; }
