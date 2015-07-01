@@ -226,7 +226,10 @@
       <DependentUpon>Site.css</DependentUpon>
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="Properties\PublishProfiles\giftknack.pubxml" />
+    <None Include="Properties\PublishProfiles\giftknack - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\giftknack - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\GiftKnacksProject - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\GiftKnacksProject - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
