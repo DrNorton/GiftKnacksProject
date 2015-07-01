@@ -142,6 +142,7 @@ app.factory( "profileService", ['$http', function ( $http ) {
 	};
 	return profileServiceFactory;
 }] );
+
 app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
 
@@ -166,23 +167,27 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		} );
 	};
 	var _getGifts = function ( query ) {
-		return $http.post( serviceBase + 'api/gift/get', query ).then( function ( response ) {
+		return $http.post( serviceBase + 'api/gift/getall', query ).then( function ( response ) {
 			return response;
 		} );
 	};
 	var _getWishes = function ( query ) {
-		return $http.post( serviceBase + 'api/gift/get', query ).then( function ( response ) {//TODO: change to wish
+		return $http.post( serviceBase + 'api/wish/getall', query ).then( function ( response ) {
 			return response;
 		} );
 	};
-	var _getItemById = function ( id ) {
-		var response = {
-			data: {
-				ErrorCode: 0,
-				Result:{Name:'Test Item'}
-			}
-		}
-		return response;
+	var _getGiftById = function ( id ) {
+		return $http.post( serviceBase + 'api/gift/get', { 'id': id } ).then( function ( response ) {
+			return response;
+		} );
+
+	};
+
+	var _getWishById = function ( id ) {
+		return $http.post( serviceBase + 'api/wish/get', { 'id': id } ).then( function ( response ) {
+			return response;
+		} );
+
 	};
 
 	var wishAndGiftServiceFactory = {
@@ -192,7 +197,8 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		addGift: _addGift,
 		getGifts: _getGifts,
 		getWishes: _getWishes,
-		getItemById: _getItemById
+		getGiftById: _getGiftById,
+		getWishById: _getWishById
 	};
 	return wishAndGiftServiceFactory;
 }] );
