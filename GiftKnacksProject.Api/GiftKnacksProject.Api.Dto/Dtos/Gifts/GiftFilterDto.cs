@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GiftKnacksProject.Api.Dto.Dtos.Gifts
 {
-    public class GiftFilterDto
+    public class GiftFilterDto:PagingDto
     {
-        public string Country { get; set; }
+        public CountryDto Country { get; set; }
         public string City { get; set; }
-        public List<string> Keywoard { get; set; }
-        public string Category { get; set; }
-        public DateTime Time { get; set; }
+        public string Keyword { get; set; }
+        public DateTime? From { get; set; }
+        public DateTime? To { get; set; }
     }
 }
