@@ -122,4 +122,17 @@ textarea {
 .navbar-brand {
   padding: 5px 15px; }
 
+.item-card .emergency-bar {
+  display: inline-block; }
+  .item-card .emergency-bar .progress {
+    margin: 0;
+    height: 20px; }
+    .item-card .emergency-bar .progress .progress-bar {
+      font-size: 10px;
+      line-height: 20px; }
+.item-card .item-photo {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px; }
+
 /*# sourceMappingURL=Site.css.map */

@@ -113,7 +113,7 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 			} )
 				.when( "/gift/:itemId", {
 					controller: "ItemCardCtrl",
-					templateUrl: "/templates/itemcard.html",
+					templateUrl: "/templates/giftcard.html",
 					resolve: {
 						initialData: ['$route', 'wishAndGiftService', function ( $route, wishAndGiftService ) {
 							return wishAndGiftService.getGiftById( $route.current.params.itemId );
@@ -122,7 +122,7 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 				} )
 							.when( "/wish/:itemId", {
 								controller: "ItemCardCtrl",
-								templateUrl: "/templates/itemcard.html",
+								templateUrl: "/templates/wishcard.html",
 								resolve: {
 									initialData: ['$route', 'wishAndGiftService', function ( $route, wishAndGiftService ) {
 										return wishAndGiftService.getWishById( $route.current.params.itemId );

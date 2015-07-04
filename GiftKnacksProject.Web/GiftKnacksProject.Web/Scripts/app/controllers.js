@@ -14,14 +14,14 @@ app.controller( 'RootCtrl', ['$scope', '$location', 'authService', function ( $s
 	}
 
 	$scope.authentication = authService.authentication;
-	$scope.$on('$locationChangeStart', function (event, next, current) {
+	$scope.$on( '$locationChangeStart', function ( event, next, current ) {
 		if ( $scope.authentication.isAuth && next !== current && current.indexOf( 'profile' ) > -1 ) {
-			var answer = confirm('Are you sure you want to leave this page?');
-			if (!answer) {
+			var answer = confirm( 'Are you sure you want to leave this page?' );
+			if ( !answer ) {
 				event.preventDefault();
 			}
-		}    
-	});
+		}
+	} );
 }] );
 /**
  * @ngdoc function
@@ -42,7 +42,7 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
  * # Контроллер страницы с последней активностью пользователя
  * Controller of the giftknacksApp
  */
-app.controller( 'DashboardCtrl', ['$scope','authService', function ( $scope, authService ) {
+app.controller( 'DashboardCtrl', ['$scope', 'authService', function ( $scope, authService ) {
 	$scope.enoughData = authService.authentication.isFilled;
 }] );
 /**
@@ -180,8 +180,26 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 app.controller( 'ItemCardCtrl', ['$scope', 'authService', 'initialData', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, commonService, wishAndGiftService ) {
 	$scope.enoughData = authService.authentication.isFilled;
 
+
 	if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.item = initialData.data.Result;
+
+		//wish emergency
+		$scope.emergencyType = 'success';
+		$scope.percent = 0;
+		if ( $scope.item.Emergency ) {
+			$scope.percent = Math.round( 100 * ( $scope.item.Emergency / 20 ) );
+			if ( $scope.percent < 25 ) {
+				$scope.emergencyType = 'success';
+			} else if ( $scope.percent < 50 ) {
+				$scope.emergencyType = 'info';
+			} else if ( $scope.percent < 75 ) {
+				$scope.emergencyType = 'warning';
+			} else {
+				$scope.emergencyType = 'danger';
+			}
+		}
+
 	}
 
 }] );
@@ -217,7 +235,7 @@ app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countr
 		$scope.imageExist = !!$scope.wish.ImageUrl;
 		$scope.cityOptions.country = $scope.wish.Country ? $scope.wish.Country.Code : '';
 		$scope.cityOptions.types = $scope.wish.Country ? '(cities)' : '';
-		
+
 	}
 	//#region получение стран и городов
 	$scope.countryFromTypehead = !!$scope.wish.Country;
@@ -257,7 +275,7 @@ app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countr
 	$scope.hoveringOver = function ( value ) {
 		$scope.firstAppearance = false;
 		$scope.overEmergency = value;
-		$scope.percent = Math.round(100 * ( value / 20 ));
+		$scope.percent = Math.round( 100 * ( value / 20 ) );
 	};
 	//#endregion
 
@@ -375,7 +393,7 @@ app.controller( 'GiftFormCtrl', ['$scope', 'authService', 'initialData', 'countr
  * # Контроллер профиля
  * Controller of the giftknacksApp
  */
-app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService', 'profileService', 'initialData','countries', 'commonService', 'geoService', function ( $scope, $location, $timeout, authService, profileService, initialData,countries, commonService, geoService ) {
+app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService', 'profileService', 'initialData', 'countries', 'commonService', 'geoService', function ( $scope, $location, $timeout, authService, profileService, initialData, countries, commonService, geoService ) {
 	$scope.wasSubmitted = false;
 	$scope.wasChangePasswordSubmitted = false;
 	$scope.passwordSavedSuccessfully = false;
@@ -388,7 +406,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.countries = [];
 	$scope.cityOptions = {};
 	$scope.getCountryError = false;
-	
+
 	//password
 	$scope.passwordData = {
 		oldPassword: "",
@@ -406,17 +424,17 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		$scope.avatarExist = !!$scope.profile.AvatarUrl;
 		$scope.cityOptions.country = $scope.profile.Country ? $scope.profile.Country.Code : '';
 		$scope.cityOptions.types = $scope.profile.Country ? '(cities)' : '';
-		
+
 
 		//обработка массива контактов
 		for ( var i = 0; i < $scope.profile.Contacts.length; i++ ) {
-			var contact=$scope.profile.Contacts[i];
-			if (contact.MainContact) {
+			var contact = $scope.profile.Contacts[i];
+			if ( contact.MainContact ) {
 				$scope.profile.MainContact = contact.Name;
 			}
 			//удаление из списка всех контактов тех, которые уже есть
 			var index = $scope.profile.ContactTypes.indexOf( contact.Name );
-			if ( index>-1 ) {
+			if ( index > -1 ) {
 				$scope.profile.ContactTypes.splice( index, 1 );
 			}
 		}
@@ -452,9 +470,9 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	}
 
 	$scope.getCountries = function ( term ) {
-	
-		var filterCountries =  $scope.countries.filter( function ( value) {
-			return value.Name.toLowerCase().startsWith(term.toLowerCase());
+
+		var filterCountries = $scope.countries.filter( function ( value ) {
+			return value.Name.toLowerCase().startsWith( term.toLowerCase() );
 		} );
 		return filterCountries
 	}
@@ -481,7 +499,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		for ( var i = 0; i < $scope.profile.Contacts.length; i++ ) {
 			var contact = $scope.profile.Contacts[i];
 			if ( contact.Name === name ) {
-					setNewMain = contact.MainContact;
+				setNewMain = contact.MainContact;
 				$scope.profile.Contacts.splice( i, 1 );
 				break;
 			}
@@ -497,26 +515,26 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.changePassword = function ( isValid ) {
 		$scope.wasChangePasswordSubmitted = true;
 		if ( isValid ) {
-		authService.changePassword( $scope.passwordData ).then( function ( response ) {
-			if ( response.data && !response.data.ErrorCode ) {
-				$scope.passwordSavedSuccessfully = true;
-				$scope.wasChangePasswordSubmitted = false;
-				$scope.passwordData = {
-					oldPassword: "",
-					newPassword: "",
-					confirmNewPassword: ""
-				};
-				$scope.passwordMessage = "Password has been changed successfully.";
-			} else {
-				$scope.passwordSavedSuccessfully = false;
-				$scope.passwordMessage = response.data.ErrorMessage;
-			}
-		},
-		 function ( response ) {
-		 
-		 	$scope.passwordSavedSuccessfully = false;
-		 	$scope.passwordMessage = "Failed to change password user due to:" + msg;
-		 } );
+			authService.changePassword( $scope.passwordData ).then( function ( response ) {
+				if ( response.data && !response.data.ErrorCode ) {
+					$scope.passwordSavedSuccessfully = true;
+					$scope.wasChangePasswordSubmitted = false;
+					$scope.passwordData = {
+						oldPassword: "",
+						newPassword: "",
+						confirmNewPassword: ""
+					};
+					$scope.passwordMessage = "Password has been changed successfully.";
+				} else {
+					$scope.passwordSavedSuccessfully = false;
+					$scope.passwordMessage = response.data.ErrorMessage;
+				}
+			},
+			 function ( response ) {
+
+			 	$scope.passwordSavedSuccessfully = false;
+			 	$scope.passwordMessage = "Failed to change password user due to:" + msg;
+			 } );
 		}
 
 	};
@@ -589,7 +607,7 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 				$scope.message = "Failed to register user due to:" + commonService.displayError();
 			} );
 		}
-		
+
 	};
 
 	var startTimer = function () {
@@ -623,16 +641,16 @@ app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser
 	$scope.login = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if ( isValid ) {
-authService.login( $scope.loginData ).then( function ( response ) {
-			$location.url( $location.path() );
-			$location.path( '/dashboard' );
+			authService.login( $scope.loginData ).then( function ( response ) {
+				$location.url( $location.path() );
+				$location.path( '/dashboard' );
 
-		},
-		 function ( err ) {
-		 	$scope.message = err.error_description;
-		 } );
+			},
+					 function ( err ) {
+					 	$scope.message = err.error_description;
+					 } );
 		}
-		
+
 	};
 
 }] );
@@ -655,18 +673,18 @@ app.controller( 'ForgotPassCtrl', ['$scope', '$location', 'authService', functio
 
 	$scope.message = "";
 
-	$scope.sendReset = function (isValid) {
+	$scope.sendReset = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if ( isValid ) {
-		authService.sendReset( $scope.email ).then( function ( response ) {
-			$scope.sent = true;
-			$scope.message = 'We sent you a reset instructions to ' + $scope.email.email;
+			authService.sendReset( $scope.email ).then( function ( response ) {
+				$scope.sent = true;
+				$scope.message = 'We sent you a reset instructions to ' + $scope.email.email;
 
-		},
-		 function ( err ) {
-		 	$scope.sent = false;
-		 	$scope.message = err.error_description;
-		 } );
+			},
+			 function ( err ) {
+			 	$scope.sent = false;
+			 	$scope.message = err.error_description;
+			 } );
 		}
 
 	};
@@ -679,7 +697,7 @@ app.controller( 'ForgotPassCtrl', ['$scope', '$location', 'authService', functio
  * # Контроллер восстановления пароля
  * Controller of the giftknacksApp
  */
-app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout','$routeParams', 'authService', 'commonService', function ( $scope, $location, $timeout, $routeParams, authService, commonService ) {
+app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams', 'authService', 'commonService', function ( $scope, $location, $timeout, $routeParams, authService, commonService ) {
 	$scope.token = $routeParams.token;
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
@@ -698,21 +716,21 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout','$routeParams'
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if ( isValid ) {
-		authService.resetPassword( $scope.registration ).then( function ( response ) {
-			if ( response.data && !response.data.ErrorCode ) {
-				$scope.savedSuccessfully = true;
-				$scope.message = "Your password was reset. You will be redicted to login page in 2 seconds.";
-				startTimer();
-			} else {
+			authService.resetPassword( $scope.registration ).then( function ( response ) {
+				if ( response.data && !response.data.ErrorCode ) {
+					$scope.savedSuccessfully = true;
+					$scope.message = "Your password was reset. You will be redicted to login page in 2 seconds.";
+					startTimer();
+				} else {
+					$scope.savedSuccessfully = false;
+					$scope.message = response.data.ErrorMessage;
+				}
+
+
+			}, function ( response ) {
 				$scope.savedSuccessfully = false;
-				$scope.message = response.data.ErrorMessage;
-			}
-
-
-		}, function ( response ) {
-		 	$scope.savedSuccessfully = false;
-		 	$scope.message = "Failed to reset password due to:" + commonService.displayError();
-		 } );
+				$scope.message = "Failed to reset password due to:" + commonService.displayError();
+			} );
 		}
 
 	};
