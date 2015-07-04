@@ -60,9 +60,10 @@
     <Compile Include="AuthUsers\ApplicationUser.cs" />
     <Compile Include="Dtos\ContactDto.cs" />
     <Compile Include="Dtos\CountryDto.cs" />
+    <Compile Include="Dtos\CreatorDto.cs" />
     <Compile Include="Dtos\Gifts\EmptyGiftDto.cs" />
     <Compile Include="Dtos\Gifts\GiftDto.cs" />
-    <Compile Include="Dtos\Gifts\GiftFilterDto.cs" />
+    <Compile Include="Dtos\Gifts\FilterDto.cs" />
     <Compile Include="Dtos\ImageDto.cs" />
     <Compile Include="Dtos\PagingDto.cs" />
     <Compile Include="Dtos\ProfileDto.cs" />

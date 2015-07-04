@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using GiftKnacksProject.Api.Controllers.ApiResults;
+using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.Repositories;
+using GiftKnacksProject.Api.Dto.Dtos.Gifts;
 using GiftKnacksProject.Api.Dto.Dtos.Wishes;
 using GiftKnacksProject.Api.EfDao.Base;
 using GiftKnacksProject.Api.Services.Interfaces;
@@ -27,6 +29,30 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             _wishRepository = wishRepository;
             _fileService = fileService;
+        }
+
+        [System.Web.Http.Route("Getall")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetAll(FilterDto filter)
+        {
+            var result = await _wishRepository.GetWishes(filter);
+            return SuccessApiResult(result);
+        }
+
+        [System.Web.Http.Route("Get")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> Get(IdModel id)
+        {
+            if (id == null)
+            {
+                return ErrorApiResult(300, "Не передан id.Либо левый формат");
+            }
+            var result = await _wishRepository.GetWish(id.Id);
+            if (result == default(WishDto))
+            {
+                return ErrorApiResult(300, "Не найден");
+            }
+            return SuccessApiResult(result);
         }
 
         [System.Web.Http.Authorize]
