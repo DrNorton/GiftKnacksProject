@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos;
+using GiftKnacksProject.Api.Dto.Dtos.Gifts;
+using GiftKnacksProject.Api.Dto.Dtos.Results;
 using GiftKnacksProject.Api.Dto.Dtos.Wishes;
 using GiftKnacksProject.Api.EfDao.Base;
 
@@ -138,6 +140,43 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 return Task.FromResult(default(WishDto));
             }
             
+        }
+
+        public async Task AddParticipiantToGift(long userId,long wishId)
+        {
+            var finded =await Db.Set<Wish>().FindAsync(wishId);
+            if (finded == null) throw new Exception("Не найден wish");
+            if (finded.WishParticipants.All(x => x.Id == userId))
+            {
+                var newParticipiant = Db.Set<WishParticipant>().Create();
+                newParticipiant.CreatedTime = DateTime.Now;
+                newParticipiant.UserId = userId;
+
+                finded.WishParticipants.Add(newParticipiant);
+                base.Save();
+            }
+            else
+            {
+                throw new Exception("Уже подписан");
+            }
+          
+          
+        }
+
+        public async Task<IEnumerable<ParticipiantDto>> GetParticipiants(long wishId)
+        {
+            var finded = await Db.Set<Wish>().FindAsync(wishId);
+            if (finded == null) return null;
+            return
+                finded.WishParticipants.Select(
+                    x =>
+                        new ParticipiantDto()
+                        {
+                            FirstName = x.User.Profile.FirstName,
+                            LastName = x.User.Profile.LastName,
+                            Id = x.User.Id
+                        });
+
         }
     }
 }

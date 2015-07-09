@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Gifts]
 (
-	[Id] INT NOT NULL PRIMARY KEY Identity(1,1), 
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity(1,1), 
 	[Name] NVARCHAR(50) NULL,
 	[Country] NVARCHAR(2) NULL, 
 	[UserId] BIGINT NOT NULL, 

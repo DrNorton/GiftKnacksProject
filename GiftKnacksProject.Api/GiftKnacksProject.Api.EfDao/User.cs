@@ -16,8 +16,9 @@ namespace GiftKnacksProject.Api.EfDao
     {
         public User()
         {
-            this.Wishes = new HashSet<Wish>();
             this.Gifts = new HashSet<Gift>();
+            this.Wishes = new HashSet<Wish>();
+            this.WishParticipants = new HashSet<WishParticipant>();
         }
     
         public long Id { get; set; }
@@ -27,8 +28,9 @@ namespace GiftKnacksProject.Api.EfDao
         public bool ConfirmMail { get; set; }
         public string EmailStamp { get; set; }
     
+        public virtual ICollection<Gift> Gifts { get; set; }
         public virtual Profile Profile { get; set; }
         public virtual ICollection<Wish> Wishes { get; set; }
-        public virtual ICollection<Gift> Gifts { get; set; }
+        public virtual ICollection<WishParticipant> WishParticipants { get; set; }
     }
 }

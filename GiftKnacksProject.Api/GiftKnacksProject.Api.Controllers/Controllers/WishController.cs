@@ -89,5 +89,26 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
              _wishRepository.AddWish(userId,wish);
             return EmptyApiResult();
         }
+
+
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("addparticipant")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> AddParticipant(WishIdDto participantDto)
+        {
+            var userId = long.Parse(User.Identity.GetUserId());
+            await _wishRepository.AddParticipiantToGift(userId, participantDto.WishId);
+            return EmptyApiResult();
+        }
+
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("getallparticipiants")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetAllParticipiants(WishIdDto participantDto)
+        {
+            var userId = long.Parse(User.Identity.GetUserId());
+            var participiants=await _wishRepository.GetParticipiants(participantDto.WishId);
+            return SuccessApiResult(participiants);
+        }
     }
 }

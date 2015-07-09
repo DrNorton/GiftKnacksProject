@@ -12,20 +12,14 @@ namespace GiftKnacksProject.Api.EfDao
     using System;
     using System.Collections.Generic;
     
-    public partial class Gift
+    public partial class WishParticipant
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Country { get; set; }
+        public int Id { get; set; }
         public long UserId { get; set; }
-        public string City { get; set; }
-        public string Location { get; set; }
-        public Nullable<System.DateTime> FromDate { get; set; }
-        public Nullable<System.DateTime> ToDate { get; set; }
-        public string Benefit { get; set; }
-        public string Description { get; set; }
+        public long WishId { get; set; }
+        public Nullable<System.DateTime> CreatedTime { get; set; }
     
-        public virtual Country Country1 { get; set; }
         public virtual User User { get; set; }
+        public virtual Wish Wish { get; set; }
     }
 }

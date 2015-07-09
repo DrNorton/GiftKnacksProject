@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Wishes]
 (
-	[Id] INT NOT NULL PRIMARY KEY Identity(1,1), 
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity(1,1), 
     [Name] NVARCHAR(50) NULL,
 	[Country] NVARCHAR(2) NULL, 
 	[City] NVARCHAR(150) NULL , 

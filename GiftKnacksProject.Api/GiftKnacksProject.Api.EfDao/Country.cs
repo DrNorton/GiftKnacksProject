@@ -16,16 +16,16 @@ namespace GiftKnacksProject.Api.EfDao
     {
         public Country()
         {
+            this.Gifts = new HashSet<Gift>();
             this.Profiles = new HashSet<Profile>();
             this.Wishes = new HashSet<Wish>();
-            this.Gifts = new HashSet<Gift>();
         }
     
         public string Id { get; set; }
         public string Name { get; set; }
     
+        public virtual ICollection<Gift> Gifts { get; set; }
         public virtual ICollection<Profile> Profiles { get; set; }
         public virtual ICollection<Wish> Wishes { get; set; }
-        public virtual ICollection<Gift> Gifts { get; set; }
     }
 }

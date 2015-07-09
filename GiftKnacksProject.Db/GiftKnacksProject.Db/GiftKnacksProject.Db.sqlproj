@@ -68,6 +68,7 @@
     <Build Include="Wishes.sql" />
     <Build Include="WishCategories.sql" />
     <Build Include="Gifts.sql" />
+    <Build Include="WishParticipants.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="GiftKnacksProject.Db.refactorlog" />

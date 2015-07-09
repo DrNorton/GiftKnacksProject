@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Filters;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -13,6 +14,18 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
             container.Register(Classes.FromAssemblyContaining<ApiResult>()
                     .BasedOn<ApiController>()
                     .LifestyleTransient());
+            container.Register(Component.For<IFilter, ExceptionHandler>().LifestyleTransient());
+
+        }
+
+        public class ExceptionHandler : ExceptionFilterAttribute
+        {
+            public override void OnException(HttpActionExecutedContext context)
+            {
+                var result= new ApiResult(context.Request, 1000, context.Exception.Message.ToString(), null);
+                var ex=result.Execute();
+                context.Response = ex;
+            }
         }
     }
 }
