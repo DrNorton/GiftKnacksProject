@@ -127,7 +127,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                     Location = findedGift.Location,
                     Name = findedGift.Name,
                     Emergency = findedGift.Emergency,
-                   Category = findedGift.WishCategory.Name,
+                    ImageUrl = findedGift.ImageUrl,
+                    Category = findedGift.WishCategory.Name,
                     Creator = new CreatorDto() { AvatarUrl = findedGift.User.Profile.AvatarUrl, CreatorId = findedGift.User.Id, FirstName = findedGift.User.Profile.FirstName, LastName = findedGift.User.Profile.LastName }
                 };
 
