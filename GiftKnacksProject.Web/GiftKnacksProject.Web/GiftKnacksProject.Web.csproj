@@ -175,8 +175,12 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\avatar.jpg" />
+    <Content Include="img\large_1.jpg" />
     <Content Include="img\logo.png" />
+    <Content Include="img\made-for.png" />
+    <Content Include="img\palms.jpg" />
     <Content Include="img\present.jpg" />
+    <Content Include="img\presents.jpg" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />

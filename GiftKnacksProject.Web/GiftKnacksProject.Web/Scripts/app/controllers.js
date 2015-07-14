@@ -34,6 +34,11 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
 	if ( authService.authentication.isAuth ) {
 		$location.path( '/dashboard' );
 	}
+	$scope.slideinterval = 5000;
+	var slides = $scope.slides = [
+	{ image: './img/large_1.jpg' },
+	{ image: './img/palms.jpg' },
+	{ image: './img/presents.jpg' }];
 }] );
 /**
  * @ngdoc function
@@ -42,8 +47,18 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
  * # Контроллер страницы с последней активностью пользователя
  * Controller of the giftknacksApp
  */
-app.controller( 'DashboardCtrl', ['$scope', 'authService', function ( $scope, authService ) {
+app.controller( 'DashboardCtrl', ['$scope', 'authService', 'initialData', 'historyData', 'wishAndGiftService', function ( $scope, authService, initialData, historyData, wishAndGiftService ) {
 	$scope.enoughData = authService.authentication.isFilled;
+
+	if ( initialData.data && !initialData.data.ErrorCode ) {
+		$scope.nearWishes = initialData.data.Result.Wishes;
+		$scope.nearGifts = initialData.data.Result.Gifts;
+		$scope.nearMembers = initialData.data.Result.Members;
+	}
+	if ( historyData.data && !historyData.data.ErrorCode ) {
+		$scope.historyWishes = historyData.data.Result.Wishes;
+		$scope.historyGifts = historyData.data.Result.Gifts;
+	}
 }] );
 /**
  * @ngdoc function

@@ -190,6 +190,46 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 
 	};
 
+	var _getInterestingActivities = function () {
+		var response = {
+			data: {
+				Result:
+					{
+						Wishes: [
+						'chocolate Alenka', 'Sushki', 'Car toy'
+						],
+						Gifts: [
+							'gift1', 'gift2', 'gift3'
+						],
+						Members: [
+							'Vasya', 'Masha'
+						]
+					}
+			}
+		}
+		return response;
+	};
+	var _getHistory = function () {
+		var response = {
+			data: {
+				Result:
+					{
+						Wishes: [
+					'Surprise', 'Soy milk', 'Bear toy'
+						],
+						Gifts: [
+							'Russia trip', 'Euro trip'
+						]
+					}
+			}
+		};
+		if ( !Math.floor( Math.random() * 2 ) ) {
+			response.data = null;
+		}
+
+		return response;
+	};
+
 	var wishAndGiftServiceFactory = {
 		getEmptyWish: _getEmptyWish,
 		addWish: _addWish,
@@ -198,7 +238,9 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		getGifts: _getGifts,
 		getWishes: _getWishes,
 		getGiftById: _getGiftById,
-		getWishById: _getWishById
+		getWishById: _getWishById,
+		getInterestingActivities: _getInterestingActivities,
+		getHistory: _getHistory
 	};
 	return wishAndGiftServiceFactory;
 }] );

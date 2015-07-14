@@ -49,7 +49,15 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 			} )
 			.when( "/dashboard", {
 				controller: "DashboardCtrl",
-				templateUrl: "/templates/dashboard.html"
+				templateUrl: "/templates/dashboard.html",
+				resolve: {
+					initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.getInterestingActivities();
+					}],
+					historyData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.getHistory('recent');
+					}]
+				}
 			} )
 			.when( "/wishform", {
 				controller: "WishFormCtrl",

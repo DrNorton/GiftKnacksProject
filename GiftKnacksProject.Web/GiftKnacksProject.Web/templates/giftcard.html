@@ -1,11 +1,53 @@
-﻿{{item.Name}}<br/>
-{{item.Country.Name}}<br />
-{{item.City}}<br />
-{{item.Location}}<br />
-{{item.FromDate}}<br />
-{{item.ToDate}}<br />
-{{item.Benefit}}<br />
-{{item.Description}}<br />
-{{item.ImageUrl}}<br />
-{{item.Emergency}}<br />
-<a href="#/user/{{item.Creator.CreatorId}}">{{item.Creator.FirstName}}&nbsp;{{item.Creator.LastName}}</a><br />
+﻿<div class="container item-card">
+	<div class="row">
+		<h1 class="header header-inline">Gift profile</h1>
+	</div>
+	<hr class="">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="row">
+					<div class="panel panel-info">
+						<div class="panel-heading">Resume:</div>
+						<div class="panel-body">
+							<div class="row"><label class="col-lg-4">Name:</label><div class="col-lg-8 ">{{item.Name}}</div></div>
+							<div class="row"><label class="col-lg-4">Country:</label><div class="col-lg-8 ">{{item.Country.Name}}</div></div>
+							<div class="row"><label class="col-lg-4">City:</label><div class="col-lg-8 ">{{item.City}}</div></div>
+							<div class="row"><label class="col-lg-4">Type:</label><div class="col-lg-8 ">Wish</div></div>
+							<div class="row"><label class="col-lg-4">Status:</label><div class="col-lg-8 ">Open</div></div>
+							<div class="row"><label class="col-lg-4">Author:</label><div class="col-lg-8 "><a href="#/user/{{item.Creator.CreatorId}}">{{item.Creator.FirstName}}&nbsp;{{item.Creator.LastName}}</a></div></div>
+							<div class="row"><label class="col-lg-4">Date:</label><div class="col-lg-8 ">{{item.FromDate}}-{{item.ToDate}}</div></div>
+						</div>
+						<div class="panel-footer"><button type="button" class="btn btn-success col-md-offset-5">Join!</button></div>
+					</div>
+			</div>
+			<div class="row">
+				<div class="panel panel-info">
+					<div class="panel-heading">About:</div>
+					<div class="panel-body">
+						{{item.Description}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">Terms of agreement:</div>
+				<div class="panel-body">
+					<div class="row"><label class="col-lg-4">Place:</label><div class="col-lg-8 ">{{item.Location}}</div></div>
+					<div class="row"><label class="col-lg-4">Сontact:</label><div class="col-lg-8 ">?</div></div>
+					<div class="row"><label class="col-lg-4">Reward:</label><div class="col-lg-8 ">{{item.Benefit}}</div></div>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">Participants:</div>
+				<div class="panel-body">
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">Chat:</div>
+				<div class="panel-body">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
