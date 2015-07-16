@@ -68,6 +68,9 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 					}],
 					countries: ['geoService', function ( geoService ) {
 						return geoService.getCountry();
+					}],
+					startPoint: ['$route','wishAndGiftService', function ($route, wishAndGiftService ) {
+						return wishAndGiftService.setReturnPoint( $route.current.params.itemtype, $route.current.params.itemid );
 					}]
 				}
 			} )
@@ -80,6 +83,9 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 						}],
 						countries: ['geoService', function ( geoService ) {
 							return geoService.getCountry();
+						}],
+						startPoint: ['$route','wishAndGiftService', function ($route, wishAndGiftService ) {
+							return wishAndGiftService.setReturnPoint( $route.current.params.itemtype, $route.current.params.itemid );
 						}]
 					}
 				} )

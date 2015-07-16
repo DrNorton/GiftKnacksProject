@@ -230,6 +230,30 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		return response;
 	};
 
+	var _showMyGifts = function () {
+		return $http.post( serviceBase + 'api/gift/getmygifts' ).then( function ( response ) {
+			return response;
+		} );
+	};
+
+	var _showMyWishes = function () {
+		return $http.post( serviceBase + 'api/wish/getmywishes' ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _linkWishAndGift = function (wish, gift) {
+		return $http.post( serviceBase + 'api/linker/link', { 'WishId': wish, 'GiftId': gift } ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _setReturnPoint = function ( itemtype, itemid ) {
+		var response = '';
+		if ( itemtype && itemid>=0 ) {
+			response = itemtype + '/' + itemid;
+		}
+		return response;
+	};
+
 	var wishAndGiftServiceFactory = {
 		getEmptyWish: _getEmptyWish,
 		addWish: _addWish,
@@ -240,7 +264,11 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		getGiftById: _getGiftById,
 		getWishById: _getWishById,
 		getInterestingActivities: _getInterestingActivities,
-		getHistory: _getHistory
+		getHistory: _getHistory,
+		showMyGifts: _showMyGifts,
+		showMyWishes: _showMyWishes,
+		linkWishAndGift: _linkWishAndGift,
+		setReturnPoint: _setReturnPoint
 	};
 	return wishAndGiftServiceFactory;
 }] );

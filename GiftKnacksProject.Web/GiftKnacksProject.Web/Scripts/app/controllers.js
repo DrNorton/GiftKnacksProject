@@ -192,7 +192,7 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
  * # Контроллер страницы информации о гифте или више
  * Controller of the giftknacksApp
  */
-app.controller( 'ItemCardCtrl', ['$scope', 'authService', 'initialData', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, commonService, wishAndGiftService ) {
+app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', function ( $scope, $modal, $route, authService, initialData, commonService, wishAndGiftService ) {
 	$scope.enoughData = authService.authentication.isFilled;
 
 
@@ -216,9 +216,111 @@ app.controller( 'ItemCardCtrl', ['$scope', 'authService', 'initialData', 'common
 		}
 
 	}
+	$scope.showmygifts = function () {
+		wishAndGiftService.showMyGifts().then( function ( response ) {
+			if ( response.data && !response.data.ErrorCode ) {
+
+					var modalInstance = $modal.open({
+						templateUrl: '/templates/wishgiftlist.html',
+						controller: 'ModalInstanceCtrl',
+						resolve: {
+							items: function () {
+								return response.data.Result;
+							},
+							params: function () {
+								return { 'type': 'gift', 'parentid': $scope.item.Id,'parenttype':'wish' };
+							}
+						}
+					});
+
+					modalInstance.result.then(function (selectedGift) {
+						wishAndGiftService.linkWishAndGift($scope.item.Id, selectedGift ).then( function ( response ) {
+							if ( response.data && !response.data.ErrorCode ) {
+								$route.reload();
+							} else {
+								//$scope.message = response.data.ErrorMessage;
+							}
+						}, function ( response ) {
+							//$scope.message = "Failed to add wish due to: " + commonService.displayError();
+
+						} );
+					}, function () {
+						//$log.info('Modal dismissed at: ' + new Date());
+					});
+				
+			} else {
+				//TODO: popup message error
+			}
+		}, function ( response ) {
+			//TODO: popup message error "Failed to add wish due to: " + commonService.displayError();
+		} );
+	}
+	$scope.showmywishes = function () {
+		wishAndGiftService.showMyWishes().then( function ( response ) {
+			if ( response.data && !response.data.ErrorCode ) {
+				var modalInstance = $modal.open( {
+					templateUrl: '/templates/wishgiftlist.html',
+					controller: 'ModalInstanceCtrl',
+					resolve: {
+						items: function () {
+							return response.data.Result;
+						},
+						params: function () {
+							return { 'type': 'wish', 'parentid': $scope.item.Id, 'parenttype':'gift' };
+						}
+					}
+				} );
+
+				modalInstance.result.then( function ( selectedWish ) {
+					wishAndGiftService.linkWishAndGift( selectedWish, $scope.item.Id ).then( function ( response ) {
+						if ( response.data && !response.data.ErrorCode ) {
+							$route.reload();
+						} else {
+							//$scope.message = response.data.ErrorMessage;
+						}
+					}, function ( response ) {
+						//$scope.message = "Failed to add wish due to: " + commonService.displayError();
+
+					} );
+				}, function () {
+					//$log.info('Modal dismissed at: ' + new Date());
+				} );
+			} else {
+				//TODO: popup message error
+			}
+		}, function ( response ) {
+			//TODO: popup message error "Failed to add wish due to: " + commonService.displayError();
+		} );
+	}
 
 }] );
 
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:ModalInstanceCtrl
+ * @description
+ * # Контроллер popup'ов
+ * Controller of the giftknacksApp
+ */
+app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'params', function ( $scope, $modalInstance, items, params ) {
+
+	$scope.items = items;
+	$scope.type = params.type;
+	$scope.parentid = params.parentid;
+	$scope.parenttype = params.parenttype;
+	$scope.link = params.type + 'form';
+
+	$scope.select = function (id) {
+		$modalInstance.close( id );
+	};
+	$scope.create = function ( ) {
+		$modalInstance.dismiss( 'add new' );
+	};
+
+	$scope.cancel = function () {
+		$modalInstance.dismiss( 'cancel' );
+	};
+}] );
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:WishFormCtrl
@@ -226,7 +328,7 @@ app.controller( 'ItemCardCtrl', ['$scope', 'authService', 'initialData', 'common
  * # Контроллер создания нового виша
  * Controller of the giftknacksApp
  */
-app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countries', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, countries, commonService, wishAndGiftService ) {
+app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialData', 'countries','startPoint', 'commonService', 'wishAndGiftService', function ( $scope,$location, authService, initialData, countries,startPoint, commonService, wishAndGiftService ) {
 	$scope.enoughData = authService.authentication.isFilled;
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
@@ -239,6 +341,7 @@ app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countr
 	$scope.cityOptions = {};
 	$scope.getCountryError = false;
 	$scope.wish = {};
+
 
 
 	//если начальные данные для виша получены
@@ -301,6 +404,13 @@ app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countr
 				if ( response.data && !response.data.ErrorCode ) {
 					$scope.savedSuccessfully = true;
 					$scope.message = "Wish has been added successfully.";
+					if ( startPoint ) {
+						$location.$$search = {};
+						$location.path( startPoint );
+					}
+					else {
+						$location.path( '/history' );
+					}
 				} else {
 					$scope.savedSuccessfully = false;
 					$scope.message = response.data.ErrorMessage;
@@ -325,7 +435,7 @@ app.controller( 'WishFormCtrl', ['$scope', 'authService', 'initialData', 'countr
  * # Контроллер создания нового гифта
  * Controller of the giftknacksApp
  */
-app.controller( 'GiftFormCtrl', ['$scope', 'authService', 'initialData', 'countries', 'commonService', 'wishAndGiftService', function ( $scope, authService, initialData, countries, commonService, wishAndGiftService ) {
+app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialData', 'countries','startPoint', 'commonService', 'wishAndGiftService', function ( $scope,$location, authService, initialData, countries,startPoint, commonService, wishAndGiftService ) {
 	$scope.enoughData = authService.authentication.isFilled;
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
@@ -386,6 +496,13 @@ app.controller( 'GiftFormCtrl', ['$scope', 'authService', 'initialData', 'countr
 				if ( response.data && !response.data.ErrorCode ) {
 					$scope.savedSuccessfully = true;
 					$scope.message = "Gift has been added successfully.";
+					if ( startPoint ) {
+						$location.$$search = {};
+						$location.path( startPoint );
+					}
+					else {
+						$location.path( '/history' );
+					}
 				} else {
 					$scope.savedSuccessfully = false;
 					$scope.message = response.data.ErrorMessage;
