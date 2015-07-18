@@ -1,0 +1,17 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[FK_WishGiftLinks_Gifts] (Foreign Key)
+       [dbo].[FK_WishGiftLinks_Users] (Foreign Key)
+       [dbo].[FK_WishGiftLinks_Wishes] (Foreign Key)
+
+** Supporting actions

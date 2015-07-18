@@ -118,6 +118,7 @@
     <Compile Include="Repositories\ICountryRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
     <Compile Include="Repositories\IGiftRepository.cs" />
+    <Compile Include="Repositories\ILinkRepository.cs" />
     <Compile Include="Repositories\IProfileRepository.cs" />
     <Compile Include="Repositories\IWishRepository.cs" />
   </ItemGroup>

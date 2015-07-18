@@ -33,6 +33,6 @@ namespace GiftKnacksProject.Api.EfDao
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<WishCategory> WishCategories { get; set; }
         public virtual DbSet<Wish> Wishes { get; set; }
-        public virtual DbSet<WishParticipant> WishParticipants { get; set; }
+        public virtual DbSet<WishGiftLink> WishGiftLinks { get; set; }
     }
 }

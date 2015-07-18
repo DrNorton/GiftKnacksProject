@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos;
 using GiftKnacksProject.Api.Dto.Dtos.Gifts;
-using GiftKnacksProject.Api.Dto.Dtos.Results;
+using GiftKnacksProject.Api.Dto.Dtos.Links;
+
 using GiftKnacksProject.Api.Dto.Dtos.Wishes;
 using GiftKnacksProject.Api.EfDao.Base;
 
@@ -23,6 +24,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
         {
             return Db.Set<Wish>().Where(x => x.UserId == userId).Select(x => new WishDto()
             {
+                Id = x.Id,
                 Benefit = x.Benefit,
                 Category =x.WishCategory.Name,
                 City = x.City,
@@ -33,7 +35,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 ImageUrl = x.ImageUrl,
                 Location = x.Location,
                 Emergency = x.Emergency,
-                Name = x.Name
+                Name = x.Name,
+                Participants = x.WishGiftLinks.Select(y=> new ParticipantDto() { FirstName = y.User.Profile.FirstName, Id = y.UserId, LastName = y.User.Profile.LastName }),
             }).ToList();
         }
 
@@ -64,7 +67,9 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 ImageUrl = wish.ImageUrl,
                 UserId = userId,
                 Emergency = wish.Emergency,
-                Name = wish.Name
+                Name = wish.Name,
+
+
                 
             });
             base.Save();
@@ -108,6 +113,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 FromDate = x.FromDate,
                 ToDate = x.ToDate,
                 Name = x.Name,
+
                 Id = x.Id
 
             }).ToList();
@@ -115,22 +121,25 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
 
         public Task<WishDto> GetWish(long id)
         {
-            var findedGift = Db.Set<Wish>().Find(id);
-            if (findedGift != null)
+            var wish = Db.Set<Wish>().Find(id);
+            if (wish != null)
             {
                 var dto = new WishDto()
                 {
-                    Country = new CountryDto() { Code = findedGift.Country1.Id, Name = findedGift.Country1.Name },
-                    Description = findedGift.Description,
-                    Benefit = findedGift.Benefit,
-                    City = findedGift.City,
-                    FromDate = findedGift.FromDate,
-                    ToDate = findedGift.ToDate,
-                    Location = findedGift.Location,
-                    Name = findedGift.Name,
-                    Emergency = findedGift.Emergency,
-                   Category = findedGift.WishCategory.Name,
-                    Creator = new CreatorDto() { AvatarUrl = findedGift.User.Profile.AvatarUrl, CreatorId = findedGift.User.Id, FirstName = findedGift.User.Profile.FirstName, LastName = findedGift.User.Profile.LastName }
+                    Id=wish.Id,
+                    Country = new CountryDto() { Code = wish.Country1.Id, Name = wish.Country1.Name },
+                    Description = wish.Description,
+                    Benefit = wish.Benefit,
+                    ImageUrl = wish.ImageUrl,
+                    City = wish.City,
+                    FromDate = wish.FromDate,
+                    ToDate = wish.ToDate,
+                    Location = wish.Location,
+                    Name = wish.Name,
+                    Emergency = wish.Emergency,
+                    Category = wish.WishCategory.Name,
+                    Participants=wish.WishGiftLinks.Select(x=>new ParticipantDto(){FirstName = x.User.Profile.FirstName,Id = x.UserId,LastName = x.User.Profile.LastName}),
+                    Creator = new CreatorDto() { AvatarUrl = wish.User.Profile.AvatarUrl, CreatorId = wish.User.Id, FirstName = wish.User.Profile.FirstName, LastName = wish.User.Profile.LastName }
                 };
 
                 return Task.FromResult(dto);
@@ -142,41 +151,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             
         }
 
-        public async Task AddParticipiantToGift(long userId,long wishId)
-        {
-            var finded =await Db.Set<Wish>().FindAsync(wishId);
-            if (finded == null) throw new Exception("Не найден wish");
-            if (finded.WishParticipants.All(x => x.Id == userId))
-            {
-                var newParticipiant = Db.Set<WishParticipant>().Create();
-                newParticipiant.CreatedTime = DateTime.Now;
-                newParticipiant.UserId = userId;
+        
 
-                finded.WishParticipants.Add(newParticipiant);
-                base.Save();
-            }
-            else
-            {
-                throw new Exception("Уже подписан");
-            }
-          
-          
-        }
-
-        public async Task<IEnumerable<ParticipiantDto>> GetParticipiants(long wishId)
-        {
-            var finded = await Db.Set<Wish>().FindAsync(wishId);
-            if (finded == null) return null;
-            return
-                finded.WishParticipants.Select(
-                    x =>
-                        new ParticipiantDto()
-                        {
-                            FirstName = x.User.Profile.FirstName,
-                            LastName = x.User.Profile.LastName,
-                            Id = x.User.Id
-                        });
-
-        }
+      
     }
 }

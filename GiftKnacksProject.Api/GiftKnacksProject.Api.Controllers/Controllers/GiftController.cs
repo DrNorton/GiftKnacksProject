@@ -36,6 +36,16 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             return SuccessApiResult(result);
         }
 
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("GetMyGifts")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetMyWishes()
+        {
+            var userId = long.Parse(User.Identity.GetUserId());
+            var wishes = await _giftRepository.GetUserGifts(userId);
+            return SuccessApiResult(wishes);
+        }
+
         [System.Web.Http.Route("Get")]
         [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> Get(IdModel id)

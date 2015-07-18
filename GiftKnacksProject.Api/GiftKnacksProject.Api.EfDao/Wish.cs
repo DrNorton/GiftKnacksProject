@@ -16,7 +16,7 @@ namespace GiftKnacksProject.Api.EfDao
     {
         public Wish()
         {
-            this.WishParticipants = new HashSet<WishParticipant>();
+            this.WishGiftLinks = new HashSet<WishGiftLink>();
         }
     
         public long Id { get; set; }
@@ -36,6 +36,6 @@ namespace GiftKnacksProject.Api.EfDao
         public virtual Country Country1 { get; set; }
         public virtual User User { get; set; }
         public virtual WishCategory WishCategory { get; set; }
-        public virtual ICollection<WishParticipant> WishParticipants { get; set; }
+        public virtual ICollection<WishGiftLink> WishGiftLinks { get; set; }
     }
 }

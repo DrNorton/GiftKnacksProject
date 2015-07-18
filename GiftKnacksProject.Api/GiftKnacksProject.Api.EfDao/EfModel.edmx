@@ -97,13 +97,14 @@
           <Property Name="ImageUrl" Type="nvarchar" MaxLength="150" />
           <Property Name="Emergency" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="WishParticipants">
+        <EntityType Name="WishGiftLinks">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="WishId" Type="bigint" Nullable="false" />
+          <Property Name="GiftId" Type="bigint" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" />
         </EntityType>
         <Association Name="FK_ContactsTypes_ToContacts">
@@ -214,26 +215,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WishParticipants_Users">
+        <Association Name="FK_WishGiftLinks_Gifts">
+          <End Role="Gifts" Type="Self.Gifts" Multiplicity="1" />
+          <End Role="WishGiftLinks" Type="Self.WishGiftLinks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gifts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WishGiftLinks">
+              <PropertyRef Name="GiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WishGiftLinks_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="WishParticipants" Type="Self.WishParticipants" Multiplicity="*" />
+          <End Role="WishGiftLinks" Type="Self.WishGiftLinks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="WishParticipants">
+            <Dependent Role="WishGiftLinks">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WishParticipants_Wishes">
+        <Association Name="FK_WishGiftLinks_Wishes">
           <End Role="Wishes" Type="Self.Wishes" Multiplicity="1" />
-          <End Role="WishParticipants" Type="Self.WishParticipants" Multiplicity="*" />
+          <End Role="WishGiftLinks" Type="Self.WishGiftLinks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Wishes">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="WishParticipants">
+            <Dependent Role="WishGiftLinks">
               <PropertyRef Name="WishId" />
             </Dependent>
           </ReferentialConstraint>
@@ -247,7 +260,7 @@
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WishCategories" EntityType="Self.WishCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wishes" EntityType="Self.Wishes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="WishParticipants" EntityType="Self.WishParticipants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WishGiftLinks" EntityType="Self.WishGiftLinks" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_ContactsTypes_ToContacts" Association="Self.FK_ContactsTypes_ToContacts">
             <End Role="ContactTypes" EntitySet="ContactTypes" />
             <End Role="Contacts" EntitySet="Contacts" />
@@ -284,13 +297,17 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Wishes" EntitySet="Wishes" />
           </AssociationSet>
-          <AssociationSet Name="FK_WishParticipants_Users" Association="Self.FK_WishParticipants_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="WishParticipants" EntitySet="WishParticipants" />
+          <AssociationSet Name="FK_WishGiftLinks_Gifts" Association="Self.FK_WishGiftLinks_Gifts">
+            <End Role="Gifts" EntitySet="Gifts" />
+            <End Role="WishGiftLinks" EntitySet="WishGiftLinks" />
           </AssociationSet>
-          <AssociationSet Name="FK_WishParticipants_Wishes" Association="Self.FK_WishParticipants_Wishes">
+          <AssociationSet Name="FK_WishGiftLinks_Users" Association="Self.FK_WishGiftLinks_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WishGiftLinks" EntitySet="WishGiftLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WishGiftLinks_Wishes" Association="Self.FK_WishGiftLinks_Wishes">
             <End Role="Wishes" EntitySet="Wishes" />
-            <End Role="WishParticipants" EntitySet="WishParticipants" />
+            <End Role="WishGiftLinks" EntitySet="WishGiftLinks" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -306,7 +323,7 @@
           <EntitySet Name="Users" EntityType="GiftKnacks_dbModel.User" />
           <EntitySet Name="WishCategories" EntityType="GiftKnacks_dbModel.WishCategory" />
           <EntitySet Name="Wishes" EntityType="GiftKnacks_dbModel.Wish" />
-          <EntitySet Name="WishParticipants" EntityType="GiftKnacks_dbModel.WishParticipant" />
+          <EntitySet Name="WishGiftLinks" EntityType="GiftKnacks_dbModel.WishGiftLink" />
           <AssociationSet Name="FK_ContactsTypes_ToContacts" Association="GiftKnacks_dbModel.FK_ContactsTypes_ToContacts">
             <End Role="ContactType" EntitySet="ContactTypes" />
             <End Role="Contact" EntitySet="Contacts" />
@@ -331,6 +348,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Gift" EntitySet="Gifts" />
           </AssociationSet>
+          <AssociationSet Name="FK_WishGiftLinks_Gifts" Association="GiftKnacks_dbModel.FK_WishGiftLinks_Gifts">
+            <End Role="Gift" EntitySet="Gifts" />
+            <End Role="WishGiftLink" EntitySet="WishGiftLinks" />
+          </AssociationSet>
           <AssociationSet Name="FK_Profiles_USERS" Association="GiftKnacks_dbModel.FK_Profiles_USERS">
             <End Role="User" EntitySet="Users" />
             <End Role="Profile" EntitySet="Profiles" />
@@ -339,17 +360,17 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Wish" EntitySet="Wishes" />
           </AssociationSet>
-          <AssociationSet Name="FK_WishParticipants_Users" Association="GiftKnacks_dbModel.FK_WishParticipants_Users">
+          <AssociationSet Name="FK_WishGiftLinks_Users" Association="GiftKnacks_dbModel.FK_WishGiftLinks_Users">
             <End Role="User" EntitySet="Users" />
-            <End Role="WishParticipant" EntitySet="WishParticipants" />
+            <End Role="WishGiftLink" EntitySet="WishGiftLinks" />
           </AssociationSet>
           <AssociationSet Name="FK_Wishes_Categories" Association="GiftKnacks_dbModel.FK_Wishes_Categories">
             <End Role="WishCategory" EntitySet="WishCategories" />
             <End Role="Wish" EntitySet="Wishes" />
           </AssociationSet>
-          <AssociationSet Name="FK_WishParticipants_Wishes" Association="GiftKnacks_dbModel.FK_WishParticipants_Wishes">
+          <AssociationSet Name="FK_WishGiftLinks_Wishes" Association="GiftKnacks_dbModel.FK_WishGiftLinks_Wishes">
             <End Role="Wish" EntitySet="Wishes" />
-            <End Role="WishParticipant" EntitySet="WishParticipants" />
+            <End Role="WishGiftLink" EntitySet="WishGiftLinks" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Contact">
@@ -398,6 +419,7 @@
           <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Country1" Relationship="GiftKnacks_dbModel.FK_Gifts_Countries" FromRole="Gift" ToRole="Country" />
           <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_Gifts_Users" FromRole="Gift" ToRole="User" />
+          <NavigationProperty Name="WishGiftLinks" Relationship="GiftKnacks_dbModel.FK_WishGiftLinks_Gifts" FromRole="Gift" ToRole="WishGiftLink" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
@@ -431,7 +453,7 @@
           <NavigationProperty Name="Gifts" Relationship="GiftKnacks_dbModel.FK_Gifts_Users" FromRole="User" ToRole="Gift" />
           <NavigationProperty Name="Profile" Relationship="GiftKnacks_dbModel.FK_Profiles_USERS" FromRole="User" ToRole="Profile" />
           <NavigationProperty Name="Wishes" Relationship="GiftKnacks_dbModel.FK_Wishes_Users" FromRole="User" ToRole="Wish" />
-          <NavigationProperty Name="WishParticipants" Relationship="GiftKnacks_dbModel.FK_WishParticipants_Users" FromRole="User" ToRole="WishParticipant" />
+          <NavigationProperty Name="WishGiftLinks" Relationship="GiftKnacks_dbModel.FK_WishGiftLinks_Users" FromRole="User" ToRole="WishGiftLink" />
         </EntityType>
         <EntityType Name="WishCategory">
           <Key>
@@ -462,18 +484,20 @@
           <NavigationProperty Name="Country1" Relationship="GiftKnacks_dbModel.FK_Wishes_Countries" FromRole="Wish" ToRole="Country" />
           <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_Wishes_Users" FromRole="Wish" ToRole="User" />
           <NavigationProperty Name="WishCategory" Relationship="GiftKnacks_dbModel.FK_Wishes_Categories" FromRole="Wish" ToRole="WishCategory" />
-          <NavigationProperty Name="WishParticipants" Relationship="GiftKnacks_dbModel.FK_WishParticipants_Wishes" FromRole="Wish" ToRole="WishParticipant" />
+          <NavigationProperty Name="WishGiftLinks" Relationship="GiftKnacks_dbModel.FK_WishGiftLinks_Wishes" FromRole="Wish" ToRole="WishGiftLink" />
         </EntityType>
-        <EntityType Name="WishParticipant">
+        <EntityType Name="WishGiftLink">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int64" Nullable="false" />
           <Property Name="WishId" Type="Int64" Nullable="false" />
+          <Property Name="GiftId" Type="Int64" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_WishParticipants_Users" FromRole="WishParticipant" ToRole="User" />
-          <NavigationProperty Name="Wish" Relationship="GiftKnacks_dbModel.FK_WishParticipants_Wishes" FromRole="WishParticipant" ToRole="Wish" />
+          <NavigationProperty Name="Gift" Relationship="GiftKnacks_dbModel.FK_WishGiftLinks_Gifts" FromRole="WishGiftLink" ToRole="Gift" />
+          <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_WishGiftLinks_Users" FromRole="WishGiftLink" ToRole="User" />
+          <NavigationProperty Name="Wish" Relationship="GiftKnacks_dbModel.FK_WishGiftLinks_Wishes" FromRole="WishGiftLink" ToRole="Wish" />
         </EntityType>
         <Association Name="FK_ContactsTypes_ToContacts">
           <End Type="GiftKnacks_dbModel.ContactType" Role="ContactType" Multiplicity="1" />
@@ -547,6 +571,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WishGiftLinks_Gifts">
+          <End Type="GiftKnacks_dbModel.Gift" Role="Gift" Multiplicity="1" />
+          <End Type="GiftKnacks_dbModel.WishGiftLink" Role="WishGiftLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gift">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WishGiftLink">
+              <PropertyRef Name="GiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Profiles_USERS">
           <End Type="GiftKnacks_dbModel.User" Role="User" Multiplicity="1" />
           <End Type="GiftKnacks_dbModel.Profile" Role="Profile" Multiplicity="0..1" />
@@ -571,14 +607,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WishParticipants_Users">
+        <Association Name="FK_WishGiftLinks_Users">
           <End Type="GiftKnacks_dbModel.User" Role="User" Multiplicity="1" />
-          <End Type="GiftKnacks_dbModel.WishParticipant" Role="WishParticipant" Multiplicity="*" />
+          <End Type="GiftKnacks_dbModel.WishGiftLink" Role="WishGiftLink" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="WishParticipant">
+            <Dependent Role="WishGiftLink">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -595,14 +631,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WishParticipants_Wishes">
+        <Association Name="FK_WishGiftLinks_Wishes">
           <End Type="GiftKnacks_dbModel.Wish" Role="Wish" Multiplicity="1" />
-          <End Type="GiftKnacks_dbModel.WishParticipant" Role="WishParticipant" Multiplicity="*" />
+          <End Type="GiftKnacks_dbModel.WishGiftLink" Role="WishGiftLink" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Wish">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="WishParticipant">
+            <Dependent Role="WishGiftLink">
               <PropertyRef Name="WishId" />
             </Dependent>
           </ReferentialConstraint>
@@ -713,10 +749,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WishParticipants">
-            <EntityTypeMapping TypeName="GiftKnacks_dbModel.WishParticipant">
-              <MappingFragment StoreEntitySet="WishParticipants">
+          <EntitySetMapping Name="WishGiftLinks">
+            <EntityTypeMapping TypeName="GiftKnacks_dbModel.WishGiftLink">
+              <MappingFragment StoreEntitySet="WishGiftLinks">
                 <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="GiftId" ColumnName="GiftId" />
                 <ScalarProperty Name="WishId" ColumnName="WishId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
