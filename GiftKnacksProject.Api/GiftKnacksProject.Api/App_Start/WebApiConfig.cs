@@ -15,7 +15,7 @@ namespace FamilyTasks.Api
 {
     public static class WebApiConfig
     {
-        public static void Register(HttpConfiguration config, IWindsorContainer container)
+        public static void Register(HttpConfiguration config, IWindsorContainer container )
         {
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -34,16 +34,9 @@ namespace FamilyTasks.Api
 
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
-            System.Web.Http.GlobalConfiguration.Configuration.Filters.Add(new ExceptionHandler());
+            System.Web.Http.GlobalConfiguration.Configuration.Filters.Add(container.Resolve<IFilter>());
         }
     }
 
-    public class ExceptionHandler : ExceptionFilterAttribute
-    {
-        public override void OnException(HttpActionExecutedContext context)
-        {
-            //return new ApiResult(Request, errorCode, result.ToString(), null);
-         
-        }
-    }
+  
 }

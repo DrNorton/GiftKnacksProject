@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos;
 using GiftKnacksProject.Api.Dto.Dtos.Gifts;
+using GiftKnacksProject.Api.Dto.Dtos.Links;
 using GiftKnacksProject.Api.Dto.Dtos.Wishes;
 using GiftKnacksProject.Api.EfDao.Base;
-using Itenso.TimePeriod;
+
 
 namespace GiftKnacksProject.Api.EfDao.Repositories
 {
@@ -24,6 +25,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
         {
             return Db.Set<Gift>().Where(x => x.UserId == userId).Select(x => new GiftDto()
             {
+                Id = x.Id,
                 Country = new CountryDto() { Code = x.Country1.Id, Name = x.Country1.Name },
                 Description = x.Description,
                 Benefit = x.Benefit,
@@ -32,7 +34,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 ToDate = x.ToDate,
                 Location = x.Location,
                 Name = x.Name,
-                Id = x.Id
+                Participants = x.WishGiftLinks.Select(y => new ParticipantDto() { FirstName = y.User.Profile.FirstName, Id = y.UserId, LastName = y.User.Profile.LastName }),
+                
             }).ToList();
         }
 
@@ -120,6 +123,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             {
                 var dto = new GiftDto()
                 {
+                    Id = findedGift.Id,
                     Country = new CountryDto() {Code = findedGift.Country1.Id, Name = findedGift.Country1.Name},
                     Description = findedGift.Description,
                     Benefit = findedGift.Benefit,
@@ -128,6 +132,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                     ToDate = findedGift.ToDate,
                     Location = findedGift.Location,
                     Name = findedGift.Name,
+                    Participants = findedGift.WishGiftLinks.Select(x => new ParticipantDto() { FirstName = x.User.Profile.FirstName, Id = x.UserId, LastName = x.User.Profile.LastName }),
                     Creator = new CreatorDto() { AvatarUrl = findedGift.User.Profile.AvatarUrl,CreatorId = findedGift.User.Id,FirstName = findedGift.User.Profile.FirstName,LastName = findedGift.User.Profile.LastName}
                 };
 
@@ -140,5 +145,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             
            
         }
+
+      
     }
 }

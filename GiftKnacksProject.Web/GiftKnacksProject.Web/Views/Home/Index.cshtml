@@ -7,8 +7,7 @@
 			<button class="btn btn-success navbar-toggle" ng-click="navbarExpanded = !navbarExpanded">
 				<span class="glyphicon glyphicon-chevron-down"></span>
 			</button>
-			<a class="navbar-brand" ng-hide="authentication.isAuth" href="#/landing">Home</a>
-			<a class="navbar-brand" ng-show="authentication.isAuth" href="#/dashboard">My Dashboard</a>
+			<a class="navbar-brand" ng-href="{{authentication.isAuth ? '#/dashboard' : '#/landing' }}"><img src="~/img/logo.png" /></a>
 		</div>
 		<div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
 			<ul class="nav navbar-nav navbar-right">
@@ -44,12 +43,18 @@
 <hr />
 <div id="footer">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<p class="text-muted">Created by KnacksGifter team.</p>
+		<div class="row text-center">
+			<div class="col-md-2">
+				KnacksGifter logo
 			</div>
-			<div class="col-md-6">
-				<p class="text-muted">Copyright.</p>
+			<div class="col-md-8">
+				<div class="col-md-3"><a href="#">FAQ</a></div>
+				<div class="col-md-3"><a href="#">Support</a></div>
+				<div class="col-md-3"><a href="#">About</a></div>
+				<div class="col-md-3"><a href="#">Safety. Communicate&nbsp;carefully.</a></div>
+			</div>
+			<div class="col-md-2">
+				Social links
 			</div>
 		</div>
 	</div>

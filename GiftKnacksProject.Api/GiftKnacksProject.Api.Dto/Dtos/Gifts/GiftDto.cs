@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GiftKnacksProject.Api.Dto.Dtos.Links;
 using GiftKnacksProject.Api.Dto.JsonConverters;
 using Newtonsoft.Json;
 
@@ -25,6 +26,8 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Gifts
         public string Description { get; set; }
 
         public CreatorDto Creator { get; set; }
+
+        public IEnumerable<ParticipantDto> Participants { get; set; }
       
     }
 }

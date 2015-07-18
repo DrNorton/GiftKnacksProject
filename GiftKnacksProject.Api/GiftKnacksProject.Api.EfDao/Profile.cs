@@ -32,7 +32,7 @@ namespace GiftKnacksProject.Api.EfDao
         public bool Gender { get; set; }
     
         public virtual ICollection<Contact> Contacts { get; set; }
-        public virtual User User { get; set; }
         public virtual Country Country1 { get; set; }
+        public virtual User User { get; set; }
     }
 }

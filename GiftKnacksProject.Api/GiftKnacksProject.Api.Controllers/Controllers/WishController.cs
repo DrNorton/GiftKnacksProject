@@ -24,11 +24,13 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         private readonly IWishRepository _wishRepository;
  
         private readonly IFileService _fileService;
+        private readonly ILinkRepository _linkRepository;
 
         public WishController(IWishRepository wishRepository,ICountryRepository countryRepository,IFileService fileService)
         {
             _wishRepository = wishRepository;
             _fileService = fileService;
+        
         }
 
         [System.Web.Http.Route("Getall")]
@@ -89,5 +91,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
              _wishRepository.AddWish(userId,wish);
             return EmptyApiResult();
         }
+
+        
+
     }
 }

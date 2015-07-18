@@ -174,3 +174,48 @@ textarea {
 padding: .2em .3em .3em;
 
 }
+
+//navbar
+.navbar-brand{
+    padding:5px 15px;
+}
+
+
+//карточка айтемов
+.item-card{
+    .emergency-bar{
+                display:inline-block; 
+                
+                 .progress{
+        margin:0;
+        height:20px;
+        .progress-bar{
+                      font-size: 10px;
+  line-height: 20px;
+        }
+
+    }
+    }
+      .item-photo {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px;
+}
+    
+
+}
+//главная
+.image-madefor{
+    background:url(../img/made-for.png);
+      background-repeat: no-repeat;
+          height:125px;
+    &.image-madefor-1{
+        background-position:0 0;
+    }
+    &.image-madefor-2{
+         background-position:45px -140px;
+    }
+    &.image-madefor-3{
+         background-position:15px -270px;
+    }
+}
