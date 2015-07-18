@@ -135,4 +135,15 @@ textarea {
   height: 200px;
   margin-bottom: 20px; }
 
+.image-madefor {
+  background: url(../img/made-for.png);
+  background-repeat: no-repeat;
+  height: 125px; }
+  .image-madefor.image-madefor-1 {
+    background-position: 0 0; }
+  .image-madefor.image-madefor-2 {
+    background-position: 45px -140px; }
+  .image-madefor.image-madefor-3 {
+    background-position: 15px -270px; }
+
 /*# sourceMappingURL=Site.css.map */

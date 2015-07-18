@@ -49,7 +49,15 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 			} )
 			.when( "/dashboard", {
 				controller: "DashboardCtrl",
-				templateUrl: "/templates/dashboard.html"
+				templateUrl: "/templates/dashboard.html",
+				resolve: {
+					initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.getInterestingActivities();
+					}],
+					historyData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.getHistory('recent');
+					}]
+				}
 			} )
 			.when( "/wishform", {
 				controller: "WishFormCtrl",
@@ -60,6 +68,9 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 					}],
 					countries: ['geoService', function ( geoService ) {
 						return geoService.getCountry();
+					}],
+					startPoint: ['$route','wishAndGiftService', function ($route, wishAndGiftService ) {
+						return wishAndGiftService.setReturnPoint( $route.current.params.itemtype, $route.current.params.itemid );
 					}]
 				}
 			} )
@@ -72,6 +83,9 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 						}],
 						countries: ['geoService', function ( geoService ) {
 							return geoService.getCountry();
+						}],
+						startPoint: ['$route','wishAndGiftService', function ($route, wishAndGiftService ) {
+							return wishAndGiftService.setReturnPoint( $route.current.params.itemtype, $route.current.params.itemid );
 						}]
 					}
 				} )

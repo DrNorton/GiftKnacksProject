@@ -1,3 +1,78 @@
 ﻿<div class="row">
-	HOME Page
+	<div class="slider row">
+		<carousel interval="slideinterval">
+			<slide ng-repeat="slide in slides" active="slide.active">
+				<img ng-src="{{slide.image}}" style="margin:auto;height: 305px">
+				<div class="carousel-caption">
+					<h4></h4>
+					<p></p>
+				</div>
+			</slide>
+		</carousel>
+	</div>
+	<div class="row text-center">
+		<h1>KnacksGifter - share the moment</h1>
+	</div>
+	<div class="made-for row text-center">
+		<h2>KnacksGifter is made for:</h2>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="col-md-6 image-madefor image-madefor-1"></div>
+				<div class="col-md-6">
+					<h4>Dreamers</h4>
+					Who wants to try the whole world from the beginning
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="col-md-6 image-madefor image-madefor-2">
+				</div>
+				<div class="col-md-6">
+					<h4>Homesick people</h4>
+					Who missed so much for something special
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="col-md-6 image-madefor image-madefor-3">
+				</div>
+				<div class="col-md-6">
+					<h4>Collectors</h4>
+					Who has a passio to collect and share
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="how-use row text-center">
+		<h2>How to use:</h2>
+		<div class="col-md-2">
+			<div class="panel panel-info">
+				<div class="panel-heading">Step 1</div>
+				<div class="panel-body">Registration</div>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="panel panel-info">
+				<div class="panel-heading">Step 2</div>
+				<div class="panel-body">Left request</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-info">
+				<div class="panel-heading">Step 3</div>
+				<div class="panel-body">Meet participants</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-info">
+				<div class="panel-heading">Step 4</div>
+				<div class="panel-body">Recieve desired</div>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="panel panel-info">
+				<div class="panel-heading">Step 5</div>
+				<div class="panel-body">Be happier</div>
+			</div>
+		</div>
+	</div>
+	<a href="#/signup" class="btn btn-success col-md-offset-6">Join us!</a>
 </div>

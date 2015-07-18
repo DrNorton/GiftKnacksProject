@@ -181,7 +181,7 @@ padding: .2em .3em .3em;
 }
 
 
-
+//карточка айтемов
 .item-card{
     .emergency-bar{
                 display:inline-block; 
@@ -203,4 +203,19 @@ padding: .2em .3em .3em;
 }
     
 
+}
+//главная
+.image-madefor{
+    background:url(../img/made-for.png);
+      background-repeat: no-repeat;
+          height:125px;
+    &.image-madefor-1{
+        background-position:0 0;
+    }
+    &.image-madefor-2{
+         background-position:45px -140px;
+    }
+    &.image-madefor-3{
+         background-position:15px -270px;
+    }
 }

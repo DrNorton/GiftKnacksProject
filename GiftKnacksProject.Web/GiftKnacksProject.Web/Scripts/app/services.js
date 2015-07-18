@@ -190,6 +190,70 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 
 	};
 
+	var _getInterestingActivities = function () {
+		var response = {
+			data: {
+				Result:
+					{
+						Wishes: [
+						'chocolate Alenka', 'Sushki', 'Car toy'
+						],
+						Gifts: [
+							'gift1', 'gift2', 'gift3'
+						],
+						Members: [
+							'Vasya', 'Masha'
+						]
+					}
+			}
+		}
+		return response;
+	};
+	var _getHistory = function () {
+		var response = {
+			data: {
+				Result:
+					{
+						Wishes: [
+					'Surprise', 'Soy milk', 'Bear toy'
+						],
+						Gifts: [
+							'Russia trip', 'Euro trip'
+						]
+					}
+			}
+		};
+		if ( !Math.floor( Math.random() * 2 ) ) {
+			response.data = null;
+		}
+
+		return response;
+	};
+
+	var _showMyGifts = function () {
+		return $http.post( serviceBase + 'api/gift/getmygifts' ).then( function ( response ) {
+			return response;
+		} );
+	};
+
+	var _showMyWishes = function () {
+		return $http.post( serviceBase + 'api/wish/getmywishes' ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _linkWishAndGift = function (wish, gift) {
+		return $http.post( serviceBase + 'api/linker/link', { 'WishId': wish, 'GiftId': gift } ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _setReturnPoint = function ( itemtype, itemid ) {
+		var response = '';
+		if ( itemtype && itemid>=0 ) {
+			response = itemtype + '/' + itemid;
+		}
+		return response;
+	};
+
 	var wishAndGiftServiceFactory = {
 		getEmptyWish: _getEmptyWish,
 		addWish: _addWish,
@@ -198,7 +262,13 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		getGifts: _getGifts,
 		getWishes: _getWishes,
 		getGiftById: _getGiftById,
-		getWishById: _getWishById
+		getWishById: _getWishById,
+		getInterestingActivities: _getInterestingActivities,
+		getHistory: _getHistory,
+		showMyGifts: _showMyGifts,
+		showMyWishes: _showMyWishes,
+		linkWishAndGift: _linkWishAndGift,
+		setReturnPoint: _setReturnPoint
 	};
 	return wishAndGiftServiceFactory;
 }] );

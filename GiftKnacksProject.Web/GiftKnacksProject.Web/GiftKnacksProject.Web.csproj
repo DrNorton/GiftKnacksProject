@@ -175,8 +175,12 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\avatar.jpg" />
+    <Content Include="img\large_1.jpg" />
     <Content Include="img\logo.png" />
+    <Content Include="img\made-for.png" />
+    <Content Include="img\palms.jpg" />
     <Content Include="img\present.jpg" />
+    <Content Include="img\presents.jpg" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -1005,6 +1009,7 @@
     <Content Include="templates\findgift.html" />
     <Content Include="templates\giftform.html" />
     <Content Include="templates\giftcard.html" />
+    <Content Include="templates\wishgiftlist.html" />
     <Content Include="templates\wishcard.html" />
     <Content Include="templates\wishform.html" />
     <Content Include="templates\email.html" />
