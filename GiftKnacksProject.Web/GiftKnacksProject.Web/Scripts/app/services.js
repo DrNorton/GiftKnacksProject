@@ -247,9 +247,12 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		} );
 	};
 	var _setReturnPoint = function ( itemtype, itemid ) {
-		var response = '';
-		if ( itemtype && itemid>=0 ) {
-			response = itemtype + '/' + itemid;
+		var response = null;
+		if ( itemtype && itemid >= 0 ) {
+			response = {
+				itemtype: itemtype,
+				itemid: itemid
+			}
 		}
 		return response;
 	};
@@ -272,7 +275,6 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 	};
 	return wishAndGiftServiceFactory;
 }] );
-
 
 app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService', function ( $q, $location, localStorageService ) {
 

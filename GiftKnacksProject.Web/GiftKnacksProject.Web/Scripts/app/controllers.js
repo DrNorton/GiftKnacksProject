@@ -405,8 +405,17 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 					$scope.savedSuccessfully = true;
 					$scope.message = "Wish has been added successfully.";
 					if ( startPoint ) {
-						$location.$$search = {};
-						$location.path( startPoint );
+						//прилинковать созданный виш
+						wishAndGiftService.linkWishAndGift( response.data.Result, startPoint.itemid ).then( function ( response ) {
+							if ( response.data && !response.data.ErrorCode ) {
+								$location.$$search = {};
+								$location.path( startPoint.itemtype + '/' + startPoint.itemid );
+							} else {
+								//$scope.message = response.data.ErrorMessage;
+							}
+						}, function ( response ) {
+							//$scope.message = "Failed to add wish due to: " + commonService.displayError();
+						} );
 					}
 					else {
 						$location.path( '/history' );
@@ -488,7 +497,6 @@ app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialDa
 	}
 	//#endregion
 
-
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if ( isValid && $scope.enoughData ) {
@@ -497,8 +505,17 @@ app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialDa
 					$scope.savedSuccessfully = true;
 					$scope.message = "Gift has been added successfully.";
 					if ( startPoint ) {
-						$location.$$search = {};
-						$location.path( startPoint );
+						//прилинковать созданный гифт
+						wishAndGiftService.linkWishAndGift( startPoint.itemid, response.data.Result ).then( function ( response ) {
+							if ( response.data && !response.data.ErrorCode ) {
+								$location.$$search = {};
+								$location.path( startPoint.itemtype + '/' + startPoint.itemid );
+							} else {
+								//$scope.message = response.data.ErrorMessage;
+							}
+						}, function ( response ) {
+							//$scope.message = "Failed to add wish due to: " + commonService.displayError();
+						} );
 					}
 					else {
 						$location.path( '/history' );
