@@ -125,8 +125,13 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 app.factory( "profileService", ['$http', function ( $http ) {
 	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
 
-	var _getPtofile = function () {
-		return $http.post( serviceBase + 'api/account/getprofile' ).then( function ( response ) {
+	var _getPtofile = function (id) {
+		return $http.post( serviceBase + 'api/account/getprofile', {'Id':id} ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _getShortPtofile = function ( id ) {
+		return $http.post( serviceBase + 'api/account/getshortprofile', { 'Id': id } ).then( function ( response ) {
 			return response;
 		} );
 	};
@@ -138,6 +143,7 @@ app.factory( "profileService", ['$http', function ( $http ) {
 
 	var profileServiceFactory = {
 		getPtofile: _getPtofile,
+		getShortPtofile: _getShortPtofile,
 		updatePtofile: _updatePtofile
 	};
 	return profileServiceFactory;

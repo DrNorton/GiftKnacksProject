@@ -40,6 +40,40 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
 	{ image: './img/palms.jpg' },
 	{ image: './img/presents.jpg' }];
 }] );
+
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:UserCtrl
+ * @description
+ * # Контроллер страницы юзера
+ * Controller of the giftknacksApp
+ */
+app.controller( 'UserCtrl', ['$scope', 'authService', 'initialData', 'commonService', function ( $scope, authService, initialData, commonService ) {
+	$scope.enoughData = authService.authentication.isFilled;
+	$scope.user = {};
+	if ( initialData.data && !initialData.data.ErrorCode ) {
+		$scope.user = initialData.data.Result;
+	}
+}] );
+
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:UserCtrl
+ * @description
+ * # Контроллер страницы юзера
+ * Controller of the giftknacksApp
+ */
+app.controller( 'HistoryCtrl', ['$scope', 'authService', 'giftsData', 'wishesData', 'commonService', function ( $scope, authService, giftsData,wishesData, commonService ) {
+	$scope.enoughData = authService.authentication.isFilled;
+	$scope.gifts = [];
+	$scope.wishes = [];
+	if ( giftsData.data && !giftsData.data.ErrorCode ) {
+		$scope.gifts = giftsData.data.Result;
+	}
+	if ( wishesData.data && !wishesData.data.ErrorCode ) {
+		$scope.wishes = wishesData.data.Result;
+	}
+}] );
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:DashboardCtrl
@@ -406,7 +440,7 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 					$scope.message = "Wish has been added successfully.";
 					if ( startPoint ) {
 						//прилинковать созданный виш
-						wishAndGiftService.linkWishAndGift( response.data.Result, startPoint.itemid ).then( function ( response ) {
+						wishAndGiftService.linkWishAndGift( response.data.Result.Id, startPoint.itemid ).then( function ( response ) {
 							if ( response.data && !response.data.ErrorCode ) {
 								$location.$$search = {};
 								$location.path( startPoint.itemtype + '/' + startPoint.itemid );
@@ -506,7 +540,7 @@ app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialDa
 					$scope.message = "Gift has been added successfully.";
 					if ( startPoint ) {
 						//прилинковать созданный гифт
-						wishAndGiftService.linkWishAndGift( startPoint.itemid, response.data.Result ).then( function ( response ) {
+						wishAndGiftService.linkWishAndGift( startPoint.itemid, response.data.Result.Id ).then( function ( response ) {
 							if ( response.data && !response.data.ErrorCode ) {
 								$location.$$search = {};
 								$location.path( startPoint.itemtype + '/' + startPoint.itemid );
