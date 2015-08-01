@@ -150,15 +150,17 @@ textarea {
 		float: left;
 }
 
+.profile-progress{
 .progress {
 		margin: 25px 0 0 20px;
 		height: 30px;
 }
-
 .progress-bar {
 		font-size: 14px;
 		line-height: 30px;
 }
+}
+
 .dropdown-toggle{
 		cursor:pointer;
 }
@@ -218,4 +220,17 @@ padding: .2em .3em .3em;
     &.image-madefor-3{
          background-position:15px -270px;
     }
+}
+
+.user-info{
+    .awesomeness-bar{
+        margin-top:5px;
+    }
+}
+.user-tabs{
+    margin-top:55px;
+    .nav-tabs{
+        margin-bottom:20px;
+    }
+
 }

@@ -99,11 +99,10 @@ textarea {
 .header-inline {
   float: left; }
 
-.progress {
+.profile-progress .progress {
   margin: 25px 0 0 20px;
   height: 30px; }
-
-.progress-bar {
+.profile-progress .progress-bar {
   font-size: 14px;
   line-height: 30px; }
 
@@ -145,5 +144,13 @@ textarea {
     background-position: 45px -140px; }
   .image-madefor.image-madefor-3 {
     background-position: 15px -270px; }
+
+.user-info .awesomeness-bar {
+  margin-top: 5px; }
+
+.user-tabs {
+  margin-top: 55px; }
+  .user-tabs .nav-tabs {
+    margin-bottom: 20px; }
 
 /*# sourceMappingURL=Site.css.map */

@@ -125,8 +125,13 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 app.factory( "profileService", ['$http', function ( $http ) {
 	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
 
-	var _getPtofile = function () {
-		return $http.post( serviceBase + 'api/account/getprofile' ).then( function ( response ) {
+	var _getPtofile = function (id) {
+		return $http.post( serviceBase + 'api/account/getprofile', {'Id':id} ).then( function ( response ) {
+			return response;
+		} );
+	};
+	var _getShortPtofile = function ( id ) {
+		return $http.post( serviceBase + 'api/account/getshortprofile', { 'Id': id } ).then( function ( response ) {
 			return response;
 		} );
 	};
@@ -138,6 +143,7 @@ app.factory( "profileService", ['$http', function ( $http ) {
 
 	var profileServiceFactory = {
 		getPtofile: _getPtofile,
+		getShortPtofile: _getShortPtofile,
 		updatePtofile: _updatePtofile
 	};
 	return profileServiceFactory;
@@ -247,9 +253,12 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		} );
 	};
 	var _setReturnPoint = function ( itemtype, itemid ) {
-		var response = '';
-		if ( itemtype && itemid>=0 ) {
-			response = itemtype + '/' + itemid;
+		var response = null;
+		if ( itemtype && itemid >= 0 ) {
+			response = {
+				itemtype: itemtype,
+				itemid: itemid
+			}
 		}
 		return response;
 	};
@@ -272,7 +281,6 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 	};
 	return wishAndGiftServiceFactory;
 }] );
-
 
 app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService', function ( $q, $location, localStorageService ) {
 

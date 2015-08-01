@@ -1,0 +1,28 @@
+﻿<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="#/profile" class="alert-link">profile.</a></div>
+<div class="user-info col-md-4">
+	<h3 class="user-heading">{{user.FirstName}} {{user.LastName}}</h3>
+	<div class="avatar" style="max-width: 200px; max-height: 150px;">
+		<img ng-show="user.AvatarUrl" ng-src="{{user.AvatarUrl}}" alt="avatar" class="img-thumbnail">
+		<img ng-hide="user.AvatarUrl" src="./img/avatar.jpg" alt="avatar">
+	</div>
+	<div class="awesomeness-bar"><progressbar class="progress-striped active " value="50" type="success"> Awesomeness</progressbar></div>
+	<div>status (online/offline)</div>
+	<div class="panel panel-info">
+		<div class="panel-heading">Info:</div>
+		<div class="panel-body">
+			<div class="row"><label class="col-lg-4">Birthday:</label><div class="col-lg-8 ">{{user.Birthday}}</div></div>
+			<div class="row"><label class="col-lg-4">Last login:</label><div class="col-lg-8 ">?</div></div>
+			<div class="row"><label class="col-lg-4">Country:</label><div class="col-lg-8 ">{{user.Country.Name}}</div></div>
+			<div class="row"><label class="col-lg-4">City:</label><div class="col-lg-8 ">{{user.City}}</div></div>
+			<div class="row"><label class="col-lg-4">{{user.FavoriteContact.Name}}:</label><div class="col-lg-8 ">{{user.FavoriteContact.Value}}</div></div>
+		</div>
+	</div>
+</div>
+<div class="col-md-8 user-tabs" >
+	<tabset justified="true">
+		<tab heading="About me">{{user.AboutMe}}</tab>
+		<tab heading="Recent requests"></tab>
+		<tab heading="References"></tab>
+	</tabset>
+</div>
+

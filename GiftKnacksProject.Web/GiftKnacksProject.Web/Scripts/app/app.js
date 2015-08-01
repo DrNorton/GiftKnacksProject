@@ -55,7 +55,7 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 						return wishAndGiftService.getInterestingActivities();
 					}],
 					historyData: ['wishAndGiftService', function ( wishAndGiftService ) {
-						return wishAndGiftService.getHistory('recent');
+						return wishAndGiftService.getHistory( 'recent' );
 					}]
 				}
 			} )
@@ -69,7 +69,7 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 					countries: ['geoService', function ( geoService ) {
 						return geoService.getCountry();
 					}],
-					startPoint: ['$route','wishAndGiftService', function ($route, wishAndGiftService ) {
+					startPoint: ['$route', 'wishAndGiftService', function ( $route, wishAndGiftService ) {
 						return wishAndGiftService.setReturnPoint( $route.current.params.itemtype, $route.current.params.itemid );
 					}]
 				}
@@ -84,7 +84,7 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 						countries: ['geoService', function ( geoService ) {
 							return geoService.getCountry();
 						}],
-						startPoint: ['$route','wishAndGiftService', function ($route, wishAndGiftService ) {
+						startPoint: ['$route', 'wishAndGiftService', function ( $route, wishAndGiftService ) {
 							return wishAndGiftService.setReturnPoint( $route.current.params.itemtype, $route.current.params.itemid );
 						}]
 					}
@@ -125,6 +125,18 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 					}]
 				}
 			} )
+			.when( "/history", {
+				controller: "HistoryCtrl",
+				templateUrl: "/templates/history.html",
+				resolve: {
+					giftsData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.showMyGifts();
+					}],
+					wishesData: ['wishAndGiftService', function ( wishAndGiftService ) {
+						return wishAndGiftService.showMyWishes();
+					}]
+				}
+			} )
 				.when( "/gift/:itemId", {
 					controller: "ItemCardCtrl",
 					templateUrl: "/templates/giftcard.html",
@@ -134,15 +146,24 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 						}]
 					}
 				} )
-							.when( "/wish/:itemId", {
-								controller: "ItemCardCtrl",
-								templateUrl: "/templates/wishcard.html",
-								resolve: {
-									initialData: ['$route', 'wishAndGiftService', function ( $route, wishAndGiftService ) {
-										return wishAndGiftService.getWishById( $route.current.params.itemId );
-									}]
-								}
-							} )
+			.when( "/wish/:itemId", {
+				controller: "ItemCardCtrl",
+				templateUrl: "/templates/wishcard.html",
+				resolve: {
+					initialData: ['$route', 'wishAndGiftService', function ( $route, wishAndGiftService ) {
+						return wishAndGiftService.getWishById( $route.current.params.itemId );
+					}]
+				}
+			} )
+			.when( "/user/:userId", {
+				controller: "UserCtrl",
+				templateUrl: "/templates/user.html",
+				resolve: {
+					initialData: ['$route', 'profileService', function ( $route, profileService ) {
+						return profileService.getShortPtofile( $route.current.params.userId );
+					}]
+				}
+			} )
       .otherwise( {
       	redirectTo: '/landing'
       } );
