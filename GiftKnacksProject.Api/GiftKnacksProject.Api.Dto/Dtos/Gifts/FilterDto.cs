@@ -13,5 +13,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Gifts
         public string Keyword { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
+
+        public long? UserId { get; set; }
     }
 }

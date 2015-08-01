@@ -69,6 +69,9 @@
     <Compile Include="Gift.cs">
       <DependentUpon>EfModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GiftWishStatus.cs">
+      <DependentUpon>EfModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\CountryRepository.cs" />
     <Compile Include="Repositories\EfAuthRepository.cs" />
     <Compile Include="EfModel.Context.cs">

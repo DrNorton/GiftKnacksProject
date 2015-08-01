@@ -10,7 +10,7 @@ namespace GiftKnacksProject.Api.Dao.Repositories
     {
         Task<IEnumerable<WishDto>> GetUserWishes(long userId);
         Task<EmptyWishDto> GetEmptyDtoWithAdditionalInfo(long userId);
-        void AddWish(long userId,WishDto wish);
+        Task<long> AddWish(long userId, WishDto wish);
         Task<IEnumerable<WishDto>> GetWishes(FilterDto filter);
         Task<WishDto> GetWish(long id);
         

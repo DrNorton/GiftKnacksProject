@@ -6,7 +6,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <NameOfLastUsedPublishProfile>GiftKnacksProject - Web Deploy %284%29</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>GiftKnacksProject</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

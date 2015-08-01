@@ -35,8 +35,9 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 ImageUrl = x.ImageUrl,
                 Location = x.Location,
                 Emergency = x.Emergency,
+
                 Name = x.Name,
-                Participants = x.WishGiftLinks.Select(y=> new ParticipantDto() { FirstName = y.User.Profile.FirstName, Id = y.UserId, LastName = y.User.Profile.LastName }),
+                Participants = x.WishGiftLinks.Select(y => new ParticipantDto() { FirstName = y.Gift.User.Profile.FirstName, Id = y.Gift.User.Id, LastName = y.Gift.User.Profile.LastName }),
             }).ToList();
         }
 
@@ -51,11 +52,12 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 City = profile.City};
         }
 
-        public async void AddWish(long userId,WishDto wish)
+        public async Task<long> AddWish(long userId,WishDto wish)
         {
             var category = Db.Set<WishCategory>().FirstOrDefault(x => x.Name == wish.Category);
             var country = Db.Set<Country>().FirstOrDefault(x => x.Id == wish.Country.Code);
-            base.Insert(new Wish()
+            var status = Db.Set<GiftWishStatus>().FirstOrDefault(x => x.Code.Equals(0));
+            var newwish = new Wish()
             {
                 Benefit = wish.Benefit,
                 WishCategory = category,
@@ -68,11 +70,13 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 UserId = userId,
                 Emergency = wish.Emergency,
                 Name = wish.Name,
+                GiftWishStatus = status
 
 
-                
-            });
+            };
+            base.Insert(newwish);
             base.Save();
+            return newwish.Id;
         }
 
 
@@ -81,6 +85,10 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             IQueryable<Wish> query = Db.Set<Wish>().AsQueryable();
             if (filter != null)
             {
+                if (filter.UserId != null)
+                {
+                    query = query.Where(x => x.UserId == filter.UserId);
+                }
 
                 if (!String.IsNullOrEmpty(filter.Keyword))
                 {
@@ -113,7 +121,6 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 FromDate = x.FromDate,
                 ToDate = x.ToDate,
                 Name = x.Name,
-
                 Id = x.Id
 
             }).ToList();
@@ -126,21 +133,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             {
                 var dto = new WishDto()
                 {
-<<<<<<< HEAD
-                    Country = new CountryDto() { Code = findedGift.Country1.Id, Name = findedGift.Country1.Name },
-                    Description = findedGift.Description,
-                    Benefit = findedGift.Benefit,
-                    City = findedGift.City,
-                    FromDate = findedGift.FromDate,
-                    ToDate = findedGift.ToDate,
-                    Location = findedGift.Location,
-                    Name = findedGift.Name,
-                    Emergency = findedGift.Emergency,
-                    ImageUrl = findedGift.ImageUrl,
-                    Category = findedGift.WishCategory.Name,
-                    Creator = new CreatorDto() { AvatarUrl = findedGift.User.Profile.AvatarUrl, CreatorId = findedGift.User.Id, FirstName = findedGift.User.Profile.FirstName, LastName = findedGift.User.Profile.LastName }
-=======
-                    Id=wish.Id,
+                    Id = wish.Id,
                     Country = new CountryDto() { Code = wish.Country1.Id, Name = wish.Country1.Name },
                     Description = wish.Description,
                     Benefit = wish.Benefit,
@@ -150,11 +143,11 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                     ToDate = wish.ToDate,
                     Location = wish.Location,
                     Name = wish.Name,
+                    Status = new StatusDto() { Code = wish.GiftWishStatus.Code, Status = wish.GiftWishStatus.Status },
                     Emergency = wish.Emergency,
                     Category = wish.WishCategory.Name,
-                    Participants=wish.WishGiftLinks.Select(x=>new ParticipantDto(){FirstName = x.User.Profile.FirstName,Id = x.UserId,LastName = x.User.Profile.LastName}),
+                    Participants = wish.WishGiftLinks.Select(x => new ParticipantDto() { FirstName = x.Gift.User.Profile.FirstName, Id = x.Gift.User.Id, LastName = x.Gift.User.Profile.LastName }),
                     Creator = new CreatorDto() { AvatarUrl = wish.User.Profile.AvatarUrl, CreatorId = wish.User.Id, FirstName = wish.User.Profile.FirstName, LastName = wish.User.Profile.LastName }
->>>>>>> b70cf2eeaef4f98b30a79c86247a6bbd77428772
                 };
 
                 return Task.FromResult(dto);
@@ -163,7 +156,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             {
                 return Task.FromResult(default(WishDto));
             }
-            
+
         }
 
         

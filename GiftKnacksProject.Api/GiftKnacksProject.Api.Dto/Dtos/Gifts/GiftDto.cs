@@ -24,7 +24,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Gifts
         public Nullable<System.DateTime> ToDate { get; set; }
         public string Benefit { get; set; }
         public string Description { get; set; }
-
+        public StatusDto Status { get; set; }
         public CreatorDto Creator { get; set; }
 
         public IEnumerable<ParticipantDto> Participants { get; set; }

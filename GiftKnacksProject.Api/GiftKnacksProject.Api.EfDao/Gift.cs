@@ -29,9 +29,11 @@ namespace GiftKnacksProject.Api.EfDao
         public Nullable<System.DateTime> ToDate { get; set; }
         public string Benefit { get; set; }
         public string Description { get; set; }
+        public int StatusId { get; set; }
     
         public virtual Country Country1 { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<WishGiftLink> WishGiftLinks { get; set; }
+        public virtual GiftWishStatus GiftWishStatus { get; set; }
     }
 }

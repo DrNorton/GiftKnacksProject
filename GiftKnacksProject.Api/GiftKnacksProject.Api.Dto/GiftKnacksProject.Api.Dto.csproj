@@ -61,13 +61,15 @@
     <Compile Include="Dtos\ContactDto.cs" />
     <Compile Include="Dtos\CountryDto.cs" />
     <Compile Include="Dtos\CreatorDto.cs" />
+    <Compile Include="Dtos\Gifts\StatusDto.cs" />
     <Compile Include="Dtos\Gifts\WishGiftLinkDto.cs" />
     <Compile Include="Dtos\Gifts\EmptyGiftDto.cs" />
     <Compile Include="Dtos\Gifts\GiftDto.cs" />
     <Compile Include="Dtos\Gifts\FilterDto.cs" />
     <Compile Include="Dtos\ImageDto.cs" />
     <Compile Include="Dtos\PagingDto.cs" />
-    <Compile Include="Dtos\ProfileDto.cs" />
+    <Compile Include="Dtos\Profile\ProfileDto.cs" />
+    <Compile Include="Dtos\Profile\ShortProfileDto.cs" />
     <Compile Include="Dtos\Wishes\EmptyWishDto.cs" />
     <Compile Include="Dtos\Wishes\ImagedWishDto.cs" />
     <Compile Include="Dtos\Links\ParticipantDto.cs" />

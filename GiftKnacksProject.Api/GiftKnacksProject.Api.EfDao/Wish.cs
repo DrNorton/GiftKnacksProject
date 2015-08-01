@@ -32,10 +32,12 @@ namespace GiftKnacksProject.Api.EfDao
         public string Location { get; set; }
         public string ImageUrl { get; set; }
         public int Emergency { get; set; }
+        public int StatusId { get; set; }
     
         public virtual Country Country1 { get; set; }
         public virtual User User { get; set; }
         public virtual WishCategory WishCategory { get; set; }
         public virtual ICollection<WishGiftLink> WishGiftLinks { get; set; }
+        public virtual GiftWishStatus GiftWishStatus { get; set; }
     }
 }
