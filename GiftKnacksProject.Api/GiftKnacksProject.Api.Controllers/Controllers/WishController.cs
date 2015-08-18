@@ -41,6 +41,9 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             return SuccessApiResult(result);
         }
 
+
+
+
         [System.Web.Http.Route("Get")]
         [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> Get(IdModel id)
@@ -60,10 +63,19 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("GetMyWishes")]
         [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> GetMyWishes()
+        public async Task<IHttpActionResult> GetMyWishes(FilterDto filter)
         {
             var userId = long.Parse(User.Identity.GetUserId());
-            var wishes=await _wishRepository.GetUserWishes(userId);
+            IEnumerable<WishDto> wishes;
+            if (filter == null)
+            {
+                 wishes = await _wishRepository.GetUserWishes(userId);
+            }
+            else
+            {
+                filter.UserId = userId;
+                 wishes = await _wishRepository.GetWishes(filter);
+            }
             return SuccessApiResult(wishes);
         }
 
@@ -88,8 +100,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             {
                 wish.ImageUrl = _fileService.SaveBase64FileReturnUrl(FileType.Image, wish.Image.Type, wish.Image.Result);
             }
-             _wishRepository.AddWish(userId,wish);
-            return EmptyApiResult();
+             var result=await _wishRepository.AddWish(userId,wish);
+             return SuccessApiResult(new IdModel() { Id = result });
         }
 
         

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dto.JsonConverters;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
-namespace GiftKnacksProject.Api.Dto.Dtos
+namespace GiftKnacksProject.Api.Dto.Dtos.Profile
 {
     public class ProfileDto
     {

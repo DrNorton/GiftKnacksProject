@@ -39,11 +39,21 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("GetMyGifts")]
         [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> GetMyWishes()
+        public async Task<IHttpActionResult> GetMyGifts(FilterDto filter)
         {
             var userId = long.Parse(User.Identity.GetUserId());
-            var wishes = await _giftRepository.GetUserGifts(userId);
-            return SuccessApiResult(wishes);
+            IEnumerable<GiftDto> gifts;
+            if (filter == null)
+            {
+                gifts = await _giftRepository.GetUserGifts(userId);
+            }
+            else
+            {
+                filter.UserId = userId;
+                gifts = await _giftRepository.GetGifts(filter);
+            }
+
+            return SuccessApiResult(gifts);
         }
 
         [System.Web.Http.Route("Get")]
@@ -96,8 +106,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
          
-             _giftRepository.AddGift(userId, gift);
-            return EmptyApiResult();
+            var id=await _giftRepository.AddGift(userId, gift);
+            return SuccessApiResult(new IdModel(){Id = id});
         }
 
 

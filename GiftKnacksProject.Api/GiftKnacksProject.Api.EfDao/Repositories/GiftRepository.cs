@@ -34,7 +34,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 ToDate = x.ToDate,
                 Location = x.Location,
                 Name = x.Name,
-                Participants = x.WishGiftLinks.Select(y => new ParticipantDto() { FirstName = y.User.Profile.FirstName, Id = y.UserId, LastName = y.User.Profile.LastName }),
+                Participants = x.WishGiftLinks.Select(y => new ParticipantDto() { FirstName = y.Wish.User.Profile.FirstName, Id = y.Wish.User.Id, LastName = y.Wish.User.Profile.LastName }),
                 
             }).ToList();
         }
@@ -48,25 +48,28 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             };
         }
 
-        public async void AddGift(long userId, GiftDto gift)
+        public async Task<long>   AddGift(long userId, GiftDto gift)
         {
             var country = Db.Set<Country>().FirstOrDefault(x => x.Id == gift.Country.Code);
-  
-           base.Insert(new Gift()
+            var status = Db.Set<GiftWishStatus>().FirstOrDefault(x => x.Code.Equals(0));
+            var newgift = new Gift()
             {
                 Name = gift.Name,
                 Benefit = gift.Benefit,
                 City = gift.City,
-                Country1=country,
+                Country1 = country,
+                GiftWishStatus = status,
                 Description = gift.Description,
                 FromDate = gift.FromDate,
                 ToDate = gift.ToDate,
                 Location = gift.Location,
                 UserId = userId
-                
-            });
+
+            };
+           base.Insert(newgift);
             
             base.Save();
+            return newgift.Id;
         }
 
 
@@ -75,6 +78,11 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             IQueryable<Gift> query = Db.Set<Gift>().AsQueryable();
             if (filter != null)
             {
+
+                if (filter.UserId != null)
+                {
+                    query = query.Where(x => x.UserId == filter.UserId);
+                }
 
                 if (!String.IsNullOrEmpty(filter.Keyword))
                 {
@@ -130,9 +138,10 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                     City = findedGift.City,
                     FromDate = findedGift.FromDate,
                     ToDate = findedGift.ToDate,
+                    Status = new StatusDto(){Code = findedGift.GiftWishStatus.Code,Status = findedGift.GiftWishStatus.Status},
                     Location = findedGift.Location,
                     Name = findedGift.Name,
-                    Participants = findedGift.WishGiftLinks.Select(x => new ParticipantDto() { FirstName = x.User.Profile.FirstName, Id = x.UserId, LastName = x.User.Profile.LastName }),
+                    Participants = findedGift.WishGiftLinks.Select(x => new ParticipantDto() {FirstName = x.Wish.User.Profile.FirstName, Id = x.Wish.User.Id, LastName = x.Wish.User.Profile.LastName }),
                     Creator = new CreatorDto() { AvatarUrl = findedGift.User.Profile.AvatarUrl,CreatorId = findedGift.User.Id,FirstName = findedGift.User.Profile.FirstName,LastName = findedGift.User.Profile.LastName}
                 };
 

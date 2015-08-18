@@ -26,6 +26,9 @@
         <AssociationConnector Association="GiftKnacks_dbModel.FK_WishGiftLinks_Users" />
         <AssociationConnector Association="GiftKnacks_dbModel.FK_Wishes_Categories" />
         <AssociationConnector Association="GiftKnacks_dbModel.FK_WishGiftLinks_Wishes" />
+        <EntityTypeShape EntityType="GiftKnacks_dbModel.GiftWishStatus" Width="1.5" PointX="7.375" PointY="0.875" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_Gifts_GiftWishStatuses" />
+        <AssociationConnector Association="GiftKnacks_dbModel.FK_Wishes_GiftWishStatuses" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

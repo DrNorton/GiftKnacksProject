@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GiftKnacksProject.Api.Dto.Dtos.Gifts;
 using GiftKnacksProject.Api.Dto.Dtos.Links;
 using GiftKnacksProject.Api.Dto.JsonConverters;
 using Newtonsoft.Json;
@@ -26,7 +27,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Wishes
         public string Location { get; set; }
         public string ImageUrl { get; set; }
         public int Emergency { get; set; }
-
+        public StatusDto Status { get; set; }
         public CreatorDto Creator { get; set; }
 
         public IEnumerable<ParticipantDto> Participants { get; set; }

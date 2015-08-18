@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos;
+using GiftKnacksProject.Api.Dto.Dtos.Profile;
 using GiftKnacksProject.Api.EfDao.Base;
 
 namespace GiftKnacksProject.Api.EfDao.Repositories
@@ -39,6 +40,32 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 ContactTypes = types.Select(x=>x.Name).ToList(),
                 Gender = GetGenderStringFromBool(profile.Gender)
                 
+            };
+        }
+
+        public async Task<ShortProfileDto> GetShortProfile(long userId)
+        {
+            var profile = Db.Set<Profile>().FirstOrDefault(x => x.Id == userId);
+
+            if (profile == null)
+            {
+                return null;
+            }
+            var types = Db.Set<ContactType>();
+
+            return new ShortProfileDto()
+            {
+                AboutMe = profile.AboutMe,
+                AvatarUrl = profile.AvatarUrl,
+                Birthday = profile.HideBirthday==true?profile.Birthday:null,
+                City = profile.City,
+                Country = profile.Country == null ? null : new CountryDto() { Code = profile.Country1.Id, Name = profile.Country1.Name },
+                FirstName = profile.FirstName,
+                Id = profile.Id,
+                LastName = profile.LastName,
+                FavoriteContact = profile.Contacts.Where(x=>x.MainContact).Select(x => new ContactDto() { Name = x.ContactType.Name, Value = x.Value, MainContact = x.MainContact }).FirstOrDefault(),
+                Gender = GetGenderStringFromBool(profile.Gender)
+
             };
         }
 

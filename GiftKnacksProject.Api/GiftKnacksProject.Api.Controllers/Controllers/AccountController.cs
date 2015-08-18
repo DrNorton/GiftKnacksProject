@@ -18,6 +18,7 @@ using GiftKnacksProject.Api.Dao.AuthUsers;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.AuthUsers;
 using GiftKnacksProject.Api.Dto.Dtos;
+using GiftKnacksProject.Api.Dto.Dtos.Profile;
 using GiftKnacksProject.Api.EfDao;
 using GiftKnacksProject.Api.EfDao.Base;
 using GiftKnacksProject.Api.Services;
@@ -121,13 +122,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             return EmptyApiResult();
         }
 
-        [System.Web.Http.Authorize]
-        [System.Web.Http.Route("GetOrders")]
-        [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> GetOrders()
-        {
-            return EmptyApiResult();
-        }
+   
 
 
         protected override void Dispose(bool disposing)
@@ -198,9 +193,18 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("GetProfile")]
         [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> GetProfile()
+        public async Task<IHttpActionResult> GetProfile(IdModel model)
         {
-            var userId = long.Parse(User.Identity.GetUserId());
+            long userId = 0;
+            if (model != null && model.Id != 0)
+            {
+                userId = model.Id;
+            }
+            else
+            {
+                userId = long.Parse(User.Identity.GetUserId());
+            }
+           
             var profile = await _profileRepository.GetProfile(userId);
             if (profile == null)
             {
@@ -211,6 +215,35 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 return SuccessApiResult(profile);
             }
         }
+
+
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("GetShortProfile")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetShortProfile(IdModel model)
+        {
+            long userId = 0;
+            if (model != null && model.Id != 0)
+            {
+                userId = model.Id;
+            }
+            else
+            {
+                userId = long.Parse(User.Identity.GetUserId());
+            }
+
+            var profile = await _profileRepository.GetShortProfile(userId);
+            if (profile == null)
+            {
+                return ErrorApiResult(12, "Profile not finded");
+            }
+            else
+            {
+                return SuccessApiResult(profile);
+            }
+        }
+
+
 
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("UpdateProfile")]
