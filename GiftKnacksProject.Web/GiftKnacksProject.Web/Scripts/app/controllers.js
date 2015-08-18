@@ -48,11 +48,36 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
  * # Контроллер страницы юзера
  * Controller of the giftknacksApp
  */
-app.controller( 'UserCtrl', ['$scope', 'authService', 'initialData', 'commonService', function ( $scope, authService, initialData, commonService ) {
+app.controller('UserCtrl', ['$scope', 'authService', 'initialData', 'commonService', 'wishAndGiftService', function ($scope, authService, initialData, commonService, wishAndGiftService) {
 	$scope.enoughData = authService.authentication.isFilled;
 	$scope.user = {};
+	$scope.gifts = [];
+	$scope.wishes = [];
+
+	$scope.recentRequestsExist = false;
 	if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.user = initialData.data.Result;
+	}
+	$scope.getRecentRequests = function (skip) {
+	    $scope.recentRequestsExist = true;
+	    if (!skip) {
+	        wishAndGiftService.showGifts({ Length: 5, Id: $scope.user.Id }).then(function (response) {
+	            if (response.data && !response.data.ErrorCode) {
+	                $scope.gifts = response.data.Result;
+	            } else {
+	                //TODO:  message error
+	            }
+	        }, function (response) { /*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
+
+	        wishAndGiftService.showWishes({ Length: 5, Id: $scope.user.Id }).then(function (response) {
+	            if (response.data && !response.data.ErrorCode) {
+	                $scope.wishes = response.data.Result;
+	            } else {
+	                //TODO:  message error
+	            }
+	        }, function (response) {/*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
+	    }
+	 
 	}
 }] );
 
@@ -63,16 +88,82 @@ app.controller( 'UserCtrl', ['$scope', 'authService', 'initialData', 'commonServ
  * # Контроллер страницы юзера
  * Controller of the giftknacksApp
  */
-app.controller( 'HistoryCtrl', ['$scope', 'authService', 'giftsData', 'wishesData', 'commonService', function ( $scope, authService, giftsData,wishesData, commonService ) {
+app.controller('HistoryCtrl', ['$scope', 'authService', 'commonService', 'wishAndGiftService', 'countries', function ($scope, authService, commonService, wishAndGiftService, countries) {
 	$scope.enoughData = authService.authentication.isFilled;
 	$scope.gifts = [];
 	$scope.wishes = [];
-	if ( giftsData.data && !giftsData.data.ErrorCode ) {
-		$scope.gifts = giftsData.data.Result;
+	$scope.query = {StatusCode:-1}
+	$scope.queryGift = null;
+	$scope.queryWish = null;
+	$scope.wasSubmitted = false;
+	$scope.tab = '';
+
+    //#region получение стран и городов
+	if (countries.data && !countries.data.ErrorCode) {
+	    $scope.countries = countries.data.Result;
+	} else {
+	    //TODO: log error
+	    $scope.getCountryError = true;
 	}
-	if ( wishesData.data && !wishesData.data.ErrorCode ) {
-		$scope.wishes = wishesData.data.Result;
+
+	$scope.getCountries = function (term) {
+
+	    var filterCountries = $scope.countries.filter(function (value) {
+	        return value.Name.toLowerCase().startsWith(term.toLowerCase());
+	    });
+	    return filterCountries
 	}
+    //#endregion
+
+	$scope.submitHistory = function (isValid) {
+	    $scope.wasSubmitted = true;
+	    if (isValid && $scope.enoughData) {
+	        if ($scope.tab==='gifts') {
+	            $scope.getGifts($scope.tab);
+	        }
+	        else {
+	            $scope.getWishes($scope.tab);
+	        }
+	        
+	    }
+	};
+
+	$scope.resetWish = function () {
+	    $scope.wasSubmitted = false;
+	};
+
+	$scope.getGifts = function (tab) {
+	    $scope.tab = tab;
+	    //исключить повторные запросы
+	    if (!angular.equals($scope.query, $scope.queryGift)) {
+	        $scope.queryGift = angular.copy($scope.query);
+
+	        wishAndGiftService.showGifts($scope.queryGift).then(function (response) {
+	            if (response.data && !response.data.ErrorCode) {
+	                $scope.gifts = response.data.Result;
+	            } else {
+	                //TODO:  message error
+	            }
+	        }, function (response) { /*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
+        }
+	    }
+	$scope.getWishes = function (tab) {
+	    $scope.tab = tab;
+        //исключить повторные запросы
+	    if (!angular.equals($scope.query, $scope.queryWish)) {
+	        $scope.queryWish = angular.copy($scope.query);
+
+	        wishAndGiftService.showWishes($scope.queryWish).then(function (response) {
+	            if (response.data && !response.data.ErrorCode) {
+	                $scope.wishes = response.data.Result;
+	            } else {
+	                //TODO:  message error
+	            }
+	        }, function (response) {/*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
+	    }
+
+	}
+
 }] );
 /**
  * @ngdoc function
@@ -251,7 +342,7 @@ app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'i
 
 	}
 	$scope.showmygifts = function () {
-		wishAndGiftService.showMyGifts().then( function ( response ) {
+	    wishAndGiftService.showGifts({}).then( function ( response ) {
 			if ( response.data && !response.data.ErrorCode ) {
 
 					var modalInstance = $modal.open({
@@ -290,7 +381,7 @@ app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'i
 		} );
 	}
 	$scope.showmywishes = function () {
-		wishAndGiftService.showMyWishes().then( function ( response ) {
+	    wishAndGiftService.showWishes({}).then( function ( response ) {
 			if ( response.data && !response.data.ErrorCode ) {
 				var modalInstance = $modal.open( {
 					templateUrl: '/templates/wishgiftlist.html',

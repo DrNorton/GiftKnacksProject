@@ -1,54 +1,54 @@
 ﻿<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="#/profile" class="alert-link">profile.</a></div>
 	<div class="col-md-12"><h2 class="find-wish-heading">Find wish</h2></div>
-		<div class="search-list col-md-8" infinite-scroll='loadWishes()' infinite-scroll-disabled='queryWish.busy' infinite-scroll-distance='1'>
-			<div ng-repeat="wish in listWish" class="list-group">
-				<a href="#/wish/{{wish.Id}}" target="_blank" class="list-group-item">
-					<div class="search-item">
-						<h4 class="list-group-item-heading">{{wish.Name}}</h4>
-						<p class="list-group-item-text">{{wish.City}}</p>
-						<p class="list-group-item-text"><span ng-if="wish.FromDate">From {{wish.FromDate}} </span><span ng-if="wish.ToDate">to {{wish.ToDate}}</span></p>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="filters col-md-4">
-			<form class="form-serchgift form-horizontal" role="form" name="searchWishForm" novalidate>
-				<div class="form-group" ng-hide="getCountryError">
-					<label class="col-lg-3 control-label">Country:</label>
-					<div class="col-lg-8">
-						<div class="ui-select">
-							<input type="text" autocomplete="off" name="country" ng-model="queryWish.Country.Name" placeholder="Country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" ng-disabled="getCountryError" empty-to-null />
-							<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3 control-label">City:</label>
-					<div class="col-lg-8">
-						<input type="text" name="city" ng-model="queryWish.City" placeholder="City" class="form-control" empty-to-null />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3 control-label">Keywords:</label>
-					<div class="col-lg-8">
-						<input type="text" class="form-control" name="keywords" placeholder="Keywords" data-ng-model="queryWish.Keyword" empty-to-null />
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3 control-label">Period:</label>
-					<div class="col-lg-4">
-						<input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="queryWish.From" ng-required="queryWish.To" empty-to-null />
-						<div class="label label-danger" ng-show="searchWishForm.fromdate.$error.required">Required</div>
-					</div>
-					<div class="col-lg-4">
-						<input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="queryWish.To" ng-required="queryWish.From" empty-to-null />
-						<div class="label label-danger" ng-show="searchWishForm.todate.$error.required">Required</div>
-					</div>
-				</div>
-				<div class="col-md-12 text-center">
-					<button class="btn btn-md btn-primary" type="submit" ng-disabled="!enoughData" data-ng-click="submitWish(searchWishForm.$valid)">Submit</button>
-					<button class="btn btn-md btn-primary" type="reset" data-ng-click="resetWish()">Clear</button>
-				</div>
-			</form>
-		</div>
+		<div class="filters col-md-4 col-md-push-8">
+    <form class="form-serchgift form-horizontal" role="form" name="searchWishForm" novalidate>
+        <div class="form-group" ng-hide="getCountryError">
+            <label class="col-lg-3 control-label">Country:</label>
+            <div class="col-lg-8">
+                <div class="ui-select">
+                    <input type="text" autocomplete="off" name="country" ng-model="queryWish.Country.Name" placeholder="Country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" ng-disabled="getCountryError" empty-to-null />
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">City:</label>
+            <div class="col-lg-8">
+                <input type="text" name="city" ng-model="queryWish.City" placeholder="City" class="form-control" empty-to-null />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">Keywords:</label>
+            <div class="col-lg-8">
+                <input type="text" class="form-control" name="keywords" placeholder="Keywords" data-ng-model="queryWish.Keyword" empty-to-null />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">Period:</label>
+            <div class="col-lg-4">
+                <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="queryWish.From" ng-required="queryWish.To" empty-to-null />
+                <div class="label label-danger" ng-show="searchWishForm.fromdate.$error.required">Required</div>
+            </div>
+            <div class="col-lg-4">
+                <input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="queryWish.To" ng-required="queryWish.From" empty-to-null />
+                <div class="label label-danger" ng-show="searchWishForm.todate.$error.required">Required</div>
+            </div>
+        </div>
+        <div class="col-md-12 text-center">
+            <button class="btn btn-md btn-primary" type="submit" ng-disabled="!enoughData" data-ng-click="submitWish(searchWishForm.$valid)">Submit</button>
+            <button class="btn btn-md btn-primary" type="reset" data-ng-click="resetWish()">Clear</button>
+        </div>
+    </form>
+</div>
+<div class="search-list col-md-8 col-md-pull-4" infinite-scroll='loadWishes()' infinite-scroll-disabled='queryWish.busy' infinite-scroll-distance='1'>
+    <div ng-repeat="wish in listWish" class="list-group">
+        <a href="#/wish/{{wish.Id}}" target="_blank" class="list-group-item">
+            <div class="search-item">
+                <h4 class="list-group-item-heading">{{wish.Name}}</h4>
+                <p class="list-group-item-text">{{wish.City}}</p>
+                <p class="list-group-item-text"><span ng-if="wish.FromDate">From {{wish.FromDate}} </span><span ng-if="wish.ToDate">to {{wish.ToDate}}</span></p>
+            </div>
+        </a>
+    </div>
+</div>
 

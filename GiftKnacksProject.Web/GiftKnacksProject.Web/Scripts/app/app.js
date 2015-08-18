@@ -129,12 +129,15 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 				controller: "HistoryCtrl",
 				templateUrl: "/templates/history.html",
 				resolve: {
-					giftsData: ['wishAndGiftService', function ( wishAndGiftService ) {
-						return wishAndGiftService.showMyGifts();
+					/*giftsData: ['wishAndGiftService', function ( wishAndGiftService ) {
+					    return wishAndGiftService.showGifts({});
 					}],
 					wishesData: ['wishAndGiftService', function ( wishAndGiftService ) {
-						return wishAndGiftService.showMyWishes();
-					}]
+					    return wishAndGiftService.showWishes({});
+					}],*/
+				    countries: ['geoService', function (geoService) {
+				        return geoService.getCountry();
+				    }]
 				}
 			} )
 				.when( "/gift/:itemId", {

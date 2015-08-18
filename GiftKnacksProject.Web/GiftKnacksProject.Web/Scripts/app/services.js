@@ -1,7 +1,7 @@
 ﻿'use strict';
 app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $http, $q, localStorageService ) {
 
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
 
 	var _authentication = {
 		isAuth: false,
@@ -123,7 +123,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 }] );
 
 app.factory( "profileService", ['$http', function ( $http ) {
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
 
 	var _getPtofile = function (id) {
 		return $http.post( serviceBase + 'api/account/getprofile', {'Id':id} ).then( function ( response ) {
@@ -150,7 +150,7 @@ app.factory( "profileService", ['$http', function ( $http ) {
 }] );
 
 app.factory( "wishAndGiftService", ['$http', function ( $http ) {
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
 
 	var _getEmptyWish = function () {
 		return $http.post( serviceBase + 'api/wish/getemptywish' ).then( function ( response ) {
@@ -236,14 +236,14 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		return response;
 	};
 
-	var _showMyGifts = function () {
-		return $http.post( serviceBase + 'api/gift/getmygifts' ).then( function ( response ) {
+	var _showGifts = function (query) {
+	    return $http.post(serviceBase + 'api/gift/getbyuser', query).then(function (response) {
 			return response;
 		} );
 	};
 
-	var _showMyWishes = function () {
-		return $http.post( serviceBase + 'api/wish/getmywishes' ).then( function ( response ) {
+	var _showWishes = function (query) {
+	    return $http.post(serviceBase + 'api/wish/getbyuser', query).then(function (response) {
 			return response;
 		} );
 	};
@@ -274,8 +274,8 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		getWishById: _getWishById,
 		getInterestingActivities: _getInterestingActivities,
 		getHistory: _getHistory,
-		showMyGifts: _showMyGifts,
-		showMyWishes: _showMyWishes,
+		showGifts: _showGifts,
+		showWishes: _showWishes,
 		linkWishAndGift: _linkWishAndGift,
 		setReturnPoint: _setReturnPoint
 	};
@@ -333,7 +333,7 @@ app.factory( 'commonService', ['$http', function ( $http ) {
 }] );
 
 app.factory( 'geoService', ['$http', function ( $http ) {
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
 	var _getCountry = function ( val ) {
 		return $http.get( serviceBase + 'api/country').then( function ( response ) {
 			return response;

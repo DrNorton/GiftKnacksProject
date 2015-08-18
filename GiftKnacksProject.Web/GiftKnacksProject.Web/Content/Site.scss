@@ -180,9 +180,18 @@ padding: .2em .3em .3em;
 //navbar
 .navbar-brand{
     padding:5px 15px;
+
+    @media (min-width: 768px) 
+    {
+        padding:5px 0;
+    }
+
 }
 
-
+//поиск
+.filters{
+    margin-bottom:30px;
+}
 //карточка айтемов
 .item-card{
     .emergency-bar{
@@ -229,6 +238,14 @@ padding: .2em .3em .3em;
 }
 .user-tabs{
     margin-top:55px;
+    .nav-tabs{
+        margin-bottom:20px;
+    }
+
+}
+//history
+.hisory-list{
+    margin-top:10px;
     .nav-tabs{
         margin-bottom:20px;
     }

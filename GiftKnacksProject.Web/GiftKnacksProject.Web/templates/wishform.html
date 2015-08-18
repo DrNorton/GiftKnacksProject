@@ -14,10 +14,11 @@
 		<div class="form-group">
 			<label class="col-lg-3 control-label">Category:</label>
 			<div class="ui-select col-lg-8">
-				<select class="form-control" name="category" ng-model="wish.Category" required>
-					<option value="" selected>--Select category--</option>
-					<option ng-value="category.Name" ng-repeat="category in wishCategories">{{category.Name}}</option>
-				</select>
+                <select class="form-control" name="category" ng-model="wish.Category" required
+                        ng-options="category.Name group by category.ParentName for category in wishCategories track by category.Name">
+                    <option value="" selected>--Select category--</option>
+                </select>
+
 				<div class="label label-danger" ng-show="wasSubmitted && wishForm.category.$error.required">Required</div>
 			</div>
 		</div>

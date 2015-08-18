@@ -10,18 +10,43 @@
 	<div class="panel panel-info">
 		<div class="panel-heading">Info:</div>
 		<div class="panel-body">
-			<div class="row"><label class="col-lg-4">Birthday:</label><div class="col-lg-8 ">{{user.Birthday}}</div></div>
+            <div class="row" ng-show="user.Age"><label class="col-lg-4">Age:</label><div class="col-lg-8 ">{{user.Age}}</div></div>
 			<div class="row"><label class="col-lg-4">Last login:</label><div class="col-lg-8 ">?</div></div>
 			<div class="row"><label class="col-lg-4">Country:</label><div class="col-lg-8 ">{{user.Country.Name}}</div></div>
 			<div class="row"><label class="col-lg-4">City:</label><div class="col-lg-8 ">{{user.City}}</div></div>
-			<div class="row"><label class="col-lg-4">{{user.FavoriteContact.Name}}:</label><div class="col-lg-8 ">{{user.FavoriteContact.Value}}</div></div>
+			<div class="row"><label class="col-lg-4">{{user.FavoriteContact.Name}}&nbsp;contact:</label><div class="col-lg-8 ">{{user.FavoriteContact.Value}}</div></div>
 		</div>
 	</div>
 </div>
 <div class="col-md-8 user-tabs" >
 	<tabset justified="true">
 		<tab heading="About me">{{user.AboutMe}}</tab>
-		<tab heading="Recent requests"></tab>
+        <tab heading="Recent requests" select="getRecentRequests(recentRequestsExist)">
+            <div class="col-md-6">
+                <h4>Gifts</h4>
+                <div ng-repeat="gift in gifts" class="list-group">
+                    <a href="#/gift/{{gift.Id}}" class="list-group-item">
+                        <div class="user-requests">
+                            <h4 class="list-group-item-heading">{{gift.Name}}</h4>
+                            <p class="list-group-item-text">{{gift.City}}</p>
+                            <p class="list-group-item-text"><span ng-if="gift.FromDate">From {{gift.FromDate}} </span><span ng-if="gift.ToDate">to {{gift.ToDate}}</span></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4>Wishes</h4>
+                <div ng-repeat="wish in wishes" class="list-group">
+                    <a href="#/wish/{{wish.Id}}" class="list-group-item">
+                        <div class="user-requests">
+                            <h4 class="list-group-item-heading">{{wish.Name}}</h4>
+                            <p class="list-group-item-text">{{wish.City}}</p>
+                            <p class="list-group-item-text"><span ng-if="wish.FromDate">From {{wish.FromDate}} </span><span ng-if="wish.ToDate">to {{wish.ToDate}}</span></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </tab>
 		<tab heading="References"></tab>
 	</tabset>
 </div>
