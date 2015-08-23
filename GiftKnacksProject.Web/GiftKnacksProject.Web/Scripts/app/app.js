@@ -54,8 +54,11 @@ var app = angular.module( 'giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalSto
 					initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
 						return wishAndGiftService.getInterestingActivities();
 					}],
-					historyData: ['wishAndGiftService', function ( wishAndGiftService ) {
-						return wishAndGiftService.getHistory( 'recent' );
+					historyGifts: ['wishAndGiftService', function ( wishAndGiftService ) {
+					    return wishAndGiftService.showGifts({Length:5,Offset:0});
+					}],
+					historyWishes: ['wishAndGiftService', function ( wishAndGiftService ) {
+					    return wishAndGiftService.showWishes({Length:5,Offset:0});
 					}]
 				}
 			} )

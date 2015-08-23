@@ -197,43 +197,9 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 	};
 
 	var _getInterestingActivities = function () {
-		var response = {
-			data: {
-				Result:
-					{
-						Wishes: [
-						'chocolate Alenka', 'Sushki', 'Car toy'
-						],
-						Gifts: [
-							'gift1', 'gift2', 'gift3'
-						],
-						Members: [
-							'Vasya', 'Masha'
-						]
-					}
-			}
-		}
-		return response;
-	};
-	var _getHistory = function () {
-		var response = {
-			data: {
-				Result:
-					{
-						Wishes: [
-					'Surprise', 'Soy milk', 'Bear toy'
-						],
-						Gifts: [
-							'Russia trip', 'Euro trip'
-						]
-					}
-			}
-		};
-		if ( !Math.floor( Math.random() * 2 ) ) {
-			response.data = null;
-		}
-
-		return response;
+	    return $http.post(serviceBase + 'api/interestingnear/near').then(function (response) {
+	        return response;
+	    });
 	};
 
 	var _showGifts = function (query) {
@@ -273,7 +239,6 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		getGiftById: _getGiftById,
 		getWishById: _getWishById,
 		getInterestingActivities: _getInterestingActivities,
-		getHistory: _getHistory,
 		showGifts: _showGifts,
 		showWishes: _showWishes,
 		linkWishAndGift: _linkWishAndGift,

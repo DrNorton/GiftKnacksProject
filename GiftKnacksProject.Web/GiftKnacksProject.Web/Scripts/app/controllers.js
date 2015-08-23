@@ -172,17 +172,19 @@ app.controller('HistoryCtrl', ['$scope', 'authService', 'commonService', 'wishAn
  * # Контроллер страницы с последней активностью пользователя
  * Controller of the giftknacksApp
  */
-app.controller( 'DashboardCtrl', ['$scope', 'authService', 'initialData', 'historyData', 'wishAndGiftService', function ( $scope, authService, initialData, historyData, wishAndGiftService ) {
+app.controller('DashboardCtrl', ['$scope', 'authService', 'initialData', 'historyGifts', 'historyWishes', 'wishAndGiftService', function ($scope, authService, initialData, historyGifts, historyWishes, wishAndGiftService) {
 	$scope.enoughData = authService.authentication.isFilled;
 
 	if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.nearWishes = initialData.data.Result.Wishes;
 		$scope.nearGifts = initialData.data.Result.Gifts;
-		$scope.nearMembers = initialData.data.Result.Members;
+		$scope.nearMembers = initialData.data.Result.Users;
 	}
-	if ( historyData.data && !historyData.data.ErrorCode ) {
-		$scope.historyWishes = historyData.data.Result.Wishes;
-		$scope.historyGifts = historyData.data.Result.Gifts;
+	if (historyGifts.data && !historyGifts.data.ErrorCode) {
+	    $scope.historyGifts = historyGifts.data.Result;
+	}
+	if (historyWishes.data && !historyWishes.data.ErrorCode) {
+	    $scope.historyWishes = historyWishes.data.Result;
 	}
 }] );
 /**
@@ -524,7 +526,8 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
-		if ( isValid && $scope.enoughData ) {
+		if (isValid && $scope.enoughData) {
+		    $scope.wish.Category = $scope.wish.Category.Name;//TODO: поправить костыль
 			wishAndGiftService.addWish( $scope.wish ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
 					$scope.savedSuccessfully = true;
