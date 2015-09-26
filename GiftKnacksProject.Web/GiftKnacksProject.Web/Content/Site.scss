@@ -1,4 +1,4 @@
-﻿[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 		display: none !important;
 }
 
@@ -178,14 +178,25 @@ padding: .2em .3em .3em;
 }
 
 //navbar
+
+
 .navbar-brand{
     padding:5px 15px;
 
     @media (min-width: 768px) 
     {
-        padding:5px 0;
+        padding:1px 0;
     }
 
+    img{
+        float:left;
+    }
+    span{
+        float:left;
+        font-size:26px;
+        line-height:50px;
+        margin-left:10px;
+    }
 }
 
 //поиск

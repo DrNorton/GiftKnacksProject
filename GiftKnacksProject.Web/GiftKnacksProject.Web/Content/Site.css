@@ -177,8 +177,19 @@ textarea {
 
 @media (min-width: 768px) {
   .navbar-brand {
-    padding: 5px 0;
+    padding: 1px 0;
   }
+}
+
+.navbar-brand img {
+  float: left;
+}
+
+.navbar-brand span {
+  float: left;
+  font-size: 26px;
+  line-height: 50px;
+  margin-left: 10px;
 }
 
 .filters {
