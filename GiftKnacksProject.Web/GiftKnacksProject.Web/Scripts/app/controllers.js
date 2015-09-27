@@ -48,13 +48,14 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
  * # Контроллер страницы юзера
  * Controller of the giftknacksApp
  */
-app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService) {
+app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService', '$location', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService, $location) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
-	$scope.user = {};
-	$scope.gifts = [];
-	$scope.wishes = [];
-	$scope.references = [];
+    $scope.user = {};
+    $scope.gifts = [];
+    $scope.wishes = [];
+    $scope.references = [];
+    
 
 	$scope.recentRequestsExist = false;
 	if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -108,6 +109,11 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 
 	    });
 	}
+
+	if ($location.search().action == 'addreference') {
+	    $scope.addReference();
+	}
+	$location.search('action', null);
 }] );
 
 /**
@@ -349,7 +355,8 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
  * Controller of the giftknacksApp
  */
 app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', function ( $scope, $modal, $route, authService, initialData, commonService, wishAndGiftService ) {
-	$scope.enoughData = authService.authentication.isFilled;
+    $scope.enoughData = authService.authentication.isFilled;
+    $scope.myId = authService.authentication.userId;
 
 
 	if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -448,7 +455,20 @@ app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'i
 			//TODO: popup message error "Failed to add wish due to: " + commonService.displayError();
 		} );
 	}
-
+	$scope.closeItem = function (type) {
+	    var modalInstance = $modal.open({
+	        templateUrl: '/templates/participantslist.html',
+	        controller: 'ModalCloseItemCtrl',
+	        resolve: {
+	            items: function () {
+	                return $scope.item.Participants;
+	            },
+	            params: function () {
+	                return { 'itemId': $scope.item.Id, 'type':type};
+	            }
+	        }
+	    });
+	}
 }] );
 
 /**
@@ -477,6 +497,7 @@ app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'para
 		$modalInstance.dismiss( 'cancel' );
 	};
 }]);
+
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:AddReferenceCtrl
@@ -500,6 +521,7 @@ app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'profileService'
     $scope.add = function () {
         profileService.addReference($scope.reference).then(function (response) {
             if (response.data && !response.data.ErrorCode) {
+                $location.search('tab', 'reference');
                 $route.reload();
                 //TODO: trigger show reference tab
             } else {
@@ -515,6 +537,37 @@ app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'profileService'
         $modalInstance.dismiss('cancel');
     };
 }]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:ModalCloseItemCtrl
+ * @description
+ * # Контроллер popup'а для закрытия айтема
+ * Controller of the giftknacksApp
+ */
+app.controller('ModalCloseItemCtrl', ['$scope', '$modalInstance', 'items', 'params', 'wishAndGiftService', '$route', function ($scope, $modalInstance, items, params, wishAndGiftService, $route) {
+
+    $scope.participants = items;
+
+    var method='close'+params.type;
+    $scope.closeItem = function () {
+        wishAndGiftService[method](params.itemId).then(function (response) {
+            if (response.data && !response.data.ErrorCode) {
+                $modalInstance.close();
+                $route.reload();
+            } else {
+                //TODO: popup message error
+            }
+        }, function (response) {
+            //TODO: popup message error "Failed to add wish due to: " + commonService.displayError();
+        });
+       
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:WishFormCtrl

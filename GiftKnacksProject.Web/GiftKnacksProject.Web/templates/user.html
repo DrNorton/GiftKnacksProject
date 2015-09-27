@@ -19,9 +19,9 @@
     </div>
 </div>
 <div class="col-md-8 user-tabs">
-    <tabset justified="true">
-        <tab heading="About me">{{user.AboutMe}}</tab>
-        <tab heading="Recent requests" select="getRecentRequests(recentRequestsExist)">
+    <tabset justified="true" ng-init="tabs[initialTab].isActive = true">
+        <tab heading="About me" >{{user.AboutMe}}</tab>
+        <tab heading="Recent requests" select="getRecentRequests(recentRequestsExist)" >
             <div class="col-md-6">
                 <h4>Gifts</h4>
                 <div ng-repeat="gift in gifts" class="list-group">

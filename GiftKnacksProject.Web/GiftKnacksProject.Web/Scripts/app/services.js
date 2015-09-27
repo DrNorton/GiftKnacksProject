@@ -105,7 +105,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		_authentication.isFilled = value;
 		var authData = localStorageService.get( 'authorizationData' );
 		if ( authData ) {
-			localStorageService.set( 'authorizationData', { token: authData.token, userName: authData.userName, isFilled: value } );
+		    localStorageService.set('authorizationData', { token: authData.token, userName: authData.userName, isFilled: value, userId: authData.userId });
 		}
 		
 	}
@@ -234,6 +234,17 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 			return response;
 		} );
 	};
+	var _closeWish = function (id) {
+	    return $http.post(serviceBase + 'api/wish/close', {'Id':id}).then(function (response) {
+	        return response;
+	    });
+	};
+	var _closeGift = function (id) {
+	    return $http.post(serviceBase + 'api/gift/close', { 'Id': id }).then(function (response) {
+	        return response;
+	    });
+	};
+
 	var _setReturnPoint = function ( itemtype, itemid ) {
 		var response = null;
 		if ( itemtype && itemid >= 0 ) {
@@ -258,6 +269,8 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		showGifts: _showGifts,
 		showWishes: _showWishes,
 		linkWishAndGift: _linkWishAndGift,
+		closeWish: _closeWish,
+		closeGift: _closeGift,
 		setReturnPoint: _setReturnPoint
 	};
 	return wishAndGiftServiceFactory;

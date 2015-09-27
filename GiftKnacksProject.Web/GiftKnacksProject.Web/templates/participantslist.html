@@ -1,0 +1,13 @@
+
+<div class="modal-header">
+	<h3 class="modal-title">Choose participant for reference</h3>
+</div>
+<div class="modal-body">
+	<div class="list-group">
+        <a href="#/user/{{participant.Id}}?action=addreference" class="list-group-item" ng-repeat="participant in participants" ng-click="closeItem()">{{participant.FirstName}}&nbsp;{{participant.LastName}}</a>
+	</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="closeItem()">Just close</button>
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

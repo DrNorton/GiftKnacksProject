@@ -1009,6 +1009,7 @@
     <Content Include="templates\giftcard.html" />
     <Content Include="templates\user.html" />
     <Content Include="templates\addreference.html" />
+    <Content Include="templates\participantslist.html" />
     <Content Include="templates\wishgiftlist.html" />
     <Content Include="templates\wishcard.html" />
     <Content Include="templates\wishform.html" />
