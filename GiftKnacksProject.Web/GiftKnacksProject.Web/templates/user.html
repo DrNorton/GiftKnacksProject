@@ -1,26 +1,26 @@
-﻿<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="#/profile" class="alert-link">profile.</a></div>
+<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="#/profile" class="alert-link">profile.</a></div>
 <div class="user-info col-md-4">
-	<h3 class="user-heading">{{user.FirstName}} {{user.LastName}}</h3>
-	<div class="avatar" style="max-width: 200px; max-height: 150px;">
-		<img ng-show="user.AvatarUrl" ng-src="{{user.AvatarUrl}}" alt="avatar" class="img-thumbnail">
-		<img ng-hide="user.AvatarUrl" src="./img/avatar.jpg" alt="avatar">
-	</div>
-	<div class="awesomeness-bar"><progressbar class="progress-striped active " value="50" type="success"> Awesomeness</progressbar></div>
-	<div>status (online/offline)</div>
-	<div class="panel panel-info">
-		<div class="panel-heading">Info:</div>
-		<div class="panel-body">
+    <h3 class="user-heading">{{user.FirstName}} {{user.LastName}}</h3>
+    <div class="avatar" style="max-width: 200px; max-height: 150px;">
+        <img ng-show="user.AvatarUrl" ng-src="{{user.AvatarUrl}}" alt="avatar" class="img-thumbnail">
+        <img ng-hide="user.AvatarUrl" src="./img/avatar.jpg" alt="avatar">
+    </div>
+    <div class="awesomeness-bar"><progressbar class="progress-striped " value="50" type="success"> Awesomeness</progressbar></div>
+    <div>status (online/offline)</div>
+    <div class="panel panel-info">
+        <div class="panel-heading">Info:</div>
+        <div class="panel-body">
             <div class="row" ng-show="user.Age"><label class="col-lg-4">Age:</label><div class="col-lg-8 ">{{user.Age}}</div></div>
-			<div class="row"><label class="col-lg-4">Last login:</label><div class="col-lg-8 ">?</div></div>
-			<div class="row"><label class="col-lg-4">Country:</label><div class="col-lg-8 ">{{user.Country.Name}}</div></div>
-			<div class="row"><label class="col-lg-4">City:</label><div class="col-lg-8 ">{{user.City}}</div></div>
-			<div class="row"><label class="col-lg-4">{{user.FavoriteContact.Name}}&nbsp;contact:</label><div class="col-lg-8 ">{{user.FavoriteContact.Value}}</div></div>
-		</div>
-	</div>
+            <div class="row"><label class="col-lg-4">Last login:</label><div class="col-lg-8 ">?</div></div>
+            <div class="row"><label class="col-lg-4">Country:</label><div class="col-lg-8 ">{{user.Country.Name}}</div></div>
+            <div class="row"><label class="col-lg-4">City:</label><div class="col-lg-8 ">{{user.City}}</div></div>
+            <div class="row"><label class="col-lg-4">{{user.FavoriteContact.Name}}&nbsp;contact:</label><div class="col-lg-8 ">{{user.FavoriteContact.Value}}</div></div>
+        </div>
+    </div>
 </div>
-<div class="col-md-8 user-tabs" >
-	<tabset justified="true">
-		<tab heading="About me">{{user.AboutMe}}</tab>
+<div class="col-md-8 user-tabs">
+    <tabset justified="true">
+        <tab heading="About me">{{user.AboutMe}}</tab>
         <tab heading="Recent requests" select="getRecentRequests(recentRequestsExist)">
             <div class="col-md-6">
                 <h4>Gifts</h4>
@@ -47,7 +47,24 @@
                 </div>
             </div>
         </tab>
-		<tab heading="References"></tab>
-	</tabset>
+        <tab heading="References" select="getReferences()">
+            <button type="button" class="btn btn-info" ng-click="addReference()" ng-hide="user.Id===myId">Add reference</button>
+            <div class="list-group references-list">
+                <div ng-repeat="reference in references" class="reference-item list-group-item">
+                    <h4 class="list-group-item-heading">Score: {{reference.Rate}}</h4>
+                    <div class="list-group-item-text row">
+                        <div class="replyer-avatar col-md-3">
+                            <img ng-show="reference.Replyer.AvatarUrl" ng-src="{{reference.Replyer.AvatarUrl}}" alt="avatar" class="img-thumbnail">
+                            <img ng-hide="reference.Replyer.AvatarUrl" src="./img/avatar.jpg" alt="avatar">
+                        </div>
+                        <div class="col-md-9">
+                            <a href="#/user/{{reference.Replyer.Id}}">{{reference.Replyer.FirstName}} {{reference.Replyer.LastName}}</a>
+                            <p>{{reference.ReferenceText}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
 </div>
 

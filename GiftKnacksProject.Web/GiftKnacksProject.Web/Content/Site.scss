@@ -172,11 +172,26 @@ textarea {
 .emergency-rating{
 		outline:none;
 }
+
 .emergency-label{
 padding: .2em .3em .3em;
 
 }
-
+//reference
+.reference-rating{
+		outline:none;
+}
+.references-list{
+    margin-top:20px;
+}
+.reference-item {
+    .list-group-item-heading{
+        text-align:center;
+    }
+    .replyer-avatar img{
+        max-height:100px;
+    }
+}
 //navbar
 
 

@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $http, $q, localStorageService ) {
 
     var serviceBase = 'http://giftknackapi.azurewebsites.net/';
@@ -6,7 +6,8 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 	var _authentication = {
 		isAuth: false,
 		userName: "",
-		isFilled:false
+		isFilled: false,
+		userId:''
 	};
 
 	var _saveRegistration = function ( registration ) {
@@ -60,11 +61,12 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 
 		$http.post( serviceBase + 'api/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } } ).success( function ( response ) {
 
-			localStorageService.set( 'authorizationData', { token: response.access_token, userName: loginData.userName, isFilled: response.isFilled } );
+		    localStorageService.set( 'authorizationData', { token: response.access_token, userName: loginData.userName, isFilled: response.isFilled, userId:response.userId } );
 
 			_authentication.isAuth = true;
 			_authentication.userName = loginData.userName;
 			_authentication.isFilled = response.isFilled;
+			_authentication.userId = response.userId;
 
 			deferred.resolve( response );
 
@@ -84,6 +86,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		_authentication.isAuth = false;
 		_authentication.userName = "";
 		_authentication.isFilled = false;
+		_authentication.userId = '';
 
 	};
 
@@ -94,6 +97,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 			_authentication.isAuth = true;
 			_authentication.userName = authData.userName;
 			_authentication.isFilled = authData.isFilled;
+			_authentication.userId = authData.userId;
 		}
 
 	}
@@ -140,11 +144,23 @@ app.factory( "profileService", ['$http', function ( $http ) {
 			return response;
 		} );
 	};
+	var _addReference = function (reference) {
+	    return $http.post(serviceBase + 'api/reference/add', reference).then(function (response) {
+	        return response;
+	    });
+	};
+	var _getReferences = function (id) {
+	    return $http.post(serviceBase + 'api/reference/getall', { Id: id }).then(function (response) {
+	        return response;
+	    });
+	};
 
 	var profileServiceFactory = {
 		getPtofile: _getPtofile,
 		getShortPtofile: _getShortPtofile,
-		updatePtofile: _updatePtofile
+		updatePtofile: _updatePtofile,
+		addReference: _addReference,
+		getReferences: _getReferences
 	};
 	return profileServiceFactory;
 }] );

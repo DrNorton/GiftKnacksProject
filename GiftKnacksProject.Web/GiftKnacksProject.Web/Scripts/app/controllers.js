@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:RootCtrl
@@ -48,11 +48,13 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
  * # Контроллер страницы юзера
  * Controller of the giftknacksApp
  */
-app.controller('UserCtrl', ['$scope', 'authService', 'initialData', 'commonService', 'wishAndGiftService', function ($scope, authService, initialData, commonService, wishAndGiftService) {
-	$scope.enoughData = authService.authentication.isFilled;
+app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService) {
+    $scope.enoughData = authService.authentication.isFilled;
+    $scope.myId = authService.authentication.userId;
 	$scope.user = {};
 	$scope.gifts = [];
 	$scope.wishes = [];
+	$scope.references = [];
 
 	$scope.recentRequestsExist = false;
 	if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -78,6 +80,33 @@ app.controller('UserCtrl', ['$scope', 'authService', 'initialData', 'commonServi
 	        }, function (response) {/*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
 	    }
 	 
+	}
+
+	$scope.addReference = function () {
+	 
+	    var modalInstance = $modal.open({
+	        templateUrl: '/templates/addreference.html',
+	        controller: 'AddReferenceCtrl',
+	        resolve: {
+	            params: function () {
+	                return { 'OwnerId': $scope.user.Id };
+	            }
+	        }
+	    });
+
+	}
+
+	$scope.getReferences = function () {
+	    profileService.getReferences($scope.user.Id).then(function (response) {
+	        if (response.data && !response.data.ErrorCode) {
+	            $scope.references = response.data.Result;
+	        } else {
+	            //$scope.message = response.data.ErrorMessage;
+	        }
+	    }, function (response) {
+	        //$scope.message = "Failed to add wish due to: " + commonService.displayError();
+
+	    });
 	}
 }] );
 
@@ -426,7 +455,7 @@ app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'i
  * @ngdoc function
  * @name giftknacksApp.controller:ModalInstanceCtrl
  * @description
- * # Контроллер popup'ов
+ * # Контроллер popup'а для join
  * Controller of the giftknacksApp
  */
 app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'params', function ( $scope, $modalInstance, items, params ) {
@@ -447,7 +476,45 @@ app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'para
 	$scope.cancel = function () {
 		$modalInstance.dismiss( 'cancel' );
 	};
-}] );
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:AddReferenceCtrl
+ * @description
+ * # Контроллер popup'а для добавлния отзыва
+ * Controller of the giftknacksApp
+ */
+app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'profileService', 'params', '$route', function ($scope, $modalInstance, profileService, params, $route) {
+
+
+    $scope.reference = { 'Rate': 3, 'ReferenceText': '' };
+    $scope.reference.OwnerId = params.OwnerId;
+    $scope.rateHover = 0;
+    $scope.overStar = false;
+
+    $scope.hoveringOver = function (value) {
+        $scope.overStar = value;
+        $scope.rateHover = value;
+    };
+
+    $scope.add = function () {
+        profileService.addReference($scope.reference).then(function (response) {
+            if (response.data && !response.data.ErrorCode) {
+                $route.reload();
+                //TODO: trigger show reference tab
+            } else {
+                //$scope.message = response.data.ErrorMessage;
+            }
+        }, function (response) {
+            //$scope.message = "Failed to add wish due to: " + commonService.displayError();
+
+        });
+        $modalInstance.close();
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:WishFormCtrl

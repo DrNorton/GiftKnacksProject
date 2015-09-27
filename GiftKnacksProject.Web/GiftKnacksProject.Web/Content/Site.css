@@ -171,6 +171,22 @@ textarea {
   padding: 0.2em 0.3em 0.3em;
 }
 
+.reference-rating {
+  outline: none;
+}
+
+.references-list {
+  margin-top: 20px;
+}
+
+.reference-item .list-group-item-heading {
+  text-align: center;
+}
+
+.reference-item .replyer-avatar img {
+  max-height: 100px;
+}
+
 .navbar-brand {
   padding: 5px 15px;
 }
