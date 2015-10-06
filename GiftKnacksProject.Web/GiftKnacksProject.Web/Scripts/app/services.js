@@ -144,23 +144,12 @@ app.factory( "profileService", ['$http', function ( $http ) {
 			return response;
 		} );
 	};
-	var _addReference = function (reference) {
-	    return $http.post(serviceBase + 'api/reference/add', reference).then(function (response) {
-	        return response;
-	    });
-	};
-	var _getReferences = function (id) {
-	    return $http.post(serviceBase + 'api/reference/getall', { Id: id }).then(function (response) {
-	        return response;
-	    });
-	};
+	
 
 	var profileServiceFactory = {
 		getPtofile: _getPtofile,
 		getShortPtofile: _getShortPtofile,
-		updatePtofile: _updatePtofile,
-		addReference: _addReference,
-		getReferences: _getReferences
+		updatePtofile: _updatePtofile
 	};
 	return profileServiceFactory;
 }] );
@@ -234,13 +223,13 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 			return response;
 		} );
 	};
-	var _closeWish = function (id) {
-	    return $http.post(serviceBase + 'api/wish/close', {'Id':id}).then(function (response) {
+	var _closeWish = function (query) {
+	    return $http.post(serviceBase + 'api/wish/close', query).then(function (response) {
 	        return response;
 	    });
 	};
-	var _closeGift = function (id) {
-	    return $http.post(serviceBase + 'api/gift/close', { 'Id': id }).then(function (response) {
+	var _closeGift = function (query) {
+	    return $http.post(serviceBase + 'api/gift/close', query).then(function (response) {
 	        return response;
 	    });
 	};
@@ -324,7 +313,61 @@ app.factory( 'commonService', ['$http', function ( $http ) {
 	};
 	return commonServiceFactory;
 
-}] );
+}]);
+
+app.factory('referenceService', ['$http', function ($http) {
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+    var _addReference = function (reference) {
+        return $http.post(serviceBase + 'api/reference/add', reference).then(function (response) {
+            return response;
+        });
+    };
+    var _getReferences = function (id) {
+        return $http.post(serviceBase + 'api/reference/getall', { Id: id }).then(function (response) {
+            return response;
+        });
+    };
+
+    var referenceServiceFactory = {
+        addReference: _addReference,
+        getReferences: _getReferences
+    };
+    return referenceServiceFactory;
+
+}]);
+
+app.factory('commentService', ['$http', function ($http) {
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+    var _addWishComment = function (query) {
+        return $http.post(serviceBase + 'api/comment/addtowish', query).then(function (response) {
+            return response;
+        });
+    };
+    var _addGiftComment = function (query) {
+        return $http.post(serviceBase + 'api/comment/addtogift', query).then(function (response) {
+            return response;
+        });
+    };
+    var _getWishComments = function (id) {
+        return $http.post(serviceBase + 'api/comment/getbywishid', { Id: id }).then(function (response) {
+            return response;
+        });
+    };
+    var _getGiftComments = function (id) {
+        return $http.post(serviceBase + 'api/comment/getbygiftid', { Id: id }).then(function (response) {
+            return response;
+        });
+    };
+
+    var referenceServiceFactory = {
+        addWishComment: _addWishComment,
+        addGiftComment: _addGiftComment,
+        getWishComments: _getWishComments,
+        getGiftComments: _getGiftComments
+    };
+    return referenceServiceFactory;
+
+}]);
 
 app.factory( 'geoService', ['$http', function ( $http ) {
     var serviceBase = 'http://giftknackapi.azurewebsites.net/';

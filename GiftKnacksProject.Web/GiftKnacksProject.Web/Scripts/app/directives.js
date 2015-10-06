@@ -1,4 +1,4 @@
-﻿app.directive( 'setMask', function () {
+app.directive( 'setMask', function () {
 	return {
 		restrict: 'A',
 		link: function ( scope, $elm, attr ) {
@@ -233,4 +233,20 @@ app.directive( 'emptyToNull', function () {
 			} );
 		}
 	};
-} );
+});
+
+app.directive('commentBlock', function () {
+    return {
+        restrict: 'E',
+        templateUrl: '/templates/comment.html',
+        scope: { comment: '=' }
+
+    };
+});
+app.directive('replyForm', function () {
+    return {
+        restrict: 'E',
+        templateUrl: '/templates/replyform.html',
+        scope: { comment: '=',addReply:'=', enoughData:'@', type:'@',replyText:'=' }
+    };
+});

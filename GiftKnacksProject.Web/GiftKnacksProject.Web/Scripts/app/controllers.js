@@ -48,7 +48,7 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
  * # Контроллер страницы юзера
  * Controller of the giftknacksApp
  */
-app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService', '$location', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService, $location) {
+app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService','referenceService', '$location', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService,referenceService, $location) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
     $scope.user = {};
@@ -98,7 +98,7 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 	}
 
 	$scope.getReferences = function () {
-	    profileService.getReferences($scope.user.Id).then(function (response) {
+	    referenceService.getReferences($scope.user.Id).then(function (response) {
 	        if (response.data && !response.data.ErrorCode) {
 	            $scope.references = response.data.Result;
 	        } else {
@@ -354,11 +354,16 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
  * # Контроллер страницы информации о гифте или више
  * Controller of the giftknacksApp
  */
-app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', function ( $scope, $modal, $route, authService, initialData, commonService, wishAndGiftService ) {
+app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', function ($scope, $modal,$compile, $route, authService, initialData, commonService, wishAndGiftService, commentService) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
-
-
+    $scope.wasSubmitted = false;
+    $scope.wasSubmittedReply = false;
+    $scope.comments = []
+   
+    $scope.commentText = '';
+    $scope.replyText = {};
+    $scope.newComments = {};
 	if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.item = initialData.data.Result;
 
@@ -379,8 +384,133 @@ app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'i
 		}
 
 	}
-	$scope.showmygifts = function () {
-	    wishAndGiftService.showGifts({}).then( function ( response ) {
+
+	$scope.query = { busy: false, Id: $scope.item.Id, Offset: -10, Length: 10 };
+
+	//lazy load
+	$scope.loadComments = function (type, offset) {
+	    var method = 'getWishComments';
+	    if (type=='gift') {
+	        method = 'getGiftComments';
+	    }
+	    $scope.query.busy = true;
+	    $scope.query.Offset = typeof offset == "undefined" ? ($scope.query.Offset + $scope.query.Length) : offset;
+	    commentService[method]($scope.query).then(function (response) {
+	        $scope.query.busy = false;
+			if ( response.data && !response.data.ErrorCode ) {
+			    $scope.comments = $scope.comments.concat(response.data.Result);
+			} else {
+			    $scope.comments = $scope.comments.concat({ Name: response.data.ErrorMessage });
+			}
+		}, function ( response ) {
+		    $scope.comments = $scope.comments.concat({ Name: "Failed to search wishes due to: " + commonService.displayError() });
+			$scope.query.busy = false;
+		} );
+	};
+
+	$scope.addComment = function (isValid, type, commentId) {
+	    $scope.wasSubmitted = true;
+	    var method = 'addWishComment';
+	    var IdName = 'WishId';
+	    if (type == 'gift') {
+	        method = 'addGiftComment';
+	        IdName = 'GiftId';
+	    }
+	    var commentQuery={
+	        'ParentCommentId': commentId,
+	        'Text': $scope.commentText
+	    }
+	    commentQuery[IdName] = $scope.item.Id;
+
+	    if (isValid && $scope.enoughData) {
+	        commentService[method](commentQuery).then(function (response) {
+	            if (response.data && !response.data.ErrorCode) {
+	                $scope.commentText = '';
+	                $scope.wasSubmitted = false;
+	                var id=response.data.Result.Id;
+	                $scope.newComments['comment'+id] = response.data.Result;
+	                var comment = $(document.createElement('comment-block'));
+	                comment.attr('comment', 'newComments.comment'+id);
+	                $compile(comment)($scope);
+	                
+	                var reply = $(document.createElement('reply-form'));
+	                reply.attr('comment', 'newComments.comment' + id);
+	                reply.attr('enough-data', '{{enoughData}}');
+	                reply.attr('add-reply', 'addReply');
+	                reply.attr('type', type);
+	                reply.attr('reply-text', 'replyText');
+	                $compile(reply)($scope);
+
+	                var newComment = $('<li class="list-group-item comment-li"></li>');
+	                newComment.prepend(reply);
+	                newComment.prepend(comment);
+	                $('.comment-list').prepend(newComment);
+	                
+	            } else {
+	                //TODO: обработчик ошибки
+	            }
+	        }, function (response) {
+	            //TODO: обработчик ошибки
+	            $scope.wasSubmitted = false;
+	        });
+	    }
+	}
+	$scope.addReply = function (isValid, type, commentId, $event) {
+	    $scope.wasSubmittedReply = true;
+	    var method = 'addWishComment';
+	    var IdName = 'WishId';
+	    if (type == 'gift') {
+	        method = 'addGiftComment';
+	        IdName = 'GiftId';
+	    }
+	    var commentQuery = {
+	        'ParentCommentId': commentId,
+	        'Text': $scope.replyText[commentId]
+	    }
+	    commentQuery[IdName] = $scope.item.Id;
+
+	    if (isValid && $scope.enoughData) {
+	        commentService[method](commentQuery).then(function (response) {
+	            if (response.data && !response.data.ErrorCode) {
+	                $scope.replyText[commentId] = '';
+	                $scope.wasSubmittedReply = false;
+	                var id = response.data.Result.Id;
+	                $scope.newComments['comment' + id] = response.data.Result;
+	                var comment = $(document.createElement('comment-block'));
+
+	                comment.attr('comment', 'newComments.comment' + id);
+	                $compile(comment)($scope);
+
+	                var $element = $($event.currentTarget);
+	                var $parentLi=$element.parents('.comment-li');
+	                var newComment = $('<li class="list-group-item"></li>');
+	                newComment.prepend(comment);
+	                if (!$parentLi.find('ul.list-group').length) {
+	                    $parentLi.append(newComment);
+	                    newComment.wrap('<ul class="list-group"></ul>');
+	                }
+	                else {
+	                    $parentLi.find('ul.list-group').prepend(newComment);
+	                }
+	               
+
+	            } else {
+	                //TODO: обработчик ошибки
+	            }
+	        }, function (response) {
+	            //TODO: обработчик ошибки
+	            $scope.wasSubmittedReply = false;
+	        });
+	    }
+	}
+	$scope.showmyitems = function (type) {
+	    var method = 'showGifts';
+	    var parenttype = 'wish';
+	    if (type=='wish') {
+	        method = 'showWishes'
+	        parenttype = 'gift';
+	    }
+	    wishAndGiftService[method]({}).then(function (response) {
 			if ( response.data && !response.data.ErrorCode ) {
 
 					var modalInstance = $modal.open({
@@ -391,13 +521,20 @@ app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'i
 								return response.data.Result;
 							},
 							params: function () {
-								return { 'type': 'gift', 'parentid': $scope.item.Id,'parenttype':'wish' };
+							    return { 'type': type, 'parentid': $scope.item.Id, 'parenttype': parenttype };
 							}
 						}
 					});
 
-					modalInstance.result.then(function (selectedGift) {
-						wishAndGiftService.linkWishAndGift($scope.item.Id, selectedGift ).then( function ( response ) {
+			    modalInstance.result.then(function (selectedItem) {
+			        var gift = selectedItem;
+			        var wish = $scope.item.Id;
+			        if (type == 'wish') {
+			            gift = $scope.item.Id;
+			            wish = selectedItem;
+			        }
+
+			        wishAndGiftService.linkWishAndGift(wish, gift).then(function (response) {
 							if ( response.data && !response.data.ErrorCode ) {
 								$route.reload();
 							} else {
@@ -418,43 +555,7 @@ app.controller( 'ItemCardCtrl', ['$scope', '$modal', '$route', 'authService', 'i
 			//TODO: popup message error "Failed to add wish due to: " + commonService.displayError();
 		} );
 	}
-	$scope.showmywishes = function () {
-	    wishAndGiftService.showWishes({}).then( function ( response ) {
-			if ( response.data && !response.data.ErrorCode ) {
-				var modalInstance = $modal.open( {
-					templateUrl: '/templates/wishgiftlist.html',
-					controller: 'ModalInstanceCtrl',
-					resolve: {
-						items: function () {
-							return response.data.Result;
-						},
-						params: function () {
-							return { 'type': 'wish', 'parentid': $scope.item.Id, 'parenttype':'gift' };
-						}
-					}
-				} );
 
-				modalInstance.result.then( function ( selectedWish ) {
-					wishAndGiftService.linkWishAndGift( selectedWish, $scope.item.Id ).then( function ( response ) {
-						if ( response.data && !response.data.ErrorCode ) {
-							$route.reload();
-						} else {
-							//$scope.message = response.data.ErrorMessage;
-						}
-					}, function ( response ) {
-						//$scope.message = "Failed to add wish due to: " + commonService.displayError();
-
-					} );
-				}, function () {
-					//$log.info('Modal dismissed at: ' + new Date());
-				} );
-			} else {
-				//TODO: popup message error
-			}
-		}, function ( response ) {
-			//TODO: popup message error "Failed to add wish due to: " + commonService.displayError();
-		} );
-	}
 	$scope.closeItem = function (type) {
 	    var modalInstance = $modal.open({
 	        templateUrl: '/templates/participantslist.html',
@@ -505,7 +606,7 @@ app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'para
  * # Контроллер popup'а для добавлния отзыва
  * Controller of the giftknacksApp
  */
-app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'profileService', 'params', '$route', function ($scope, $modalInstance, profileService, params, $route) {
+app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'referenceService', 'params', '$route', function ($scope, $modalInstance, referenceService, params, $route) {
 
 
     $scope.reference = { 'Rate': 3, 'ReferenceText': '' };
@@ -519,9 +620,8 @@ app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'profileService'
     };
 
     $scope.add = function () {
-        profileService.addReference($scope.reference).then(function (response) {
+        referenceService.addReference($scope.reference).then(function (response) {
             if (response.data && !response.data.ErrorCode) {
-                $location.search('tab', 'reference');
                 $route.reload();
                 //TODO: trigger show reference tab
             } else {
@@ -548,9 +648,17 @@ app.controller('ModalCloseItemCtrl', ['$scope', '$modalInstance', 'items', 'para
 
     $scope.participants = items;
 
-    var method='close'+params.type;
-    $scope.closeItem = function () {
-        wishAndGiftService[method](params.itemId).then(function (response) {
+    var method = 'close' + params.type;
+   
+    $scope.closeItem = function (userId) {
+        var obj = {
+            'Id': params.itemId
+        }
+        if (userId>=0) {
+            obj.CloserId = userId;
+        }
+       
+        wishAndGiftService[method](obj).then(function (response) {
             if (response.data && !response.data.ErrorCode) {
                 $modalInstance.close();
                 $route.reload();

@@ -1,0 +1,13 @@
+<div class="row comment-reply">
+    <div class="col-md-12">
+        <button type="button" class="btn btn-info pull-right" ng-click="comment.showReplyForm=!comment.showReplyForm">Reply</button>
+        <form ng-show="enoughData && comment.showReplyForm" class="form-reply form-horizontal " role="form" name="replyForm" novalidate>
+            <div class="form-group">
+                <textarea spellcheck="false" name="comment" ng-model="replyText[comment.Id]" class="form-control" rows="4" required></textarea>
+                <div class="label label-danger" ng-show="wasSubmittedReply && replyForm.comment.$error.required">Required</div>
+            </div>
+            <button type="submit" class="btn btn-info" ng-click="addReply(replyForm.$valid, type, comment.Id, $event)">Leave comment</button>
+        </form>
+        <div ng-show="!enoughData && comment.showReplyForm" class="alert alert-warning">For comment fill your <a href="#/profile" class="alert-link">profile.</a></div>
+    </div>
+</div>

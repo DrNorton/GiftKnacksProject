@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body">
 	<div class="list-group">
-        <a href="#/user/{{participant.Id}}?action=addreference" class="list-group-item" ng-repeat="participant in participants" ng-click="closeItem()">{{participant.FirstName}}&nbsp;{{participant.LastName}}</a>
+        <a href="#/user/{{participant.Id}}?action=addreference" class="list-group-item" ng-repeat="participant in participants" ng-click="closeItem(participant.Id)">{{participant.FirstName}}&nbsp;{{participant.LastName}}</a>
 	</div>
 </div>
 <div class="modal-footer">

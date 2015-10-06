@@ -1002,6 +1002,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="templates\comment.html" />
     <Content Include="templates\history.html" />
     <Content Include="templates\findwish.html" />
     <Content Include="templates\findgift.html" />
@@ -1010,6 +1011,7 @@
     <Content Include="templates\user.html" />
     <Content Include="templates\addreference.html" />
     <Content Include="templates\participantslist.html" />
+    <Content Include="templates\replyform.html" />
     <Content Include="templates\wishgiftlist.html" />
     <Content Include="templates\wishcard.html" />
     <Content Include="templates\wishform.html" />
