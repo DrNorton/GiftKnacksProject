@@ -16,13 +16,17 @@ namespace GiftKnacksProject.Api.EfDao
     {
         public WishCategory()
         {
+            this.WishCategories1 = new HashSet<WishCategory>();
             this.Wishes = new HashSet<Wish>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public Nullable<int> ParentId { get; set; }
     
+        public virtual ICollection<WishCategory> WishCategories1 { get; set; }
+        public virtual WishCategory WishCategory1 { get; set; }
         public virtual ICollection<Wish> Wishes { get; set; }
     }
 }

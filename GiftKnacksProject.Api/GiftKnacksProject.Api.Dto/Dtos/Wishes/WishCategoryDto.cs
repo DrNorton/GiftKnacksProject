@@ -10,5 +10,6 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Wishes
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ParentName { get; set; }
     }
 }

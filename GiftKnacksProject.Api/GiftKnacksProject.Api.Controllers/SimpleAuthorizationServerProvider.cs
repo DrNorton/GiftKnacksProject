@@ -32,10 +32,13 @@ namespace GiftKnacksProject.Api.Controllers
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
             var isFilledClaim = context.Identity.Claims.FirstOrDefault(x => x.Type == "profileFiled");
+            var id=context.Identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
             if (isFilledClaim != null)
             {
                 var isFilled = isFilledClaim.Value;
                 context.AdditionalResponseParameters.Add("isFilled",bool.Parse(isFilled));
+                context.AdditionalResponseParameters.Add("userId", long.Parse(id.Value));
+                
             }
             return base.TokenEndpoint(context);
         }

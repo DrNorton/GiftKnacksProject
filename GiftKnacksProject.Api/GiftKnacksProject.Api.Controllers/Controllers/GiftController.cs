@@ -17,7 +17,7 @@ using Microsoft.AspNet.Identity;
 namespace GiftKnacksProject.Api.Controllers.Controllers
 {
     [System.Web.Http.RoutePrefix("api/gift")]
-    [EnableCors(origins: "http://giftknacksproject.azurewebsites.net", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://giftknackapi.azurewebsites.net", headers: "*", methods: "*")]
     public class GiftController:CustomApiController
     {
         private readonly IGiftRepository _giftRepository;
@@ -28,31 +28,40 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         }
 
         //[System.Web.Http.Authorize]
+        [System.Web.Http.Route("close")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> Close(IdModel model)
+        {
+            var userId = long.Parse(User.Identity.GetUserId());
+            await _giftRepository.CloseGift((long)model.Id, userId);
+            return SuccessApiResult(null);
+        }
+
+        //[System.Web.Http.Authorize]
         [System.Web.Http.Route("Getall")]
         [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> GetAll(FilterDto filter)
         {
+            filter.StatusCode = 0;//только открытые
             var result=await _giftRepository.GetGifts(filter);
             return SuccessApiResult(result);
         }
 
         [System.Web.Http.Authorize]
-        [System.Web.Http.Route("GetMyGifts")]
+        [System.Web.Http.Route("GetByUser")]
         [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> GetMyGifts(FilterDto filter)
+        public async Task<IHttpActionResult> GetByUser(FilterDto filter)
         {
-            var userId = long.Parse(User.Identity.GetUserId());
-            IEnumerable<GiftDto> gifts;
-            if (filter == null)
+            long userId = 0;
+            if (filter.UserId == null)
             {
-                gifts = await _giftRepository.GetUserGifts(userId);
+                filter.UserId = long.Parse(User.Identity.GetUserId());
             }
             else
             {
-                filter.UserId = userId;
-                gifts = await _giftRepository.GetGifts(filter);
+                filter.UserId = (long)filter.UserId;
             }
-
+            var gifts = await _giftRepository.GetGifts(filter);
             return SuccessApiResult(gifts);
         }
 
@@ -64,7 +73,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             {
                 return ErrorApiResult(300, "Не передан id.Либо левый формат");
             }
-            var result = await _giftRepository.GetGift(id.Id);
+            var result = await _giftRepository.GetGift((long) id.Id);
             if (result == null)
             {
                 return ErrorApiResult(300, "Не найден");
@@ -73,29 +82,12 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         }
 
 
-        [System.Web.Http.Route("Insert100")]
-        [System.Web.Http.HttpGet]
-
-        public async Task<IHttpActionResult> Insert100()
-        {
-            var userId = 167;
-            for (int i = 0; i < 200; i++)
-            {
-                _giftRepository.AddGift(userId, new GiftDto() { Benefit = "1232", City = "Pechora City", Country = new CountryDto() { Code = "RU" }, Description = "test", FromDate = DateTime.Now, ToDate = DateTime.Now.AddHours(15), Location = "here", Name = "test"+i});
-                Debug.WriteLine(i);
-            }
-           
-            return EmptyApiResult();
-        }
-
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("GetEmptyGift")]
         [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> GetEmptyGift()
         {
-            var userId = long.Parse(User.Identity.GetUserId());
-            var emptyWish = await _giftRepository.GetEmptyDtoWithAdditionalInfo(userId);
-
+            var emptyWish = await _giftRepository.GetEmptyDtoWithAdditionalInfo();
             return SuccessApiResult(emptyWish);
         }
 

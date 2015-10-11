@@ -16,7 +16,6 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
             var fileService = new FileService(container.Resolve<UrlSettings>());
-            fileService.CheckNeededFolderAndIfNotExistsCreate();
             container.Register(Component.For<IFileService>().Instance(fileService));
         }
     }

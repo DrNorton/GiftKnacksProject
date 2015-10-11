@@ -18,7 +18,7 @@ using Microsoft.AspNet.Identity;
 namespace GiftKnacksProject.Api.Controllers.Controllers
 {
     [System.Web.Http.RoutePrefix("api/Wish")]
-    [EnableCors(origins: "http://giftknacksproject.azurewebsites.net", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://giftknackapi.azurewebsites.net", headers: "*", methods: "*")]
     public class WishController : CustomApiController
     {
         private readonly IWishRepository _wishRepository;
@@ -37,12 +37,27 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> GetAll(FilterDto filter)
         {
+            filter.StatusCode = 0;
             var result = await _wishRepository.GetWishes(filter);
             return SuccessApiResult(result);
         }
 
-
-
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("GetByUser")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetByUser(FilterDto filter)
+        {
+            if (filter.UserId == null)
+            {
+                filter.UserId = long.Parse(User.Identity.GetUserId());
+            }
+            else
+            {
+                filter.UserId = (long)filter.UserId;
+            }
+            var wishes = await _wishRepository.GetWishes(filter);
+            return SuccessApiResult(wishes);
+        }
 
         [System.Web.Http.Route("Get")]
         [System.Web.Http.HttpPost]
@@ -52,7 +67,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             {
                 return ErrorApiResult(300, "Не передан id.Либо левый формат");
             }
-            var result = await _wishRepository.GetWish(id.Id);
+            var result = await _wishRepository.GetWish((long) id.Id);
             if (result == default(WishDto))
             {
                 return ErrorApiResult(300, "Не найден");
@@ -60,23 +75,14 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             return SuccessApiResult(result);
         }
 
-        [System.Web.Http.Authorize]
-        [System.Web.Http.Route("GetMyWishes")]
+
+        [System.Web.Http.Route("close")]
         [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> GetMyWishes(FilterDto filter)
+        public async Task<IHttpActionResult> Close(IdModel model)
         {
             var userId = long.Parse(User.Identity.GetUserId());
-            IEnumerable<WishDto> wishes;
-            if (filter == null)
-            {
-                 wishes = await _wishRepository.GetUserWishes(userId);
-            }
-            else
-            {
-                filter.UserId = userId;
-                 wishes = await _wishRepository.GetWishes(filter);
-            }
-            return SuccessApiResult(wishes);
+            await _wishRepository.CloseWish((long)model.Id, userId,model.CloserId);
+            return SuccessApiResult(null);
         }
 
         [System.Web.Http.Authorize]
@@ -103,8 +109,6 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
              var result=await _wishRepository.AddWish(userId,wish);
              return SuccessApiResult(new IdModel() { Id = result });
         }
-
-        
 
     }
 }

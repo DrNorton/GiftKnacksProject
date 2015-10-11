@@ -31,7 +31,7 @@ using Newtonsoft.Json.Linq;
 namespace GiftKnacksProject.Api.Controllers.Controllers
 {
     [System.Web.Http.RoutePrefix("api/Account")]
-    [EnableCors(origins: "http://giftknacksproject.azurewebsites.net", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://giftknackapi.azurewebsites.net", headers: "*", methods: "*")]
     public class AccountController : CustomApiController
     {
         private readonly CustomUserManager _userManager;
@@ -196,9 +196,9 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> GetProfile(IdModel model)
         {
             long userId = 0;
-            if (model != null && model.Id != 0)
+            if (model != null && model.Id != null)
             {
-                userId = model.Id;
+                userId = (long) model.Id;
             }
             else
             {
@@ -223,9 +223,9 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> GetShortProfile(IdModel model)
         {
             long userId = 0;
-            if (model != null && model.Id != 0)
+            if (model != null && model.Id != null)
             {
-                userId = model.Id;
+                userId = (long) model.Id;
             }
             else
             {

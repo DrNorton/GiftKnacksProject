@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Problems>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0009</Rule>
+    <ProblemDescription>Avoid NVARCHAR of only 2 elements.</ProblemDescription>
+    <SourceFile>E:\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\Gifts.sql</SourceFile>
+    <Line>5</Line>
+    <Column>12</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0009</Rule>
+    <ProblemDescription>Avoid NVARCHAR of only 2 elements.</ProblemDescription>
+    <SourceFile>E:\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\Countries.sql</SourceFile>
+    <Line>3</Line>
+    <Column>5</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0009</Rule>
+    <ProblemDescription>Avoid NVARCHAR of only 2 elements.</ProblemDescription>
+    <SourceFile>E:\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\Profiles.sql</SourceFile>
+    <Line>6</Line>
+    <Column>12</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0009</Rule>
+    <ProblemDescription>Avoid NVARCHAR of only 2 elements.</ProblemDescription>
+    <SourceFile>E:\Projects\GiftKnacksProject\GiftKnacksProject.Db\GiftKnacksProject.Db\Wishes.sql</SourceFile>
+    <Line>5</Line>
+    <Column>12</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+</Problems>

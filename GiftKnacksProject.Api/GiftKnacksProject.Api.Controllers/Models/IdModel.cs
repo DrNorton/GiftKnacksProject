@@ -8,6 +8,7 @@ namespace GiftKnacksProject.Api.Controllers.Models
 {
     public class IdModel
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
+        public long? CloserId { get; set; }
     }
 }

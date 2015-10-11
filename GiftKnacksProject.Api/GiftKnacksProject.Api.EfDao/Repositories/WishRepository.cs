@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos;
 using GiftKnacksProject.Api.Dto.Dtos.Gifts;
+using GiftKnacksProject.Api.Dto.Dtos.Interesting;
 using GiftKnacksProject.Api.Dto.Dtos.Links;
 
 using GiftKnacksProject.Api.Dto.Dtos.Wishes;
@@ -20,38 +21,20 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
         {
 
         }
-        public async Task<IEnumerable<WishDto>> GetUserWishes(long userId)
-        {
-            return Db.Set<Wish>().Where(x => x.UserId == userId).Select(x => new WishDto()
-            {
-                Id = x.Id,
-                Benefit = x.Benefit,
-                Category =x.WishCategory.Name,
-                City = x.City,
-                Country = new CountryDto() { Code = x.Country1.Id,Name = x.Country1.Name},
-                Description = x.Description,
-                FromDate = x.FromDate,
-                ToDate = x.ToDate,
-                ImageUrl = x.ImageUrl,
-                Location = x.Location,
-                Emergency = x.Emergency,
-
-                Name = x.Name,
-                Participants = x.WishGiftLinks.Select(y => new ParticipantDto() { FirstName = y.Gift.User.Profile.FirstName, Id = y.Gift.User.Id, LastName = y.Gift.User.Profile.LastName }),
-            }).ToList();
-        }
-
+      
+        //Получение пустого виша
         public async Task<EmptyWishDto> GetEmptyDtoWithAdditionalInfo(long userId)
         {
             var profile = Db.Set<Profile>().FirstOrDefault(x=>x.Id==userId);
-            var wishCategories = Db.Set<WishCategory>().Select(x=>new WishCategoryDto(){Description = x.Description,Name = x.Name}).ToList();
+            var wishCategories = Db.Set<WishCategory>().Where(x=>! x.WishCategories1.Any()).Select(x=>new WishCategoryDto(){Description = x.Description,Name = x.Name,ParentName=x.WishCategory1.Name}).ToList();
           
             return new EmptyWishDto(){Country = new CountryDto(){Code = profile.Country1.Id,Name = profile.Country1.Name},
                 WishCategories = wishCategories,
                 FromDate = DateTime.Now,
                 City = profile.City};
         }
-
+        
+        //Добавление вишеа
         public async Task<long> AddWish(long userId,WishDto wish)
         {
             var category = Db.Set<WishCategory>().FirstOrDefault(x => x.Name == wish.Category);
@@ -70,6 +53,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 UserId = userId,
                 Emergency = wish.Emergency,
                 Name = wish.Name,
+                Location = wish.Location,
                 GiftWishStatus = status
 
 
@@ -79,14 +63,19 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             return newwish.Id;
         }
 
-
+        //Получение вишей
         public async Task<IEnumerable<WishDto>> GetWishes(Dto.Dtos.Gifts.FilterDto filter)
         {
             IQueryable<Wish> query = Db.Set<Wish>().AsQueryable();
             if (filter != null)
             {
-                if (filter.UserId != null)
+                if (filter.StatusCode != -1)
                 {
+                    query = query.Where(x => x.GiftWishStatus.Code == filter.StatusCode);
+                }
+
+                if (filter.UserId != null)
+                { 
                     query = query.Where(x => x.UserId == filter.UserId);
                 }
 
@@ -95,7 +84,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                     query = query.Where(x => x.Name.Contains(filter.Keyword));
                 }
 
-                if (filter.Country != null)
+                if (filter.Country != null && filter.Country.Name!=null)
                 {
                     query = query.Where(x => x.Country1.Name == filter.Country.Name);
                 }
@@ -121,11 +110,13 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 FromDate = x.FromDate,
                 ToDate = x.ToDate,
                 Name = x.Name,
-                Id = x.Id
+                Id = x.Id,
+                Status = new StatusDto() { Code = x.GiftWishStatus.Code, Status = x.GiftWishStatus.Status },
 
             }).ToList();
         }
 
+        //Получение конкретного виша
         public Task<WishDto> GetWish(long id)
         {
             var wish = Db.Set<Wish>().Find(id);
@@ -147,7 +138,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                     Emergency = wish.Emergency,
                     Category = wish.WishCategory.Name,
                     Participants = wish.WishGiftLinks.Select(x => new ParticipantDto() { FirstName = x.Gift.User.Profile.FirstName, Id = x.Gift.User.Id, LastName = x.Gift.User.Profile.LastName }),
-                    Creator = new CreatorDto() { AvatarUrl = wish.User.Profile.AvatarUrl, CreatorId = wish.User.Id, FirstName = wish.User.Profile.FirstName, LastName = wish.User.Profile.LastName }
+                    Creator = new CreatorDto() { AvatarUrl = wish.User.Profile.AvatarUrl, CreatorId = wish.User.Id, FirstName = wish.User.Profile.FirstName, LastName = wish.User.Profile.LastName, FavoriteContact = wish.User.Profile.Contacts.Where(x => x.MainContact).Select(x => new ContactDto() { Name = x.ContactType.Name, Value = x.Value, MainContact = x.MainContact }).FirstOrDefault() },
+                    
                 };
 
                 return Task.FromResult(dto);
@@ -159,8 +151,35 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
 
         }
 
-        
+        public async Task CloseWish(long wishId,long currentUserId,long? closerId)
+        {
+            var wish = await Db.Set<Wish>().FindAsync(wishId);
+            if (closerId != null)
+            {
+                wish.WishUserCloserId = closerId;
+            }
+            if (wish.User.Id != currentUserId)
+            {
+                throw new Exception("Error. You try close thing, but you are not creator");
+            }
+            wish.GiftWishStatus = Db.Set<GiftWishStatus>().FirstOrDefault(x => x.Code == 1);
+            base.Update(wish);
+            base.Save();
+        }
 
-      
+        //Получение виша по городу округу
+        public async Task<IEnumerable<NearEntityDto>> GetByArea(CountryDto country,string city)
+        {
+            IQueryable<Wish> query = Db.Set<Wish>().AsQueryable();
+            if (country != null && country.Name != null && city != null)
+            {
+                 query=query.Where(x=>x.Country1.Name==country.Name || x.City==city);
+            }
+
+
+            return query.Select(x => new NearEntityDto() {Id = x.Id, Name = x.Name});
+
+        } 
+
     }
 }

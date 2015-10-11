@@ -70,11 +70,12 @@
     <Build Include="Gifts.sql" />
     <Build Include="WishGiftLinks.sql" />
     <Build Include="GiftWishStatuses.sql" />
+    <Build Include="References.sql" />
+    <Build Include="Comments.sql" />
+    <Build Include="WishLinkComments.sql" />
+    <Build Include="GiftLinkComments.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="GiftKnacksProject.Db.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
-    <PostDeploy Include="Scripts\AddStatuses.sql" />
   </ItemGroup>
 </Project>

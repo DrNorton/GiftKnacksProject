@@ -1,9 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos;
+using GiftKnacksProject.Api.Dto.Dtos.Interesting;
 using GiftKnacksProject.Api.Dto.Dtos.Profile;
 using GiftKnacksProject.Api.EfDao.Base;
+using GiftKnacksProject.Api.Helpers.Utils;
 
 namespace GiftKnacksProject.Api.EfDao.Repositories
 {
@@ -39,8 +43,34 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 Contacts = profile.Contacts.Select(x=>new ContactDto(){Name = x.ContactType.Name,Value = x.Value,MainContact = x.MainContact}).ToList(),
                 ContactTypes = types.Select(x=>x.Name).ToList(),
                 Gender = GetGenderStringFromBool(profile.Gender)
-                
+               
+
             };
+        }
+
+        private double CalculateAvg(long userId)
+        {
+            var references = Db.Set<Reference>().Where(x => x.OwnerId == userId).ToList();
+            if (references.Any())
+            {
+                var sum = references.Sum(x => x.Rate);
+                if (sum != null)
+                {
+
+                    double db = (double)sum.Value / (double)references.Count;
+                    return db;
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+            else
+            {
+                return 0;
+            }
+
         }
 
         public async Task<ShortProfileDto> GetShortProfile(long userId)
@@ -53,21 +83,33 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             }
             var types = Db.Set<ContactType>();
 
+            int? calcAge = null;
+            if (profile.HideBirthday == false)
+            {
+                if(profile.Birthday!=null)
+                calcAge = AgeCalulator.CalcAge((DateTime)profile.Birthday);
+            }
+
+            var totalClosed = Db.Set<Wish>().Count(x => x.WishUserCloserId == userId);
             return new ShortProfileDto()
             {
                 AboutMe = profile.AboutMe,
                 AvatarUrl = profile.AvatarUrl,
-                Birthday = profile.HideBirthday==true?profile.Birthday:null,
+                Birthday = profile.HideBirthday==true?null:profile.Birthday,
                 City = profile.City,
+                Age = calcAge,
                 Country = profile.Country == null ? null : new CountryDto() { Code = profile.Country1.Id, Name = profile.Country1.Name },
                 FirstName = profile.FirstName,
                 Id = profile.Id,
                 LastName = profile.LastName,
                 FavoriteContact = profile.Contacts.Where(x=>x.MainContact).Select(x => new ContactDto() { Name = x.ContactType.Name, Value = x.Value, MainContact = x.MainContact }).FirstOrDefault(),
-                Gender = GetGenderStringFromBool(profile.Gender)
+                Gender = GetGenderStringFromBool(profile.Gender),
+                AvgRate = CalculateAvg(userId),
+                TotalClosed = totalClosed
 
             };
         }
+
 
         public Task UpdateProfile(ProfileDto profile)
         {
@@ -144,6 +186,19 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
         {
             if (gender) return "male";
             return "female";
+        }
+
+        public async Task<IEnumerable<NearEntityDto>> GetByArea(CountryDto country, string city)
+        {
+            IQueryable<Profile> query = Db.Set<Profile>().AsQueryable();
+            if (country != null && country.Name != null && city != null)
+            {
+                query = query.Where(x => x.Country1.Name == country.Name || x.City == city);
+            }
+
+
+            return query.Select(x => new NearEntityDto() { Id = x.Id, Name = x.FirstName });
+
         }
     }
 }
