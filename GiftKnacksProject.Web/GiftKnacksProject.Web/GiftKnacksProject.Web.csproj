@@ -215,7 +215,6 @@
     <None Include=".bin\git.cmd" />
     <None Include=".bin\node.cmd" />
     <None Include=".bin\npm.cmd" />
-    <Content Include="Scripts\complaints.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
     <Content Include="Scripts\vendors\common.js" />
@@ -1004,6 +1003,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\vendors\ng-img-crop.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="templates\signalr.html" />
     <Content Include="templates\faq.html" />
