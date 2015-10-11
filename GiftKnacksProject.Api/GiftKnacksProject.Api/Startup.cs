@@ -37,7 +37,12 @@ namespace GiftKnacksProject.Api
 
                 var hubConfiguration = new HubConfiguration
                 {
-                    Resolver = GlobalHost.DependencyResolver,EnableJSONP = true
+                    Resolver = GlobalHost.DependencyResolver,
+                    EnableJSONP = true,
+                    EnableDetailedErrors = true,
+                    EnableJavaScriptProxies = true
+
+                    
                 };
                 map.RunSignalR(hubConfiguration);
             });

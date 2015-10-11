@@ -35,6 +35,8 @@ namespace FamilyTasks.Api
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
             System.Web.Http.GlobalConfiguration.Configuration.Filters.Add(container.Resolve<IFilter>());
+
+
         }
     }
 
