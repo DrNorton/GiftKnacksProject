@@ -25,7 +25,6 @@ namespace GiftKnacksProject.Api
            
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
-           
             app.Map("/signalr", map =>
             {
                 map.UseCors(CorsOptions.AllowAll);
@@ -39,10 +38,6 @@ namespace GiftKnacksProject.Api
                 {
                     Resolver = GlobalHost.DependencyResolver,
                     EnableJSONP = true,
-                    EnableDetailedErrors = true,
-                    EnableJavaScriptProxies = true
-
-                    
                 };
                 map.RunSignalR(hubConfiguration);
             });
