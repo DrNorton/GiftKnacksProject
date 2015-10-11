@@ -12,7 +12,7 @@ using GiftKnacksProject.Api.EfDao.Base;
 namespace GiftKnacksProject.Api.Controllers.Controllers
 {
     [System.Web.Http.RoutePrefix("api/Country")]
-    [EnableCors(origins: "http://giftknacksproject.azurewebsites.net", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://giftknackapi.azurewebsites.net", headers: "*", methods: "*")]
     public class CountryController : CustomApiController
     {
         private readonly ICountryRepository _countryRepository;

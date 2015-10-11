@@ -23,14 +23,18 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Profile
 
         public ContactDto FavoriteContact { get; set; }
 
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? Age { get; set; }
 
-       
 
         [JsonProperty("UploadAvatar")]
         public ImageDto Image { get; set; }
 
         public string Gender { get; set; }
 
-        
+        public double AvgRate { get; set; }
+
+        public int TotalClosed { get; set; }
+
     }
 }

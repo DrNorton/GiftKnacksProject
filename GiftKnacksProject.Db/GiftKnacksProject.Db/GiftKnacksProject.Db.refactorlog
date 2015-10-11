@@ -42,4 +42,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Status" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="6c10ab26-8454-412a-b1c5-f3f10ed97056" ChangeDateTime="10/04/2015 13:30:44">
+    <Property Name="ElementName" Value="[dbo].[WishLinkComments].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WishLinkComments]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CommentId" />
+  </Operation>
 </Operations>

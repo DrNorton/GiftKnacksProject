@@ -1360,12 +1360,35 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
 
 
 app.controller('myCtrl', ['$http', '$scope', function ($http, $scope) {
+    var hubConnection = $.hubConnection('http://localhost:45980/signalr', { useDefaultPath: false });
+    hubConnection.qs = { 'access_token': 'QAzj7Pcvg322JfBwZEns1kzPI_qr4bw7HA4WF_8RqQcU3uLwGdGekFx6_KZfHn98E6tjL46pEGhexOLIMib5NsYvsnmMTOQ29eLJ2l6YWXp1vqA39q3vCnNDXG81NFR6qZlH9FcUuamqejqUQX-HARCMUUh7MoiTgPPHcu9h6qd4qWdXchDuXU84PAjbEMejoh8uivs-Rw-dACUTEq91Ozq-KPWkoRQsJ9jzmoXqlG1dW7eVLyQQSplIO-35uwEbdKjbnsPMRWJPaxVf3t3Do5X4yIWe-RqUqdQzCqEH0DeNkoRM6GqGifHVjvSYJhECX7KT-noWgHvJC0VNbMr87A' };
+    var hubProxy = hubConnection.createHubProxy("onlinehub");
+   
+    hubProxy.on('onConnected', function () {
+        console.log("connected");
+    });
+
+    hubProxy.on('onDisconnected', function () {
+        console.log("disconnect");
+    });
+
+    hubProxy.on('onReconnected', function () {
+        console.log("reconect");
+    });
+    hubConnection.start().done(function() {
+        var test = hubProxy.invoke('getUserOnline').done(function(hui) {
+            alert(hui);
+        });
+    });
+   
+
     var uri = 'api/complaints',
         errorMessage = function (data, status) {
             return 'Error: ' + status +
                 (data.Message !== undefined ? (' ' + data.Message) : '');
         },
-        hub = $.connection.myHub; // create a proxy to signalr hub on web server
+
+        hub = hubProxy; // create a proxy to signalr hub on web server
 
     $scope.complaints = [];
     $scope.customerIdSubscribed;

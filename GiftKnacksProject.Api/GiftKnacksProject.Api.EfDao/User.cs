@@ -16,8 +16,12 @@ namespace GiftKnacksProject.Api.EfDao
     {
         public User()
         {
+            this.Comments = new HashSet<Comment>();
             this.Gifts = new HashSet<Gift>();
+            this.References = new HashSet<Reference>();
+            this.References1 = new HashSet<Reference>();
             this.Wishes = new HashSet<Wish>();
+            this.Wishes1 = new HashSet<Wish>();
             this.WishGiftLinks = new HashSet<WishGiftLink>();
         }
     
@@ -28,9 +32,13 @@ namespace GiftKnacksProject.Api.EfDao
         public bool ConfirmMail { get; set; }
         public string EmailStamp { get; set; }
     
+        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Gift> Gifts { get; set; }
         public virtual Profile Profile { get; set; }
+        public virtual ICollection<Reference> References { get; set; }
+        public virtual ICollection<Reference> References1 { get; set; }
         public virtual ICollection<Wish> Wishes { get; set; }
+        public virtual ICollection<Wish> Wishes1 { get; set; }
         public virtual ICollection<WishGiftLink> WishGiftLinks { get; set; }
     }
 }

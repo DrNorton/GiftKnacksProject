@@ -6,7 +6,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <NameOfLastUsedPublishProfile>GiftKnacksProject</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>giftknackApi</NameOfLastUsedPublishProfile>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

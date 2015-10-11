@@ -44,7 +44,8 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
                     .Instance(new UrlSettings()
                     {
                         ApiUrl = ConfigurationManager.AppSettings["ApiUrl"],
-                        SiteUrl = ConfigurationManager.AppSettings["SiteUrl"]
+                        SiteUrl = ConfigurationManager.AppSettings["SiteUrl"],
+                        StorageConnectionString = ConfigurationManager.AppSettings["StorageConnectionString"]
                     }));
 
          

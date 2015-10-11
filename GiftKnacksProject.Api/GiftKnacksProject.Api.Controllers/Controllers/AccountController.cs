@@ -31,22 +31,24 @@ using Newtonsoft.Json.Linq;
 namespace GiftKnacksProject.Api.Controllers.Controllers
 {
     [System.Web.Http.RoutePrefix("api/Account")]
-    [EnableCors(origins: "http://giftknacksproject.azurewebsites.net", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://giftknackapi.azurewebsites.net", headers: "*", methods: "*")]
     public class AccountController : CustomApiController
     {
         private readonly CustomUserManager _userManager;
         private readonly IProfileRepository _profileRepository;
         private readonly UrlSettings _urlSettings;
         private readonly IFileService _fileService;
+        private readonly IUserOnlineStorage _userOnlineStorage;
 
 
-        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService)
+        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService,IUserOnlineStorage userOnlineStorage)
         {
             
             _userManager = userManager;
             _profileRepository = profileRepository;
             _urlSettings = urlSettings;
             _fileService = fileService;
+            _userOnlineStorage = userOnlineStorage;
         }
 
         // POST api/Account/Register
@@ -196,9 +198,9 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> GetProfile(IdModel model)
         {
             long userId = 0;
-            if (model != null && model.Id != 0)
+            if (model != null && model.Id != null)
             {
-                userId = model.Id;
+                userId = (long) model.Id;
             }
             else
             {
@@ -206,12 +208,14 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
            
             var profile = await _profileRepository.GetProfile(userId);
+        
             if (profile == null)
             {
                 return ErrorApiResult(12, "Profile not finded");
             }
             else
             {
+                profile.IsOnline = _userOnlineStorage.GetOnlineStatus(userId);
                 return SuccessApiResult(profile);
             }
         }
@@ -223,9 +227,9 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> GetShortProfile(IdModel model)
         {
             long userId = 0;
-            if (model != null && model.Id != 0)
+            if (model != null && model.Id != null)
             {
-                userId = model.Id;
+                userId = (long) model.Id;
             }
             else
             {

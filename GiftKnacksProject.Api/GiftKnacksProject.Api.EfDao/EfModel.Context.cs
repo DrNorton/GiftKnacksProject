@@ -25,15 +25,19 @@ namespace GiftKnacksProject.Api.EfDao
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<ContactType> ContactTypes { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<GiftLinkComment> GiftLinkComments { get; set; }
         public virtual DbSet<Gift> Gifts { get; set; }
+        public virtual DbSet<GiftWishStatus> GiftWishStatuses { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<Reference> References { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<WishCategory> WishCategories { get; set; }
         public virtual DbSet<Wish> Wishes { get; set; }
         public virtual DbSet<WishGiftLink> WishGiftLinks { get; set; }
-        public virtual DbSet<GiftWishStatus> GiftWishStatuses { get; set; }
+        public virtual DbSet<WishLinkComment> WishLinkComments { get; set; }
     }
 }

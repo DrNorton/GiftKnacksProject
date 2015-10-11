@@ -1,0 +1,20 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Comments] (Table)
+       [dbo].[WishLinkComments] (Table)
+       [dbo].[FK_Comments_Comments_Parent] (Foreign Key)
+       [dbo].[FK_Comments_ToUsers] (Foreign Key)
+       [dbo].[FK_WishLink] (Foreign Key)
+       [dbo].[FK_CommentLink] (Foreign Key)
+
+** Supporting actions

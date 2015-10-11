@@ -28,10 +28,14 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Profile
 
         public string Gender { get; set; }
 
+         public bool IsOnline { get; set; }
+
+
         public int ProfileProgress
         {
             get { return CalcProgress(); }
         }
+
 
         public int CalcProgress()
         {

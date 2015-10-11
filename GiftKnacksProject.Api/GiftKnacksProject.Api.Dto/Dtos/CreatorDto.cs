@@ -14,5 +14,6 @@ namespace GiftKnacksProject.Api.Dto.Dtos
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string AvatarUrl { get; set; }
+        public ContactDto FavoriteContact { get; set; }
     }
 }

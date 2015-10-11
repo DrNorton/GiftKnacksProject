@@ -58,6 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthUsers\ApplicationUser.cs" />
+    <Compile Include="Dtos\Comments\CommentDto.cs" />
+    <Compile Include="Dtos\Comments\GetCommentsDto.cs" />
     <Compile Include="Dtos\ContactDto.cs" />
     <Compile Include="Dtos\CountryDto.cs" />
     <Compile Include="Dtos\CreatorDto.cs" />
@@ -67,9 +69,14 @@
     <Compile Include="Dtos\Gifts\GiftDto.cs" />
     <Compile Include="Dtos\Gifts\FilterDto.cs" />
     <Compile Include="Dtos\ImageDto.cs" />
+    <Compile Include="Dtos\Interesting\NearEntityDto.cs" />
+    <Compile Include="Dtos\Interesting\InterestingNearDto.cs" />
     <Compile Include="Dtos\PagingDto.cs" />
     <Compile Include="Dtos\Profile\ProfileDto.cs" />
     <Compile Include="Dtos\Profile\ShortProfileDto.cs" />
+    <Compile Include="Dtos\Profile\TinyProfileDto.cs" />
+    <Compile Include="Dtos\Reference\AddReferenceDto.cs" />
+    <Compile Include="Dtos\Reference\ReferenceDto.cs" />
     <Compile Include="Dtos\Wishes\EmptyWishDto.cs" />
     <Compile Include="Dtos\Wishes\ImagedWishDto.cs" />
     <Compile Include="Dtos\Links\ParticipantDto.cs" />

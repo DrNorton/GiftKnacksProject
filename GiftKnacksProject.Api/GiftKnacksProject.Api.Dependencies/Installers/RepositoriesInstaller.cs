@@ -12,16 +12,18 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<EfContext>().LifestyleTransient());
+            container.Register(Component.For<EfContext>().LifestylePerWebRequest());
             
-            container.Register(Component.For<IAuthRepository, EfAuthRepository>().LifestyleTransient());
+            container.Register(Component.For<IAuthRepository, EfAuthRepository>().LifestylePerWebRequest());
            
-            container.Register(Component.For<IProfileRepository, ProfileRepository>().LifestyleTransient());
+            container.Register(Component.For<IProfileRepository, ProfileRepository>().LifestylePerWebRequest());
 
-            container.Register(Component.For<ICountryRepository, CountryRepository>().LifestyleTransient());
-            container.Register(Component.For<IWishRepository, WishRepository>().LifestyleTransient());
-            container.Register(Component.For<IGiftRepository, GiftRepository>().LifestyleTransient());
-            container.Register(Component.For<ILinkRepository, LinkRepository>().LifestyleTransient());
+            container.Register(Component.For<ICountryRepository, CountryRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<IWishRepository, WishRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<IGiftRepository, GiftRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<ILinkRepository, LinkRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<IReferenceRepository, ReferenceRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<ICommentRepository, CommentRepository>().LifestylePerWebRequest());
         }
     }
 }

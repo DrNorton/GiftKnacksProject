@@ -1,10 +1,13 @@
 ﻿using System.Configuration;
+using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Http;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using FamilyTasks.Api;
 using GiftKnacksProject.Api.Dependencies;
+using Microsoft.AspNet.SignalR;
+using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 
@@ -12,8 +15,6 @@ namespace GiftKnacksProject.Api
 {
     public class Startup
     {
-      
-
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
@@ -24,7 +25,22 @@ namespace GiftKnacksProject.Api
            
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
-            
+           
+            app.Map("/signalr", map =>
+            {
+                map.UseCors(CorsOptions.AllowAll);
+
+                map.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions()
+                {
+                    Provider = new QueryStringOAuthBearerProvider()
+                });
+
+                var hubConfiguration = new HubConfiguration
+                {
+                    Resolver = GlobalHost.DependencyResolver,EnableJSONP = true
+                };
+                map.RunSignalR(hubConfiguration);
+            });
         }
 
 
@@ -48,8 +64,21 @@ namespace GiftKnacksProject.Api
         }    
     }
 
-  
+    public class QueryStringOAuthBearerProvider : OAuthBearerAuthenticationProvider
+    {
+        public override Task RequestToken(OAuthRequestTokenContext context)
+        {
+            var value = context.Request.Query.Get("access_token");
 
-    
-   
+            if (!string.IsNullOrEmpty(value))
+            {
+                context.Token = value;
+            }
+
+            return Task.FromResult<object>(null);
+        }
+    }
+
+
+
 }
