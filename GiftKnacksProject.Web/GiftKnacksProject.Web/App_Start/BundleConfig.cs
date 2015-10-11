@@ -20,11 +20,11 @@ namespace GiftKnacksProject.Web
 						bundles.Add(new ScriptBundle("~/bundles/vendors").Include(
 												"~/Scripts/vendors/loading-bar.js",
 												"~/Scripts/vendors/common.js",
-												"~/Scripts/vendors/fileinput.js",
 												"~/Scripts/vendors/angular-local-storage.js",
 												"~/Scripts/vendors/inputmask/jquery.inputmask.js",
 												"~/Scripts/vendors/inputmask/jquery.inputmask.date.extensions.js",
-												"~/Scripts/vendors/infinite-scroll.min.js"));
+												"~/Scripts/vendors/infinite-scroll.min.js",
+                                                "~/Scripts/vendors/ng-img-crop.js"));
 
 						// Use the development version of Modernizr to develop with and learn from. Then, when you're
 						// ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -49,6 +49,7 @@ namespace GiftKnacksProject.Web
 						bundles.Add(new StyleBundle("~/Content/css").Include(
 											"~/Content/bootstrap.css",
 											"~/Content/loading-bar.css",
+                                            "~/Content/ng-img-crop.css",
 											"~/Content/site.css"));
 
 						// Set EnableOptimizations to false for debugging. For more information,

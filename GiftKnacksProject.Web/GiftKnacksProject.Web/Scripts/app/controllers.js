@@ -43,6 +43,29 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
 
 /**
  * @ngdoc function
+ * @name giftknacksApp.controller:FaqCtrl
+ * @description
+ * # Контроллер информационной страницы
+ * Controller of the giftknacksApp
+ */
+app.controller('FaqCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
+    $scope.selectedLink = 'faq';
+    if ($location.hash()) {
+        $anchorScroll();
+        $scope.selectedLink = $location.hash();
+    }
+
+    
+
+    $scope.scrollTo = function (id) {
+        $location.hash(id);
+        $anchorScroll();
+    }
+}]);
+
+
+/**
+ * @ngdoc function
  * @name giftknacksApp.controller:UserCtrl
  * @description
  * # Контроллер страницы юзера
@@ -774,9 +797,40 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 	};
 	//#endregion
 
+	$scope.cropControl = false;
+     $scope.croppedImage = '';
+     var handleFileSelect = function (evt) {
+         var file = evt.currentTarget.files[0];
+         if (!file) {
+             return;
+         }
+         $scope.cropControl = true;
+         var reader = new FileReader();
+         reader.onload = function (evt) {
+             $scope.$apply(function ($scope) {
+                 $scope.wish.ImageUrl = evt.target.result;
+                 $scope.imageExist = true;
+             });
+         };
+         reader.readAsDataURL(file);
+     };
+     angular.element(document.querySelector('[name=uploadImage]')).on('change', handleFileSelect);
+
+	$scope.clearImage = function () {
+	    $scope.imageExist = false;
+	    $scope.wish.ImageUrl = null;
+	    $scope.wish.Image = null;
+	    $scope.cropControl = false;
+	    $scope.croppedImage = '';
+	}
+
+
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if (isValid && $scope.enoughData) {
+		    if ($scope.cropControl) {
+		        $scope.wish.Image.result= $scope.wish.ImageUrl = $scope.croppedImage;
+		    }
 		    $scope.wish.Category = $scope.wish.Category.Name;//TODO: поправить костыль
 			wishAndGiftService.addWish( $scope.wish ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
@@ -971,6 +1025,25 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		$scope.profileGetSuccessfully = false;
 	}
 
+    //image
+	$scope.cropControl = false;
+	$scope.croppedImage = '';
+	var handleFileSelect = function (evt) {
+	    var file = evt.currentTarget.files[0];
+	    if (!file) {
+	        return;
+	    }
+	    $scope.cropControl = true;
+	    var reader = new FileReader();
+	    reader.onload = function (evt) {
+	        $scope.$apply(function ($scope) {
+	            $scope.profile.AvatarUrl = evt.target.result;
+	        });
+	    };
+	    reader.readAsDataURL(file);
+	};
+	angular.element(document.querySelector('[name=uploadAvatar]')).on('change', handleFileSelect);
+
 	//#region получение стран и городов
 	$scope.countryFromTypehead = !!$scope.profile.Country;
 
@@ -1066,11 +1139,24 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 
 	};
 
+	$scope.clearAvatar = function () {
+	    $scope.avatarExist = false;
+	    $scope.profile.UploadAvatar = null;
+	    $scope.profile.AvatarUrl = null;
+	    $scope.cropControl = false;
+	    $scope.croppedImage = '';
+	}
+
 	$scope.updatePtofile = function ( isValid ) {
 		$scope.wasSubmitted = true;
-		if ( isValid ) {
+		if (isValid) {
+		    if ($scope.cropControl) {
+		        $scope.profile.UploadAvatar.result = $scope.profile.AvatarUrl = $scope.croppedImage;
+		    }
+		   
 			profileService.updatePtofile( $scope.profile ).then( function ( response ) {
-				if ( response.data && !response.data.ErrorCode ) {
+			    if (response.data && !response.data.ErrorCode) {
+			        $scope.cropControl = false;
 					$scope.profile.ProfileProgress = response.data.Result.ProfileProgress;
 					$scope.profileSavedSuccessfully = true;
 					authService.setIsFilled( true );
@@ -1274,7 +1360,7 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
 
 
 app.controller('myCtrl', ['$http', '$scope', function ($http, $scope) {
-    var hubConnection = $.hubConnection('http://localhost:45980/signalr', { useDefaultPath: false });
+    var hubConnection = $.hubConnection('http://giftknackapi.azurewebsites.net/signalr', { useDefaultPath: false });
     hubConnection.qs = { 'access_token': 'QAzj7Pcvg322JfBwZEns1kzPI_qr4bw7HA4WF_8RqQcU3uLwGdGekFx6_KZfHn98E6tjL46pEGhexOLIMib5NsYvsnmMTOQ29eLJ2l6YWXp1vqA39q3vCnNDXG81NFR6qZlH9FcUuamqejqUQX-HARCMUUh7MoiTgPPHcu9h6qd4qWdXchDuXU84PAjbEMejoh8uivs-Rw-dACUTEq91Ozq-KPWkoRQsJ9jzmoXqlG1dW7eVLyQQSplIO-35uwEbdKjbnsPMRWJPaxVf3t3Do5X4yIWe-RqUqdQzCqEH0DeNkoRM6GqGifHVjvSYJhECX7KT-noWgHvJC0VNbMr87A' };
     var hubProxy = hubConnection.createHubProxy("onlinehub");
    
@@ -1294,111 +1380,4 @@ app.controller('myCtrl', ['$http', '$scope', function ($http, $scope) {
             alert(hui);
         });
     });
-   
-
-    var uri = 'api/complaints',
-        errorMessage = function (data, status) {
-            return 'Error: ' + status +
-                (data.Message !== undefined ? (' ' + data.Message) : '');
-        },
-
-        hub = hubProxy; // create a proxy to signalr hub on web server
-
-    $scope.complaints = [];
-    $scope.customerIdSubscribed;
-
-    $scope.getAllFromCustomer = function () {
-        if ($scope.customerId.length == 0) return;
-        $http.get(uri + '/' + $scope.customerId)
-            .success(function (data, status) {
-                $scope.complaints = data; // show current complaints
-                if ($scope.customerIdSubscribed &&
-                    $scope.customerIdSubscribed.length > 0 &&
-                    $scope.customerIdSubscribed !== $scope.customerId) {
-                    // unsubscribe to stop to get notifications for old customer
-                    hub.server.unsubscribe($scope.customerIdSubscribed);
-                }
-                // subscribe to start to get notifications for new customer
-                hub.server.subscribe($scope.customerId);
-                $scope.customerIdSubscribed = $scope.customerId;
-            })
-            .error(function (data, status) {
-                $scope.complaints = [];
-                $scope.errorToSearch = errorMessage(data, status);
-            })
-    };
-    $scope.postOne = function () {
-        $http.post(uri, {
-            COMPLAINT_ID: 0,
-            CUSTOMER_ID: $scope.customerId,
-            DESCRIPTION: $scope.descToAdd
-        })
-            .success(function (data, status) {
-                $scope.errorToAdd = null;
-                $scope.descToAdd = null;
-            })
-            .error(function (data, status) {
-                $scope.errorToAdd = errorMessage(data, status);
-            })
-    };
-    $scope.putOne = function () {
-        $http.put(uri + '/' + $scope.idToUpdate, {
-            COMPLAINT_ID: $scope.idToUpdate,
-            CUSTOMER_ID: $scope.customerId,
-            DESCRIPTION: $scope.descToUpdate
-        })
-            .success(function (data, status) {
-                $scope.errorToUpdate = null;
-                $scope.idToUpdate = null;
-                $scope.descToUpdate = null;
-            })
-            .error(function (data, status) {
-                $scope.errorToUpdate = errorMessage(data, status);
-            })
-    };
-    $scope.deleteOne = function (item) {
-        $http.delete(uri + '/' + item.COMPLAINT_ID)
-            .success(function (data, status) {
-                $scope.errorToDelete = null;
-            })
-            .error(function (data, status) {
-                $scope.errorToDelete = errorMessage(data, status);
-            })
-    };
-    $scope.editIt = function (item) {
-        $scope.idToUpdate = item.COMPLAINT_ID;
-        $scope.descToUpdate = item.DESCRIPTION;
-    };
-    $scope.toShow = function () {
-        return $scope.complaints && $scope.complaints.length > 0;
-    };
-
-    // at initial page load
-    $scope.orderProp = 'COMPLAINT_ID';
-
-    // signalr client functions
-    hub.client.addItem = function (item) {
-        $scope.complaints.push(item);
-        $scope.$apply(); // this is outside of angularjs, so need to apply
-    }
-    hub.client.deleteItem = function (item) {
-        var array = $scope.complaints;
-        for (var i = array.length - 1; i >= 0; i--) {
-            if (array[i].COMPLAINT_ID === item.COMPLAINT_ID) {
-                array.splice(i, 1);
-                $scope.$apply();
-            }
-        }
-    }
-    hub.client.updateItem = function (item) {
-        var array = $scope.complaints;
-        for (var i = array.length - 1; i >= 0; i--) {
-            if (array[i].COMPLAINT_ID === item.COMPLAINT_ID) {
-                array[i].DESCRIPTION = item.DESCRIPTION;
-                $scope.$apply();
-            }
-        }
-    }
-
-    $.connection.hub.start(); // connect to signalr hub
 }]);

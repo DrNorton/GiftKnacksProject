@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar', 'infinite-scroll'])
+var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar', 'infinite-scroll', 'ngImgCrop'])
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
       $routeProvider
            .when('/signalr', {
@@ -20,7 +20,8 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
             controller: 'MainCtrl'
         })
            .when('/faq', {
-               templateUrl: '/templates/faq.html'
+               templateUrl: '/templates/faq.html',
+               controller: 'FaqCtrl'
            })
           .when('/login', {
               controller: 'LoginCtrl',

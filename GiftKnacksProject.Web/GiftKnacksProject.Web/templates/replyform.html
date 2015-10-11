@@ -1,6 +1,6 @@
 <div class="row comment-reply">
     <div class="col-md-12">
-        <button type="button" class="btn btn-info pull-right" ng-click="comment.showReplyForm=!comment.showReplyForm">Reply</button>
+        <button type="button" class=" reply-btn btn btn-info col-md-offset-2" ng-click="comment.showReplyForm=!comment.showReplyForm">Reply</button>
         <form ng-show="enoughData && comment.showReplyForm" class="form-reply" role="form" name="replyForm" novalidate>
             <div class="form-group">
                 <textarea spellcheck="false" name="comment" ng-model="replyText[comment.Id]" class="form-control" rows="4" required></textarea>
