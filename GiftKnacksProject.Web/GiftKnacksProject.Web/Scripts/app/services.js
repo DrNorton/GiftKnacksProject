@@ -1,12 +1,13 @@
-﻿'use strict';
+'use strict';
 app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $http, $q, localStorageService ) {
 
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
 
 	var _authentication = {
 		isAuth: false,
 		userName: "",
-		isFilled:false
+		isFilled: false,
+		userId:''
 	};
 
 	var _saveRegistration = function ( registration ) {
@@ -60,11 +61,12 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 
 		$http.post( serviceBase + 'api/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } } ).success( function ( response ) {
 
-			localStorageService.set( 'authorizationData', { token: response.access_token, userName: loginData.userName, isFilled: response.isFilled } );
+		    localStorageService.set( 'authorizationData', { token: response.access_token, userName: loginData.userName, isFilled: response.isFilled, userId:response.userId } );
 
 			_authentication.isAuth = true;
 			_authentication.userName = loginData.userName;
 			_authentication.isFilled = response.isFilled;
+			_authentication.userId = response.userId;
 
 			deferred.resolve( response );
 
@@ -84,6 +86,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		_authentication.isAuth = false;
 		_authentication.userName = "";
 		_authentication.isFilled = false;
+		_authentication.userId = '';
 
 	};
 
@@ -94,6 +97,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 			_authentication.isAuth = true;
 			_authentication.userName = authData.userName;
 			_authentication.isFilled = authData.isFilled;
+			_authentication.userId = authData.userId;
 		}
 
 	}
@@ -101,7 +105,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		_authentication.isFilled = value;
 		var authData = localStorageService.get( 'authorizationData' );
 		if ( authData ) {
-			localStorageService.set( 'authorizationData', { token: authData.token, userName: authData.userName, isFilled: value } );
+		    localStorageService.set('authorizationData', { token: authData.token, userName: authData.userName, isFilled: value, userId: authData.userId });
 		}
 		
 	}
@@ -123,7 +127,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 }] );
 
 app.factory( "profileService", ['$http', function ( $http ) {
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
 
 	var _getPtofile = function (id) {
 		return $http.post( serviceBase + 'api/account/getprofile', {'Id':id} ).then( function ( response ) {
@@ -140,6 +144,7 @@ app.factory( "profileService", ['$http', function ( $http ) {
 			return response;
 		} );
 	};
+	
 
 	var profileServiceFactory = {
 		getPtofile: _getPtofile,
@@ -150,7 +155,7 @@ app.factory( "profileService", ['$http', function ( $http ) {
 }] );
 
 app.factory( "wishAndGiftService", ['$http', function ( $http ) {
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
 
 	var _getEmptyWish = function () {
 		return $http.post( serviceBase + 'api/wish/getemptywish' ).then( function ( response ) {
@@ -197,53 +202,19 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 	};
 
 	var _getInterestingActivities = function () {
-		var response = {
-			data: {
-				Result:
-					{
-						Wishes: [
-						'chocolate Alenka', 'Sushki', 'Car toy'
-						],
-						Gifts: [
-							'gift1', 'gift2', 'gift3'
-						],
-						Members: [
-							'Vasya', 'Masha'
-						]
-					}
-			}
-		}
-		return response;
-	};
-	var _getHistory = function () {
-		var response = {
-			data: {
-				Result:
-					{
-						Wishes: [
-					'Surprise', 'Soy milk', 'Bear toy'
-						],
-						Gifts: [
-							'Russia trip', 'Euro trip'
-						]
-					}
-			}
-		};
-		if ( !Math.floor( Math.random() * 2 ) ) {
-			response.data = null;
-		}
-
-		return response;
+	    return $http.post(serviceBase + 'api/interestingnear/near').then(function (response) {
+	        return response;
+	    });
 	};
 
-	var _showMyGifts = function () {
-		return $http.post( serviceBase + 'api/gift/getmygifts' ).then( function ( response ) {
+	var _showGifts = function (query) {
+	    return $http.post(serviceBase + 'api/gift/getbyuser', query).then(function (response) {
 			return response;
 		} );
 	};
 
-	var _showMyWishes = function () {
-		return $http.post( serviceBase + 'api/wish/getmywishes' ).then( function ( response ) {
+	var _showWishes = function (query) {
+	    return $http.post(serviceBase + 'api/wish/getbyuser', query).then(function (response) {
 			return response;
 		} );
 	};
@@ -252,6 +223,17 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 			return response;
 		} );
 	};
+	var _closeWish = function (query) {
+	    return $http.post(serviceBase + 'api/wish/close', query).then(function (response) {
+	        return response;
+	    });
+	};
+	var _closeGift = function (query) {
+	    return $http.post(serviceBase + 'api/gift/close', query).then(function (response) {
+	        return response;
+	    });
+	};
+
 	var _setReturnPoint = function ( itemtype, itemid ) {
 		var response = null;
 		if ( itemtype && itemid >= 0 ) {
@@ -273,10 +255,11 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 		getGiftById: _getGiftById,
 		getWishById: _getWishById,
 		getInterestingActivities: _getInterestingActivities,
-		getHistory: _getHistory,
-		showMyGifts: _showMyGifts,
-		showMyWishes: _showMyWishes,
+		showGifts: _showGifts,
+		showWishes: _showWishes,
 		linkWishAndGift: _linkWishAndGift,
+		closeWish: _closeWish,
+		closeGift: _closeGift,
 		setReturnPoint: _setReturnPoint
 	};
 	return wishAndGiftServiceFactory;
@@ -330,10 +313,64 @@ app.factory( 'commonService', ['$http', function ( $http ) {
 	};
 	return commonServiceFactory;
 
-}] );
+}]);
+
+app.factory('referenceService', ['$http', function ($http) {
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+    var _addReference = function (reference) {
+        return $http.post(serviceBase + 'api/reference/add', reference).then(function (response) {
+            return response;
+        });
+    };
+    var _getReferences = function (id) {
+        return $http.post(serviceBase + 'api/reference/getall', { Id: id }).then(function (response) {
+            return response;
+        });
+    };
+
+    var referenceServiceFactory = {
+        addReference: _addReference,
+        getReferences: _getReferences
+    };
+    return referenceServiceFactory;
+
+}]);
+
+app.factory('commentService', ['$http', function ($http) {
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+    var _addWishComment = function (query) {
+        return $http.post(serviceBase + 'api/comment/addtowish', query).then(function (response) {
+            return response;
+        });
+    };
+    var _addGiftComment = function (query) {
+        return $http.post(serviceBase + 'api/comment/addtogift', query).then(function (response) {
+            return response;
+        });
+    };
+    var _getWishComments = function (id) {
+        return $http.post(serviceBase + 'api/comment/getbywishid', { Id: id }).then(function (response) {
+            return response;
+        });
+    };
+    var _getGiftComments = function (id) {
+        return $http.post(serviceBase + 'api/comment/getbygiftid', { Id: id }).then(function (response) {
+            return response;
+        });
+    };
+
+    var referenceServiceFactory = {
+        addWishComment: _addWishComment,
+        addGiftComment: _addGiftComment,
+        getWishComments: _getWishComments,
+        getGiftComments: _getGiftComments
+    };
+    return referenceServiceFactory;
+
+}]);
 
 app.factory( 'geoService', ['$http', function ( $http ) {
-	var serviceBase = 'http://giftknacksproject.azurewebsites.net/';
+    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
 	var _getCountry = function ( val ) {
 		return $http.get( serviceBase + 'api/country').then( function ( response ) {
 			return response;

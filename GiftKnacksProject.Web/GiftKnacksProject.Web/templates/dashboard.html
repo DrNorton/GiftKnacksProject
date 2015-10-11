@@ -1,47 +1,52 @@
-﻿<div class="dashboard">
-	<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="#/profile" class="alert-link">profile.</a></div>
-	<div class="awesomeness-bar row"><progressbar class="progress-striped active " value="50" type="success"> You are awesome!</progressbar></div>
-	<div ng-hide="historyWishes || historyGifts" class="welcome-msg row text-center">
-		<h1>Welcome!</h1>
-		<h2>We are glad that you are here!</h2>
-		Instructions...
-	</div>
-	<div ng-show="historyWishes || historyGifts" class="history row">
-		<h2>Recent activities:</h2>
-		<div class="col-md-6" ng-show="historyGifts">
-			<ul class="list-group">
-				<li class="list-group-item list-group-item-info">Recent gifts:</li>
-				<li ng-repeat="gift in historyGifts" class="list-group-item">{{gift}}</li>
-			</ul>
-		</div>
-		<div class="col-md-6" ng-show="historyWishes">
+<div class="dashboard row">
+    <div class="col-md-12">
+        <div class="row">
+            <div ng-hide="enoughData" class="not-enough-info alert alert-danger col-md-12" role="alert">For more action fill your <a href="#/profile" class="alert-link">profile.</a></div>
+            <div class="awesomeness-bar col-md-12 voffset3"><progressbar class="progress-striped " value="50" type="success"> You are awesome!</progressbar></div>
+            <div ng-hide="historyWishes || historyGifts" class="welcome-msg col-md-12 text-center">
+                <h1>Welcome!</h1>
+                <h2>We are glad that you are here!</h2>
+                Instructions...
+            </div>
+        </div>
+        <div ng-show="historyWishes.length || historyGifts.length" class="history row">
+            <h2 class="col-md-12">Recent activities:</h2>
+            <div class="col-md-6" ng-show="historyGifts.length">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">Recent gifts:</li>
+                    <li ng-repeat="gift in historyGifts" class="list-group-item"><a href="#/gift/{{gift.Id}}">{{gift.Name}}</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6" ng-show="historyWishes.length">
 
-			<ul class="list-group">
-				<li class="list-group-item list-group-item-info">Recent wishes:</li>
-				<li ng-repeat="wish in historyWishes" class="list-group-item">{{wish}}</li>
-			</ul>
-		</div>
-	</div>
-	<div class="interesting row">
-		<h2>Interesting near you:</h2>
-		<div class="col-md-4">
-			<ul class="list-group">
-				<li class="list-group-item list-group-item-info">Gifts:</li>
-				<li ng-repeat="gift in nearGifts" class="list-group-item">{{gift}}</li>
-			</ul>
-		</div>
-		<div class="col-md-4">
-			<ul class="list-group">
-				<li class="list-group-item list-group-item-info">Members:</li>
-				<li ng-repeat="member in nearMembers" class="list-group-item">{{member}}</li>
-			</ul>
-		</div>
-		<div class="col-md-4">
-			<ul class="list-group">
-				<li class="list-group-item list-group-item-info">Wishes:</li>
-				<li ng-repeat="wish in nearWishes" class="list-group-item">{{wish}}</li>
-			</ul>
-		</div>
-	</div>
-	<div class="row"><a href="#/findwish" class="btn btn-success col-md-offset-6">Search!</a></div>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">Recent wishes:</li>
+                    <li ng-repeat="wish in historyWishes" class="list-group-item"><a href="#/wish/{{wish.Id}}">{{wish.Name}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="interesting row">
+            <h2 class="col-md-12">Interesting near you:</h2>
+            <div class="col-md-4" ng-show="nearMembers.length">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">Members:</li>
+                    <li ng-repeat="member in nearMembers" class="list-group-item"><a href="#/user/{{member.Id}}">{{member.Name}}</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4" ng-show="nearGifts.length">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">Gifts:</li>
+                    <li ng-repeat="gift in nearGifts" class="list-group-item"><a href="#/gift/{{gift.Id}}">{{gift.Name}}</a></li>
+                    <li class="list-group-item list-group-item"><a href="#/findgift" class="btn btn-sm btn-success">Find more gifts</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4" ng-show="nearWishes.length">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info">Wishes:</li>
+                    <li ng-repeat="wish in nearWishes" class="list-group-item"><a href="#/wish/{{wish.Id}}">{{wish.Name}}</a></li>
+                    <li class="list-group-item list-group-item"><a href="#/findwish" class="btn btn-sm btn-success">Find more wishes</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

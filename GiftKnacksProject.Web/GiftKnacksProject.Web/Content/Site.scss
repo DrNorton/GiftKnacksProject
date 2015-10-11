@@ -1,6 +1,16 @@
-﻿[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 		display: none !important;
 }
+.voffset  { margin-top: 2px; }
+.voffset1 { margin-top: 5px; }
+.voffset2 { margin-top: 10px; }
+.voffset3 { margin-top: 15px; }
+.voffset4 { margin-top: 30px; }
+.voffset5 { margin-top: 40px; }
+.voffset6 { margin-top: 60px; }
+.voffset7 { margin-top: 80px; }
+.voffset8 { margin-top: 100px; }
+.voffset9 { margin-top: 150px; }
 
 // Fileinput
 // CSS for file upload button and fileinput widget
@@ -172,17 +182,54 @@ textarea {
 .emergency-rating{
 		outline:none;
 }
+
 .emergency-label{
 padding: .2em .3em .3em;
 
 }
-
+//reference
+.reference-rating{
+		outline:none;
+}
+.references-list{
+    margin-top:20px;
+}
+.reference-item {
+    .list-group-item-heading{
+        text-align:center;
+    }
+    .replyer-avatar img{
+        max-height:100px;
+    }
+}
+//comments
+.comments-list .list-group-item .list-group-item{
+    background:#f7f7f7;
+}
 //navbar
 .navbar-brand{
     padding:5px 15px;
+
+    @media (min-width: 768px) 
+    {
+        padding:1px 0;
+    }
+
+    img{
+        float:left;
+    }
+    span{
+        float:left;
+        font-size:26px;
+        line-height:50px;
+        margin-left:10px;
+    }
 }
 
-
+//поиск
+.filters{
+    margin-bottom:30px;
+}
 //карточка айтемов
 .item-card{
     .emergency-bar{
@@ -233,4 +280,25 @@ padding: .2em .3em .3em;
         margin-bottom:20px;
     }
 
+}
+//history block
+.hisory-list{
+    margin-top:10px;
+    .nav-tabs{
+        margin-bottom:20px;
+    }
+
+}
+html, body {
+	height: 100%;
+}
+.wrapper {
+    min-height:100%;
+     margin-top:-52px;
+     padding-top:52px;
+     padding-bottom:50px;
+}
+#footer{
+ height:52px;
+    margin-bottom:0;
 }
