@@ -14,6 +14,9 @@ namespace GiftKnacksProject.Web
 						bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
 												"~/Scripts/jquery.validate*"));
 
+                        bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
+                                                    "~/Scripts/jquery.signalR-2.1.2.min.js"));
+
 						bundles.Add(new ScriptBundle("~/bundles/vendors").Include(
 												"~/Scripts/vendors/loading-bar.js",
 												"~/Scripts/vendors/common.js",

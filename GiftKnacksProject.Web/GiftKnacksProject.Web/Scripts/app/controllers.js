@@ -236,15 +236,22 @@ app.controller( 'FindWishCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 	$scope.wasSubmittedWish = false;
 	$scope.queryWish = { busy: false, Offset: -20, Length: 20 };
 	$scope.listWish = [];
-	//lazy load
+	$scope.allItemsLoaded = false;
 
-	$scope.loadWishes = function ( offset, newSearch ) {
+	//lazy load
+	$scope.loadWishes = function (offset, newSearch) {
+	    if ($scope.allItemsLoaded) {
+	        return;
+	    }
 		$scope.queryWish.busy = true;
 		$scope.queryWish.Offset = typeof offset == "undefined" ? ( $scope.queryWish.Offset + $scope.queryWish.Length ) : offset;
 		wishAndGiftService.getWishes( $scope.queryWish ).then( function ( response ) {
 			$scope.queryWish.busy = false;
 			if ( response.data && !response.data.ErrorCode ) {
-				$scope.listWish = newSearch ? response.data.Result : $scope.listWish.concat( response.data.Result );
+			    $scope.listWish = newSearch ? response.data.Result : $scope.listWish.concat(response.data.Result);
+			    if (response.data.Result.length < $scope.queryWish.Length) {
+			        $scope.allItemsLoaded = true;
+			    }
 			} else {
 				$scope.listWish = newSearch ? { Name: response.data.ErrorMessage } : $scope.listWish.concat( { Name: response.data.ErrorMessage } );
 			}
@@ -276,7 +283,8 @@ app.controller( 'FindWishCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 
 	$scope.submitWish = function ( isValid ) {
 		$scope.wasSubmittedWish = true;
-		if ( isValid && $scope.enoughData ) {
+		if (isValid && $scope.enoughData) {
+		    $scope.allItemsLoaded = false;
 			$scope.loadWishes( 0, true );
 		}
 	};
@@ -299,14 +307,21 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 	$scope.wasSubmittedGift = false;
 	$scope.queryGift = { busy: false, Offset: -20, Length: 20 };
 	$scope.listGift = [];
+	$scope.allItemsLoaded = false;
 	//lazy load
-	$scope.loadGifts = function ( offset, newSearch ) {
+	$scope.loadGifts = function (offset, newSearch) {
+	    if ($scope.allItemsLoaded) {
+	        return;
+	    }
 		$scope.queryGift.busy = true;
 		$scope.queryGift.Offset = typeof offset == "undefined" ? ( $scope.queryGift.Offset + $scope.queryGift.Length ) : offset;
 		wishAndGiftService.getGifts( $scope.queryGift ).then( function ( response ) {
 			$scope.queryGift.busy = false;
 			if ( response.data && !response.data.ErrorCode ) {
-				$scope.listGift = newSearch ? response.data.Result : $scope.listGift.concat( response.data.Result );
+			    $scope.listGift = newSearch ? response.data.Result : $scope.listGift.concat(response.data.Result);
+			    if (response.data.Result.length < $scope.queryGift.Length) {
+			        $scope.allItemsLoaded = true;
+			    }
 			} else {
 				$scope.listGift = newSearch ? { Name: response.data.ErrorMessage } : $scope.listGift.concat( { Name: response.data.ErrorMessage } );
 			}
@@ -339,7 +354,8 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 
 	$scope.submitGift = function ( isValid ) {
 		$scope.wasSubmittedGift = true;
-		if ( isValid && $scope.enoughData ) {
+		if (isValid && $scope.enoughData) {
+		    $scope.allItemsLoaded = false;
 			$scope.loadGifts( 0, true );
 		}
 	};
@@ -360,7 +376,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
     $scope.wasSubmitted = false;
     $scope.wasSubmittedReply = false;
     $scope.comments = []
-   
+    $scope.allCommentsLoaded = false;
     $scope.commentText = '';
     $scope.replyText = {};
     $scope.newComments = {};
@@ -389,6 +405,9 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 
 	//lazy load
 	$scope.loadComments = function (type, offset) {
+	    if ($scope.allCommentsLoaded) {
+	        return;
+	    }
 	    var method = 'getWishComments';
 	    if (type=='gift') {
 	        method = 'getGiftComments';
@@ -399,6 +418,9 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 	        $scope.query.busy = false;
 			if ( response.data && !response.data.ErrorCode ) {
 			    $scope.comments = $scope.comments.concat(response.data.Result);
+			    if (response.data.Result.length < $scope.query.Length) {
+			        $scope.allCommentsLoaded = true;
+			    }
 			} else {
 			    $scope.comments = $scope.comments.concat({ Name: response.data.ErrorMessage });
 			}
@@ -1248,4 +1270,112 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
 		}, 2000 );
 	}
 
-}] );
+}]);
+
+
+app.controller('myCtrl', ['$http', '$scope', function ($http, $scope) {
+    var uri = 'api/complaints',
+        errorMessage = function (data, status) {
+            return 'Error: ' + status +
+                (data.Message !== undefined ? (' ' + data.Message) : '');
+        },
+        hub = $.connection.myHub; // create a proxy to signalr hub on web server
+
+    $scope.complaints = [];
+    $scope.customerIdSubscribed;
+
+    $scope.getAllFromCustomer = function () {
+        if ($scope.customerId.length == 0) return;
+        $http.get(uri + '/' + $scope.customerId)
+            .success(function (data, status) {
+                $scope.complaints = data; // show current complaints
+                if ($scope.customerIdSubscribed &&
+                    $scope.customerIdSubscribed.length > 0 &&
+                    $scope.customerIdSubscribed !== $scope.customerId) {
+                    // unsubscribe to stop to get notifications for old customer
+                    hub.server.unsubscribe($scope.customerIdSubscribed);
+                }
+                // subscribe to start to get notifications for new customer
+                hub.server.subscribe($scope.customerId);
+                $scope.customerIdSubscribed = $scope.customerId;
+            })
+            .error(function (data, status) {
+                $scope.complaints = [];
+                $scope.errorToSearch = errorMessage(data, status);
+            })
+    };
+    $scope.postOne = function () {
+        $http.post(uri, {
+            COMPLAINT_ID: 0,
+            CUSTOMER_ID: $scope.customerId,
+            DESCRIPTION: $scope.descToAdd
+        })
+            .success(function (data, status) {
+                $scope.errorToAdd = null;
+                $scope.descToAdd = null;
+            })
+            .error(function (data, status) {
+                $scope.errorToAdd = errorMessage(data, status);
+            })
+    };
+    $scope.putOne = function () {
+        $http.put(uri + '/' + $scope.idToUpdate, {
+            COMPLAINT_ID: $scope.idToUpdate,
+            CUSTOMER_ID: $scope.customerId,
+            DESCRIPTION: $scope.descToUpdate
+        })
+            .success(function (data, status) {
+                $scope.errorToUpdate = null;
+                $scope.idToUpdate = null;
+                $scope.descToUpdate = null;
+            })
+            .error(function (data, status) {
+                $scope.errorToUpdate = errorMessage(data, status);
+            })
+    };
+    $scope.deleteOne = function (item) {
+        $http.delete(uri + '/' + item.COMPLAINT_ID)
+            .success(function (data, status) {
+                $scope.errorToDelete = null;
+            })
+            .error(function (data, status) {
+                $scope.errorToDelete = errorMessage(data, status);
+            })
+    };
+    $scope.editIt = function (item) {
+        $scope.idToUpdate = item.COMPLAINT_ID;
+        $scope.descToUpdate = item.DESCRIPTION;
+    };
+    $scope.toShow = function () {
+        return $scope.complaints && $scope.complaints.length > 0;
+    };
+
+    // at initial page load
+    $scope.orderProp = 'COMPLAINT_ID';
+
+    // signalr client functions
+    hub.client.addItem = function (item) {
+        $scope.complaints.push(item);
+        $scope.$apply(); // this is outside of angularjs, so need to apply
+    }
+    hub.client.deleteItem = function (item) {
+        var array = $scope.complaints;
+        for (var i = array.length - 1; i >= 0; i--) {
+            if (array[i].COMPLAINT_ID === item.COMPLAINT_ID) {
+                array.splice(i, 1);
+                $scope.$apply();
+            }
+        }
+    }
+    hub.client.updateItem = function (item) {
+        var array = $scope.complaints;
+        for (var i = array.length - 1; i >= 0; i--) {
+            if (array[i].COMPLAINT_ID === item.COMPLAINT_ID) {
+                array[i].DESCRIPTION = item.DESCRIPTION;
+                $scope.$apply();
+            }
+        }
+    }
+
+    $.connection.hub.start(); // connect to signalr hub
+}]);

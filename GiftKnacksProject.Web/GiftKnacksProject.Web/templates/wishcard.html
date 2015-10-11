@@ -1,87 +1,113 @@
 <div class="container item-card">
-	<div class="row">
-		<h1 class="header header-inline">Wish profile</h1>
-	</div>
-	<hr class="">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="row">
-				<div class="col-md-5">
-					<img src="{{item.ImageUrl}}" alt="no photo" class="img-thumbnail item-photo">
-					<div>
-						<label class="col-md-5">Emergency: </label>
-						<div class="col-md-7 emergency-bar"><progressbar class="progress-striped active " value="percent" type="{{emergencyType}}">{{percent}}</progressbar></div>
-					</div>
-				</div>
-				<div class="col-md-7">
-					<div class="panel panel-info">
-						<div class="panel-heading">Resume:</div>
-						<div class="panel-body">
-							<div class="row"><label class="col-lg-4">Name:</label><div class="col-lg-8 ">{{item.Name}}</div></div>
-							<div class="row"><label class="col-lg-4">Country:</label><div class="col-lg-8 ">{{item.Country.Name}}</div></div>
-							<div class="row"><label class="col-lg-4">City:</label><div class="col-lg-8 ">{{item.City}}</div></div>
-							<div class="row"><label class="col-lg-4">Type:</label><div class="col-lg-8 ">Wish</div></div>
-							<div class="row"><label class="col-lg-4">Status:</label><div class="col-lg-8 ">{{item.Status.Status}}</div></div>
-							<div class="row"><label class="col-lg-4">Category:</label><div class="col-lg-8 ">{{item.Category}}</div></div>
-							<div class="row"><label class="col-lg-4">Author:</label><div class="col-lg-8 "><a href="#/user/{{item.Creator.CreatorId}}">{{item.Creator.FirstName}}&nbsp;{{item.Creator.LastName}}</a></div></div>
-							<div class="row"><label class="col-lg-4">Date:</label><div class="col-lg-8 ">{{item.FromDate}}-{{item.ToDate}}</div></div>
-						</div>
-						<div class="panel-footer"><button type="button" class="btn btn-success col-md-offset-4" ng-click="showmyitems('gift')" ng-show="item.Status.Code==0 && myId!==item.Creator.CreatorId">Join!</button></div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="panel panel-info">
-					<div class="panel-heading">About:</div>
-					<div class="panel-body">
-					{{item.Description}}
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="panel panel-info">
-				<div class="panel-heading">Terms of agreement:</div>
-				<div class="panel-body">
-					<div class="row"><label class="col-lg-4">Place:</label><div class="col-lg-8 ">{{item.Location}}</div></div>
-					<div class="row"><label class="col-lg-4">{{item.Creator.FavoriteContact.Name}}&nbsp;contact:</label><div class="col-lg-8 ">{{item.Creator.FavoriteContact.Value}}</div></div>
-					<div class="row"><label class="col-lg-4">Reward:</label><div class="col-lg-8 ">{{item.Benefit}}</div></div>
-				</div>
-			</div>
-			<div class="panel panel-info">
-				<div class="panel-heading">Participants:</div>
-				<div class="panel-body">
-					<div class="row" ng-repeat="participant in item.Participants"><div class="col-lg-12 "><a href="#/user/{{participant.Id}}">{{participant.FirstName}}&nbsp;{{participant.LastName}}</a></div></div>
-				</div>
-			</div>
-            <button type="button" class="btn btn-warning" ng-click="closeItem('Wish')" ng-show="item.Status.Code==0 && myId==item.Creator.CreatorId">Close wish</button>
-		</div>
-	</div>
     <div class="row">
-
-        <div class="panel panel-info comments-list" infinite-scroll='loadComments("wish")' infinite-scroll-disabled='query.busy' infinite-scroll-distance='1'>
-            <div class="panel-heading">Comments:</div>
-            <div class="panel-body">
-                <form ng-show="enoughData" class="form-comment form-horizontal " role="form" name="commentForm" novalidate>
-                    <div class="form-group">
-                        <textarea spellcheck="false" name="comment" ng-model="commentText" class="form-control" rows="4" required></textarea>
-                        <div class="label label-danger" ng-show="wasSubmitted && commentForm.comment.$error.required">Required</div>
+        <div class="col-md-12">
+            <h1 class="header header-inline">Wish profile</h1>
+        </div>
+    </div>
+    <hr class="">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-5">
+                    <img ng-hide="item.ImageUrl==null" src="{{item.ImageUrl}}" alt="wish photo" class="img-thumbnail item-photo">
+                    <img ng-show="item.ImageUrl==null" src="./img/present.jpg" alt="wish photo" class="img-thumbnail item-photo">
+                    <div>
+                        <label class="col-md-5">Emergency: </label>
+                        <div class="col-md-7 emergency-bar"><progressbar class="progress-striped " value="percent" type="{{emergencyType}}">{{percent}}</progressbar></div>
                     </div>
-                    <button type="submit" class="btn btn-info" ng-click="addComment(commentForm.$valid, 'wish', null)">Leave comment</button>
-                </form>
-                <div ng-hide="enoughData" class="alert alert-warning">For comments fill your <a href="#/profile" class="alert-link">profile.</a></div>
-                <ul class="list-group comment-list">
-                    <li class="list-group-item comment-li" ng-repeat="comment in comments">
-                        <comment-block comment="comment"></comment-block>
-                        <reply-form comment="comment" enough-data="{{enoughData}}" add-reply="addReply" type="wish" reply-text="replyText"></reply-form>
-                        <ul ng-if="comment.ChildComments.length" class="list-group">
-                            <li class="list-group-item" ng-repeat="comment in comment.ChildComments">
-                                <comment-block comment="comment"></comment-block>
-                            </li>
-                        </ul>
+                </div>
+                <div class="col-md-7">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Resume:</div>
+                        <div class="panel-body">
+                            <div class="row"><label class="col-lg-4">Name:</label><div class="col-lg-8 ">{{item.Name}}</div></div>
+                            <div class="row"><label class="col-lg-4">Country:</label><div class="col-lg-8 ">{{item.Country.Name}}</div></div>
+                            <div class="row"><label class="col-lg-4">City:</label><div class="col-lg-8 ">{{item.City}}</div></div>
+                            <div class="row"><label class="col-lg-4">Type:</label><div class="col-lg-8 ">Wish</div></div>
+                            <div class="row"><label class="col-lg-4">Status:</label><div class="col-lg-8 ">{{item.Status.Status}}</div></div>
+                            <div class="row"><label class="col-lg-4">Category:</label><div class="col-lg-8 ">{{item.Category}}</div></div>
+                            <div class="row"><label class="col-lg-4">Author:</label><div class="col-lg-8 "><a href="#/user/{{item.Creator.CreatorId}}">{{item.Creator.FirstName}}&nbsp;{{item.Creator.LastName}}</a></div></div>
+                            <div class="row"><label class="col-lg-4">Date:</label><div class="col-lg-8 ">{{item.FromDate}}-{{item.ToDate}}</div></div>
+                        </div>
+                        <div class="panel-footer" ng-show="item.Status.Code==0 && myId!==item.Creator.CreatorId"><button type="button" class="btn btn-success col-md-offset-4" ng-click="showmyitems('gift')">Join!</button></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">About:</div>
+                        <div class="panel-body">
+                            {{item.Description}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Terms of agreement:</div>
+                        <div class="panel-body">
+                            <div class="row"><label class="col-lg-4">Place:</label><div class="col-lg-8 ">{{item.Location}}</div></div>
+                            <div class="row"><label class="col-lg-4">{{item.Creator.FavoriteContact.Name}}&nbsp;contact:</label><div class="col-lg-8 ">{{item.Creator.FavoriteContact.Value}}</div></div>
+                            <div class="row"><label class="col-lg-4">Reward:</label><div class="col-lg-8 ">{{item.Benefit}}</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="item.Participants.length">
+                <div class="col-md-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Participants:</div>
+                        <div class="panel-body">
+                            <div class="row" ng-repeat="participant in item.Participants"><div class="col-lg-12 "><a href="#/user/{{participant.Id}}">{{participant.FirstName}}&nbsp;{{participant.LastName}}</a></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-warning" ng-click="closeItem('Wish')" ng-show="item.Status.Code==0 && myId==item.Creator.CreatorId">Close wish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-info comments-list" infinite-scroll='loadComments("wish")' infinite-scroll-disabled='query.busy' infinite-scroll-distance='1'>
+                <div class="panel-heading">Comments:</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form ng-show="enoughData" class="form-comment" role="form" name="commentForm" novalidate>
+                                <div class="form-group">
+                                    <textarea spellcheck="false" name="comment" ng-model="commentText" class="form-control" rows="4" required></textarea>
+                                    <div class="label label-danger" ng-show="wasSubmitted && commentForm.comment.$error.required">Required</div>
+                                </div>
+                                <button type="submit" class="btn btn-info" ng-click="addComment(commentForm.$valid, 'wish', null)">Leave comment</button>
+                            </form>
+                            <div ng-hide="enoughData" class="alert alert-warning">For comments fill your <a href="#/profile" class="alert-link">profile.</a></div>
+                        </div>
+                    </div>
+                    <div class="row voffset3">
+                        <div class="col-md-12">
+                            <ul class="list-group comment-list">
+                                <li class="list-group-item comment-li" ng-repeat="comment in comments">
+                                    <comment-block comment="comment"></comment-block>
+                                    <reply-form comment="comment" enough-data="{{enoughData}}" add-reply="addReply" type="wish" reply-text="replyText"></reply-form>
+                                    <ul ng-if="comment.ChildComments.length" class="list-group voffset3">
+                                        <li class="list-group-item" ng-repeat="comment in comment.ChildComments">
+                                            <comment-block comment="comment"></comment-block>
+                                        </li>
+                                    </ul>
 
-                    </li>
-                </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
