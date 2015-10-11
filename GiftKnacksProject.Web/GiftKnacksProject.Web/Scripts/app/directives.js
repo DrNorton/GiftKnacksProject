@@ -9,7 +9,26 @@ app.directive( 'setMask', function () {
 			} );
 		}
 	}
-} );
+});
+app.directive('scrollup', function ($document) {
+    return {
+        restrict: 'A',
+        link: function (scope, $elm, attr) {
+            $(function () {
+                $(window).scroll(function () {
+                    if ($(window).scrollTop() > 0) {
+                        $elm.fadeIn("slow");
+                    }
+                    else {
+                        $elm.fadeOut("slow");
+                    }
+                });
+
+
+            });
+        }
+    }
+});
 app.directive("fileread", [function () {
     return {
         scope: {

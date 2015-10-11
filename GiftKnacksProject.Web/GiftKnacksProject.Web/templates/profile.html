@@ -1,4 +1,4 @@
-﻿
+
 <div class="container">
 	<div class="row">
 		<div data-ng-hide="profileGetMessage == ''" data-ng-class="(profileGetSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
@@ -108,16 +108,23 @@
 			<!-- right column -->
 			<div class="col-md-6">
 				<div class="text-center">
-					<div ng-class="{'fileinput-new' : !avatarExist, 'fileinput-exists' : avatarExist}" class="fileinput " data-provides="fileinput">
-						<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-							<img ng-hide="avatarExist" src="./img/avatar.jpg" alt="avatar">
-						</div>
-						<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
-							<img ng-show="avatarExist" ng-src="{{profile.AvatarUrl}}" alt="avatar">
-						</div>
+					<div ng-class="{'fileinput-new' : !avatarExist, 'fileinput-exists' : avatarExist}" class="fileinput ">
+                        <div ng-hide="cropControl || !profile.AvatarUrl" class="thumbnail" style="width: 150px; height: 150px;">
+                            <img ng-src="{{profile.AvatarUrl}}" alt="avatar">
+                        </div>
+                        <div ng-show="!profile.AvatarUrl  && !cropControl" class="thumbnail" style="width: 150px; height: 150px;">
+                            <img src="./img/avatar.jpg" alt="avatar">
+                        </div>
+                        <!--crop-->
+                        <div ng-show="cropControl" class="cropArea">
+                            <img-crop image="profile.AvatarUrl" result-image="croppedImage"></img-crop>
+                        </div>
+                        <div class="thumbnail" ng-show="cropControl" style="width: 150px; height: 150px;">
+                            <img ng-src="{{croppedImage}}" alt="avatar">
+                        </div>
 						<div>
 							<span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" fileread="profile.UploadAvatar" name="uploadAvatar"></span>
-							<a ng-href="" class="btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="avatarExist=false;profile.AvatarUrl=null">Remove</a>
+                            <a ng-href="" class="btn btn-default fileinput-exists" ng-click="clearAvatar()">Remove</a>
 						</div>
 					</div>
 					<div class="form-group block-bio">
@@ -136,7 +143,7 @@
 	<div class="col-md-4 col-md-offset-6">
 		<form class="form-change-password" role="form" name="changePasswordForm" novalidate>
 			<h3 class="form-change-password-heading">Change password</h3>
-			<input type="password" class="form-control" name="oldPassword" placeholder="Old Password" data-ng-model="passwordData.oldPassword" required autofocus>
+			<input type="password" class="form-control" name="oldPassword" placeholder="Old Password" data-ng-model="passwordData.oldPassword" required>
 			<div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.oldPassword.$error.required">Required</div>
 			<input type="password" class="form-control" name="newPassword" placeholder="New Password" data-ng-model="passwordData.newPassword" required>
 			<div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.newPassword.$error.required">Required</div>

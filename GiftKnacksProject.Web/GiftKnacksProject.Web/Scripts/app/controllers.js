@@ -43,6 +43,29 @@ app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $s
 
 /**
  * @ngdoc function
+ * @name giftknacksApp.controller:FaqCtrl
+ * @description
+ * # Контроллер информационной страницы
+ * Controller of the giftknacksApp
+ */
+app.controller('FaqCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
+    $scope.selectedLink = 'faq';
+    if ($location.hash()) {
+        $anchorScroll();
+        $scope.selectedLink = $location.hash();
+    }
+
+    
+
+    $scope.scrollTo = function (id) {
+        $location.hash(id);
+        $anchorScroll();
+    }
+}]);
+
+
+/**
+ * @ngdoc function
  * @name giftknacksApp.controller:UserCtrl
  * @description
  * # Контроллер страницы юзера
@@ -774,9 +797,40 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 	};
 	//#endregion
 
+	$scope.cropControl = false;
+     $scope.croppedImage = '';
+     var handleFileSelect = function (evt) {
+         var file = evt.currentTarget.files[0];
+         if (!file) {
+             return;
+         }
+         $scope.cropControl = true;
+         var reader = new FileReader();
+         reader.onload = function (evt) {
+             $scope.$apply(function ($scope) {
+                 $scope.wish.ImageUrl = evt.target.result;
+                 $scope.imageExist = true;
+             });
+         };
+         reader.readAsDataURL(file);
+     };
+     angular.element(document.querySelector('[name=uploadImage]')).on('change', handleFileSelect);
+
+	$scope.clearImage = function () {
+	    $scope.imageExist = false;
+	    $scope.wish.ImageUrl = null;
+	    $scope.wish.Image = null;
+	    $scope.cropControl = false;
+	    $scope.croppedImage = '';
+	}
+
+
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if (isValid && $scope.enoughData) {
+		    if ($scope.cropControl) {
+		        $scope.wish.Image.result= $scope.wish.ImageUrl = $scope.croppedImage;
+		    }
 		    $scope.wish.Category = $scope.wish.Category.Name;//TODO: поправить костыль
 			wishAndGiftService.addWish( $scope.wish ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
@@ -971,6 +1025,25 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		$scope.profileGetSuccessfully = false;
 	}
 
+    //image
+	$scope.cropControl = false;
+	$scope.croppedImage = '';
+	var handleFileSelect = function (evt) {
+	    var file = evt.currentTarget.files[0];
+	    if (!file) {
+	        return;
+	    }
+	    $scope.cropControl = true;
+	    var reader = new FileReader();
+	    reader.onload = function (evt) {
+	        $scope.$apply(function ($scope) {
+	            $scope.profile.AvatarUrl = evt.target.result;
+	        });
+	    };
+	    reader.readAsDataURL(file);
+	};
+	angular.element(document.querySelector('[name=uploadAvatar]')).on('change', handleFileSelect);
+
 	//#region получение стран и городов
 	$scope.countryFromTypehead = !!$scope.profile.Country;
 
@@ -1066,11 +1139,24 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 
 	};
 
+	$scope.clearAvatar = function () {
+	    $scope.avatarExist = false;
+	    $scope.profile.UploadAvatar = null;
+	    $scope.profile.AvatarUrl = null;
+	    $scope.cropControl = false;
+	    $scope.croppedImage = '';
+	}
+
 	$scope.updatePtofile = function ( isValid ) {
 		$scope.wasSubmitted = true;
-		if ( isValid ) {
+		if (isValid) {
+		    if ($scope.cropControl) {
+		        $scope.profile.UploadAvatar.result = $scope.profile.AvatarUrl = $scope.croppedImage;
+		    }
+		   
 			profileService.updatePtofile( $scope.profile ).then( function ( response ) {
-				if ( response.data && !response.data.ErrorCode ) {
+			    if (response.data && !response.data.ErrorCode) {
+			        $scope.cropControl = false;
 					$scope.profile.ProfileProgress = response.data.Result.ProfileProgress;
 					$scope.profileSavedSuccessfully = true;
 					authService.setIsFilled( true );

@@ -1,5 +1,5 @@
 <div class="comment-item row">
-    <div class="left-ref col-md-3">
+    <div class="left-ref col-md-2">
         <a href="#/user/{{comment.User.Id}}">{{comment.User.FirstName}} {{comment.User.LastName}}</a>
         <div class="replyer-avatar">
             <img ng-show="comment.User.AvatarUrl" ng-src="{{comment.User.AvatarUrl}}" alt="avatar" class="img-thumbnail">
@@ -8,7 +8,7 @@
         <div>Score: {{comment.User.AvgRate| number:2}}</div>
         <div>Total hugs: {{comment.User.TotalClosed}}</div>
     </div>
-    <div class="right-ref col-md-9">
+    <div class="right-ref col-md-10">
         <div>{{comment.Text}}</div>
     </div>
 </div>    
