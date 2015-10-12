@@ -308,6 +308,12 @@ textarea {
   background-position: 15px -270px;
 }
 
+.user-info .online-status {
+  font-size: 11px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
 .user-info .awesomeness-bar {
   margin-top: 5px;
 }

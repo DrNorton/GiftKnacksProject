@@ -11,13 +11,12 @@
 var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar', 'infinite-scroll', 'ngImgCrop'])
   .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
       $routeProvider
-           .when('/signalr', {
-               templateUrl: '/templates/signalr.html',
-               controller: 'myCtrl'
-           })
         .when('/landing', {
             templateUrl: '/templates/landing.html',
             controller: 'MainCtrl'
+        }).when('/signalr', {
+            templateUrl: '/templates/signalr.html',
+            controller: 'myCtrl'
         })
            .when('/faq', {
                templateUrl: '/templates/faq.html',
@@ -184,7 +183,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
 
       $httpProvider.interceptors.push('authInterceptorService');
   }]);
-
+app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', function (authService, $rootScope, $location, $anchorScroll) {
 
     authService.fillAuthData();
