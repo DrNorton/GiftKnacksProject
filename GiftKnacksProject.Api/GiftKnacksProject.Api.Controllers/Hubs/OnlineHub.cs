@@ -26,6 +26,10 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
         {
             Groups.Add(Context.ConnectionId, "users");
             var clientId = GetClientId();
+            if (clientId == -1)
+            {
+                return null;
+            }
             _userOnlineStorage.AddUserToOnline(clientId);
             var context = GlobalHost.ConnectionManager.GetHubContext<OnlineHub>();
          
@@ -41,6 +45,10 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
         public override Task OnReconnected()
         {
             var clientId = GetClientId();
+            if (clientId == -1)
+            {
+                return null;
+            }
             _userOnlineStorage.AddUserToOnline(clientId);
 
             Groups.Add(Context.ConnectionId, "users");
@@ -51,6 +59,10 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
         {
             Groups.Remove(Context.ConnectionId, "users");
             var clientId = GetClientId();
+            if (clientId == -1)
+            {
+                return null;
+            }
             _userOnlineStorage.RemoveUserFromOnline(clientId);
             var context = GlobalHost.ConnectionManager.GetHubContext<OnlineHub>();
             return null;
