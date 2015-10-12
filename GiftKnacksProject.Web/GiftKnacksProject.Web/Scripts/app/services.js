@@ -1,13 +1,13 @@
 'use strict';
-app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $http, $q, localStorageService ) {
 
-    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+app.factory('authService', ['$http', '$q', 'localStorageService', 'serviceBase', function ($http, $q, localStorageService, serviceBase) {
 
 	var _authentication = {
 		isAuth: false,
 		userName: "",
 		isFilled: false,
-		userId:''
+		userId: '',
+        token:''
 	};
 
 	var _saveRegistration = function ( registration ) {
@@ -67,6 +67,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 			_authentication.userName = loginData.userName;
 			_authentication.isFilled = response.isFilled;
 			_authentication.userId = response.userId;
+			_authentication.token = response.access_token;
 
 			deferred.resolve( response );
 
@@ -87,6 +88,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 		_authentication.userName = "";
 		_authentication.isFilled = false;
 		_authentication.userId = '';
+		_authentication.token = '';
 
 	};
 
@@ -98,6 +100,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 			_authentication.userName = authData.userName;
 			_authentication.isFilled = authData.isFilled;
 			_authentication.userId = authData.userId;
+			_authentication.token = authData.token;
 		}
 
 	}
@@ -126,8 +129,7 @@ app.factory( 'authService', ['$http', '$q', 'localStorageService', function ( $h
 	return authServiceFactory;
 }] );
 
-app.factory( "profileService", ['$http', function ( $http ) {
-    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+app.factory("profileService", ['$http', 'serviceBase', function ($http, serviceBase) {
 
 	var _getPtofile = function (id) {
 		return $http.post( serviceBase + 'api/account/getprofile', {'Id':id} ).then( function ( response ) {
@@ -154,8 +156,7 @@ app.factory( "profileService", ['$http', function ( $http ) {
 	return profileServiceFactory;
 }] );
 
-app.factory( "wishAndGiftService", ['$http', function ( $http ) {
-    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+app.factory("wishAndGiftService", ['$http', 'serviceBase', function ($http, serviceBase) {
 
 	var _getEmptyWish = function () {
 		return $http.post( serviceBase + 'api/wish/getemptywish' ).then( function ( response ) {
@@ -265,7 +266,7 @@ app.factory( "wishAndGiftService", ['$http', function ( $http ) {
 	return wishAndGiftServiceFactory;
 }] );
 
-app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService', function ( $q, $location, localStorageService ) {
+app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', 'serviceBase', function ($q, $location, localStorageService, serviceBase) {
 
 	var _request = function ( config ) {
 
@@ -294,7 +295,7 @@ app.factory( 'authInterceptorService', ['$q', '$location', 'localStorageService'
 	
 }] );
 
-app.factory( 'commonService', ['$http', function ( $http ) {
+app.factory('commonService', ['$http', 'serviceBase', function ($http, serviceBase) {
 
 	var _displayError = function ( response) {
 		var errors = [];
@@ -315,8 +316,7 @@ app.factory( 'commonService', ['$http', function ( $http ) {
 
 }]);
 
-app.factory('referenceService', ['$http', function ($http) {
-    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+app.factory('referenceService', ['$http', 'serviceBase', function ($http, serviceBase) {
     var _addReference = function (reference) {
         return $http.post(serviceBase + 'api/reference/add', reference).then(function (response) {
             return response;
@@ -336,8 +336,7 @@ app.factory('referenceService', ['$http', function ($http) {
 
 }]);
 
-app.factory('commentService', ['$http', function ($http) {
-    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+app.factory('commentService', ['$http', 'serviceBase', function ($http, serviceBase) {
     var _addWishComment = function (query) {
         return $http.post(serviceBase + 'api/comment/addtowish', query).then(function (response) {
             return response;
@@ -369,8 +368,7 @@ app.factory('commentService', ['$http', function ($http) {
 
 }]);
 
-app.factory( 'geoService', ['$http', function ( $http ) {
-    var serviceBase = 'http://giftknackapi.azurewebsites.net/';
+app.factory('geoService', ['$http', 'serviceBase', function ($http, serviceBase) {
 	var _getCountry = function ( val ) {
 		return $http.get( serviceBase + 'api/country').then( function ( response ) {
 			return response;
@@ -382,4 +380,50 @@ app.factory( 'geoService', ['$http', function ( $http ) {
 	};
 	return geoServiceFactory;
 
-}] );
+}]);
+
+app.factory('signalRHubProxy', ['$rootScope', 'authService', 'serviceBase', function ($rootScope, authService, serviceBase) {
+
+    function signalRHubProxyFactory(serverUrl, hubName, startOptions) {
+        debugger;
+            var connection = $.hubConnection(serviceBase + 'signalr', { useDefaultPath: false });
+            connection.qs = { 'access_token': authService.authentication.token };
+            var proxy = connection.createHubProxy(hubName);
+            var startPromise = connection.start(startOptions);
+
+            return {
+                on: function (eventName, callback) {
+                    proxy.on(eventName, function (result) {
+                        $rootScope.$apply(function () {
+                            if (callback) {
+                                callback(result);
+                            }
+                        });
+                    });
+                },
+                off: function (eventName, callback) {
+                    proxy.off(eventName, function (result) {
+                        $rootScope.$apply(function () {
+                            if (callback) {
+                                callback(result);
+                            }
+                        });
+                    });
+                },
+                invoke: function (methodName, callback) {
+                    proxy.invoke(methodName)
+                        .done(function (result) {
+                            $rootScope.$apply(function () {
+                                if (callback) {
+                                    callback(result);
+                                }
+                            });
+                        });
+                },
+                connection: connection,
+                startPromise: startPromise
+            };
+        };
+
+        return signalRHubProxyFactory;
+    }]);
