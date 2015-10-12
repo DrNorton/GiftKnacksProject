@@ -58,6 +58,7 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
 
         private long GetClientId()
         {
+            if (Context.User==null) return -1;
            var strId= Context.User.Identity.GetUserId();
             return long.Parse(strId);
         }

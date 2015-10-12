@@ -243,6 +243,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
             else
             {
+                profile.IsOnline = _userOnlineStorage.GetOnlineStatus(userId);
                 return SuccessApiResult(profile);
             }
         }

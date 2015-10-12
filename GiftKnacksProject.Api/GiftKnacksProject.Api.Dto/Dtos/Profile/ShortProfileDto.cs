@@ -36,5 +36,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Profile
 
         public int TotalClosed { get; set; }
 
+        public bool IsOnline { get; set; }
+
     }
 }
