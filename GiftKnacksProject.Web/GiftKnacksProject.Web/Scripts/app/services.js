@@ -385,10 +385,10 @@ app.factory('geoService', ['$http', 'serviceBase', function ($http, serviceBase)
 app.factory('signalRHubProxy', ['$rootScope', 'authService', 'serviceBase', function ($rootScope, authService, serviceBase) {
 
     function signalRHubProxyFactory(serverUrl, hubName, startOptions) {
-        debugger;
             var connection = $.hubConnection(serviceBase + 'signalr', { useDefaultPath: false });
             connection.qs = { 'access_token': authService.authentication.token };
             var proxy = connection.createHubProxy(hubName);
+            proxy.on('onConnected', function () { console.log(hubName + " connected"); });
             var startPromise = connection.start(startOptions);
 
             return {

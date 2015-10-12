@@ -25,9 +25,8 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
 
 	var onlineHubProxy = signalRHubProxy(signalRHubProxy.defaultServer, 'onlinehub');
 	onlineHubProxy.startPromise.done(function () {
-	    console.log('onlinehub done');
-	    onlineHubProxy.invoke('getUserOnline', function (result) {
-	        console.log('getUserOnline done ' + result);
+	    onlineHubProxy.invoke('getUserOnline', function () {
+	        console.log('getUserOnline done ');
 	    });
 	});
 }] );
@@ -1364,27 +1363,4 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
 		}, 2000 );
 	}
 
-}]);
-
-app.controller('myCtrl', ['authService', '$scope', function (authService, $scope) {
-    var hubConnection = $.hubConnection('http://giftknackapi.azurewebsites.net/signalr', { useDefaultPath: false });
-    hubConnection.qs = { 'access_token': authService.authentication.token };
-    var hubProxy = hubConnection.createHubProxy("onlinehub");
-
-    hubProxy.on('onConnected', function () {
-        console.log("connected");
-    });
-
-    hubProxy.on('onDisconnected', function () {
-        console.log("disconnect");
-    });
-
-    hubProxy.on('onReconnected', function () {
-        console.log("reconect");
-    });
-    hubConnection.start().done(function () {
-        var test = hubProxy.invoke('getUserOnline').done(function (hui) {
-            alert(hui);
-        });
-    });
 }]);

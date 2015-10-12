@@ -14,11 +14,8 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
         .when('/landing', {
             templateUrl: '/templates/landing.html',
             controller: 'MainCtrl'
-        }).when('/signalr', {
-            templateUrl: '/templates/signalr.html',
-            controller: 'myCtrl'
         })
-           .when('/faq', {
+          .when('/faq', {
                templateUrl: '/templates/faq.html',
                controller: 'FaqCtrl'
            })

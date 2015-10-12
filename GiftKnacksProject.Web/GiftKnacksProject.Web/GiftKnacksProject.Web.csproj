@@ -1006,7 +1006,6 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\vendors\ng-img-crop.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="templates\signalr.html" />
     <Content Include="templates\faq.html" />
     <Content Include="templates\comment.html" />
     <Content Include="templates\history.html" />
