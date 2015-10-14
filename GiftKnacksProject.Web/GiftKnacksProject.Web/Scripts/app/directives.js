@@ -1,10 +1,13 @@
 app.directive( 'setMask', function () {
 	return {
-		restrict: 'A',
+	    restrict: 'A',
+	    scope: {
+	        onKeyValidation: '&'
+	    },
 		link: function ( scope, $elm, attr ) {
-			$( function () {
-				if ( attr.setMask ) {
-				    $elm.inputmask({ "mask": attr.setMask, "clearIncomplete": true, "repeat": attr.maskGreedy ? '*' : false, "greedy": !attr.maskGreedy });
+		    $(function () {
+			    if (attr.setMask) {
+			        $elm.inputmask({ "mask": attr.setMask, "clearIncomplete": true, "repeat": attr.maskGreedy ? '*' : false, "greedy": !attr.maskGreedy, onKeyValidation: function (result) { scope.onKeyValidation({ result: result }) } });
 				}
 			} );
 		}
@@ -269,3 +272,99 @@ app.directive('replyForm', function () {
         scope: { comment: '=',addReply:'=', enoughData:'@', type:'@',replyText:'=' }
     };
 });
+
+var isValidDate = function (dateStr) {
+    if (dateStr == undefined)
+        return false;
+    
+    var dateTime = Date.parse(dateStr);
+
+    if (isNaN(dateTime)) {
+        return false;
+    }
+    return true;
+};
+var getDateDifference = function (fromDate, toDate) {
+    return Date.parse(toDate) - Date.parse(fromDate);
+};
+var isValidDateRange = function (fromDate, toDate) {
+    if (fromDate == "" || toDate == "")
+        return true;
+    if (isValidDate(fromDate) == false) {
+        return false;
+    }
+    if (isValidDate(toDate) == true) {
+        var days = getDateDifference(fromDate, toDate);
+        if (days < 0) {
+            return false;
+        }
+    }
+    return true;
+};
+app.directive('dateLowerThan', ["$filter", function ($filter) {
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            var validateDateRange = function (inputValue) {
+                var fromDate = $filter('date')(inputValue, 'short');
+                var toDate = $filter('date')(attrs.dateLowerThan, 'short');
+                //convert dd.mm.yyyy to mm.dd.yyyy for parsing
+                if (typeof fromDate === 'string') {
+                    var dateStrArr = fromDate.split(".");
+                    if (dateStrArr.length == 3) {
+                        fromDate = dateStrArr[1] + '.' + dateStrArr[0] + '.' + dateStrArr[2];
+                    }
+                }
+                if (typeof toDate === 'string') {
+                    dateStrArr = toDate.split(".");
+                    if (dateStrArr.length == 3) {
+                        toDate = dateStrArr[1] + '.' + dateStrArr[0] + '.' + dateStrArr[2];
+                    }
+                }
+                var isValid = isValidDateRange(fromDate, toDate);
+                ctrl.$setValidity('dateLowerThan', isValid);
+                return inputValue;
+            };
+
+            ctrl.$parsers.unshift(validateDateRange);
+            ctrl.$formatters.push(validateDateRange);
+            attrs.$observe('dateLowerThan', function () {
+                validateDateRange(ctrl.$viewValue);
+            });
+        }
+    };
+}]);
+app.directive('dateGreaterThan', ["$filter", function ($filter) {
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            var validateDateRange = function (inputValue) {
+                var fromDate = $filter('date')(attrs.dateGreaterThan, 'short');
+                var toDate = $filter('date')(inputValue, 'short');
+                //convert dd.mm.yyyy to mm.dd.yyyy for parsing
+                if (typeof fromDate === 'string') {
+                    var dateStrArr = fromDate.split(".");
+                    if (dateStrArr.length == 3) {
+                        fromDate = dateStrArr[1] + '.' + dateStrArr[0] + '.' + dateStrArr[2];
+                    }
+                }
+                if (typeof toDate === 'string') {
+                    dateStrArr = toDate.split(".");
+                    if (dateStrArr.length == 3) {
+                        toDate = dateStrArr[1] + '.' + dateStrArr[0] + '.' + dateStrArr[2];
+                    }
+                }
+                var isValid = isValidDateRange(fromDate, toDate);
+                ctrl.$setValidity('dateGreaterThan', isValid);
+                return inputValue;
+            };
+
+            ctrl.$parsers.unshift(validateDateRange);
+            ctrl.$formatters.push(validateDateRange);
+            attrs.$observe('dateGreaterThan', function () {
+                validateDateRange(ctrl.$viewValue);
+
+            });
+        }
+    };
+}]);

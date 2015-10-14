@@ -51,11 +51,14 @@
 		<div class="form-group">
 			<label class="col-lg-3 control-label">Period:</label>
 			<div class="col-lg-4">
-				<input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="wish.FromDate" required />
+                <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="wish.FromDate" required date-lower-than="{{wish.ToDate| date:'short'}}" date-greater-than="{{today| date:'short'}}" />
 				<div class="label label-danger" ng-show="wasSubmitted && wishForm.fromdate.$error.required">Required</div>
+                <div class="label label-danger" ng-show="wasSubmitted && wishForm.fromdate.$error.dateLowerThan">Must be lower than Ends date</div>
+                <div class="label label-danger" ng-show="wasSubmitted && wishForm.fromdate.$error.dateGreaterThan">Can not be in the past</div>
 			</div>
 			<div class="col-lg-4">
-				<input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="wish.ToDate" />
+                <input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="wish.ToDate"/>
+                <div class="label label-danger" ng-show="wasSubmitted && wishForm.todate.$error.dateGreaterThan">Must be greater than Starts date</div>
 			</div>
 		</div>
 		<div class="form-group">

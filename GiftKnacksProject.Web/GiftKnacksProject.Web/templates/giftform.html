@@ -1,4 +1,4 @@
-﻿<div class="row"><div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For creating gift fill your <a href="#/profile" class="alert-link">profile.</a></div></div>
+<div class="row"><div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For creating gift fill your <a href="#/profile" class="alert-link">profile.</a></div></div>
 <form class="form-gift form-horizontal " role="form" name="giftForm" novalidate>
 	<div class="row">
 		<div class="col-md-12"><h2 class="form-gift-heading">Create new gift</h2></div>
@@ -40,11 +40,14 @@
 		<div class="form-group">
 			<label class="col-lg-3 control-label">Period:</label>
 			<div class="col-lg-4">
-				<input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="gift.FromDate" required />
+                <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="gift.FromDate" required date-lower-than="{{gift.ToDate| date:'short'}}" date-greater-than="{{today| date:'short'}}" />
 				<div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.required">Required</div>
+                <div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.dateLowerThan">Must be lower than Ends date</div>
+                <div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.dateGreaterThan">Can not be in the past</div>
 			</div>
 			<div class="col-lg-4">
-				<input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="gift.ToDate" />
+                <input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="gift.ToDate"/>
+                <div class="label label-danger" ng-show="wasSubmitted && giftForm.todate.$error.dateGreaterThan">Must be greater than Starts date</div>
 			</div>
 		</div>
 		<div class="form-group">

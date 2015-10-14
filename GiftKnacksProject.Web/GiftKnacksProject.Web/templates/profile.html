@@ -18,15 +18,17 @@
 				<div class="form-group">
 					<label class="col-lg-3 control-label">First name:</label>
 					<div class="col-lg-8">
-						<input set-mask="l" mask-greedy="true" class="form-control" type="text" name="name" data-ng-model="profile.FirstName" required>
+                        <input set-mask="l" mask-greedy="true" on-key-validation="showLatinTooltip(0,result)" class="form-control" type="text" name="name" data-ng-model="profile.FirstName" required>
 						<div class="label label-danger" ng-show="wasSubmitted && profileForm.name.$error.required">Required</div>
+                        <div class="label label-warning" ng-show="latinTooltip[0]">Only latin characters</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-lg-3 control-label">Last name:</label>
 					<div class="col-lg-8">
-						<input set-mask="l" mask-greedy="true" class="form-control" type="text" name="surname" data-ng-model="profile.LastName" required>
+                        <input set-mask="l" mask-greedy="true" on-key-validation="showLatinTooltip(1,result)" class="form-control" type="text" name="surname" data-ng-model="profile.LastName" required>
 						<div class="label label-danger" ng-show="wasSubmitted && profileForm.surname.$error.required">Required</div>
+                        <div class="label label-warning" ng-show="latinTooltip[1]">Only latin characters</div>
 					</div>
 				</div>
 				<div class="form-group">

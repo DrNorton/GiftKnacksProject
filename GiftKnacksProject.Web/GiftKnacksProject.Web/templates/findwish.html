@@ -26,8 +26,9 @@
         <div class="form-group">
             <label class="col-lg-3 control-label">Period:</label>
             <div class="col-lg-4">
-                <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="queryWish.From" ng-required="queryWish.To" empty-to-null />
+                <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="queryWish.From" ng-required="queryWish.To" empty-to-null date-lower-than="{{queryWish.To| date:'short'}}" />
                 <div class="label label-danger" ng-show="searchWishForm.fromdate.$error.required">Required</div>
+                <div class="label label-danger" ng-show="searchWishForm.fromdate.$error.dateLowerThan">Must be lower than Ends date</div>
             </div>
             <div class="col-lg-4">
                 <input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="queryWish.To" ng-required="queryWish.From" empty-to-null />

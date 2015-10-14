@@ -736,7 +736,9 @@ app.controller('ModalCloseItemCtrl', ['$scope', '$modalInstance', 'items', 'para
  * Controller of the giftknacksApp
  */
 app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialData', 'countries','startPoint', 'commonService', 'wishAndGiftService', function ( $scope,$location, authService, initialData, countries,startPoint, commonService, wishAndGiftService ) {
-	$scope.enoughData = authService.authentication.isFilled;
+    $scope.enoughData = authService.authentication.isFilled;
+    $scope.today = new Date();
+    $scope.today.setHours(0, 0, 0, 0);
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
 	$scope.wasSubmitted = false;
@@ -884,7 +886,9 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
  * Controller of the giftknacksApp
  */
 app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialData', 'countries','startPoint', 'commonService', 'wishAndGiftService', function ( $scope,$location, authService, initialData, countries,startPoint, commonService, wishAndGiftService ) {
-	$scope.enoughData = authService.authentication.isFilled;
+    $scope.enoughData = authService.authentication.isFilled;
+    $scope.today = new Date();
+    $scope.today.setHours(0, 0, 0, 0);
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
 	$scope.wasSubmitted = false;
@@ -893,7 +897,6 @@ app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialDa
 	$scope.cityOptions = {};
 	$scope.getCountryError = false;
 	$scope.gift = {};
-
 
 	//если начальные данные для виша получены
 	if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -994,7 +997,20 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.countries = [];
 	$scope.cityOptions = {};
 	$scope.getCountryError = false;
+	$scope.latinTooltip = [false, false];
 
+	$scope.showLatinTooltip = function (index, result) {
+	    $scope.$apply(function () {
+	        if (result === false) {
+	            $scope.latinTooltip[index] = true;
+	        }
+	        else {
+	            $scope.latinTooltip[index] = false;
+	        }
+	    });
+	    
+
+	}
 	//password
 	$scope.passwordData = {
 		oldPassword: "",
