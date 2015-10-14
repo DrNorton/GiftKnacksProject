@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar', 'infinite-scroll', 'ngImgCrop'])
-  .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+  .config(['$routeProvider','$locationProvider', '$httpProvider', function ($routeProvider,$locationProvider, $httpProvider) {
       $routeProvider
         .when('/landing', {
             templateUrl: '/templates/landing.html',
@@ -179,6 +179,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
         });
 
       $httpProvider.interceptors.push('authInterceptorService');
+      //$locationProvider.html5Mode(true);
   }]);
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', function (authService, $rootScope, $location, $anchorScroll) {
