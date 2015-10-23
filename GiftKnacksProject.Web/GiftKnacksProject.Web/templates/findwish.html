@@ -1,4 +1,4 @@
-<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="#/profile" class="alert-link">profile.</a></div>
+<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="/profile" class="alert-link">profile.</a></div>
 	<div class="col-md-12"><h2 class="find-wish-heading">Find wish</h2></div>
 		<div class="filters col-md-4 col-md-push-8">
     <form class="form-serchgift form-horizontal" role="form" name="searchWishForm" novalidate>
@@ -43,7 +43,7 @@
 </div>
 <div class="search-list col-md-8 col-md-pull-4" infinite-scroll='loadWishes()' infinite-scroll-disabled='queryWish.busy' infinite-scroll-distance='1'>
     <div class="list-group">
-        <a ng-repeat="wish in listWish" href="#/wish/{{wish.Id}}" class="list-group-item">
+        <a ng-repeat="wish in listWish" href="/wish/{{wish.Id}}" class="list-group-item">
             <div class="search-item">
                 <h4 class="list-group-item-heading">{{wish.Name}}</h4>
                 <p class="list-group-item-text">{{wish.City}}</p>

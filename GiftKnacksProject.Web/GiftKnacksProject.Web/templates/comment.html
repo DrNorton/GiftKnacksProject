@@ -1,6 +1,6 @@
 <div class="comment-item row">
     <div class="left-ref col-md-2">
-        <a href="#/user/{{comment.User.Id}}">{{comment.User.FirstName}} {{comment.User.LastName}}</a>
+        <a href="/user/{{comment.User.Id}}">{{comment.User.FirstName}} {{comment.User.LastName}}</a>
         <div class="replyer-avatar">
             <img ng-show="comment.User.AvatarUrl" ng-src="{{comment.User.AvatarUrl}}" alt="avatar" class="img-thumbnail">
             <img ng-hide="comment.User.AvatarUrl" src="./img/avatar.jpg" alt="avatar">

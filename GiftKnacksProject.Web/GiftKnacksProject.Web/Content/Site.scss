@@ -137,7 +137,7 @@ $state-success-border:#2fbe32;
 }
 
 .body-content {
-		margin-top: 50px;
+		margin-top: 55px;
 }
 
 .btn {
@@ -239,7 +239,15 @@ padding: .2em .3em .3em;
         margin-left:10px;
     }
 }
-
+.navbar-default .navbar-toggle{
+        color: #ffffff;
+    background-color: #187942;
+    border-color: #125b32;
+    &:hover{
+            background-color: #125b32;
+    border-color: #072414;
+    }
+}
 //поиск
 .filters{
     margin-bottom:30px;
@@ -313,7 +321,11 @@ padding: .2em .3em .3em;
 .sidebar{
     margin-top:20px;
     position:fixed;
+    @media (max-width: 992px){
+    position:relative;
 }
+}
+
 //faq page
 .faq{
     h2{
@@ -327,13 +339,12 @@ html, body {
 }
 .wrapper {
     min-height:100%;
-     margin-top:-52px;
+     margin-top:-50px;
      padding-top:52px;
-     padding-bottom:50px;
 }
 #footer{
- height:52px;
     margin-bottom:0;
+    margin-top:50px;
 }
 
 
@@ -362,6 +373,6 @@ html, body {
 #toTop {
  display: none;
  position: fixed;
-bottom: 60px;
-    right: 50px;
+bottom: 50px;
+    right: 10px;
 }

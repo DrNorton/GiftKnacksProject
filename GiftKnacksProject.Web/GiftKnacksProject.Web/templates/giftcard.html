@@ -17,7 +17,7 @@
                             <div class="row"><label class="col-lg-4">City:</label><div class="col-lg-8 ">{{item.City}}</div></div>
                             <div class="row"><label class="col-lg-4">Type:</label><div class="col-lg-8 ">Wish</div></div>
                             <div class="row"><label class="col-lg-4">Status:</label><div class="col-lg-8 ">{{item.Status.Status}}</div></div>
-                            <div class="row"><label class="col-lg-4">Author:</label><div class="col-lg-8 "><a href="#/user/{{item.Creator.CreatorId}}">{{item.Creator.FirstName}}&nbsp;{{item.Creator.LastName}}</a></div></div>
+                            <div class="row"><label class="col-lg-4">Author:</label><div class="col-lg-8 "><a href="/user/{{item.Creator.CreatorId}}">{{item.Creator.FirstName}}&nbsp;{{item.Creator.LastName}}</a></div></div>
                             <div class="row"><label class="col-lg-4">Date:</label><div class="col-lg-8 ">{{item.FromDate}}-{{item.ToDate}}</div></div>
                         </div>
                         <div class="panel-footer" ng-show="item.Status.Code==0 && myId!==item.Creator.CreatorId"><button type="button" class="btn btn-success col-md-offset-5" ng-click="showmyitems('wish')">Join!</button></div>
@@ -53,7 +53,7 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Participants:</div>
                         <div class="panel-body">
-                            <div class="row" ng-repeat="participant in item.Participants"><div class="col-lg-12 "><a href="#/user/{{participant.Id}}">{{participant.FirstName}}&nbsp;{{participant.LastName}}</a></div></div>
+                            <div class="row" ng-repeat="participant in item.Participants"><div class="col-lg-12 "><a href="/user/{{participant.Id}}">{{participant.FirstName}}&nbsp;{{participant.LastName}}</a></div></div>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-info" ng-click="addComment(commentForm.$valid, 'gift', null)">Leave comment</button>
                             </form>
-                            <div ng-hide="enoughData" class="alert alert-warning">For comments fill your <a href="#/profile" class="alert-link">profile.</a></div>
+                            <div ng-hide="enoughData" class="alert alert-warning">For comments fill your <a href="/profile" class="alert-link">profile.</a></div>
                         </div>
                     </div>
                     <div class="row  voffset3">

@@ -179,7 +179,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
         });
 
       $httpProvider.interceptors.push('authInterceptorService');
-      //$locationProvider.html5Mode(true);
+      $locationProvider.html5Mode(true);
   }]);
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', function (authService, $rootScope, $location, $anchorScroll) {

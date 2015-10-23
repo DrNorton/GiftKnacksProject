@@ -1061,7 +1061,9 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	    reader.onload = function (evt) {
 	        $scope.$apply(function ($scope) {
 	            $scope.profile.AvatarUrl = evt.target.result;
+	            $scope.avatarExist = true;
 	        });
+
 	    };
 	    reader.readAsDataURL(file);
 	};
