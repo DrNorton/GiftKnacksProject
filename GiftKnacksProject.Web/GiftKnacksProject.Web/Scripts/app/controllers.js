@@ -192,8 +192,13 @@ app.controller('HistoryCtrl', ['$scope', 'authService', 'commonService', 'wishAn
 	        
 	    }
 	};
+	$scope.$watch('query.StatusCode', function (newValue, oldValue) {
+	    if (newValue !== oldValue) {
+	        $scope.submitHistory($scope.searchHistoryForm.$valid);
+	    }
+	});
 
-	$scope.resetWish = function () {
+	$scope.resetHistory = function () {
 	    $scope.wasSubmitted = false;
 	};
 

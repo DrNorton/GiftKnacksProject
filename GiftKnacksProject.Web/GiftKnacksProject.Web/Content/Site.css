@@ -272,7 +272,7 @@ textarea {
   border-color: #125b32;
 }
 
-.navbar-default .navbar-toggle:hover {
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
   background-color: #125b32;
   border-color: #072414;
 }
@@ -407,6 +407,7 @@ html, body {
   position: fixed;
   bottom: 50px;
   right: 10px;
+  z-index: 10;
 }
 
 /*# sourceMappingURL=Site.css.map */
