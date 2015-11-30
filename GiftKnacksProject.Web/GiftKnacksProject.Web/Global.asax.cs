@@ -18,4 +18,5 @@ namespace GiftKnacksProject.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
+
 }
