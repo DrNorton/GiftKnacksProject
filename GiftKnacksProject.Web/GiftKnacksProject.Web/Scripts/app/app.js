@@ -9,16 +9,22 @@
  * Main module of the application.
  */
 var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStorageModule', 'angular-loading-bar', 'infinite-scroll', 'ngImgCrop'])
-  .config(['$routeProvider','$locationProvider', '$httpProvider', function ($routeProvider,$locationProvider, $httpProvider) {
+  .config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
       $routeProvider
         .when('/landing', {
+            title: 'Landing',
+            metaDescription: 'Home',
+            metaKeywords: 'Landing Page',
             templateUrl: '/templates/landing.html',
             controller: 'MainCtrl'
         })
           .when('/faq', {
-               templateUrl: '/templates/faq.html',
-               controller: 'FaqCtrl'
-           })
+              title: 'FAQ',
+              metaDescription: 'Info',
+              metaKeywords: 'FAQ Page',
+              templateUrl: '/templates/faq.html',
+              controller: 'FaqCtrl'
+          })
           .when('/login', {
               controller: 'LoginCtrl',
               templateUrl: "/templates/login.html",
@@ -148,14 +154,14 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                   }
               })
                 .when("/gift/:itemId", {
-                      controller: "ItemCardCtrl",
-                      templateUrl: "/templates/giftcard.html",
-                      resolve: {
-                          initialData: ['$route', 'wishAndGiftService', function ($route, wishAndGiftService) {
-                              return wishAndGiftService.getGiftById($route.current.params.itemId);
-                          }]
-                      }
-                  })
+                    controller: "ItemCardCtrl",
+                    templateUrl: "/templates/giftcard.html",
+                    resolve: {
+                        initialData: ['$route', 'wishAndGiftService', function ($route, wishAndGiftService) {
+                            return wishAndGiftService.getGiftById($route.current.params.itemId);
+                        }]
+                    }
+                })
               .when("/wish/:itemId", {
                   controller: "ItemCardCtrl",
                   templateUrl: "/templates/wishcard.html",
@@ -179,11 +185,11 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
         });
 
       $httpProvider.interceptors.push('authInterceptorService');
+      //$locationProvider.hashPrefix('!');
       $locationProvider.html5Mode(true);
   }]);
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
-app.run(['authService', '$rootScope', '$location', '$anchorScroll', function (authService, $rootScope, $location, $anchorScroll) {
-
+app.run(['authService', '$rootScope', '$location', '$anchorScroll', '$window', function (authService, $rootScope, $location, $anchorScroll, $window) {
     authService.fillAuthData();
 
     if (!String.prototype.startsWith) {
@@ -208,7 +214,22 @@ app.run(['authService', '$rootScope', '$location', '$anchorScroll', function (au
     });
 
     //when the route is changed scroll to the proper element.
-    $rootScope.$on('$routeChangeSuccess', function (newRoute, oldRoute) {
+    $rootScope.$on('$routeChangeSuccess', function (event, newRoute, oldRoute) {
+        $rootScope.title = newRoute.$$route.title;
+        $rootScope.metaDescription = newRoute.$$route.metaDescription;
+        $rootScope.metaKeywords = newRoute.$$route.metaKeywords;
+
         if ($location.hash()) $anchorScroll();
+
+        //ga
+
+        //var output = $location.path() + "?";
+        //angular.forEach($routeParams, function (value, key) {
+        //    output += key + "=" + value + "&";
+        //})
+        //output = output.substr(0, output.length - 1);
+
+        //$window.ga('set', 'page', $location.path());
+        $window.ga('send', 'pageview', $location.path());
     });
 }]);

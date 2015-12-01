@@ -37,8 +37,9 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
  * # Контроллер главной страницы
  * Controller of the giftknacksApp
  */
-app.controller( 'MainCtrl', ['$scope', '$location', 'authService', function ( $scope, $location, authService ) {
-	if ( authService.authentication.isAuth ) {
+app.controller('MainCtrl', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
+
+    if (authService.authentication.isAuth) {
 		$location.path( '/dashboard' );
 	}
 	$scope.slideinterval = 5000;

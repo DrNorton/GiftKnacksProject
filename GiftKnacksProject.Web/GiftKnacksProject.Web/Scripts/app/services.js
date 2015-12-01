@@ -426,4 +426,4 @@ app.factory('signalRHubProxy', ['$rootScope', 'authService', 'serviceBase', func
         };
 
         return signalRHubProxyFactory;
-    }]);
+}]);
