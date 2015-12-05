@@ -8,6 +8,8 @@ using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos.Comments;
+using GiftKnacksProject.Api.Services.Interfaces;
+using GiftKnacksProject.Api.Services.Services.FeedService.InsertActivities;
 using Microsoft.AspNet.Identity;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
@@ -16,10 +18,14 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     public class CommentController : CustomApiController
     {
         private readonly ICommentRepository _commentRepository;
+        private readonly IFeedService _service;
+        private readonly IFeedService _feedService;
 
-        public CommentController(ICommentRepository commentRepository)
+        public CommentController(ICommentRepository commentRepository,IFeedService service,IFeedService feedService)
         {
             _commentRepository = commentRepository;
+            _service = service;
+            _feedService = feedService;
         }
 
         //[System.Web.Http.Authorize]
@@ -29,8 +35,18 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
             var insertedComment=await  _commentRepository.AddCommentToWish(model.WishId, userId, model.Text, model.ParentCommentId);
+            var wishOwner = await _commentRepository.GetOwnerWish(model.WishId);
+            await
+                _feedService.AddActivityFeed(new InsertCommentToWishInActivity()
+                {
+                    CommentUserId = userId,
+                    WishId = model.WishId,
+                    FeedId = wishOwner
+                });
             return SuccessApiResult(insertedComment);
         }
+
+        
 
         [System.Web.Http.Route("addtoGift")]
         [System.Web.Http.HttpPost]
@@ -38,6 +54,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
             var insertedComment = await _commentRepository.AddCommentToGift(model.GiftId, userId, model.Text, model.ParentCommentId);
+
             return SuccessApiResult(insertedComment);
         }
 

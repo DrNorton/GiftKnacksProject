@@ -27,6 +27,12 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
 
         }
 
+        public async Task<long> GetOwnerWish(long wishId)
+        {
+            var findedWish= await Db.Set<Wish>().FindAsync(wishId);
+            return findedWish.User.Id;
+        }
+
         public  Task<CommentDto> AddCommentToGift(long giftId, long commentUserId, string text, long? parentId = null)
         {
             var newComment = InsertComment(commentUserId,text,parentId);

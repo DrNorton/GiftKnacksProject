@@ -37,6 +37,8 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Profile
         public int TotalClosed { get; set; }
 
         public bool IsOnline { get; set; }
+        [JsonConverter(typeof(CustomDateTimeConverter))]
+        public Nullable<System.DateTime> LastLoginTime { get; set; }
 
     }
 }

@@ -10,7 +10,7 @@
 	[Birthday] datetime, 
 	[HideBirthday] BIT NOT NULL DEFAULT 0,
     [IsFilled] BIT NOT NULL DEFAULT 0, 
-   
+    [LastLoginTime] DATETIME NULL,
     [Gender] BIT NOT NULL DEFAULT 1, 
     CONSTRAINT [PK_Profiles] PRIMARY KEY ([Id]), 
     CONSTRAINT [FK_Profiles_USERS] FOREIGN KEY ([Id]) REFERENCES [Users]([Id]),

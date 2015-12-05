@@ -24,6 +24,7 @@ using GiftKnacksProject.Api.EfDao.Base;
 using GiftKnacksProject.Api.Services;
 using GiftKnacksProject.Api.Services.Interfaces;
 using GiftKnacksProject.Api.Services.Services;
+using GiftKnacksProject.Api.Services.Services.FeedService.InsertActivities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json.Linq;
@@ -39,9 +40,10 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         private readonly UrlSettings _urlSettings;
         private readonly IFileService _fileService;
         private readonly IUserOnlineStorage _userOnlineStorage;
+        private readonly IFeedService _feedService;
 
 
-        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService,IUserOnlineStorage userOnlineStorage)
+        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService,IUserOnlineStorage userOnlineStorage,IFeedService feedService)
         {
             
             _userManager = userManager;
@@ -49,6 +51,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             _urlSettings = urlSettings;
             _fileService = fileService;
             _userOnlineStorage = userOnlineStorage;
+            _feedService = feedService;
         }
 
         // POST api/Account/Register
@@ -108,11 +111,12 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             {
                 return ErrorApiResult(1, "Нет параметров");
             }
-
-            IdentityResult result = await _userManager.ConfirmEmailAsync(long.Parse(model.UserId), model.Code);
+            var userId = long.Parse(model.UserId);
+            IdentityResult result = await _userManager.ConfirmEmailAsync(userId, model.Code);
 
             if (result.Succeeded)
             {
+                await _feedService.AddActivityFeed(new RegisterInActivity() {FeedId = userId, UserId = userId});
                 return EmptyApiResult();
             }
             else
@@ -121,7 +125,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 return ErrorApiResult(1, errorsMessages);
             }
 
-            return EmptyApiResult();
+            
         }
 
    
@@ -248,7 +252,15 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
         }
 
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("GetLenta")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetLenta()
+        {
+            var userId = long.Parse(User.Identity.GetUserId());
+            return SuccessApiResult(await _feedService.GetLenta(userId));
 
+        }
 
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("UpdateProfile")]

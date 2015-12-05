@@ -1,36 +1,61 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GiftKnacksProject.Api.Services.Interfaces;
 
 namespace GiftKnacksProject.Api.Services.Storages
 {
     public class UserOnlineStorage : IUserOnlineStorage
     {
-        private List<long> _usersOnline;
+        private object _synch;
+        private List<UserConnectionSignalR> _usersOnline;
+        
 
         public UserOnlineStorage()
         {
-            _usersOnline=new List<long>();
+            _synch = new object();
+            _usersOnline =new List<UserConnectionSignalR>();
         }
 
-        public void AddUserToOnline(long id)
+        public void AddUserToOnline(long userId,string connectionId)
         {
-            if (_usersOnline.IndexOf(id) == -1)
+            lock (_synch)
             {
-                _usersOnline.Add(id);
+                var findedUser = _usersOnline.FirstOrDefault(x => x.UserId == userId);
+                if (findedUser == null)
+                {
+
+                    var newUserOnline = new UserConnectionSignalR(userId);
+                    newUserOnline.AddConnection(connectionId);
+                    _usersOnline.Add(newUserOnline);
+                }
+                else
+                {
+                    findedUser.AddConnection(connectionId);
+                }
+            }
+           
+        }
+
+        public void RemoveUserFromOnline(long userId, string connectionId)
+        {
+            lock (_synch)
+            {
+                var findedUser = _usersOnline.FirstOrDefault(x => x.UserId == userId);
+                if (findedUser != null)
+                {
+                    findedUser.RemoveConnection(connectionId);
+                    if (findedUser.IsEmpty())
+                    {
+                        _usersOnline.Remove(findedUser);
+                    }
+                }
             }
         }
 
-        public void RemoveUserFromOnline(long id)
+        public bool GetOnlineStatus(long userId)
         {
-            if (_usersOnline.IndexOf(id) != -1)
-            {
-                _usersOnline.Remove(id);
-            }
-        }
-
-        public bool GetOnlineStatus(long id)
-        {
-            return (_usersOnline.IndexOf(id) != -1);
+            var findedUser = _usersOnline.FirstOrDefault(x => x.UserId == userId);
+            return findedUser != null;
         }
     }
 }

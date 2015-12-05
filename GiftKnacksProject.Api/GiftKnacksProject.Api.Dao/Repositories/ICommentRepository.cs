@@ -10,5 +10,6 @@ namespace GiftKnacksProject.Api.Dao.Repositories
         Task<CommentDto> AddCommentToGift(long giftId, long commentUserId, string text, long? parentId = null);
         Task<List<CommentDto>> GetCommentListByWishId(GetCommentsDto wishId);
         Task<List<CommentDto>> GetCommentListByGiftId(GetCommentsDto giftId);
+        Task<long> GetOwnerWish(long wishId);
     }
 }

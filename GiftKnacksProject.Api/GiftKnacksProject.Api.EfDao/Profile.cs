@@ -30,6 +30,7 @@ namespace GiftKnacksProject.Api.EfDao
         public bool HideBirthday { get; set; }
         public bool IsFilled { get; set; }
         public bool Gender { get; set; }
+        public Nullable<System.DateTime> LastLoginTime { get; set; }
     
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual Country Country1 { get; set; }

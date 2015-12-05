@@ -5,5 +5,6 @@
     [Password] NVARCHAR(300) NOT NULL, 
     [DateRegister] DATETIME NOT NULL, 
     [ConfirmMail] BIT NOT NULL DEFAULT 0, 
-    [EmailStamp] NVARCHAR(200) NULL 
+    [EmailStamp] NVARCHAR(200) NULL, 
+    [LastLoginTime] DATETIME NULL 
 )

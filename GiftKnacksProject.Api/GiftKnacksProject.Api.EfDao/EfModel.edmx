@@ -85,6 +85,7 @@
           <Property Name="Birthday" Type="datetime" />
           <Property Name="HideBirthday" Type="bit" Nullable="false" />
           <Property Name="IsFilled" Type="bit" Nullable="false" />
+          <Property Name="LastLoginTime" Type="datetime" />
           <Property Name="Gender" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="References">
@@ -107,6 +108,7 @@
           <Property Name="DateRegister" Type="datetime" Nullable="false" />
           <Property Name="ConfirmMail" Type="bit" Nullable="false" />
           <Property Name="EmailStamp" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastLoginTime" Type="datetime" />
         </EntityType>
         <EntityType Name="WishCategories">
           <Key>
@@ -781,6 +783,7 @@
           <NavigationProperty Name="Contacts" Relationship="GiftKnacks_dbModel.FK_Users_ToContacts" FromRole="Profile" ToRole="Contact" />
           <NavigationProperty Name="Country1" Relationship="GiftKnacks_dbModel.FK_Profiles_Countries" FromRole="Profile" ToRole="Country" />
           <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_Profiles_USERS" FromRole="Profile" ToRole="User" />
+          <Property Name="LastLoginTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Reference">
           <Key>
@@ -812,6 +815,7 @@
           <NavigationProperty Name="Wishes" Relationship="GiftKnacks_dbModel.FK_Wishes_Users" FromRole="User" ToRole="Wish" />
           <NavigationProperty Name="Wishes1" Relationship="GiftKnacks_dbModel.FK_Wishes_Users_Closer" FromRole="User" ToRole="Wish" />
           <NavigationProperty Name="WishGiftLinks" Relationship="GiftKnacks_dbModel.FK_WishGiftLinks_Users" FromRole="User" ToRole="WishGiftLink" />
+          <Property Name="LastLoginTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="WishCategory">
           <Key>
@@ -1251,6 +1255,7 @@
           <EntitySetMapping Name="Profiles">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.Profile">
               <MappingFragment StoreEntitySet="Profiles">
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="IsFilled" ColumnName="IsFilled" />
                 <ScalarProperty Name="HideBirthday" ColumnName="HideBirthday" />
@@ -1279,6 +1284,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
                 <ScalarProperty Name="EmailStamp" ColumnName="EmailStamp" />
                 <ScalarProperty Name="ConfirmMail" ColumnName="ConfirmMail" />
                 <ScalarProperty Name="DateRegister" ColumnName="DateRegister" />

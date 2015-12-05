@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,26 +16,37 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
     public class OnlineHub:Hub
     {
         private readonly IUserOnlineStorage _userOnlineStorage;
+        private readonly IProfileRepository _profileRepository;
 
-        public OnlineHub(IUserOnlineStorage userOnlineStorage)
+        public OnlineHub(IUserOnlineStorage userOnlineStorage,IProfileRepository profileRepository)
         {
             _userOnlineStorage = userOnlineStorage;
+            _profileRepository = profileRepository;
         }
 
 
         public override Task OnConnected()
         {
+          
             Groups.Add(Context.ConnectionId, "users");
             var clientId = GetClientId();
             if (clientId == -1)
             {
                 return null;
             }
-            _userOnlineStorage.AddUserToOnline(clientId);
+            _userOnlineStorage.AddUserToOnline(clientId, Context.ConnectionId);
+             SetUserLastLoginTime(clientId);
+            Debug.WriteLine("Подключение Id-{0} Время {1}", clientId, DateTime.Now);
             var context = GlobalHost.ConnectionManager.GetHubContext<OnlineHub>();
          
             return null;
         }
+
+        private void SetUserLastLoginTime(long clientId)
+        {
+            _profileRepository.UpdateLastLoginTime(clientId, DateTime.Now);
+        }
+
         [Authorize]
         public Task<int> GetUserOnline()
         {
@@ -49,10 +61,10 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
             {
                 return null;
             }
-            _userOnlineStorage.AddUserToOnline(clientId);
-
+            _userOnlineStorage.AddUserToOnline(clientId, Context.ConnectionId);
+            Debug.WriteLine("Реконнект Id-{0} Время {1}",clientId,DateTime.Now);
+            SetUserLastLoginTime(clientId);
             Groups.Add(Context.ConnectionId, "users");
-            var context = GlobalHost.ConnectionManager.GetHubContext<OnlineHub>();
             return null;
         }
         public override Task OnDisconnected(bool stopCalled)
@@ -63,8 +75,8 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
             {
                 return null;
             }
-            _userOnlineStorage.RemoveUserFromOnline(clientId);
-            var context = GlobalHost.ConnectionManager.GetHubContext<OnlineHub>();
+            _userOnlineStorage.RemoveUserFromOnline(clientId, Context.ConnectionId);
+            Debug.WriteLine("Дисконнект Id-{0} Время {1}", clientId, DateTime.Now);
             return null;
         }
 

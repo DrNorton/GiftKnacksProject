@@ -31,6 +31,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Profile
          public bool IsOnline { get; set; }
 
 
+
         public int ProfileProgress
         {
             get { return CalcProgress(); }

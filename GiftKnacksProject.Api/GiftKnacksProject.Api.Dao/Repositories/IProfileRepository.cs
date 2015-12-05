@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dto.Dtos;
@@ -13,5 +14,6 @@ namespace GiftKnacksProject.Api.Dao.Repositories
         Task<ShortProfileDto> GetShortProfile(long userId);
 
         Task<IEnumerable<NearEntityDto>> GetByArea(CountryDto country, string city);
+        void UpdateLastLoginTime(long userId,DateTime time);
     }
 }

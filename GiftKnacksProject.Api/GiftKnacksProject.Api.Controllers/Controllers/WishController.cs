@@ -24,13 +24,14 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         private readonly IWishRepository _wishRepository;
  
         private readonly IFileService _fileService;
+        private readonly IFeedService _feedService;
         private readonly ILinkRepository _linkRepository;
 
-        public WishController(IWishRepository wishRepository,ICountryRepository countryRepository,IFileService fileService)
+        public WishController(IWishRepository wishRepository,ICountryRepository countryRepository,IFileService fileService,IFeedService feedService)
         {
             _wishRepository = wishRepository;
             _fileService = fileService;
-        
+            _feedService = feedService;
         }
 
         [System.Web.Http.Route("Getall")]
@@ -107,6 +108,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 wish.ImageUrl = _fileService.SaveBase64FileReturnUrl(FileType.Image, wish.Image.Type, wish.Image.Result);
             }
              var result=await _wishRepository.AddWish(userId,wish);
+         //    await _feedService.AddActivityFeed(userId);
              return SuccessApiResult(new IdModel() { Id = result });
         }
 

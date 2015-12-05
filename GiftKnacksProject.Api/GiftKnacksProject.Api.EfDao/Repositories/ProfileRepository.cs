@@ -105,11 +105,17 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 FavoriteContact = profile.Contacts.Where(x=>x.MainContact).Select(x => new ContactDto() { Name = x.ContactType.Name, Value = x.Value, MainContact = x.MainContact }).FirstOrDefault(),
                 Gender = GetGenderStringFromBool(profile.Gender),
                 AvgRate = CalculateAvg(userId),
-                TotalClosed = totalClosed
+                TotalClosed = totalClosed,
+                LastLoginTime = profile.LastLoginTime
 
             };
         }
 
+        public void UpdateLastLoginTime(long userId,DateTime time)
+        {
+            Db.Set<Profile>().Find(userId).LastLoginTime = time;
+            Db.SaveChanges();
+        }
 
         public Task UpdateProfile(ProfileDto profile)
         {

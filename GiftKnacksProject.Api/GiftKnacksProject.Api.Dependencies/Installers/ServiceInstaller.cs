@@ -8,6 +8,7 @@ using Castle.MicroKernel.Registration;
 using GiftKnacksProject.Api.Services;
 using GiftKnacksProject.Api.Services.Interfaces;
 using GiftKnacksProject.Api.Services.Services;
+using GiftKnacksProject.Api.Services.Services.FeedService;
 using GiftKnacksProject.Api.Services.Storages;
 
 
@@ -19,7 +20,7 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
         {
             var fileService = new FileService(container.Resolve<UrlSettings>());
             container.Register(Component.For<IFileService>().Instance(fileService));
-
+            container.Register(Component.For<IFeedService>().ImplementedBy<FeedService>().LifestyleTransient());
             container.Register(Component.For<IUserOnlineStorage>().ImplementedBy<UserOnlineStorage>().LifeStyle.Singleton.Start());
         }
     }
