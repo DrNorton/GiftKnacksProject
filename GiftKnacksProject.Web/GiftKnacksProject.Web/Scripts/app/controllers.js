@@ -95,7 +95,7 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 	$scope.getRecentRequests = function (skip) {
 	    $scope.recentRequestsExist = true;
 	    if (!skip) {
-	        wishAndGiftService.showGifts({ Length: 5, Id: $scope.user.Id }).then(function (response) {
+	        wishAndGiftService.showGifts({ Length: 5, UserId: $scope.user.Id }).then(function (response) {
 	            if (response.data && !response.data.ErrorCode) {
 	                $scope.gifts = response.data.Result;
 	            } else {
@@ -103,7 +103,7 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 	            }
 	        }, function (response) { /*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
 
-	        wishAndGiftService.showWishes({ Length: 5, Id: $scope.user.Id }).then(function (response) {
+	        wishAndGiftService.showWishes({ Length: 5, UserId: $scope.user.Id }).then(function (response) {
 	            if (response.data && !response.data.ErrorCode) {
 	                $scope.wishes = response.data.Result;
 	            } else {
