@@ -9,5 +9,27 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-INSERT INTO WishCategories([Name], [Description]) Values('For children','test')
-INSERT INTO WishCategories([Name], [Description]) Values('For pets','test')
+--INSERT INTO WishCategories([Name], [Description]) Values('Food and drinks',''); 
+--INSERT INTO WishCategories([Name], [Description]) Values('Souvenirs','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Collections','');
+--INSERT INTO WishCategories([Name], [Description]) Values('For children','');
+--INSERT INTO WishCategories([Name], [Description]) Values('For pets','');
+--Chocolate, candies, cookies and pastries
+--Spices and syrups (maple, agave etc.)
+--Tea and coffee
+--Pasta and cereals
+--Drinks
+
+--INSERT INTO WishCategories([Name], [Description]) Values('Pieces for collections','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Gadgets and electronic devices','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Handmade','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Books and magazines','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Beauty and health care','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Clothes','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Accessories','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Personal request and special treatment','');
+--INSERT INTO WishCategories([Name], [Description]) Values('Other. Your own fantasy','');
+
+
+
+

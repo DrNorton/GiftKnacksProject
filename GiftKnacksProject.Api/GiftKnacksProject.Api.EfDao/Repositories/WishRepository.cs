@@ -27,8 +27,15 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
         {
             var profile = Db.Set<Profile>().FirstOrDefault(x=>x.Id==userId);
             var wishCategories = Db.Set<WishCategory>().Where(x=>! x.WishCategories1.Any()).Select(x=>new WishCategoryDto(){Description = x.Description,Name = x.Name,ParentName=x.WishCategory1.Name}).ToList();
-          
-            return new EmptyWishDto(){Country = new CountryDto(){Code = profile.Country1.Id,Name = profile.Country1.Name},
+            var country = profile.Country == null
+                ? null
+                : new CountryDto()
+                {
+                    Code = profile.Country1.Id,
+                    Name = profile.Country1.Name
+                };
+
+            return new EmptyWishDto(){Country = country ,
                 WishCategories = wishCategories,
                 FromDate = DateTime.Now,
                 City = profile.City};
