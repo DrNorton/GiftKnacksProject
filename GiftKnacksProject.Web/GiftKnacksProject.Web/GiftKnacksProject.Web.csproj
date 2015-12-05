@@ -41,8 +41,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Prerender.io">
-      <HintPath>..\..\Prerender_asp_mvc-master\Prerender.io\bin\Debug\Prerender.io.dll</HintPath>
+    <Reference Include="Prerender.io, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prerender.io.1.0.0.2\lib\net45-full\Prerender.io.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
