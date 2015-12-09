@@ -10,7 +10,7 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
 
 	$scope.logOut = function () {
 		authService.logOut();
-		$location.path( '/landing' );
+		$location.path( '/' );
 	}
 
 	$scope.authentication = authService.authentication;
@@ -26,7 +26,6 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
 	var onlineHubProxy = signalRHubProxy(signalRHubProxy.defaultServer, 'onlinehub');
 	onlineHubProxy.startPromise.done(function () {
 	    onlineHubProxy.invoke('getUserOnline', function () {
-	        console.log('getUserOnline done ');
 	    });
 	});
 }] );
@@ -62,9 +61,6 @@ app.controller('FaqCtrl', ['$scope', '$location', '$anchorScroll', function ($sc
         $anchorScroll();
         $scope.selectedLink = $location.hash();
     }
-
-    
-
     $scope.scrollTo = function (id) {
         $location.hash(id);
         $anchorScroll();
@@ -1257,7 +1253,7 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 	var startTimer = function () {
 		var timer = $timeout( function () {
 			$timeout.cancel( timer );
-			$location.path( '/landing' );
+			$location.path( '/' );
 		}, 10000 );
 	}
 

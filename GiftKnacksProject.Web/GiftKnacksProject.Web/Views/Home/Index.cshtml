@@ -1,14 +1,11 @@
-﻿@{
-	ViewBag.Title = "KnacksGifter";
-}
-<div class="wrapper">
+﻿<div class="wrapper">
     <div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="RootCtrl" ng-cloak class="ng-cloak">
         <div class="container">
             <div class="navbar-header">
                 <button class="btn btn-success navbar-toggle" ng-click="navbarExpanded = !navbarExpanded">
                         <span class="glyphicon glyphicon-chevron-down"></span>
                     </button>
-                <a class="navbar-brand" ng-href="{{authentication.isAuth ? '/dashboard' : '/landing' }}"><img src="/img/logo.png" /><span>KnacksGifter</span></a>
+                <a class="navbar-brand" ng-href="{{authentication.isAuth ? '/dashboard' : '/' }}"><img src="/img/logo.png" /><span>KnacksGifter</span></a>
             </div>
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
