@@ -238,7 +238,7 @@ namespace Prerender.io
                 {
                     "bingbot", "baiduspider", "facebookexternalhit", "twitterbot", "yandex", "rogerbot",
                     "linkedinbot", "embedly", "bufferbot", "quora link preview", "showyoubot", "outbrain",
-                    "googlebot"
+                    "googlebot", "facebot"
                 });
 
             if (_prerenderConfig.CrawlerUserAgents.IsNotEmpty())
