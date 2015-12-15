@@ -266,6 +266,19 @@ app.factory("wishAndGiftService", ['$http', 'serviceBase', function ($http, serv
 	return wishAndGiftServiceFactory;
 }] );
 
+app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase) {
+    var _getFeed = function (query) {
+        return $http.post(serviceBase + 'api/lenta/getlenta', query).then(function (response) {
+            return response;
+        });
+    };
+
+    var feedServiceFactory = {
+        getFeed: _getFeed
+    };
+    return feedServiceFactory;
+
+}]);
 app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', 'serviceBase', function ($q, $location, localStorageService, serviceBase) {
 
 	var _request = function ( config ) {

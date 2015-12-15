@@ -197,7 +197,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="img\avatar.jpg" />
     <Content Include="img\large_1.jpg" />
-    <Content Include="img\logo.jpg" />
     <Content Include="img\logo.png" />
     <Content Include="img\made-for.png" />
     <Content Include="img\palms.jpg" />

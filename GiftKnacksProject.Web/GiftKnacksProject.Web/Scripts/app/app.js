@@ -84,6 +84,9 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }],
                       historyWishes: ['wishAndGiftService', function (wishAndGiftService) {
                           return wishAndGiftService.showWishes({ Length: 5, Offset: 0 });
+                      }],
+                      feed: ['feedService', function (feedService) {
+                          return feedService.getFeed({ });
                       }]
                   }
               })

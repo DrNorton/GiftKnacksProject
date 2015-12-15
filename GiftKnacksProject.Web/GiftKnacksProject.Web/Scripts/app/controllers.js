@@ -239,7 +239,7 @@ app.controller('HistoryCtrl', ['$scope', 'authService', 'commonService', 'wishAn
  * # Контроллер страницы с последней активностью пользователя
  * Controller of the giftknacksApp
  */
-app.controller('DashboardCtrl', ['$scope', 'authService', 'initialData', 'historyGifts', 'historyWishes', 'wishAndGiftService', function ($scope, authService, initialData, historyGifts, historyWishes, wishAndGiftService) {
+app.controller('DashboardCtrl', ['$scope', 'authService', 'initialData', 'historyGifts', 'historyWishes','feed', function ($scope, authService, initialData, historyGifts, historyWishes, feed) {
 	$scope.enoughData = authService.authentication.isFilled;
 
 	if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -252,6 +252,9 @@ app.controller('DashboardCtrl', ['$scope', 'authService', 'initialData', 'histor
 	}
 	if (historyWishes.data && !historyWishes.data.ErrorCode) {
 	    $scope.historyWishes = historyWishes.data.Result;
+	}
+	if (feed.data && !feed.data.ErrorCode) {
+	    $scope.feed = feed.data.Result;
 	}
 }] );
 /**
