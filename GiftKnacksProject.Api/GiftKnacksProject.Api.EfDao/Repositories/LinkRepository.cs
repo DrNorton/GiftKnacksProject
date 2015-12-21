@@ -17,7 +17,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
         }
 
 
-        public async Task LinkWithGift(long userId, long wishId, long giftId)
+        public async Task<long> LinkWithGift(long userId, long wishId, long giftId)
         {
             var newLink =  Db.Set<WishGiftLink>().Create();
             newLink.CreatedTime = DateTime.Now;
@@ -26,6 +26,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             newLink.UserId = userId;
             base.Insert(newLink);
             base.Save();
+            return newLink.Wish.UserId;
         }
     }
 }

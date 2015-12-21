@@ -10,13 +10,13 @@ using Newtonsoft.Json;
 
 namespace GiftKnacksProject.Api.Dto.Dtos.Wishes
 {
-    public class WishDto
+    public class WishDto:BaseEntityDto
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
         public CountryDto Country { get; set; }
+
         public string City { get; set; }
-    
+        
+
         [JsonConverter(typeof(CustomDateTimeConverter))]
         public Nullable<System.DateTime> FromDate { get; set; }
          [JsonConverter(typeof(CustomDateTimeConverter))]

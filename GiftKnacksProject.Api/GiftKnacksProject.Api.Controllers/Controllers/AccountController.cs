@@ -101,6 +101,32 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
 
         }
 
+        // POST api/Account/Register
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.Route("search")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> Search(PatternModel pattern)
+        {
+           var result= await _profileRepository.Search(pattern.Pattern);
+            return SuccessApiResult(result);
+        }
+
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Http.Route("checkactivity")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> CheckActivity()
+       {
+            var name = User.Identity.GetUserName();
+            if (String.IsNullOrEmpty(User.Identity.GetUserId()))
+            {
+                return ErrorApiResult(401, "Unauthorizate");
+            }
+            var userId = long.Parse(User.Identity.GetUserId());
+            var result = await _profileRepository.CheckActivity(userId);
+            return SuccessApiResult(result);
+        }
+
         [System.Web.Http.AllowAnonymous]
         [System.Web.Http.Route("VerifyEmail")]
         [System.Web.Http.HttpPost]
@@ -116,7 +142,6 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
 
             if (result.Succeeded)
             {
-                await _feedService.AddActivityFeed(new RegisterInActivity() {FeedId = userId, UserId = userId});
                 return EmptyApiResult();
             }
             else
@@ -252,15 +277,6 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
         }
 
-        [System.Web.Http.Authorize]
-        [System.Web.Http.Route("GetLenta")]
-        [System.Web.Http.HttpPost]
-        public async Task<IHttpActionResult> GetLenta()
-        {
-            var userId = long.Parse(User.Identity.GetUserId());
-            return SuccessApiResult(await _feedService.GetLenta(userId));
-
-        }
 
         [System.Web.Http.Authorize]
         [System.Web.Http.Route("UpdateProfile")]

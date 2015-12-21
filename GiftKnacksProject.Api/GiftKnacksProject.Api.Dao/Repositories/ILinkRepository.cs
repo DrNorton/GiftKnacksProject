@@ -4,6 +4,6 @@ namespace GiftKnacksProject.Api.Dao.Repositories
 {
     public interface ILinkRepository
     {
-        Task LinkWithGift(long userId, long wishId, long giftId);
+        Task<long> LinkWithGift(long userId, long wishId, long giftId);
     }
 }

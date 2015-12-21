@@ -21,6 +21,7 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
             var fileService = new FileService(container.Resolve<UrlSettings>());
             container.Register(Component.For<IFileService>().Instance(fileService));
             container.Register(Component.For<IFeedService>().ImplementedBy<FeedService>().LifestyleTransient());
+            container.Register(Component.For<IActivityFactory>().ImplementedBy<ActivityFactory>().LifestyleTransient());
             container.Register(Component.For<IUserOnlineStorage>().ImplementedBy<UserOnlineStorage>().LifeStyle.Singleton.Start());
         }
     }

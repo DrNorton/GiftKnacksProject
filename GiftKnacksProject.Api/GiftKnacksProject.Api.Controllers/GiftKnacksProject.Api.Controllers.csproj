@@ -197,6 +197,7 @@
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\GiftController.cs" />
     <Compile Include="Controllers\InterestingController.cs" />
+    <Compile Include="Controllers\LentaFeedController.cs" />
     <Compile Include="Controllers\LinkerController.cs" />
     <Compile Include="Controllers\ReferenceController.cs" />
     <Compile Include="Controllers\WishController.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\IdModel.cs" />
+    <Compile Include="Models\PatternModel.cs" />
     <Compile Include="Models\RecoverPasswordModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\UserModel.cs" />

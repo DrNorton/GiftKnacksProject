@@ -15,5 +15,7 @@ namespace GiftKnacksProject.Api.Dao.Repositories
 
         Task<IEnumerable<NearEntityDto>> GetByArea(CountryDto country, string city);
         void UpdateLastLoginTime(long userId,DateTime time);
+        Task<List<TinyProfileDto>> Search(string pattern);
+        Task<bool> CheckActivity(long userId);
     }
 }

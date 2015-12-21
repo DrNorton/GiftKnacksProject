@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using GiftKnacksProject.Api.Dao.Repositories;
@@ -89,7 +90,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 if(profile.Birthday!=null)
                 calcAge = AgeCalulator.CalcAge((DateTime)profile.Birthday);
             }
-
+           
             var totalClosed = Db.Set<Wish>().Count(x => x.WishUserCloserId == userId);
             return new ShortProfileDto()
             {
@@ -115,6 +116,31 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
         {
             Db.Set<Profile>().Find(userId).LastLoginTime = time;
             Db.SaveChanges();
+        }
+
+        public async Task<List<TinyProfileDto>> Search(string pattern)
+        {
+            return Db.Set<Profile>()
+                .Where(x => x.FirstName.Contains(pattern) ||x.LastName.Contains(pattern))
+                .Select(
+                    x =>
+                        new TinyProfileDto()
+                        {
+                            AvatarUrl = x.AvatarUrl,
+                            AvgRate = 0,
+                            FirstName = x.FirstName,
+                            Id = x.Id,
+                            LastName = x.LastName,
+                            TotalClosed = 0
+                        })
+                .ToList();
+        }
+
+        public async Task<bool> CheckActivity(long userId)
+        {
+            var isWishesExists= await Db.Set<Wish>().AnyAsync(x => x.UserId == userId);
+            var isGiftExists = await Db.Set<Gift>().AnyAsync(x => x.UserId == userId);
+            return isWishesExists && isGiftExists;
         }
 
         public Task UpdateProfile(ProfileDto profile)
@@ -203,7 +229,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             }
 
 
-            return query.Select(x => new NearEntityDto() { Id = x.Id, Name = x.FirstName });
+            return query.Select(x => new UserNearDto() { Id = x.Id, FirstName = x.FirstName,LastName = x.LastName});
 
         }
     }

@@ -9,13 +9,11 @@ using Newtonsoft.Json;
 
 namespace GiftKnacksProject.Api.Dto.Dtos.Gifts
 {
-    public class GiftDto
+    public class GiftDto:BaseEntityDto
     {
-
-        public long Id { get; set; }
-        public string Name { get; set; }
         public CountryDto Country { get; set; }
-      
+
+
         public string City { get; set; }
         public string Location { get; set; }
         [JsonConverter(typeof(CustomDateTimeConverter))]

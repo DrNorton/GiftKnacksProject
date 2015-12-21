@@ -69,7 +69,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 ToDate = x.ToDate,
                 Name = x.Name,
                 Status = new StatusDto() { Code = x.GiftWishStatus.Code, Status = x.GiftWishStatus.Status },
-                Id =x.Id
+                Id =x.Id,
+                Creator = new CreatorDto() { AvatarUrl = x.User.Profile.AvatarUrl, CreatorId = x.User.Id, FirstName = x.User.Profile.FirstName, LastName = x.User.Profile.LastName }
 
             }).ToList();
 
@@ -165,7 +166,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 query = query.Where(x => x.Country1.Name == country.Name || x.City == city);
             }
 
-            return query.Select(x => new NearEntityDto() { Id = x.Id, Name = x.Name });
+            return query.Select(x => new NearEntityDto() { Id = x.Id, FirstName = x.Name });
         }
     }
 }
