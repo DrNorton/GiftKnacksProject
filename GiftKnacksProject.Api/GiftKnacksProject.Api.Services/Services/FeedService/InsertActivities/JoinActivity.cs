@@ -12,7 +12,7 @@ namespace GiftKnacksProject.Api.Services.Services.FeedService.InsertActivities
 
         public override string Action
         {
-            get { return "Join"; }
+            get { return "join"; }
         }
 
         public long EntityId { get; set; }

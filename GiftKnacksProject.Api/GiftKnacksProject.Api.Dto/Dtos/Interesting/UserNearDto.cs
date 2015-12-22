@@ -9,5 +9,6 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Interesting
     public class UserNearDto:NearEntityDto
     {
         public string LastName { get; set; }
+        public string FirstName { get; set; }
     }
 }

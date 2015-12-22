@@ -40,7 +40,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                   AuthorId = userId,
                   EntityId = participantDto.WishId,
                   FeedId = ownerWish,
-                  TargetType = "wish"
+                  TargetType = "gift"
               });
             return EmptyApiResult();
         }

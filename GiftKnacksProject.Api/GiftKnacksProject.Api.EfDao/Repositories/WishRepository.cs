@@ -184,7 +184,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             }
 
 
-            return query.Select(x => new NearEntityDto() {Id = x.Id, FirstName = x.Name});
+            return query.Select(x => new NearWishGiftDto() {Id = x.Id, Name = x.Name});
 
         } 
 

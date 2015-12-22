@@ -8,6 +8,6 @@ namespace GiftKnacksProject.Api.Services.Services.FeedService.ResultActivities
 {
     public class JoinInfo:BaseActivityInfo
     {
-        public override string Action { get { return "Join"; } }
+        public override string Action { get { return "join"; } }
     }
 }
