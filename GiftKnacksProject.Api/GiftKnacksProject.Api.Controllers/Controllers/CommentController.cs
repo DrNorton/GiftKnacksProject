@@ -37,11 +37,12 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             var insertedComment=await  _commentRepository.AddCommentToWish(model.WishId, userId, model.Text, model.ParentCommentId);
             var wishOwner = await _commentRepository.GetOwnerWish(model.WishId);
             await
-                _feedService.AddActivityFeed(new InsertCommentToWishInActivity()
+                _feedService.AddActivityFeed(new InsertCommentToEntityInActivity()
                 {
                     CommentUserId = userId,
-                    WishId = model.WishId,
-                    FeedId = wishOwner
+                    Id = model.WishId,
+                    FeedId = wishOwner,
+                    TargetType = "wish"
                 });
             return SuccessApiResult(insertedComment);
         }
@@ -54,7 +55,15 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
             var insertedComment = await _commentRepository.AddCommentToGift(model.GiftId, userId, model.Text, model.ParentCommentId);
-
+            var ownerId= await _commentRepository.GetOwnerGift(model.GiftId);
+            await
+              _feedService.AddActivityFeed(new InsertCommentToEntityInActivity()
+              {
+                  CommentUserId = userId,
+                  Id = model.GiftId,
+                  FeedId = ownerId,
+                  TargetType = "gift"
+              });
             return SuccessApiResult(insertedComment);
         }
 

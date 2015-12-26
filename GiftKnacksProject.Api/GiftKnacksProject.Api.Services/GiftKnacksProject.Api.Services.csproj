@@ -77,11 +77,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FeedService\ActivityFactory.cs" />
     <Compile Include="Services\FeedService\FeedService.cs" />
-    <Compile Include="Services\FeedService\InsertActivities\AddWishInActivity.cs" />
     <Compile Include="Services\FeedService\InsertActivities\BaseInActivity.cs" />
-    <Compile Include="Services\FeedService\InsertActivities\InsertCommentToWishInActivity.cs" />
-    <Compile Include="Services\FeedService\InsertActivities\RegisterInActivity.cs" />
+    <Compile Include="Services\FeedService\InsertActivities\InsertCommentToEntityInActivity.cs" />
+    <Compile Include="Services\FeedService\InsertActivities\JoinActivity.cs" />
+    <Compile Include="Services\FeedService\ResultActivities\BaseActivityInfo.cs" />
+    <Compile Include="Services\FeedService\ResultActivities\AddCommentResultActivity.cs" />
+    <Compile Include="Services\FeedService\ResultActivities\BaseOutActivity.cs" />
+    <Compile Include="Services\FeedService\ResultActivities\JoinInfo.cs" />
+    <Compile Include="Services\FeedService\ResultActivities\UserInfo.cs" />
+    <Compile Include="Services\FeedService\ResultActivities\WishOrGiftInfo.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Interfaces\IFileService.cs" />
     <Compile Include="Interfaces\IUserOnlineStorage.cs" />
@@ -94,10 +100,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GiftKnacksProject.Api.Dao\GiftKnacksProject.Api.Dao.csproj">
+      <Project>{ff0fa806-2745-4d30-93ba-e1fd8c171d21}</Project>
+      <Name>GiftKnacksProject.Api.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GiftKnacksProject.Api.Dto\GiftKnacksProject.Api.Dto.csproj">
+      <Project>{ca6f7446-8c7f-4909-9a02-2203565598c9}</Project>
+      <Name>GiftKnacksProject.Api.Dto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GiftKnacksProject.Api.Helpers\GiftKnacksProject.Api.Helpers.csproj">
       <Project>{4d2c2555-f671-4268-b729-980ee1fd07d9}</Project>
       <Name>GiftKnacksProject.Api.Helpers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\FeedService\NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

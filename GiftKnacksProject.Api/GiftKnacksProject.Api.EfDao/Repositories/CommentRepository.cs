@@ -33,6 +33,12 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             return findedWish.User.Id;
         }
 
+        public async Task<long> GetOwnerGift(long giftId)
+        {
+            var findedGift = await Db.Set<Gift>().FindAsync(giftId);
+            return findedGift.User.Id;
+        }
+
         public  Task<CommentDto> AddCommentToGift(long giftId, long commentUserId, string text, long? parentId = null)
         {
             var newComment = InsertComment(commentUserId,text,parentId);

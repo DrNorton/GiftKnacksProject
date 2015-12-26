@@ -56,15 +56,15 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
 
         public override Task OnReconnected()
         {
-            var clientId = GetClientId();
-            if (clientId == -1)
-            {
-                return null;
-            }
-            _userOnlineStorage.AddUserToOnline(clientId, Context.ConnectionId);
-            Debug.WriteLine("Реконнект Id-{0} Время {1}",clientId,DateTime.Now);
-            SetUserLastLoginTime(clientId);
-            Groups.Add(Context.ConnectionId, "users");
+            //var clientId = GetClientId();
+            //if (clientId == -1)
+            //{
+            //    return null;
+            //}
+            //_userOnlineStorage.AddUserToOnline(clientId, Context.ConnectionId);
+            //Debug.WriteLine("Реконнект Id-{0} Время {1}",clientId,DateTime.Now);
+            //SetUserLastLoginTime(clientId);
+            //Groups.Add(Context.ConnectionId, "users");
             return null;
         }
         public override Task OnDisconnected(bool stopCalled)

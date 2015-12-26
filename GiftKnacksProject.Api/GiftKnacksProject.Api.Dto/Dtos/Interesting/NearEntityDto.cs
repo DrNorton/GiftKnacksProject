@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GiftKnacksProject.Api.Dto.Dtos.Interesting
 {
-    public class NearEntityDto
+    public abstract class NearEntityDto
     {
         public long Id { get; set; }
-        public string Name { get; set; }
+        
     }
 }

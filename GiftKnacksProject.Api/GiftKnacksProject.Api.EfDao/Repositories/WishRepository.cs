@@ -119,7 +119,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 Name = x.Name,
                 Id = x.Id,
                 Status = new StatusDto() { Code = x.GiftWishStatus.Code, Status = x.GiftWishStatus.Status },
-
+                Creator = new CreatorDto() { AvatarUrl = x.User.Profile.AvatarUrl, CreatorId = x.User.Id, FirstName = x.User.Profile.FirstName, LastName = x.User.Profile.LastName }
             }).ToList();
         }
 
@@ -184,7 +184,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             }
 
 
-            return query.Select(x => new NearEntityDto() {Id = x.Id, Name = x.Name});
+            return query.Select(x => new NearWishGiftDto() {Id = x.Id, Name = x.Name});
 
         } 
 

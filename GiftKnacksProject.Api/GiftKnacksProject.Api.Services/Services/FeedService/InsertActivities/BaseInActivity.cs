@@ -13,6 +13,10 @@ namespace GiftKnacksProject.Api.Services.Services.FeedService.InsertActivities
         public FeedType FeedType { get; set; }
         public long FeedId { get; set; }
 
+        public abstract string Action { get; }
+
+        public abstract string TargetType { get; set; }
+
         public BaseInActivity()
         {
             FeedType=FeedType.Flat;
