@@ -33,6 +33,7 @@ namespace GiftKnacksProject.Web
 
 						bundles.Add(new StyleBundle("~/Content/css").Include(
 											"~/Content/bootstrap-theme.css",
+                                            "~/Content/font-awesome.min.css",
 											"~/Content/loading-bar.css",
                                             "~/Content/ng-img-crop.css",
 											"~/Content/site.css"));

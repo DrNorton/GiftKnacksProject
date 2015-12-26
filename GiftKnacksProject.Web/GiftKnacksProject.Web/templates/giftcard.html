@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-success">
-                        <div class="panel-heading">Resume:</div>
+                        <div class="panel-heading"><div class="panel-title">Resume</div></div>
                         <div class="panel-body">
                             <div class="row"><label class="col-lg-4">Name:</label><div class="col-lg-8 ">{{item.Name}}</div></div>
                             <div class="row"><label class="col-lg-4">Country:</label><div class="col-lg-8 ">{{item.Country.Name}}</div></div>
@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-info">
-                        <div class="panel-heading">About:</div>
+                        <div class="panel-heading"><div class="panel-title">About</div></div>
                         <div class="panel-body">
                             {{item.Description}}
                         </div>
@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-info">
-                        <div class="panel-heading">Terms of agreement:</div>
+                        <div class="panel-heading"><div class="panel-title">Terms of agreement</div></div>
                         <div class="panel-body">
                             <div class="row"><label class="col-lg-4">Place:</label><div class="col-lg-8 ">{{item.Location}}</div></div>
                             <div class="row"><label class="col-lg-4">{{item.Creator.FavoriteContact.Name}}&nbsp;contact:</label><div class="col-lg-8 ">{{item.Creator.FavoriteContact.Value}}</div></div>
@@ -51,7 +51,7 @@
             <div class="row" ng-show="item.Participants.length">
                 <div class="col-md-12">
                     <div class="panel panel-info">
-                        <div class="panel-heading">Participants:</div>
+                        <div class="panel-heading"><div class="panel-title">Participants</div></div>
                         <div class="panel-body">
                             <div class="row" ng-repeat="participant in item.Participants"><div class="col-lg-12 "><a href="/user/{{participant.Id}}">{{participant.FirstName}}&nbsp;{{participant.LastName}}</a></div></div>
                         </div>
@@ -68,7 +68,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-info comments-list" infinite-scroll='loadComments("gift")' infinite-scroll-disabled='query.busy' infinite-scroll-distance='1'>
-                <div class="panel-heading">Comments:</div>
+                <div class="panel-heading"><div class="panel-title">Comments</div></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -82,13 +82,13 @@
                             <div ng-hide="enoughData" class="alert alert-warning">For comments fill your <a href="/profile" class="alert-link">profile.</a></div>
                         </div>
                     </div>
-                    <div class="row  voffset3">
+                    <div class="row voffset3">
                         <div class="col-md-12">
                             <ul class="list-group comment-list">
                                 <li class="list-group-item comment-li" ng-repeat="comment in comments">
                                     <comment-block comment="comment"></comment-block>
-                                    <reply-form comment="comment" enough-data="{{enoughData}}" add-reply="addReply" type="gift" reply-text="replyText"></reply-form>
-                                    <ul ng-if="comment.ChildComments.length" class="list-group  voffset3">
+                                    <reply-form comment="comment" enough-data="{{enoughData}}" add-reply="addReply" type="gift" reply-text="replyText" was-submitted-reply="wasSubmittedReply"></reply-form>
+                                    <ul ng-if="comment.ChildComments.length" class="list-group voffset3">
                                         <li class="list-group-item" ng-repeat="comment in comment.ChildComments">
                                             <comment-block comment="comment"></comment-block>
                                         </li>

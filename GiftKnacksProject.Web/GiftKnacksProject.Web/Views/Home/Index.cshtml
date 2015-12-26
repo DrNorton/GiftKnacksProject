@@ -3,21 +3,17 @@
         <div class="container">
             <div class="navbar-header">
                 <button class="btn btn-success navbar-toggle" ng-click="navbarExpanded = !navbarExpanded">
-                        <span class="glyphicon glyphicon-chevron-down"></span>
-                    </button>
-                <a class="navbar-brand" ng-href="{{authentication.isAuth ? '/dashboard' : '/' }}"><img src="/img/logo.png" /></a>
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+                <a class="navbar-brand" ng-href="{{authentication.isAuth ? '/dashboard' : '/' }}"><img src="/img/logo.png"/></a>
             </div>
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/wishform">Create new wish</a></li>
                     <li ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/giftform">Create new gift</a></li>
-                    <li ng-show="authentication.isAuth" class="dropdown">
-                        <a ng-href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Searching<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a ng-click="navbarExpanded = false" href="/findwish">Find wish</a></li>
-                            <li><a ng-click="navbarExpanded = false" href="/findgift">Find gift</a></li>
-                        </ul>
-                    </li>
+                    <li ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findwish">Find wish</a></li>
+                    <li ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findgift">Find gift</a></li>
+                    <li> <a ng-click="navbarExpanded = false" href="/blog">Blog</a></li>
                     <li ng-show="authentication.isAuth" class="dropdown">
                         <a ng-href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">User menu<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -34,20 +30,49 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        <div data-ng-view="">
+    <div class="row-content">
+        <div class="container">
+            <div data-ng-view="">
+            </div>
         </div>
     </div>
 </div>
-<div id="footer" class="navbar navbar-default">
-    <div class="container">
+<div id="footer" class="row-footer navbar navbar-default navbar-fixed-bottom">
+    <div class="container ">
         <div class="row voffset3">
-            <div class="col-md-2"><a href="/faq#faq">FAQ</a></div>
-            <div class="col-md-2"><a href="/faq#support">Support</a></div>
-            <div class="col-md-2"><a href="/faq#about">About</a></div>
-            <div class="col-md-3"><a href="/faq#safety">Safety. Communicate&nbsp;carefully.</a></div>
             <div class="col-md-3">
-                Social links
+                <h4><a href="/about#about">About</a></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/about#faq">FAQ</a></li>
+                    <li><a href="/about#safety">Safety</a></li>
+                    <li><a href="/about#support">Support</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><a href="/helpus#helpus">Help Us</a></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/helpus#ideas">Ideas</a></li>
+                    <li><a href="/helpus#vacancy">Vacancy</a></li>
+                    <li><a href="/helpus#donate">Donate</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><a href="/blog">Blog</a></h4>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-12">
+                    <a class="btn btn-primary btn-social-icon btn-facebook" href="http://www.facebook.com/profile.php?id="><i class="fa fa-lg fa-facebook"></i></a>
+                    <a class="btn btn-primary btn-social-icon btn-twitter" href="http://twitter.com/"><i class="fa fa-lg fa-twitter"></i></a>
+                    <a class="btn btn-primary btn-social-icon btn-google-plus" href="http://google.com/+"><i class="fa fa-lg fa-google-plus"></i></a>
+                </div>
+                <div class="col-md-12 voffset2">
+                    <a class="btn btn-primary btn-social-icon btn-vk" href="http://vk.com/"><i class="fa fa-lg fa-vk"></i></a>
+                    <a class="btn btn-primary btn-social-icon btn-instagram" href="http://instagram.com/"><i class="fa fa-lg fa-instagram"></i></a>
+                    <a class="btn btn-primary btn-social-icon btn-email" href="mailto:"><i class="fa fa-lg fa-envelope-o"></i></a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <p align="center">© Copyright 2016 Ideas Band</p>
             </div>
         </div>
     </div>

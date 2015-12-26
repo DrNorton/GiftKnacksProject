@@ -1,16 +1,46 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-		display: none !important;
+    display: none !important;
 }
-.voffset  { margin-top: 2px; }
-.voffset1 { margin-top: 5px; }
-.voffset2 { margin-top: 10px; }
-.voffset3 { margin-top: 15px; }
-.voffset4 { margin-top: 30px; }
-.voffset5 { margin-top: 40px; }
-.voffset6 { margin-top: 60px; }
-.voffset7 { margin-top: 80px; }
-.voffset8 { margin-top: 100px; }
-.voffset9 { margin-top: 150px; }
+
+.voffset {
+    margin-top: 2px;
+}
+
+.voffset1 {
+    margin-top: 5px;
+}
+
+.voffset2 {
+    margin-top: 10px;
+}
+
+.voffset3 {
+    margin-top: 15px;
+}
+
+.voffset4 {
+    margin-top: 30px;
+}
+
+.voffset5 {
+    margin-top: 40px;
+}
+
+.voffset6 {
+    margin-top: 60px;
+}
+
+.voffset7 {
+    margin-top: 80px;
+}
+
+.voffset8 {
+    margin-top: 100px;
+}
+
+.voffset9 {
+    margin-top: 150px;
+}
 
 // Fileinput
 // CSS for file upload button and fileinput widget
@@ -18,72 +48,81 @@
 $border-radius-base: 6px;
 $border-radius-small: 4px;
 $border-radius-large: 8px;
-$state-warning-text:#ffd800;
-$state-warning-border:#ffd800;
-$state-danger-text:#d12a2a;
-$state-danger-border:#d12a2a;
-$state-success-text:#2fbe32;
-$state-success-border:#2fbe32;
+$state-warning-text: #ffd800;
+$state-warning-border: #ffd800;
+$state-danger-text: #d12a2a;
+$state-danger-border: #d12a2a;
+$state-success-text: #2fbe32;
+$state-success-border: #2fbe32;
+
 .btn-file {
-  overflow: hidden;
-  position: relative;
-  vertical-align: middle;
-  > input {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    opacity: 0;
-    filter: alpha(opacity=0);
-    font-size: 23px;
-    height: 100%;
-    width: 100%;
-    direction: ltr;
-    cursor: pointer;
-  }
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+
+    > input {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        font-size: 23px;
+        height: 100%;
+        width: 100%;
+        direction: ltr;
+        cursor: pointer;
+    }
 }
 
 .fileinput {
-  margin-bottom: 9px;
-  display: inline-block;
-  .form-control {
-    padding-top: 7px;
-    padding-bottom: 5px;
+    margin-bottom: 9px;
     display: inline-block;
-    margin-bottom: 0;
-    vertical-align: middle;
-    cursor: text;
-  }
-  .thumbnail {
-    overflow: hidden;
-    display: inline-block;
-    margin-bottom: 5px;
-    vertical-align: middle;
-    text-align: center;
-    > img {
-      /*max-height: 100%;*/
-			max-height: 150px;
+
+    .form-control {
+        padding-top: 7px;
+        padding-bottom: 5px;
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+        cursor: text;
     }
-  }
-  .btn {
-    vertical-align: middle;
-  }
+
+    .thumbnail {
+        overflow: hidden;
+        display: inline-block;
+        margin-bottom: 5px;
+        vertical-align: middle;
+        text-align: center;
+
+        > img {
+            /*max-height: 100%;*/
+            max-height: 150px;
+        }
+    }
+
+    .btn {
+        vertical-align: middle;
+    }
 }
+
 .fileinput-exists .fileinput-new,
 .fileinput-new .fileinput-exists {
-  display: none;
+    display: none;
 }
+
 .fileinput-inline .fileinput-controls {
-  display: inline;
+    display: inline;
 }
 
 .fileinput-filename {
-  vertical-align: middle;
-  display: inline-block;
-  overflow: hidden;
+    vertical-align: middle;
+    display: inline-block;
+    overflow: hidden;
 }
+
 .form-control .fileinput-filename {
-  vertical-align: bottom;
+    vertical-align: bottom;
 }
 
 .fileinput.input-group {
@@ -93,288 +132,382 @@ $state-success-border:#2fbe32;
 // Not 100% correct, but helps in typical use case
 .fileinput-new.input-group .btn-file,
 .fileinput-new .input-group .btn-file {
-  border-radius: 0 $border-radius-base $border-radius-base 0;
+    border-radius: 0 $border-radius-base $border-radius-base 0;
 
-  &.btn-xs,
-  &.btn-sm {
-    border-radius: 0 $border-radius-small $border-radius-small 0;
-  }
-  &.btn-lg {
-    border-radius: 0 $border-radius-large $border-radius-large 0;
-  }
+    &.btn-xs,
+    &.btn-sm {
+        border-radius: 0 $border-radius-small $border-radius-small 0;
+    }
+
+    &.btn-lg {
+        border-radius: 0 $border-radius-large $border-radius-large 0;
+    }
 }
 
 .form-group.has-warning .fileinput {
-  .fileinput-preview {
-    color: $state-warning-text;
-  }
-  .thumbnail {
-    border-color: $state-warning-border;
-  }
+    .fileinput-preview {
+        color: $state-warning-text;
+    }
+
+    .thumbnail {
+        border-color: $state-warning-border;
+    }
 }
+
 .form-group.has-error .fileinput {
-  .fileinput-preview {
-    color: $state-danger-text;
-  }
-  .thumbnail {
-    border-color: $state-danger-border;
-  }
+    .fileinput-preview {
+        color: $state-danger-text;
+    }
+
+    .thumbnail {
+        border-color: $state-danger-border;
+    }
 }
+
 .form-group.has-success .fileinput {
-  .fileinput-preview {
-    color: $state-success-text;
-  }
-  .thumbnail {
-    border-color: $state-success-border;
-  }
+    .fileinput-preview {
+        color: $state-success-text;
+    }
+
+    .thumbnail {
+        border-color: $state-success-border;
+    }
 }
 
 
 // Input group fixes
 
 .input-group-addon:not(:first-child) {
-  border-left: 0;
+    border-left: 0;
 }
 
-.body-content {
-		margin-top: 55px;
+.row-content {
+    padding: 55px 0 20px;
 }
 
 .btn {
-		& > input[type=radio] {
-				display: none;
-		}
+    & > input[type=radio] {
+        display: none;
+    }
 }
 
 textarea {
     resize: none;
 }
+
 .block-bio {
-		.control-label {
-				text-align:left;
-		}
-		margin-top: 50px;
+    .control-label {
+        text-align: left;
+    }
+
+    margin-top: 50px;
 }
 
 .header-inline {
-		float: left;
+    float: left;
 }
 
-.profile-progress{
-.progress {
-		margin: 25px 0 0 20px;
-		height: 30px;
-}
-.progress-bar {
-		font-size: 14px;
-		line-height: 30px;
-}
-}
-
-.dropdown-toggle{
-		cursor:pointer;
-}
-.block-description{
-		.control-label {
-				text-align:left;
-		}
-}
-.emergency-rating{
-		outline:none;
-}
-
-.emergency-label{
-padding: .2em .3em .3em;
-
-}
-//reference
-.reference-rating{
-		outline:none;
-}
-.references-list{
-    margin-top:20px;
-}
-.reference-item {
-    .list-group-item-heading{
-        text-align:center;
+.profile-progress {
+    .progress {
+        margin: 25px 0 0 20px;
+        height: 30px;
     }
-    .replyer-avatar img{
-        max-height:100px;
+
+    .progress-bar {
+        font-size: 14px;
+        line-height: 30px;
+    }
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.block-description {
+    .control-label {
+        text-align: left;
+    }
+}
+
+.emergency-rating {
+    outline: none;
+}
+
+.emergency-label {
+    padding: .2em .3em .3em;
+}
+.interesting .list-group{
+        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      .list-group-item-info{
+          font-weight:bold;
+          font-size:16px;
+      }
+}
+//feed
+.feed-item {
+    padding: 20px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    &.feed-item-join {
+        border-left-color: #0d8541;
+    }
+
+    &.feed-item-comment {
+        border-left-color: #115576;
+    }
+
+    &.feed-item-close {
+        border-left-color: #ba3512;
+    }
+
+    &.feed-item-reference {
+        border-left-color: #ba6c12;
+    }
+
+    .feed-item-heading {
+        font-weight: bold;
+        font-size: 16px;
+    }
+}
+
+
+//reference
+.reference-rating {
+    outline: none;
+}
+
+.references-list {
+    margin-top: 20px;
+}
+
+.reference-item {
+    .list-group-item-heading {
+        text-align: center;
+    }
+
+    .replyer-avatar img {
+        max-height: 100px;
     }
 }
 //comments
-.comments-list{
-    .replyer-avatar img{
-    width:100px;
-    margin:10px 0;
-}
-    .right-ref{
-        padding-top:25px;
+.comments-list {
+    .replyer-avatar img {
+        width: 100px;
+        margin: 10px 0;
     }
-    .reply-btn{
-        margin-top:10px;
-        margin-bottom:10px;
+
+    .right-ref {
+        padding-top: 10px;
     }
-.list-group-item .list-group-item{
-    background:#f7f7f7;
+
+    .reply-btn {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .list-group-item .list-group-item {
+        background: #f7f7f7;
+    }
+
+    .comment-author {
+        margin-bottom: 20px;
+    }
 }
-} 
 
 //navbar
-.navbar-brand{
-    padding:5px 15px;
+.navbar-brand {
+    padding: 5px 15px;
 
-    @media (min-width: 768px) 
-    {
-        padding:2px 0;
+    @media (min-width: 768px) {
+        padding: 2px 0;
     }
 
-    img{
-        float:left;
+    img {
+        float: left;
     }
-    span{
-        float:left;
-        font-size:26px;
-        line-height:50px;
-        margin-left:10px;
+
+    span {
+        float: left;
+        font-size: 26px;
+        line-height: 50px;
+        margin-left: 10px;
     }
 }
-.navbar-default .navbar-toggle{
-        color: #ffffff;
+
+.navbar-default .navbar-toggle {
+    color: #ffffff;
     background-color: #187942;
     border-color: #125b32;
-    &:hover,&:focus{
-            background-color: #125b32;
-    border-color: #072414;
+
+    &:hover, &:focus {
+        background-color: #125b32;
+        border-color: #072414;
     }
 }
 //поиск
-.filters{
-    margin-bottom:30px;
+.filters {
+    margin-bottom: 30px;
+}
+
+.avatar {
+    margin-bottom: 10px;
 }
 //карточка айтемов
-.item-card{
-    .emergency-bar{
-                display:inline-block; 
-                
-                 .progress{
-        margin:0;
-        height:20px;
-        .progress-bar{
-                      font-size: 10px;
-  line-height: 20px;
+.item-card {
+    .emergency-bar {
+        margin-bottom: 10px;
+
+        .progress {
+            margin: 0;
+            height: 20px;
+
+            .progress-bar {
+                font-size: 10px;
+                line-height: 20px;
+            }
         }
-
     }
-    }
-      .item-photo {
-  width: 100%;
-  height: 200px;
-  margin-bottom: 20px;
-}
-    
 
+    .item-photo {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
 }
 //главная
-.image-madefor{
-    background:url(../img/made-for.png);
-      background-repeat: no-repeat;
-          height:125px;
-    &.image-madefor-1{
-        background-position:0 0;
+.image-madefor {
+    background: url(../img/made-for.png);
+    background-repeat: no-repeat;
+    height: 125px;
+
+    &.image-madefor-1 {
+        background-position: 0 0;
     }
-    &.image-madefor-2{
-         background-position:45px -140px;
+
+    &.image-madefor-2 {
+        background-position: 45px -140px;
     }
-    &.image-madefor-3{
-         background-position:15px -270px;
+
+    &.image-madefor-3 {
+        background-position: 15px -270px;
     }
 }
 
-.user-info{
-    .online-status{
-            font-size: 11px;
-    margin-left: 10px;
-    vertical-align: middle;
-    }
-    .awesomeness-bar{
-        margin-top:5px;
-    }
-    .avatar img{height:200px}
-}
-.user-tabs{
-    margin-top:55px;
-    .nav-tabs{
-        margin-bottom:20px;
+.user-info {
+    .online-status {
+        font-size: 11px;
+        margin-left: 10px;
+        vertical-align: middle;
     }
 
+    .awesomeness-bar {
+        margin-top: 5px;
+    }
+
+    .avatar img {
+        height: 200px;
+    }
+}
+
+.user-tabs {
+    margin-top: 55px;
+
+    .nav-tabs {
+        margin-bottom: 20px;
+    }
 }
 //history block
-.hisory-list{
-    margin-top:10px;
-    .nav-tabs{
-        margin-bottom:20px;
-    }
+.hisory-list {
+    margin-top: 10px;
 
+    .nav-tabs {
+        margin-bottom: 20px;
+    }
 }
 //sidebar
-.sidebar{
-    margin-top:20px;
-    position:fixed;
-    @media (max-width: 992px){
-    position:relative;
-}
+.sidebar {
+    margin-top: 20px;
+    position: fixed;
+
+    @media (max-width: 992px) {
+        position: relative;
+    }
 }
 
-//faq page
-.faq{
-    h2{
+//info page
+.info-page {
+    h2 {
         padding-top: 70px;
-         margin-top: -50px;
+        margin-top: -50px;
     }
 }
 //footer stick at bottom of page
-html, body {
-	height: 100%;
+.row-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 155px;
+    margin: 0;
+
+    @media (max-width: 992px) {
+        height: 350px;
+    }
 }
-.wrapper {
-    min-height:100%;
-     margin-top:-50px;
-     padding-top:52px;
+
+html {
+    position: relative;
+    min-height: 100%;
 }
-#footer{
-    margin-bottom:0;
-    margin-top:50px;
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 155px;
+
+    @media (max-width: 992px) {
+        margin-bottom: 350px;
+    }
 }
 
 
 .cropArea {
-  background: #E4E4E4;
-  //overflow: hidden;
-  width:200px;
-  height:150px;
-  float:left;
-  margin-right:20px;
-      position: relative;
-      &:after {
-    display: block;
-    content: '\e080';
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    top: 75px;
-    right: -12px;
+    background: #E4E4E4;
+    //overflow: hidden;
+    width: 200px;
+    height: 150px;
+    float: left;
+    margin-right: 20px;
+    position: relative;
+
+    &:after {
+        display: block;
+        content: '\e080';
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        top: 75px;
+        right: -12px;
         font-family: Glyphicons Halflings;
-    font-weight: normal;
-    font-style: normal;
-}
+        font-weight: normal;
+        font-style: normal;
+    }
 }
 
 #toTop {
- display: none;
- position: fixed;
-bottom: 50px;
+    display: none;
+    position: fixed;
+    bottom: 50px;
     right: 10px;
-        z-index: 10;
+    z-index: 10;
+}
 
+.btn-social-icon {
+    min-width: 45px;
+    margin-right: 10px;
 }

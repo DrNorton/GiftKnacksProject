@@ -265,11 +265,19 @@ app.directive('commentBlock', function () {
 
     };
 });
+app.directive('feedBlock', function () {
+    return {
+        restrict: 'E',
+        templateUrl: '/templates/feed.html',
+        scope: { feed: '=' }
+
+    };
+});
 app.directive('replyForm', function () {
     return {
         restrict: 'E',
         templateUrl: '/templates/replyform.html',
-        scope: { comment: '=',addReply:'=', enoughData:'@', type:'@',replyText:'=' }
+        scope: { comment: '=', addReply: '=', wasSubmittedReply:'=', enoughData: '@', type: '@', replyText: '=' }
     };
 });
 

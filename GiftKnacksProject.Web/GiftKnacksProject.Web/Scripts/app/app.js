@@ -18,13 +18,27 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
             templateUrl: '/templates/landing.html',
             controller: 'MainCtrl'
         })
-          .when('/faq', {
-              title: 'KnacksGifter | FAQ',
-              metaDescription: 'KnacksGifter Info',
-              metaKeywords: 'KnacksGifter FAQ Page',
-              templateUrl: '/templates/faq.html',
-              controller: 'FaqCtrl'
+          .when('/blog', {
+              title: 'KnacksGifter | Blog',
+              metaDescription: 'KnacksGifter Blog',
+              metaKeywords: 'KnacksGifter Blog Page',
+              templateUrl: '/templates/blog.html',
+              controller: 'BlogCtrl'
           })
+          .when('/about', {
+              title: 'KnacksGifter | About',
+              metaDescription: 'KnacksGifter Info',
+              metaKeywords: 'KnacksGifter About Page',
+              templateUrl: '/templates/about.html',
+              controller: 'AboutCtrl'
+          })
+           .when('/helpus', {
+               title: 'KnacksGifter | FAQ',
+               metaDescription: 'KnacksGifter Help Us',
+               metaKeywords: 'KnacksGifter Help Us Page',
+               templateUrl: '/templates/helpus.html',
+               controller: 'HelpUsCtrl'
+           })
           .when('/login', {
               title: 'KnacksGifter | Login',
               metaDescription: 'KnacksGifter Login',
@@ -79,11 +93,8 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       initialData: ['wishAndGiftService', function (wishAndGiftService) {
                           return wishAndGiftService.getInterestingActivities();
                       }],
-                      historyGifts: ['wishAndGiftService', function (wishAndGiftService) {
-                          return wishAndGiftService.showGifts({ Length: 5, Offset: 0 });
-                      }],
-                      historyWishes: ['wishAndGiftService', function (wishAndGiftService) {
-                          return wishAndGiftService.showWishes({ Length: 5, Offset: 0 });
+                      activity: ['authService', function (authService) {
+                          return authService.checkActivity();
                       }],
                       feed: ['feedService', function (feedService) {
                           return feedService.getFeed({ });
@@ -148,9 +159,6 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                   controller: "FindGiftCtrl",
                   templateUrl: "/templates/findgift.html",
                   resolve: {
-                      /*initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
-                          return wishAndGiftService.getGifts( {Offset:0,Length:20});
-                      }],*/
                       countries: ['geoService', function (geoService) {
                           return geoService.getCountry();
                       }]
@@ -163,9 +171,6 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                   controller: "FindWishCtrl",
                   templateUrl: "/templates/findwish.html",
                   resolve: {
-                      /*initialData: ['wishAndGiftService', function ( wishAndGiftService ) {
-                          return wishAndGiftService.getWishes( { Offset: 0, Length: 20 } );
-                      }],*/
                       countries: ['geoService', function (geoService) {
                           return geoService.getCountry();
                       }]
@@ -178,12 +183,6 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                   controller: "HistoryCtrl",
                   templateUrl: "/templates/history.html",
                   resolve: {
-                      /*giftsData: ['wishAndGiftService', function ( wishAndGiftService ) {
-                          return wishAndGiftService.showGifts({});
-                      }],
-                      wishesData: ['wishAndGiftService', function ( wishAndGiftService ) {
-                          return wishAndGiftService.showWishes({});
-                      }],*/
                       countries: ['geoService', function (geoService) {
                           return geoService.getCountry();
                       }]
