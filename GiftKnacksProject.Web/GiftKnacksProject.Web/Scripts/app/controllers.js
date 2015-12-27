@@ -101,7 +101,7 @@ app.controller('HelpUsCtrl', ['$scope', '$location', '$anchorScroll', function (
  * # Контроллер страницы юзера
  * Controller of the giftknacksApp
  */
-app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService','referenceService', '$location', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService,referenceService, $location) {
+app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService', 'referenceService', '$location', 'cacheVersion', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService, referenceService, $location, cacheVersion) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
     $scope.user = {};
@@ -139,7 +139,7 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 	$scope.addReference = function () {
 	 
 	    var modalInstance = $modal.open({
-	        templateUrl: '/templates/addreference.html',
+	        templateUrl: '/templates/addreference.html?ver=' + cacheVersion,
 	        controller: 'AddReferenceCtrl',
 	        resolve: {
 	            params: function () {
@@ -480,7 +480,7 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
  * # Контроллер страницы информации о гифте или више
  * Controller of the giftknacksApp
  */
-app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', function ($scope, $modal,$compile, $route, authService, initialData, commonService, wishAndGiftService, commentService) {
+app.controller('ItemCardCtrl', ['$scope', '$modal', '$compile', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', 'cacheVersion', function ($scope, $modal, $compile, $route, authService, initialData, commonService, wishAndGiftService, commentService, cacheVersion) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
     $scope.wasSubmitted = false;
@@ -641,14 +641,14 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 	    var method = 'showGifts';
 	    var parenttype = 'wish';
 	    if (type=='wish') {
-	        method = 'showWishes'
+	        method = 'showWishes';
 	        parenttype = 'gift';
 	    }
 	    wishAndGiftService[method]({}).then(function (response) {
 			if ( response.data && !response.data.ErrorCode ) {
 
 					var modalInstance = $modal.open({
-						templateUrl: '/templates/wishgiftlist.html',
+					    templateUrl: '/templates/wishgiftlist.html?ver=' + cacheVersion,
 						controller: 'ModalInstanceCtrl',
 						resolve: {
 							items: function () {
@@ -692,7 +692,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 
 	$scope.closeItem = function (type) {
 	    var modalInstance = $modal.open({
-	        templateUrl: '/templates/participantslist.html',
+	        templateUrl: '/templates/participantslist.html?ver=' + cacheVersion,
 	        controller: 'ModalCloseItemCtrl',
 	        resolve: {
 	            items: function () {
@@ -838,7 +838,7 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 	//если начальные данные для виша получены
 	if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.wish = initialData.data.Result;
-		$scope.wishCategories = $scope.wish.WishCategories
+	    $scope.wishCategories = $scope.wish.WishCategories;
 		delete $scope.wish['WishCategories'];
 		$scope.wish.Category = '';
 		$scope.imageExist = !!$scope.wish.ImageUrl;

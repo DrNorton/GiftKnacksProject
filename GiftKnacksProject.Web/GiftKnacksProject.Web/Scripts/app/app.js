@@ -232,7 +232,10 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
       $locationProvider.html5Mode(true);
       //$locationProvider.hashPrefix('!');
   }]);
+
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
+app.constant("cacheVersion", '1');
+
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', '$window', function (authService, $rootScope, $location, $anchorScroll, $window) {
     authService.fillAuthData();
 
