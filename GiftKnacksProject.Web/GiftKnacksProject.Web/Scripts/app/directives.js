@@ -13,7 +13,7 @@ app.directive( 'setMask', function () {
 		}
 	}
 });
-app.directive('scrollup', function ($document) {
+app.directive('scrollup', function () {
     return {
         restrict: 'A',
         link: function (scope, $elm, attr) {
@@ -28,6 +28,46 @@ app.directive('scrollup', function ($document) {
                 });
 
 
+            });
+        }
+    }
+});
+app.directive('activeScroll', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, $elm, attr) {
+            $(function () {
+                function isScrolledIntoView(elem) {
+                    if (!$(elem).length) {
+                        return false;
+                    }
+                    var docViewTop = $(window).scrollTop();
+                    var docViewBottom = docViewTop + $(window).height();
+                    var elemTop = $(elem).offset().top;
+                    var elemBottom = elemTop + $(elem).height();
+                    return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+                }
+                var currentEl;
+                var current = $('.sidebar .active');
+                if (current.length) {
+                    currentEl = $.grep(current.attr('class').split(" "), function (v, i) {
+                        return v.indexOf('scroll') === 0;
+                    }).join();
+                }
+
+                $(window).scroll(function () {
+                    for (var i = 0; i < $('.scroll-anchor').length; i++) {
+                        var el = $('.scroll-anchor').get(i);
+                        var selector = 'scroll-' + $(el).attr('id');
+
+                        if (isScrolledIntoView($(el))) {
+                            currentEl = selector;
+                            $('.sidebar>.list-group-item').removeClass('active');
+                            $('.sidebar>.' + currentEl).addClass('active');
+                            break;
+                        }
+                    }
+                });
             });
         }
     }

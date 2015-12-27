@@ -1,30 +1,30 @@
-<div class="row info-page">
+<div class="row info-page" active-scroll>
     <div class="col-md-3">
         <div class="list-group col-md-2 sidebar">
-            <a href="" class="list-group-item" ng-class="{'active' : selectedLink == 'about'}" ng-click="scrollTo('about')">About</a>
-            <a href="" class="list-group-item" ng-class="{'active' : selectedLink == 'faq'}" ng-click="scrollTo('faq')">FAQ</a>
-            <a href="" class="list-group-item" ng-class="{'active' : selectedLink == 'safety'}" ng-click="scrollTo('safety')">Safety</a>
-            <a href="" class="list-group-item" ng-class="{'active' : selectedLink == 'support'}" ng-click="scrollTo('support')">Support</a>
+            <a href="" class="list-group-item scroll-about" ng-class="{'active' : selectedLink == 'about'}" ng-click="scrollTo('about')">About</a>
+            <a href="" class="list-group-item scroll-faq" ng-class="{'active' : selectedLink == 'faq'}" ng-click="scrollTo('faq')">FAQ</a>
+            <a href="" class="list-group-item scroll-safety" ng-class="{'active' : selectedLink == 'safety'}" ng-click="scrollTo('safety')">Safety</a>
+            <a href="" class="list-group-item scroll-support" ng-class="{'active' : selectedLink == 'support'}" ng-click="scrollTo('support')">Support</a>
         </div>
     </div>
     <div class="col-md-9">
         <div>
-            <h2 id="about">About</h2>
+            <h2 class="scroll-anchor" id="about">About</h2>
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        </div>
+        <div >
+            <h2 class="scroll-anchor" id="faq">FAQ (accordion)</h2>
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         </div>
         <div>
-            <h2 id="faq">FAQ (accordion)</h2>
+            <h2 class="scroll-anchor" id="safety">Safety</h2>
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         </div>
-        <div>
-            <h2 id="safety">Safety</h2>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-        </div>
-        <div>
-            <h2 id="support">Support</h2>
+        <div >
+            <h2 class="scroll-anchor" id="support">Support</h2>
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         </div>
