@@ -9,7 +9,7 @@ using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos.Comments;
 using GiftKnacksProject.Api.Services.Interfaces;
-using GiftKnacksProject.Api.Services.Services.FeedService.InsertActivities;
+using GiftKnacksProject.Api.Services.Services.NotificationsType;
 using Microsoft.AspNet.Identity;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
@@ -18,14 +18,14 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     public class CommentController : CustomApiController
     {
         private readonly ICommentRepository _commentRepository;
-        private readonly IFeedService _service;
-        private readonly IFeedService _feedService;
+        private readonly INotificationService _service;
+        private readonly INotificationService _notificationService;
 
-        public CommentController(ICommentRepository commentRepository,IFeedService service,IFeedService feedService)
+        public CommentController(ICommentRepository commentRepository,INotificationService service,INotificationService notificationService)
         {
             _commentRepository = commentRepository;
             _service = service;
-            _feedService = feedService;
+            _notificationService = notificationService;
         }
 
         //[System.Web.Http.Authorize]
@@ -35,14 +35,13 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
             var insertedComment=await  _commentRepository.AddCommentToWish(model.WishId, userId, model.Text, model.ParentCommentId);
-            var wishOwner = await _commentRepository.GetOwnerWish(model.WishId);
+           
             await
-                _feedService.AddActivityFeed(new InsertCommentToEntityInActivity()
+                _notificationService.SentNotificationToQueue(new AddCommentToWishNotification()
                 {
-                    CommentUserId = userId,
-                    Id = model.WishId,
-                    FeedId = wishOwner,
-                    TargetType = "wish"
+                    TargetId = model.WishId,
+                    CreatorId = userId,
+                    CommentId=insertedComment.Id
                 });
             return SuccessApiResult(insertedComment);
         }
@@ -56,14 +55,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             var userId = long.Parse(User.Identity.GetUserId());
             var insertedComment = await _commentRepository.AddCommentToGift(model.GiftId, userId, model.Text, model.ParentCommentId);
             var ownerId= await _commentRepository.GetOwnerGift(model.GiftId);
-            await
-              _feedService.AddActivityFeed(new InsertCommentToEntityInActivity()
-              {
-                  CommentUserId = userId,
-                  Id = model.GiftId,
-                  FeedId = ownerId,
-                  TargetType = "gift"
-              });
+           
             return SuccessApiResult(insertedComment);
         }
 

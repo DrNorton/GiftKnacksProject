@@ -46,6 +46,14 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.3.0.9\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.7.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.5.0.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
@@ -58,12 +66,10 @@
       <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StreamNet, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\stream-net.1.1.1\lib\net45\StreamNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -77,26 +83,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\FeedService\ActivityFactory.cs" />
-    <Compile Include="Services\FeedService\FeedService.cs" />
-    <Compile Include="Services\FeedService\InsertActivities\BaseInActivity.cs" />
-    <Compile Include="Services\FeedService\InsertActivities\InsertCommentToEntityInActivity.cs" />
-    <Compile Include="Services\FeedService\InsertActivities\JoinActivity.cs" />
-    <Compile Include="Services\FeedService\ResultActivities\BaseActivityInfo.cs" />
-    <Compile Include="Services\FeedService\ResultActivities\AddCommentResultActivity.cs" />
-    <Compile Include="Services\FeedService\ResultActivities\BaseOutActivity.cs" />
-    <Compile Include="Services\FeedService\ResultActivities\JoinInfo.cs" />
-    <Compile Include="Services\FeedService\ResultActivities\UserInfo.cs" />
-    <Compile Include="Services\FeedService\ResultActivities\WishOrGiftInfo.cs" />
+    <Compile Include="Services\FeedService\NotificationService.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Interfaces\IFileService.cs" />
     <Compile Include="Interfaces\IUserOnlineStorage.cs" />
-    <Compile Include="Interfaces\IFeedService.cs" />
+    <Compile Include="Interfaces\INotificationService.cs" />
+    <Compile Include="Services\NotificationsType\AddCommentNotification.cs" />
+    <Compile Include="Services\NotificationsType\AddCommentToWishNotification.cs" />
+    <Compile Include="Services\NotificationsType\BaseNotification.cs" />
+    <Compile Include="Services\NotificationsType\UserGeneratedNotification.cs" />
     <Compile Include="Storages\UserConnectionSignalR.cs" />
     <Compile Include="UrlSettings.cs" />
     <Compile Include="Storages\UserOnlineStorage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +114,7 @@
       <Name>GiftKnacksProject.Api.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\FeedService\NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

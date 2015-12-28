@@ -24,14 +24,14 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         private readonly IWishRepository _wishRepository;
  
         private readonly IFileService _fileService;
-        private readonly IFeedService _feedService;
+        private readonly INotificationService _notificationService;
         private readonly ILinkRepository _linkRepository;
 
-        public WishController(IWishRepository wishRepository,ICountryRepository countryRepository,IFileService fileService,IFeedService feedService)
+        public WishController(IWishRepository wishRepository,ICountryRepository countryRepository,IFileService fileService,INotificationService notificationService)
         {
             _wishRepository = wishRepository;
             _fileService = fileService;
-            _feedService = feedService;
+            _notificationService = notificationService;
         }
 
         [System.Web.Http.Route("Getall")]

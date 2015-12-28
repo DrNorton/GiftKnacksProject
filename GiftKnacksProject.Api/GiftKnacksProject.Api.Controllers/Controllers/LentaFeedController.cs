@@ -15,11 +15,11 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     [EnableCors(origins: "http://giftknackapi.azurewebsites.net", headers: "*", methods: "*")]
     public class LentaFeedController : CustomApiController
     {
-        private readonly IFeedService _feedService;
+        private readonly INotificationService _notificationService;
 
-        public LentaFeedController(IFeedService feedService)
+        public LentaFeedController(INotificationService notificationService)
         {
-            _feedService = feedService;
+            _notificationService = notificationService;
         }
 
         [System.Web.Http.Authorize]
@@ -28,7 +28,9 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> GetLenta()
         {
             var userId = long.Parse(User.Identity.GetUserId());
-            return SuccessApiResult(await _feedService.GetLenta(userId));
+            return null;
+         //   return SuccessApiResult(await _notificationService.GetLenta(userId));
+
         }
     }
 }

@@ -24,9 +24,7 @@ using GiftKnacksProject.Api.EfDao.Base;
 using GiftKnacksProject.Api.Services;
 using GiftKnacksProject.Api.Services.Interfaces;
 using GiftKnacksProject.Api.Services.Services;
-using GiftKnacksProject.Api.Services.Services.FeedService.InsertActivities;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json.Linq;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
@@ -40,10 +38,10 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         private readonly UrlSettings _urlSettings;
         private readonly IFileService _fileService;
         private readonly IUserOnlineStorage _userOnlineStorage;
-        private readonly IFeedService _feedService;
+        private readonly INotificationService _notificationService;
 
 
-        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService,IUserOnlineStorage userOnlineStorage,IFeedService feedService)
+        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService,IUserOnlineStorage userOnlineStorage,INotificationService notificationService)
         {
             
             _userManager = userManager;
@@ -51,7 +49,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             _urlSettings = urlSettings;
             _fileService = fileService;
             _userOnlineStorage = userOnlineStorage;
-            _feedService = feedService;
+            _notificationService = notificationService;
         }
 
         // POST api/Account/Register
