@@ -7,6 +7,9 @@
  * Controller of the giftknacksApp
  */
 app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubProxy', function ($scope, $location, authService, signalRHubProxy) {
+    $scope.isActive = function (path) {
+        return $location.path().substr(0, path.length) === path;
+    }
 
 	$scope.logOut = function () {
 		authService.logOut();

@@ -1,76 +1,79 @@
-<div class="row"><div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For creating gift fill your <a href="/profile" class="alert-link">profile.</a></div></div>
-<form class="form-gift form-horizontal " role="form" name="giftForm" novalidate>
-	<div class="row">
-		<div class="col-md-12"><h2 class="form-gift-heading">Create new gift</h2></div>
-	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<label class="col-lg-3 control-label">Name:</label>
-			<div class="col-lg-8">
-				<input type="text" class="form-control" name="name" placeholder="Name" data-ng-model="gift.Name" required autofocus />
-				<div class="label label-danger" ng-show="wasSubmitted && giftForm.name.$error.required">Required</div>
-			</div>
-		</div>
-		<div class="form-group" ng-hide="getCountryError">
-			<label class="col-lg-3 control-label">Country:</label>
-			<div class="col-lg-8">
-				<div class="ui-select">
-					<input type="text" autocomplete="off" name="country" ng-model="gift.Country.Name" placeholder="Add your country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
-					<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-					<div class="label label-danger" ng-show="wasSubmitted && giftForm.country.$error.required">Required</div>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-3 control-label">Location:</label>
-			<div class="col-lg-8">
-				<div class="ui-select">
-					<input type="text" name="city" id="city" ng-model="gift.City" class="form-control" ng-autocomplete options="cityOptions" details="details" required ng-disabled="!getCountryError && (!gift.Country || !countryFromTypehead)" />
-					<div class="label label-danger" ng-show="wasSubmitted && giftForm.city.$error.required">Required</div>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-3 control-label">Meeting place:</label>
-			<div class="col-lg-8">
-				<input type="text" class="form-control" name="location" placeholder="It could be metro station, your work place etc." data-ng-model="gift.Location" required />
-				<div class="label label-danger" ng-show="wasSubmitted && giftForm.location.$error.required">Required</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-3 control-label">Period:</label>
-			<div class="col-lg-4">
-                <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="gift.FromDate" required date-lower-than="{{gift.ToDate| date:'short'}}" date-greater-than="{{today| date:'short'}}" />
-				<div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.required">Required</div>
-                <div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.dateLowerThan">Must be lower than Ends date</div>
-                <div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.dateGreaterThan">Can not be in the past</div>
-			</div>
-			<div class="col-lg-4">
-                <input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="gift.ToDate"/>
-                <div class="label label-danger" ng-show="wasSubmitted && giftForm.todate.$error.dateGreaterThan">Must be greater than Starts date</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-lg-3 control-label">Benefit:</label>
-			<div class="col-lg-8">
-				<input type="text" class="form-control" name="benefit" placeholder="What do you want for your kindness" data-ng-model="gift.Benefit" />
-			</div>
-		</div>
-	</div>
-	<div class="col-md-6">
-			<div class="form-group block-description">
-				<label class="col-lg-12 control-label">Description:</label>
-				<textarea spellcheck="false" name="description" ng-model="gift.Description" class="form-control" rows="8" required></textarea>
-				<div class="label label-danger" ng-show="wasSubmitted && giftForm.description.$error.required">Required</div>
-			</div>
-	</div>
-	<div class="col-md-12 text-center">
-		<button class="btn btn-md btn-primary" type="submit" ng-disabled="!enoughData" data-ng-click="submit(giftForm.$valid)">Submit</button>
-		<button class="btn btn-md btn-primary" type="reset" data-ng-click="reset()">Clear</button>
-	</div>
-	<div class="col-md-12 text-center">
-		<div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
-			{{message}}
-		</div>
-	</div>
-</form>
+<div class="container ">
+    <div class="row"><div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For creating gift fill your <a href="/profile" class="alert-link">profile.</a></div></div>
+    <form class="form-gift form-horizontal " role="form" name="giftForm" novalidate>
+        <div class="row">
+            <div class="col-md-12"><h2 class="form-gift-heading">Create new gift</h2></div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Name:</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" name="name" placeholder="Name" data-ng-model="gift.Name" required autofocus />
+                    <div class="label label-danger" ng-show="wasSubmitted && giftForm.name.$error.required">Required</div>
+                </div>
+            </div>
+            <div class="form-group" ng-hide="getCountryError">
+                <label class="col-lg-3 control-label">Country:</label>
+                <div class="col-lg-8">
+                    <div class="ui-select">
+                        <input type="text" autocomplete="off" name="country" ng-model="gift.Country.Name" placeholder="Add your country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
+                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                        <div class="label label-danger" ng-show="wasSubmitted && giftForm.country.$error.required">Required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Location:</label>
+                <div class="col-lg-8">
+                    <div class="ui-select">
+                        <input type="text" name="city" id="city" ng-model="gift.City" class="form-control" ng-autocomplete options="cityOptions" details="details" required ng-disabled="!getCountryError && (!gift.Country || !countryFromTypehead)" />
+                        <div class="label label-danger" ng-show="wasSubmitted && giftForm.city.$error.required">Required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Meeting place:</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" name="location" placeholder="It could be metro station, your work place etc." data-ng-model="gift.Location" required />
+                    <div class="label label-danger" ng-show="wasSubmitted && giftForm.location.$error.required">Required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Period:</label>
+                <div class="col-lg-4">
+                    <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="gift.FromDate" required date-lower-than="{{gift.ToDate| date:'short'}}" date-greater-than="{{today| date:'short'}}" />
+                    <div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.required">Required</div>
+                    <div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.dateLowerThan">Must be lower than Ends date</div>
+                    <div class="label label-danger" ng-show="wasSubmitted && giftForm.fromdate.$error.dateGreaterThan">Can not be in the past</div>
+                </div>
+                <div class="col-lg-4">
+                    <input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="gift.ToDate" />
+                    <div class="label label-danger" ng-show="wasSubmitted && giftForm.todate.$error.dateGreaterThan">Must be greater than Starts date</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-3 control-label">Benefit:</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" name="benefit" placeholder="What do you want for your kindness" data-ng-model="gift.Benefit" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group block-description">
+                <label class="col-lg-12 control-label">Description:</label>
+                <textarea spellcheck="false" name="description" ng-model="gift.Description" class="form-control" rows="8" required></textarea>
+                <div class="label label-danger" ng-show="wasSubmitted && giftForm.description.$error.required">Required</div>
+            </div>
+        </div>
+        <div class="col-md-12 text-center">
+            <button class="btn btn-md btn-primary" type="submit" ng-disabled="!enoughData" data-ng-click="submit(giftForm.$valid)">Submit</button>
+            <button class="btn btn-md btn-primary" type="reset" data-ng-click="reset()">Clear</button>
+        </div>
+        <div class="col-md-12 text-center">
+            <div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+                {{message}}
+            </div>
+        </div>
+
+    </form>
+</div>

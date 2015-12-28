@@ -301,7 +301,7 @@ textarea {
 }
 
 .navbar-brand img {
-  float: left;
+  margin-top: 3px;
 }
 
 .navbar-brand span {
@@ -320,6 +320,22 @@ textarea {
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
   background-color: #125b32;
   border-color: #072414;
+}
+
+.navbar-nav > li > a {
+  line-height: 80px;
+  padding: 0 10px;
+}
+
+.navbar-nav > li > a > button {
+  font-size: 16px;
+}
+
+.navbar-nav > li > a > button.btn-default:hover, .navbar-nav > li > a > button.btn-default:active {
+  color: #2f8d58;
+  background: #fff;
+  border-color: #2f8d58;
+  box-shadow: 0 0 5px 0 rgba(47, 141, 88, 0.5);
 }
 
 .filters {
@@ -429,6 +445,18 @@ textarea {
   }
 }
 
+.row-footer .footer-title {
+  font-size: 18px;
+}
+
+.row-footer .footer-title i {
+  width: 25px;
+}
+
+.row-footer .footer-title + ul {
+  margin-left: 25px;
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -478,6 +506,70 @@ body {
 .btn-social-icon {
   min-width: 45px;
   margin-right: 10px;
+}
+
+.wrapper {
+  padding: 81px 0 50px;
+}
+
+.navbar-header {
+  height: 80px;
+}
+
+.promo {
+  background: url("../img/promo.png") no-repeat scroll top center;
+  min-height: 300px;
+}
+
+@media (max-width: 992px) {
+  .promo {
+    background-position-x: -750px;
+  }
+}
+
+.promo .message {
+  padding: 20px 15px;
+  min-height: 300px;
+  text-align: center;
+  font-family: 'Handlee', cursive;
+}
+
+.promo .message .title {
+  font-size: 46px;
+  color: #fff;
+  text-shadow: 1px 1px 0 #333;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .promo .message .title {
+    line-height: 45px;
+  }
+}
+
+.promo .message .quotes {
+  text-align: right;
+  font-size: 20px;
+  color: #000;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin: 5px auto 0;
+  width: 320px;
+}
+
+@media (max-width: 768px) {
+  .promo .message .quotes {
+    width: 290px;
+  }
+  .promo .message .quotes .br-md {
+    display: none;
+  }
+}
+
+.promo .form-signup {
+  padding-top: 30px;
+  min-height: 300px;
 }
 
 /*# sourceMappingURL=Site.css.map */

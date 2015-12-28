@@ -238,7 +238,6 @@ app.constant("cacheVersion", '1');
 
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', '$window', function (authService, $rootScope, $location, $anchorScroll, $window) {
     authService.fillAuthData();
-
     if (!String.prototype.startsWith) {
         Object.defineProperty(String.prototype, 'startsWith', {
             enumerable: false,

@@ -299,6 +299,7 @@ app.directive( 'emptyToNull', function () {
 app.directive('commentBlock', ['cacheVersion', function (cacheVersion) {
     return {
         restrict: 'E',
+        replace: true,
         templateUrl: '/templates/comment.html?ver=' + cacheVersion,
         scope: { comment: '=' }
 
@@ -307,6 +308,7 @@ app.directive('commentBlock', ['cacheVersion', function (cacheVersion) {
 app.directive('feedBlock', ['cacheVersion', function (cacheVersion) {
     return {
         restrict: 'E',
+        replace: true,
         templateUrl: '/templates/feed.html?ver=' + cacheVersion,
         scope: { feed: '=' }
 
@@ -315,11 +317,20 @@ app.directive('feedBlock', ['cacheVersion', function (cacheVersion) {
 app.directive('replyForm', ['cacheVersion', function (cacheVersion) {
     return {
         restrict: 'E',
+        replace: true,
         templateUrl: '/templates/replyform.html?ver=' + cacheVersion,
         scope: { comment: '=', addReply: '=', wasSubmittedReply:'=', enoughData: '@', type: '@', replyText: '=' }
     };
 }]);
+app.directive('signupForm', ['cacheVersion', function (cacheVersion) {
+    return {
+        restrict: 'A',
+        controller: 'SignupCtrl',
+        templateUrl: '/templates/signup.html?ver=' + cacheVersion,
+        scope: { inline: '@' }
 
+    };
+}]);
 var isValidDate = function (dateStr) {
     if (dateStr == undefined)
         return false;

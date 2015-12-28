@@ -205,6 +205,7 @@
     <Content Include="img\palms.jpg" />
     <Content Include="img\present.jpg" />
     <Content Include="img\presents.jpg" />
+    <Content Include="img\promo.png" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />

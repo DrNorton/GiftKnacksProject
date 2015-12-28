@@ -329,7 +329,7 @@ textarea {
     }
 
     img {
-        float: left;
+        margin-top:3px;
     }
 
     span {
@@ -349,6 +349,21 @@ textarea {
         background-color: #125b32;
         border-color: #072414;
     }
+}
+
+.navbar-nav > li > a{
+    line-height: 80px;
+    padding: 0 10px;
+    & > button {
+    font-size: 16px;
+
+    &.btn-default:hover,&.btn-default:active {
+        color:#2f8d58;
+        background:#fff;
+        border-color:#2f8d58;
+        box-shadow: 0 0 5px 0 rgba(rgb(47,141,88),.5);
+    }
+}
 }
 //поиск
 .filters {
@@ -459,6 +474,16 @@ textarea {
     @media (max-width: 992px) {
         height: 350px;
     }
+
+    .footer-title {
+        font-size:18px;
+        i {
+            width: 25px;
+        }
+        &+ul{
+        margin-left:25px
+    }
+    }
 }
 
 html {
@@ -511,3 +536,58 @@ body {
     min-width: 45px;
     margin-right: 10px;
 }
+.wrapper{
+    padding:81px 0 50px;
+}
+.navbar-header{
+    height:80px;
+}
+.promo {
+    background: url('../img/promo.png') no-repeat scroll top center;
+    min-height: 300px;
+
+    @media (max-width: 992px) {
+        background-position-x: -750px;
+    }
+
+    .message {
+        padding: 20px 15px;
+        min-height: 300px;
+        text-align: center;
+       font-family: 'Handlee', cursive;
+
+        .title {
+            font-size: 46px;
+            color: #fff;
+            text-shadow: 1px 1px 0 #333;
+            font-weight: bold;
+            @media (max-width: 768px) {
+       line-height:45px;
+    }
+        }
+
+        .quotes {
+            text-align: right;
+            font-size: 20px;
+            color: #000;
+            background: rgba(255,255,255,.3);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 5px auto 0;
+            width: 320px;
+            @media (max-width: 768px) {
+         width: 290px;
+         .br-md{
+             display:none;
+         }
+
+    }
+        }
+    }
+
+    .form-signup {
+        padding-top: 30px;
+        min-height: 300px;
+    }
+}
+

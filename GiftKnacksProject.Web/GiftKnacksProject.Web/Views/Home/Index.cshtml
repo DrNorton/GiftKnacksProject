@@ -1,47 +1,43 @@
-﻿<div class="wrapper">
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="RootCtrl" ng-cloak class="ng-cloak">
+﻿<div class="wrapper" ng-controller="RootCtrl" ng-cloak class="ng-cloak">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button class="btn btn-success navbar-toggle" ng-click="navbarExpanded = !navbarExpanded">
                     <span class="glyphicon glyphicon-chevron-down"></span>
                 </button>
-                <a class="navbar-brand" ng-href="{{authentication.isAuth ? '/dashboard' : '/' }}"><img src="/img/logo.png"/></a>
+                <a class="navbar-brand" ng-href="{{authentication.isAuth ? '/dashboard' : '/' }}"><img src="/img/logo.png" /></a>
             </div>
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
-                    <li ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/wishform">Create new wish</a></li>
-                    <li ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/giftform">Create new gift</a></li>
-                    <li ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findwish">Find wish</a></li>
-                    <li ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findgift">Find gift</a></li>
-                    <li> <a ng-click="navbarExpanded = false" href="/blog">Blog</a></li>
+                    <li ng-class="{active:isActive('/blog')}"> <a ng-click="navbarExpanded = false" href="/blog"><i class="glyphicon glyphicon-book"></i>Blog</a></li>
+                    <li ng-class="{active:isActive('/wishform')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/wishform">Add wish</a></li>
+                    <li ng-class="{active:isActive('/giftform')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/giftform">Add gift</a></li>
+                    <li ng-class="{active:isActive('/findwish')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findwish">Find wish</a></li>
+                    <li ng-class="{active:isActive('/findgift')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findgift">Find gift</a></li>
                     <li ng-show="authentication.isAuth" class="dropdown">
-                        <a ng-href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">User menu<span class="caret"></span></a>
+                        <a ng-href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a ng-click="navbarExpanded = false" href="/profile">My Profile</a></li>
-                            <li><a ng-click="navbarExpanded = false" href="/dashboard">Dashboard</a></li>
-                            <li><a ng-click="navbarExpanded = false" href="/history">History</a></li>
+                            <li ng-class="{active:isActive('/profile')}"><a ng-click="navbarExpanded = false" href="/profile">My Profile</a></li>
+                            <li ng-class="{active:isActive('/dashboard')}"><a ng-click="navbarExpanded = false" href="/dashboard">Dashboard</a></li>
+                            <li ng-class="{active:isActive('/history')}"><a ng-click="navbarExpanded = false" href="/history">History</a></li>
                             <li class="divider"></li>
-                            <li><a href="" ng-click="logOut();navbarExpanded = false;">Logout</a></li>
+                            <li><a href="" ng-click="logOut();navbarExpanded = false;">Log out</a></li>
                         </ul>
                     </li>
-                    <li ng-hide="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/login">Log In</a></li>
-                    <li ng-hide="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/signup">Sign Up</a></li>
+                    <li ng-class="{active:isActive('/login')}" ng-hide="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/login"><button type="button" class="btn btn-default">Log in</button></a></li>
+                    <li ng-class="{active:isActive('/signup')}" ng-hide="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/signup"><button type="button" class="btn btn-primary">Sign up</button></a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="row-content">
-        <div class="container">
-            <div data-ng-view="">
-            </div>
-        </div>
+    <div data-ng-view="">
     </div>
 </div>
 <div id="footer" class="row-footer navbar navbar-default navbar-fixed-bottom">
     <div class="container ">
         <div class="row voffset3">
             <div class="col-md-3">
-                <h4><a href="/about#about">About</a></h4>
+                <div class="footer-title"><a href="/about#about"><i class="glyphicon glyphicon-info-sign"></i>About</a></div>
                 <ul class="list-unstyled">
                     <li><a href="/about#faq">FAQ</a></li>
                     <li><a href="/about#safety">Safety</a></li>
@@ -49,7 +45,7 @@
                 </ul>
             </div>
             <div class="col-md-3">
-                <h4><a href="/helpus#helpus">Help Us</a></h4>
+                <div class="footer-title"><a href="/helpus#helpus"><i class="glyphicon glyphicon-exclamation-sign"></i>Help Us</a></div>
                 <ul class="list-unstyled">
                     <li><a href="/helpus#ideas">Ideas</a></li>
                     <li><a href="/helpus#vacancy">Vacancy</a></li>
@@ -57,7 +53,7 @@
                 </ul>
             </div>
             <div class="col-md-3">
-                <h4><a href="/blog">Blog</a></h4>
+                <div class="footer-title"><a href="/blog"><i class="glyphicon glyphicon-book"></i>Blog</a></div>
             </div>
             <div class="col-md-3">
                 <div class="col-md-12">
