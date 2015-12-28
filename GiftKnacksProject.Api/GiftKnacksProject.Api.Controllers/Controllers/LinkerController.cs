@@ -9,7 +9,7 @@ using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos.Gifts;
 using GiftKnacksProject.Api.Services.Interfaces;
-using GiftKnacksProject.Api.Services.Services.FeedService.InsertActivities;
+
 using Microsoft.AspNet.Identity;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
@@ -19,12 +19,12 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     public class LinkerController:CustomApiController
     {
         private readonly ILinkRepository _linkRepository;
-        private readonly IFeedService _feedService;
+        private readonly INotificationService _notificationService;
 
-        public LinkerController(ILinkRepository linkRepository,IFeedService feedService)
+        public LinkerController(ILinkRepository linkRepository,INotificationService notificationService)
         {
             _linkRepository = linkRepository;
-            _feedService = feedService;
+            _notificationService = notificationService;
         }
 
         [System.Web.Http.Authorize]
@@ -34,14 +34,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
             var ownerWish=await _linkRepository.LinkWithGift(userId, participantDto.WishId,participantDto.GiftId);
-            await
-              _feedService.AddActivityFeed(new JoinActivity()
-              {
-                  AuthorId = userId,
-                  EntityId = participantDto.WishId,
-                  FeedId = ownerWish,
-                  TargetType = "gift"
-              });
+           
             return EmptyApiResult();
         }
 
