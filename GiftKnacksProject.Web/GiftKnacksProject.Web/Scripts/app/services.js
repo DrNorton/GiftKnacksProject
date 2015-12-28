@@ -113,6 +113,20 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'serviceBase',
 		
 	}
 
+	var _findUsers = function (query) {
+
+	    return $http.post(serviceBase + 'api/account/search', query).then(function (response) {
+	        return response;
+	    });
+
+	};
+	var _checkActivity = function () {
+
+	    return $http.post(serviceBase + 'api/account/checkactivity').then(function (response) {
+	        return response;
+	    });
+
+	};
 	var authServiceFactory = {
 		saveRegistration: _saveRegistration,
 		login: _login,
@@ -123,7 +137,9 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'serviceBase',
 		resetPassword: _resetPassword,
 		sendReset: _sendReset,
 		verifyEmail: _verifyEmail,
-		setIsFilled: _setIsFilled
+		setIsFilled: _setIsFilled,
+		findUsers: _findUsers,
+		checkActivity: _checkActivity
 
 	}
 	return authServiceFactory;
@@ -268,9 +284,52 @@ app.factory("wishAndGiftService", ['$http', 'serviceBase', function ($http, serv
 
 app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase) {
     var _getFeed = function (query) {
+       
         return $http.post(serviceBase + 'api/lenta/getlenta', query).then(function (response) {
-            return response;
-        });
+            var res = {};
+            res.data= {
+                "ErrorCode": 0,
+                "ErrorMessage": null,
+                "Result": [
+                    {
+                        "Action": "Join",
+                        "Time": "2015-10-24T15:49:48.97622",
+                        "Info": {
+                            TargetType: 'wish',
+                            User: { "Id": '168', "FirstName": 'bk', "LastName": 'lkhk' },
+                            Target: { "Id": 20, "Title": "wish22" }
+                        }
+                    },
+                    {
+                        "Action": "AddComment",
+                        "Time": "2015-10-18T17:31:50.742444",
+                        "Info": {
+                            TargetType: 'wish',
+                            User: { "Id": '168', "FirstName": 'bk', "LastName": 'lkhk' },
+                            Target: { "Id": 20, "Title": "wish22" }
+                        }
+                    },
+                    {
+                        "Action": "AddReference",
+                        "Time": "2015-10-18T17:31:02.094518",
+                        "Info": {
+                            User: { "Id": '168', "FirstName": 'bk', "LastName": 'lkhk' },
+                            Target: { "Id": '165', Score: '5' }
+                        }
+                    },
+                    {
+                        "Action": "CloseJoinedItem",
+                        "Time": "2015-10-18T17:30:51.340553",
+                        "Info": {
+                            TargetType: 'wish',
+                            Target: { "Id": 20, "Title": "wish22" }
+                        }
+                    }
+                ]
+            };
+            //return res;
+             return response;
+         });
     };
 
     var feedServiceFactory = {
@@ -279,6 +338,7 @@ app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase
     return feedServiceFactory;
 
 }]);
+
 app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', 'serviceBase', function ($q, $location, localStorageService, serviceBase) {
 
 	var _request = function ( config ) {

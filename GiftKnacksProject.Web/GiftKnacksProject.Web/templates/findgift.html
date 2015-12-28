@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-lg-3 control-label">City:</label>
+            <label class="col-lg-3 control-label">Location:</label>
             <div class="col-lg-8">
                 <input type="text" name="city" ng-model="queryGift.City" placeholder="City" class="form-control" empty-to-null />
             </div>
@@ -21,6 +21,16 @@
             <label class="col-lg-3 control-label">Keywords:</label>
             <div class="col-lg-8">
                 <input type="text" class="form-control" name="keywords" placeholder="Keywords" data-ng-model="queryGift.Keyword" empty-to-null />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-3 control-label">Creator:</label>
+            <div class="col-lg-8">
+                <input ng-hide="creatorSelected" type="text" autocomplete="off" name="creator" id="creator" placeholder="Creator" ng-model="queryGift.Creator" class="form-control" empty-to-null typeahead="item.Title for item in getCreators($viewValue)" typeahead-min-length="2" typeahead-on-select="creatorSelect($item, $model, $label)" />
+                <div ng-show="creatorSelected" class="btn btn-default" ng-click="creatorDelete()">{{queryGift.Creator}} <i class="glyphicon glyphicon-remove"></i></div>
+                <div ng-show="noCreators">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -46,6 +56,7 @@
         <a href="/gift/{{gift.Id}}" ng-repeat="gift in listGift"  class="list-group-item">
             <div class="search-item">
                 <h4 class="list-group-item-heading">{{gift.Name}}</h4>
+                <!--<p class="list-group-item-text">{{gift.Country.Name}}</p>-->
                 <p class="list-group-item-text">{{gift.City}}</p>
                 <p class="list-group-item-text"><span ng-if="gift.FromDate">From {{gift.FromDate}} </span><span ng-if="gift.ToDate">to {{gift.ToDate}}</span></p>
             </div>

@@ -61,7 +61,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-lg-3 control-label">City:</label>
+					<label class="col-lg-3 control-label">Location:</label>
 					<div class="col-lg-8">
 							<input type="text" name="city" id="city" ng-model="profile.City" class="form-control" ng-autocomplete options="cityOptions" details="details" required ng-disabled="!getCountryError && (!profile.Country || !countryFromTypehead)" />
 							<div class="label label-danger" ng-show="wasSubmitted && profileForm.city.$error.required">Required</div>

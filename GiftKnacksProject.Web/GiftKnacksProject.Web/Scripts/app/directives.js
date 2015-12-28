@@ -13,7 +13,7 @@ app.directive( 'setMask', function () {
 		}
 	}
 });
-app.directive('scrollup', function ($document) {
+app.directive('scrollup', function () {
     return {
         restrict: 'A',
         link: function (scope, $elm, attr) {
@@ -28,6 +28,46 @@ app.directive('scrollup', function ($document) {
                 });
 
 
+            });
+        }
+    }
+});
+app.directive('activeScroll', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, $elm, attr) {
+            $(function () {
+                function isScrolledIntoView(elem) {
+                    if (!$(elem).length) {
+                        return false;
+                    }
+                    var docViewTop = $(window).scrollTop();
+                    var docViewBottom = docViewTop + $(window).height();
+                    var elemTop = $(elem).offset().top;
+                    var elemBottom = elemTop + $(elem).height();
+                    return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+                }
+                var currentEl;
+                var current = $('.sidebar .active');
+                if (current.length) {
+                    currentEl = $.grep(current.attr('class').split(" "), function (v, i) {
+                        return v.indexOf('scroll') === 0;
+                    }).join();
+                }
+
+                $(window).scroll(function () {
+                    for (var i = 0; i < $('.scroll-anchor').length; i++) {
+                        var el = $('.scroll-anchor').get(i);
+                        var selector = 'scroll-' + $(el).attr('id');
+
+                        if (isScrolledIntoView($(el))) {
+                            currentEl = selector;
+                            $('.sidebar>.list-group-item').removeClass('active');
+                            $('.sidebar>.' + currentEl).addClass('active');
+                            break;
+                        }
+                    }
+                });
             });
         }
     }
@@ -61,8 +101,8 @@ app.directive('ngAutocomplete', function() {
 		link: function(scope, element, attrs, controller) {
 
 			//options for autocomplete
-			var opts
-			var watchEnter = false
+		    var opts;
+		    var watchEnter = false;
 			//convert options provided to opts
 			var initOpts = function() {
 
@@ -70,33 +110,33 @@ app.directive('ngAutocomplete', function() {
 				if (scope.options) {
 
 					if (scope.options.watchEnter !== true) {
-						watchEnter = false
+					    watchEnter = false;
 					} else {
-						watchEnter = true
+					    watchEnter = true;
 					}
 
 					if (scope.options.types) {
-						opts.types = []
-						opts.types.push(scope.options.types)
-						scope.gPlace.setTypes(opts.types)
+					    opts.types = [];
+					    opts.types.push(scope.options.types);
+					    scope.gPlace.setTypes(opts.types);
 					} else {
-						scope.gPlace.setTypes([])
+					    scope.gPlace.setTypes([]);
 					}
 
 					if (scope.options.bounds) {
-						opts.bounds = scope.options.bounds
-						scope.gPlace.setBounds(opts.bounds)
+					    opts.bounds = scope.options.bounds;
+					    scope.gPlace.setBounds(opts.bounds);
 					} else {
-						scope.gPlace.setBounds(null)
+					    scope.gPlace.setBounds(null);
 					}
 
 					if (scope.options.country) {
 						opts.componentRestrictions = {
 							country: scope.options.country
 						}
-						scope.gPlace.setComponentRestrictions(opts.componentRestrictions)
+					    scope.gPlace.setComponentRestrictions(opts.componentRestrictions);
 					} else {
-						scope.gPlace.setComponentRestrictions(null)
+					    scope.gPlace.setComponentRestrictions(null);
 					}
 				}
 			}
@@ -104,25 +144,24 @@ app.directive('ngAutocomplete', function() {
 			if (scope.gPlace == undefined) {
 				scope.gPlace = new google.maps.places.Autocomplete(element[0], {});
 			}
-			google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
-				var result = scope.gPlace.getPlace();
-				if (result !== undefined) {
-					if (result.address_components !== undefined) {
+		    google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
+		        var result = scope.gPlace.getPlace();
+		        if (result !== undefined) {
+		            if (result.address_components !== undefined) {
 
-						scope.$apply(function() {
+		                scope.$apply(function() {
 
-							scope.details = result;
+		                    scope.details = result;
 
-							controller.$setViewValue( element.val() );
-						});
-					}
-					else {
-						if (watchEnter) {
-							getPlace(result)
-						}
-					}
-				}
-			})
+		                    controller.$setViewValue(element.val());
+		                });
+		            } else {
+		                if (watchEnter) {
+		                    getPlace(result);
+		                }
+		            }
+		        }
+		    });
 
 			//function to get retrieve the autocompletes first result using the AutocompleteService 
 			var getPlace = function(result) {
@@ -155,10 +194,10 @@ app.directive('ngAutocomplete', function() {
 												scope.details = detailsResult;
 
 												//on focusout the value reverts, need to set it again.
-												var watchFocusOut = element.on('focusout', function(event) {
-													element.val(detailsResult.formatted_address);
-													element.unbind('focusout')
-												})
+											    var watchFocusOut = element.on('focusout', function(event) {
+											        element.val(detailsResult.formatted_address);
+											        element.unbind('focusout');
+											    });
 
 											});
 										}
@@ -176,10 +215,10 @@ app.directive('ngAutocomplete', function() {
 
 			//watch options provided to directive
 			scope.watchOptions = function () {
-				return scope.options
+			    return scope.options;
 			};
 			scope.$watch(scope.watchOptions, function () {
-				initOpts()
+			    initOpts();
 			}, true);
 
 		}
@@ -257,21 +296,29 @@ app.directive( 'emptyToNull', function () {
 	};
 });
 
-app.directive('commentBlock', function () {
+app.directive('commentBlock', ['cacheVersion', function (cacheVersion) {
     return {
         restrict: 'E',
-        templateUrl: '/templates/comment.html',
+        templateUrl: '/templates/comment.html?ver=' + cacheVersion,
         scope: { comment: '=' }
 
     };
-});
-app.directive('replyForm', function () {
+}]);
+app.directive('feedBlock', ['cacheVersion', function (cacheVersion) {
     return {
         restrict: 'E',
-        templateUrl: '/templates/replyform.html',
-        scope: { comment: '=',addReply:'=', enoughData:'@', type:'@',replyText:'=' }
+        templateUrl: '/templates/feed.html?ver=' + cacheVersion,
+        scope: { feed: '=' }
+
     };
-});
+}]);
+app.directive('replyForm', ['cacheVersion', function (cacheVersion) {
+    return {
+        restrict: 'E',
+        templateUrl: '/templates/replyform.html?ver=' + cacheVersion,
+        scope: { comment: '=', addReply: '=', wasSubmittedReply:'=', enoughData: '@', type: '@', replyText: '=' }
+    };
+}]);
 
 var isValidDate = function (dateStr) {
     if (dateStr == undefined)

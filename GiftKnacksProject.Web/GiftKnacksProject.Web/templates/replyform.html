@@ -1,13 +1,14 @@
-<div class="row comment-reply">
+<div class="row comment-reply" ng-init="formName = 'replyForm' + comment.Id">
     <div class="col-md-12">
-        <button type="button" class=" reply-btn btn btn-info col-md-offset-2" ng-click="comment.showReplyForm=!comment.showReplyForm">Reply</button>
-        <form ng-show="enoughData && comment.showReplyForm" class="form-reply" role="form" name="replyForm" novalidate>
+        <button type="button" class=" reply-btn btn btn-info" ng-click="comment.showReplyForm=!comment.showReplyForm">Reply</button>
+        <form ng-show="enoughData && comment.showReplyForm" class="form-reply" role="form" name="replyForms.{{formName}}" novalidate>
             <div class="form-group">
                 <textarea spellcheck="false" name="comment" ng-model="replyText[comment.Id]" class="form-control" rows="4" required></textarea>
-                <div class="label label-danger" ng-show="wasSubmittedReply && replyForm.comment.$error.required">Required</div>
+                <div class="label label-danger" ng-show="wasSubmittedReply.{{formName}} && replyForms.{{formName}}.comment.$error.required">Required</div>
             </div>
-            <button type="submit" class="btn btn-info" ng-click="addReply(replyForm.$valid, type, comment.Id, $event)">Leave comment</button>
+            <button type="submit" class="btn btn-info" ng-click="addReply(replyForms[formName].$valid, type, comment.Id, $event)">Leave comment</button>
         </form>
-        <div ng-show="!enoughData && comment.showReplyForm" class="alert alert-warning">For comment fill your <a href="/profile" class="alert-link">profile.</a></div>
+        <div ng-show="!enoughData && comment.showReplyForm" class="alert alert-warning">For comment fill your <a href="/profile" class="alert-link">profile.</a>
+        </div>
     </div>
 </div>

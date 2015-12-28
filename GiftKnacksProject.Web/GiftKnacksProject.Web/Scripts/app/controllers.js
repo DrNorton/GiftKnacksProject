@@ -47,16 +47,25 @@ app.controller('MainCtrl', ['$scope', '$location', 'authService', function ($sco
 	{ image: './img/palms.jpg' },
 	{ image: './img/presents.jpg' }];
 }] );
-
 /**
  * @ngdoc function
- * @name giftknacksApp.controller:FaqCtrl
+ * @name giftknacksApp.controller:BlogCtrl
+ * @description
+ * # Контроллер блога
+ * Controller of the giftknacksApp
+ */
+app.controller('BlogCtrl', ['$scope', function ($scope) {
+  
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:AboutCtrl
  * @description
  * # Контроллер информационной страницы
  * Controller of the giftknacksApp
  */
-app.controller('FaqCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
-    $scope.selectedLink = 'faq';
+app.controller('AboutCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
+    $scope.selectedLink = 'about';
     if ($location.hash()) {
         $anchorScroll();
         $scope.selectedLink = $location.hash();
@@ -67,7 +76,24 @@ app.controller('FaqCtrl', ['$scope', '$location', '$anchorScroll', function ($sc
     }
 }]);
 
-
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:HelpUsCtrl
+ * @description
+ * # Контроллер информационной страницы
+ * Controller of the giftknacksApp
+ */
+app.controller('HelpUsCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
+    $scope.selectedLink = 'ideas';
+    if ($location.hash()) {
+        $anchorScroll();
+        $scope.selectedLink = $location.hash();
+    }
+    $scope.scrollTo = function (id) {
+        $location.hash(id);
+        $anchorScroll();
+    }
+}]);
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:UserCtrl
@@ -75,7 +101,7 @@ app.controller('FaqCtrl', ['$scope', '$location', '$anchorScroll', function ($sc
  * # Контроллер страницы юзера
  * Controller of the giftknacksApp
  */
-app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService','referenceService', '$location', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService,referenceService, $location) {
+app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService', 'referenceService', '$location', 'cacheVersion', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService, referenceService, $location, cacheVersion) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
     $scope.user = {};
@@ -113,7 +139,7 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 	$scope.addReference = function () {
 	 
 	    var modalInstance = $modal.open({
-	        templateUrl: '/templates/addreference.html',
+	        templateUrl: '/templates/addreference.html?ver=' + cacheVersion,
 	        controller: 'AddReferenceCtrl',
 	        resolve: {
 	            params: function () {
@@ -239,7 +265,7 @@ app.controller('HistoryCtrl', ['$scope', 'authService', 'commonService', 'wishAn
  * # Контроллер страницы с последней активностью пользователя
  * Controller of the giftknacksApp
  */
-app.controller('DashboardCtrl', ['$scope', 'authService', 'initialData', 'historyGifts', 'historyWishes','feed', function ($scope, authService, initialData, historyGifts, historyWishes, feed) {
+app.controller('DashboardCtrl', ['$scope', 'authService', 'initialData', 'activity', 'feed', function ($scope, authService, initialData, activity, feed) {
 	$scope.enoughData = authService.authentication.isFilled;
 
 	if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -247,11 +273,8 @@ app.controller('DashboardCtrl', ['$scope', 'authService', 'initialData', 'histor
 		$scope.nearGifts = initialData.data.Result.Gifts;
 		$scope.nearMembers = initialData.data.Result.Users;
 	}
-	if (historyGifts.data && !historyGifts.data.ErrorCode) {
-	    $scope.historyGifts = historyGifts.data.Result;
-	}
-	if (historyWishes.data && !historyWishes.data.ErrorCode) {
-	    $scope.historyWishes = historyWishes.data.Result;
+	if (activity.data && !activity.data.ErrorCode) {
+	    $scope.activity = activity.data.Result;
 	}
 	if (feed.data && !feed.data.ErrorCode) {
 	    $scope.feed = feed.data.Result;
@@ -294,6 +317,32 @@ app.controller( 'FindWishCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 			$scope.listWish = $scope.listWish.concat( { Name: "Failed to search wishes due to: " + commonService.displayError() } );
 			$scope.queryWish.busy = false;
 		} );
+	};
+	$scope.creatorSelect = function ($item, $model, $label) {
+	    $scope.queryWish.UserId = $item.Id;
+	    $scope.creatorSelected = true;
+	}
+	$scope.creatorDelete = function () {
+	    $scope.queryWish.UserId = null;
+	    $scope.queryWish.Creator = '';
+	    $scope.creatorSelected = false;
+	}
+	$scope.getCreators = function (val) {
+	    return authService.findUsers({ 'Pattern': val }).then(function (response) {
+	        if (response.data && !response.data.ErrorCode) {
+	            if (response.data.Result.length === 0) {
+	                $scope.noCreators = true;
+	            } else {
+	                $scope.noCreators = false;
+	                return response.data.Result.map(function (item) {
+	                    item.Title = item.FirstName + ' ' + item.LastName;
+	                    return item;
+	                });
+	            }
+
+	        }
+	        return false;
+	    }, function (response) {/*TODO: fail handler;*/ });
 	};
 	//если начальные данные для виша получены
 	/*if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -365,7 +414,32 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 			$scope.queryGift.busy = false;
 		} );
 	};
-
+	$scope.creatorSelect = function ($item, $model, $label) {
+	    $scope.queryGift.UserId = $item.Id;
+	    $scope.creatorSelected = true;
+	}
+	$scope.creatorDelete = function () {
+	    $scope.queryGift.UserId = null;
+	    $scope.queryGift.Creator = '';
+	    $scope.creatorSelected = false;
+	}
+	$scope.getCreators = function (val) {
+	    return authService.findUsers({ 'Pattern': val }).then(function (response) {
+	        if (response.data && !response.data.ErrorCode) {
+	            if (response.data.Result.length === 0) {
+	                $scope.noCreators = true;
+	            } else {
+	                $scope.noCreators = false;
+	                return response.data.Result.map(function (item) {
+	                    item.Title = item.FirstName + ' ' + item.LastName;
+	                    return item;
+	                });
+	            }
+	            
+	        }
+	        return false;
+	    }, function (response) {/*TODO: fail handler;*/ });
+	};
 	//если начальные данные для виша получены
 	/*if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.listGift = initialData.data.Result;
@@ -383,7 +457,7 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 		var filterCountries = $scope.countries.filter( function ( value ) {
 			return value.Name.toLowerCase().startsWith( term.toLowerCase() );
 		} );
-		return filterCountries
+	    return filterCountries;
 	}
 	//#endregion
 
@@ -395,7 +469,8 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 		}
 	};
 	$scope.resetGift = function () {
-		$scope.wasSubmittedGift = false;
+	    $scope.wasSubmittedGift = false;
+	    $scope.creatorDelete();
 	};
 }] );
 /**
@@ -405,16 +480,17 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
  * # Контроллер страницы информации о гифте или више
  * Controller of the giftknacksApp
  */
-app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', function ($scope, $modal,$compile, $route, authService, initialData, commonService, wishAndGiftService, commentService) {
+app.controller('ItemCardCtrl', ['$scope', '$modal', '$compile', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', 'cacheVersion', function ($scope, $modal, $compile, $route, authService, initialData, commonService, wishAndGiftService, commentService, cacheVersion) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
     $scope.wasSubmitted = false;
-    $scope.wasSubmittedReply = false;
-    $scope.comments = []
+    $scope.wasSubmittedReply = {};
+    $scope.comments = [];
     $scope.allCommentsLoaded = false;
     $scope.commentText = '';
     $scope.replyText = {};
     $scope.newComments = {};
+    $scope.replyForms = {};
 	if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.item = initialData.data.Result;
 
@@ -512,8 +588,9 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 	        });
 	    }
 	}
+
 	$scope.addReply = function (isValid, type, commentId, $event) {
-	    $scope.wasSubmittedReply = true;
+	    $scope.wasSubmittedReply['replyForm' + commentId] = true;
 	    var method = 'addWishComment';
 	    var IdName = 'WishId';
 	    if (type == 'gift') {
@@ -530,7 +607,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 	        commentService[method](commentQuery).then(function (response) {
 	            if (response.data && !response.data.ErrorCode) {
 	                $scope.replyText[commentId] = '';
-	                $scope.wasSubmittedReply = false;
+	                $scope.wasSubmittedReply['replyForm' + commentId] = false;
 	                var id = response.data.Result.Id;
 	                $scope.newComments['comment' + id] = response.data.Result;
 	                var comment = $(document.createElement('comment-block'));
@@ -544,7 +621,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 	                newComment.prepend(comment);
 	                if (!$parentLi.find('ul.list-group').length) {
 	                    $parentLi.append(newComment);
-	                    newComment.wrap('<ul class="list-group"></ul>');
+	                    newComment.wrap('<ul class="list-group voffset3"></ul>');
 	                }
 	                else {
 	                    $parentLi.find('ul.list-group').prepend(newComment);
@@ -556,7 +633,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 	            }
 	        }, function (response) {
 	            //TODO: обработчик ошибки
-	            $scope.wasSubmittedReply = false;
+	            $scope.wasSubmittedReply['replyForm' + commentId] = false;
 	        });
 	    }
 	}
@@ -564,14 +641,14 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 	    var method = 'showGifts';
 	    var parenttype = 'wish';
 	    if (type=='wish') {
-	        method = 'showWishes'
+	        method = 'showWishes';
 	        parenttype = 'gift';
 	    }
 	    wishAndGiftService[method]({}).then(function (response) {
 			if ( response.data && !response.data.ErrorCode ) {
 
 					var modalInstance = $modal.open({
-						templateUrl: '/templates/wishgiftlist.html',
+					    templateUrl: '/templates/wishgiftlist.html?ver=' + cacheVersion,
 						controller: 'ModalInstanceCtrl',
 						resolve: {
 							items: function () {
@@ -615,7 +692,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal','$compile', '$route', 'authSe
 
 	$scope.closeItem = function (type) {
 	    var modalInstance = $modal.open({
-	        templateUrl: '/templates/participantslist.html',
+	        templateUrl: '/templates/participantslist.html?ver=' + cacheVersion,
 	        controller: 'ModalCloseItemCtrl',
 	        resolve: {
 	            items: function () {
@@ -761,7 +838,7 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 	//если начальные данные для виша получены
 	if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.wish = initialData.data.Result;
-		$scope.wishCategories = $scope.wish.WishCategories
+	    $scope.wishCategories = $scope.wish.WishCategories;
 		delete $scope.wish['WishCategories'];
 		$scope.wish.Category = '';
 		$scope.imageExist = !!$scope.wish.ImageUrl;
@@ -799,7 +876,7 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 		var filterCountries = $scope.countries.filter( function ( value ) {
 			return value.Name.toLowerCase().startsWith( term.toLowerCase() );
 		} );
-		return filterCountries
+	    return filterCountries;
 	}
 	//#endregion
 
