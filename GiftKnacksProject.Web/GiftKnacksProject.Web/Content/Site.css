@@ -162,7 +162,11 @@
 }
 
 .row-content {
-  padding: 55px 0 20px;
+  padding: 40px 0 20px;
+}
+
+.header {
+  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .btn > input[type=radio] {
@@ -570,6 +574,138 @@ body {
 .promo .form-signup {
   padding-top: 30px;
   min-height: 300px;
+}
+
+.how-use .steps {
+  margin-top: 50px;
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .how-use .steps {
+    background: url("../img/map.png") no-repeat center;
+    background-size: 100%;
+  }
+}
+
+.how-use .steps .step {
+  margin: 0 auto;
+  width: 220px;
+  height: 220px;
+  border-radius: 110px;
+  border: 10px solid;
+  -webkit-box-shadow: 0 3px 7px 0 #333;
+  -moz-box-shadow: 0 3px 7px 0 #333;
+  box-shadow: 0 3px 7px 0 #333;
+  padding: 10px;
+  background: #ffffff;
+  background: -moz-linear-gradient(top, #ffffff 0%, #efefef 75%, #c7c7c6 100%);
+  background: -webkit-linear-gradient(top, #ffffff 0%, #efefef 75%, #c7c7c6 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #efefef 75%, #c7c7c6 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c7c7c6',GradientType=0 );
+}
+
+.how-use .steps .step.green {
+  border-color: #3cb370;
+}
+
+@media (min-width: 992px) {
+  .how-use .steps .step.green {
+    float: left;
+  }
+}
+
+.how-use .steps .step.green-light {
+  border-color: #62a911;
+}
+
+.how-use .steps .step.blue {
+  border-color: #3a7e9f;
+}
+
+.how-use .steps .step.red {
+  border-color: #fb7754;
+}
+
+.how-use .steps .step.pink {
+  border-color: #d94981;
+}
+
+.how-use .steps .step .step-inner {
+  width: 180px;
+  height: 180px;
+  border-radius: 90px;
+  background: #ffffff;
+  background: -moz-linear-gradient(top, #d8d8d8 0%, #efefef 20%, #ffffff 100%);
+  background: -webkit-linear-gradient(top, #d8d8d8 0%, #efefef 20%, #ffffff 100%);
+  background: linear-gradient(to bottom, #d8d8d8 0%, #efefef 20%, #ffffff 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8d8d8', endColorstr='#ffffff',GradientType=0 );
+}
+
+.how-use .steps .sun-step {
+  background: url("../img/sun.svg") no-repeat 0 0;
+  width: 240px;
+  height: 240px;
+  padding: 18px 20px;
+  margin: 0 auto;
+}
+
+@media (min-width: 992px) {
+  .how-use .steps .sun-step {
+    float: right;
+    margin-top: -8px;
+  }
+}
+
+.how-use .steps .sun-step .step {
+  float: none;
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+  border: none;
+  box-shadow: none;
+}
+
+.how-use .steps .arrow-down45 {
+  background: url("../img/arrow_down45.svg") no-repeat 0 0;
+  height: 90px;
+  width: 50px;
+  margin: 0 auto;
+}
+
+.how-use .steps .arrow-down {
+  background: url("../img/arrow_down.svg") no-repeat 0 0;
+  height: 80px;
+  width: 20px;
+  margin: 0 auto;
+}
+
+.how-use .steps .arrow-right {
+  background: url("../img/arrow_right.svg") no-repeat 0 0;
+  height: 20px;
+  width: 80px;
+  margin: 110px auto;
+}
+
+.how-use .steps .arrow-left45 {
+  background: url("../img/arrow_left45.svg") no-repeat 0 0;
+  height: 65px;
+  width: 160px;
+  margin: 0 auto;
+}
+
+.how-use .steps .arrow-up45 {
+  background: url("../img/arrow_up45.svg") no-repeat 0 0;
+  height: 90px;
+  width: 50px;
+  margin: 0 auto;
+}
+
+.how-use .steps .arrow-left-long {
+  background: url("../img/arrow_left_long.svg") no-repeat 0 0;
+  height: 95px;
+  width: 600px;
+  margin: -25px auto 0;
 }
 
 /*# sourceMappingURL=Site.css.map */

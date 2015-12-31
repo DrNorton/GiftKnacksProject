@@ -5,19 +5,19 @@
             <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a> joined your <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a>.
         </div>
     </div>
-    <div class="feed-item feed-item-comment" ng-switch-when="addComment">
+    <div class="feed-item feed-item-comment" ng-switch-when="addcomment">
         <!--<div class="feed-item-heading">Comment</div>-->
         <div class="feed-item-body">
             You have a new comment for <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a> from <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a>.
         </div>
     </div>
-    <div class="feed-item feed-item-reference" ng-switch-when="addReference">
+    <div class="feed-item feed-item-reference" ng-switch-when="addreference">
         <!--<div class="feed-item-heading">Reference</div>-->
         <div class="feed-item-body">
             You received {{item.Target.Score}} score from <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a>. Check <a href="/user/{{item.Target.Id}}">references</a>.
         </div>
     </div>
-    <div class="feed-item feed-item-danger" ng-switch-when="closeJoinedItem">
+    <div class="feed-item feed-item-close" ng-switch-when="closejoineditem">
         <!--<div class="feed-item-heading">Closed</div>-->
         <div class="feed-item-body">
             <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a> has been closed.
