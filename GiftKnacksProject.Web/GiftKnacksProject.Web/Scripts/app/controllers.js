@@ -6,7 +6,7 @@
  * # Контроллер всего приложения
  * Controller of the giftknacksApp
  */
-app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubProxy', function ($scope, $location, authService, signalRHubProxy) {
+app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubProxy', '$modal','cacheVersion', function ($scope, $location, authService, signalRHubProxy, $modal, cacheVersion) {
     $scope.isActive = function (path) {
         return $location.path().substr(0, path.length) === path;
     }
@@ -15,7 +15,38 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
 		authService.logOut();
 		$location.path( '/' );
 	}
+    $scope.loginPopup = function() {
+        $modal.open({
+            templateUrl: '/templates/login.html?ver=' + cacheVersion,
+            controller: 'LoginCtrl',
+            size: 'sm',
+            resolve: {
+                confirmUser: [
+                    'authService', '$route', function(authService, $route) {
+                        var userId = $route.current.params.userId;
+                        if (userId) {
+                            var verify = {
+                                userId: userId,
+                                code: $route.current.params.code
+                            }
+                            return authService.verifyEmail(verify);
+                        } else {
+                            return false;
+                        }
 
+                    }
+                ]
+            }
+        });
+    };
+    $scope.signupPopup = function () {
+        $modal.open({
+            templateUrl: '/templates/signup.html?ver=' + cacheVersion,
+            controller: 'SignupCtrl',
+            size: 'sm',
+            resolve: {}
+        });
+    }
 	$scope.authentication = authService.authentication;
 	$scope.$on( '$locationChangeStart', function ( event, next, current ) {
 		if ( $scope.authentication.isAuth && next !== current && current.indexOf( 'profile' ) > -1 ) {
@@ -44,11 +75,7 @@ app.controller('MainCtrl', ['$scope', '$location', 'authService', function ($sco
     if (authService.authentication.isAuth) {
 		$location.path( '/dashboard' );
 	}
-	$scope.slideinterval = 5000;
-	var slides = $scope.slides = [
-	{ image: './img/large_1.jpg' },
-	{ image: './img/palms.jpg' },
-	{ image: './img/presents.jpg' }];
+    
 }] );
 /**
  * @ngdoc function
@@ -141,7 +168,7 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 
 	$scope.addReference = function () {
 	 
-	    var modalInstance = $modal.open({
+	    $modal.open({
 	        templateUrl: '/templates/addreference.html?ver=' + cacheVersion,
 	        controller: 'AddReferenceCtrl',
 	        resolve: {
@@ -1283,12 +1310,6 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 
 	};
 
-	var startTimer = function () {
-		var timer = $timeout( function () {
-			$timeout.cancel( timer );
-			$location.path( '/login' );
-		}, 2000 );
-	}
 }] );
 /**
  * @ngdoc function
@@ -1297,11 +1318,10 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
  * # Контроллер регистрации
  * Controller of the giftknacksApp
  */
-app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 'commonService', function ( $scope, $location, $timeout, authService, commonService ) {
-
+app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 'commonService', '$modalInstance', function ($scope, $location, $timeout, authService, commonService, $modalInstance) {
+    $scope.inline = false;
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
-	$scope.title = 'Sign Up';
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	$scope.wasSubmitted = false;
 
@@ -1313,7 +1333,8 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
-		if ( isValid ) {
+		if (isValid) {
+		    $modalInstance.close();
 			authService.saveRegistration( $scope.registration ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
 					$scope.savedSuccessfully = true;
@@ -1332,7 +1353,9 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 		}
 
 	};
-
+	$scope.cancel = function () {
+	    $modalInstance.dismiss('cancel');
+	};
 	var startTimer = function () {
 		var timer = $timeout( function () {
 			$timeout.cancel( timer );
@@ -1340,8 +1363,50 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
 		}, 10000 );
 	}
 
-}] );
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:SignupInlineCtrl
+ * @description
+ * # Контроллер регистрации вне popup
+ * Controller of the giftknacksApp
+ */
+app.controller('SignupInlineCtrl', ['$scope', 'authService', 'commonService', function ($scope, authService, commonService) {
+    $scope.inline = true;
+    $scope.savedSuccessfully = false;
+    $scope.message = "";
+    $scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    $scope.wasSubmitted = false;
 
+    $scope.registration = {
+        email: "",
+        password: "",
+        confirmPassword: ""
+    };
+
+    $scope.submit = function (isValid) {
+        $scope.wasSubmitted = true;
+        if (isValid) {
+            authService.saveRegistration($scope.registration).then(function (response) {
+                if (response.data && !response.data.ErrorCode) {
+                    $scope.savedSuccessfully = true;
+                    $scope.message = "Thanks for signing up on KnacksGifter! We just sent you a confirmation email to " + $scope.registration.email + ".";
+                } else {
+                    $scope.savedSuccessfully = false;
+                    $scope.message = response.data.ErrorMessage;
+                }
+
+
+            }, function (response) {
+                $scope.savedSuccessfully = false;
+                $scope.message = "Failed to register user due to:" + commonService.displayError();
+            });
+        }
+
+    };
+
+
+}]);
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:LoginCtrl
@@ -1349,7 +1414,7 @@ app.controller( 'SignupCtrl', ['$scope', '$location', '$timeout', 'authService',
  * # Контроллер авторизации
  * Controller of the giftknacksApp
  */
-app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser', '$routeParams', function ( $scope, $location, authService, confirmUser, $routeParams ) {
+app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser', '$routeParams', '$modalInstance', function ($scope, $location, authService, confirmUser, $routeParams, $modalInstance) {
 	authService.logOut();
 	var email = $routeParams.email || '';
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -1363,7 +1428,8 @@ app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser
 
 	$scope.login = function ( isValid ) {
 		$scope.wasSubmitted = true;
-		if ( isValid ) {
+		if (isValid) {
+		    $modalInstance.close();
 			authService.login( $scope.loginData ).then( function ( response ) {
 				$location.url( $location.path() );
 				$location.path( '/dashboard' );
@@ -1375,7 +1441,9 @@ app.controller( 'LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser
 		}
 
 	};
-
+	$scope.cancel = function () {
+	    $modalInstance.dismiss('cancel');
+	};
 }] );
 
 /**
@@ -1421,10 +1489,9 @@ app.controller( 'ForgotPassCtrl', ['$scope', '$location', 'authService', functio
  * Controller of the giftknacksApp
  */
 app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams', 'authService', 'commonService', function ( $scope, $location, $timeout, $routeParams, authService, commonService ) {
-	$scope.token = $routeParams.token;
+    $scope.token = $routeParams.token;
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
-	$scope.title = 'Reset password';
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	$scope.wasSubmitted = false;
 
@@ -1442,7 +1509,7 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
 			authService.resetPassword( $scope.registration ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
 					$scope.savedSuccessfully = true;
-					$scope.message = "Your password was reset. You will be redicted to login page in 2 seconds.";
+					$scope.message = "Your password was reset. You will be redicted to dashboard in 2 seconds.";
 					startTimer();
 				} else {
 					$scope.savedSuccessfully = false;
@@ -1461,8 +1528,14 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
 	var startTimer = function () {
 		var timer = $timeout( function () {
 			$timeout.cancel( timer );
-			$location.search( 'token', null );
-			$location.path( '/login' );
+			authService.login({ userName: $scope.registration.email, password: $scope.registration.password }).then(function (response) {
+			    $location.url($location.path());
+			    $location.path('/dashboard');
+
+			},
+         function (err) {
+             $scope.message = err.error_description;
+         });
 		}, 2000 );
 	}
 

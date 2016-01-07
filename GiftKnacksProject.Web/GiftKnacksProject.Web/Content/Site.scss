@@ -262,23 +262,54 @@ textarea {
 
     &.feed-item-join {
         border-left-color: #0d8541;
+         .item-img i{
+            color:#0d8541;
+        }
     }
 
     &.feed-item-comment {
         border-left-color: #115576;
+        .item-img i{
+            color:#115576;
+        }
     }
 
     &.feed-item-close {
         border-left-color: #ba3512;
+         .item-img i{
+            color:#ba3512;
+        }
     }
 
     &.feed-item-reference {
         border-left-color: #ba6c12;
+         .item-img i{
+            color:#ba6c12;
+        }
     }
 
-    .feed-item-heading {
-        font-weight: bold;
-        font-size: 16px;
+    .media-left, .media-right {
+        position: relative;
+
+        i {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        img {
+            height: 80px;
+            width: 80px;
+        }
+    }
+
+
+
+    .media-body {
+        vertical-align: middle;
+        .date {
+            color: #bbb;
+        }
     }
 }
 
@@ -444,12 +475,46 @@ textarea {
         margin-bottom: 20px;
     }
 }
-//history block
-.hisory-list {
+//knacks list
+.knacks-list {
     margin-top: 10px;
 
+    .tab-content {
+        padding: 20px;
+        background: #fff;
+        border-radius: 0 0 4px 4px;
+        border: 1px solid #68d598 ;
+        border-top-color: #fff;
+        .list-group-item{
+                box-shadow: inset 0 0 3px #ccc;
+        }
+    }
+
     .nav-tabs {
-        margin-bottom: 20px;
+        & > li {
+            &.active > a {
+                background-color: #fff;
+                border-color: #68d598;
+                  border-bottom-color: #fff;
+                    color: #333;
+                &:hover, &:focus {
+                    border-color: #68d598;
+                    background-color: #fff;
+                    border-bottom-color: #fff;
+                }
+            }
+
+            & > a {
+                border-radius: 10px 10px 0 0;
+                border: 1px solid #dddddd;
+                 border-bottom-color: #68d598;
+                background-color: #f3f3f3;
+                    font-size: 18px;
+                &:hover {
+                    background-color: #eee;
+                }
+            }
+        }
     }
 }
 //sidebar
@@ -465,8 +530,8 @@ textarea {
 //info page
 .info-page {
     h2 {
-        padding-top: 70px;
-        margin-top: -50px;
+        padding-top: 100px;
+        margin-top: -80px;
     }
 }
 //footer stick at bottom of page
@@ -600,24 +665,106 @@ body {
     }
 
     .form-signup {
-        padding-top: 30px;
+        padding-top: 130px;
+         margin-top: -100px;
         min-height: 300px;
+    }
+}
+
+
+@-moz-keyframes swing
+{
+    33% {
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    66% {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+       transform: scale(1.1);
+    }
+
+    100% {
+        -webkit-transform: scale(1); 
+        -moz-transform: scale(1); 
+        -ms-transform: scale(1); 
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes swing
+{
+    33% {
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    66% {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+       transform: scale(1.1);
+    }
+
+    100% {
+        -webkit-transform: scale(1); 
+        -moz-transform: scale(1); 
+        -ms-transform: scale(1); 
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes swing
+{
+    33% {
+        -webkit-transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    66% {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+       transform: scale(1.1);
+    }
+
+    100% {
+        -webkit-transform: scale(1); 
+        -moz-transform: scale(1); 
+        -ms-transform: scale(1); 
+        -o-transform: scale(1);
+        transform: scale(1);
     }
 }
 
 .how-use {
     //background: url('../img/landing.png') no-repeat 0 50px;
     .steps {
-        margin-top: 50px;
+        margin-top: 35px;
+            padding-top: 15px;
         overflow: hidden;
 
         @media (min-width: 992px) {
             background: url('../img/map.png') no-repeat center;
             background-size: 100%;
         }
-        
+
 
         .step {
+            cursor:pointer;
             margin: 0 auto;
             width: 220px;
             height: 220px;
@@ -632,6 +779,35 @@ body {
             background: -webkit-linear-gradient(top, #ffffff 0%,#efefef 75%,#c7c7c6 100%);
             background: linear-gradient(to bottom, #ffffff 0%,#efefef 75%,#c7c7c6 100%);
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c7c7c6',GradientType=0 );
+            text-align: center;
+
+            &:hover {
+                -webkit-animation: swing .5s ease; 
+                -moz-animation: swing .5s ease; 
+                -o-animation: swing .5s ease;
+                animation: swing .5s ease;
+                -webkit-animation-iteration-count: 1;
+                -moz-animation-iteration-count: 1;
+                -o-animation-iteration-count: 1;
+                animation-iteration-count: 1;
+            }
+
+            a {
+                color: #333333;
+            }
+
+            .logo {
+                margin: 0 auto 20px;
+                width: 60px;
+                height: 60px;
+            }
+
+            .title {
+                text-transform: uppercase;
+                font-family: 'Comic Sans MS', cursive, sans-serif;
+                font-size: 16px;
+                line-height: 20px;
+            }
 
             &.green {
                 border-color: #3cb370;
@@ -639,28 +815,49 @@ body {
                 @media (min-width: 992px) {
                     float: left;
                 }
+
+                .logo {
+                    background: url('../img/print.svg') no-repeat center;
+                }
             }
 
             &.green-light {
                 border-color: #62a911;
+
+                .logo {
+                    background: url('../img/present.svg') no-repeat center;
+                }
             }
 
             &.blue {
                 border-color: #3a7e9f;
+
+                .logo {
+                    background: url('../img/people.svg') no-repeat center;
+                }
             }
 
             &.red {
                 border-color: #fb7754;
+
+                .logo {
+                    background: url('../img/stars.svg') no-repeat center;
+                }
             }
 
             &.pink {
                 border-color: #d94981;
+
+                .logo {
+                    background: url('../img/form.svg') no-repeat center;
+                }
             }
 
             .step-inner {
                 width: 180px;
                 height: 180px;
                 border-radius: 90px;
+                padding: 20px 5px 5px;
                 background: #ffffff;
                 background: -moz-linear-gradient(top, #d8d8d8 0%, #efefef 20%, #ffffff 100%);
                 background: -webkit-linear-gradient(top, #d8d8d8 0%,#efefef 20%,#ffffff 100%);
@@ -670,6 +867,7 @@ body {
         }
 
         .sun-step {
+             cursor:pointer;
             background: url('../img/sun.svg') no-repeat 0 0;
             width: 240px;
             height: 240px;
@@ -680,7 +878,16 @@ body {
                 float: right;
                 margin-top: -8px;
             }
-
+             &:hover {
+                -webkit-animation: swing .5s ease;
+                -moz-animation: swing .5s ease;
+                -o-animation: swing .5s ease;
+                animation: swing .5s ease;
+                -webkit-animation-iteration-count: 1;
+                -moz-animation-iteration-count: 1;
+                -o-animation-iteration-count: 1;
+                animation-iteration-count: 1;
+            }
             .step {
                 float: none;
                 width: 200px;
@@ -688,6 +895,20 @@ body {
                 border-radius: 100px;
                 border: none;
                 box-shadow: none;
+
+                 &:hover {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -o-animation: none;
+                animation: none;
+                -webkit-animation-iteration-count: 0;
+                -moz-animation-iteration-count: 0;
+                -o-animation-iteration-count: 0;
+                animation-iteration-count: 0;
+            }
+                .logo {
+                    background: url('../img/smile.svg') no-repeat center;
+                }
             }
         }
 
@@ -696,28 +917,29 @@ body {
             height: 90px;
             width: 50px;
             margin: 0 auto;
-
         }
-         .arrow-down {
+
+        .arrow-down {
             background: url('../img/arrow_down.svg') no-repeat 0 0;
-               height: 80px;
+            height: 80px;
             width: 20px;
             margin: 0 auto;
         }
-          .arrow-right {
+
+        .arrow-right {
             background: url('../img/arrow_right.svg') no-repeat 0 0;
-               height: 20px;
-    width: 80px;
-                margin: 110px auto;
-
+            height: 20px;
+            width: 80px;
+            margin: 110px auto;
         }
-          .arrow-left45 {
+
+        .arrow-left45 {
             background: url('../img/arrow_left45.svg') no-repeat 0 0;
-                 height: 65px;
-    width: 160px;
+            height: 65px;
+            width: 160px;
             margin: 0 auto;
-
         }
+
         .arrow-up45 {
             background: url('../img/arrow_up45.svg') no-repeat 0 0;
             height: 90px;

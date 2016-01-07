@@ -13,11 +13,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="feed col-md-8">
-                    <h2 class="col-md-12">Feed</h2>
-                    <feed-block ng-repeat="item in feed" feed="item"></feed-block>
-                </div>
-                <div class="interesting col-md-4">
+                <div class="interesting col-md-4 col-md-push-8">
                     <h2 class="col-md-12">Interesting near you</h2>
                     <div class="col-md-12" ng-show="nearMembers.length">
                         <div class="list-group">
@@ -47,6 +43,10 @@
                             <a ng-repeat="wish in nearWishes" class="list-group-item" href="/wish/{{wish.Id}}">{{wish.Name}}</a>
                         </div>
                     </div>
+                </div>
+                <div class="feed col-md-8 col-md-pull-4">
+                    <h2 class="col-md-12">Feed</h2>
+                    <feed-block ng-repeat="item in feed" feed="item"></feed-block>
                 </div>
             </div>
 

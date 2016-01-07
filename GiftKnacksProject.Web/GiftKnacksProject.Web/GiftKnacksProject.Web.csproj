@@ -1068,7 +1068,9 @@
     <Content Include="Scripts\vendors\loading-bar.js" />
     <Content Include="Scripts\vendors\ng-img-crop.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="sitemap.xml" />
+    <Content Include="sitemap.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="templates\blog.html" />
     <Content Include="templates\helpus.html" />
     <Content Include="templates\feed.html" />
@@ -1079,6 +1081,7 @@
     <Content Include="templates\findgift.html" />
     <Content Include="templates\giftform.html" />
     <Content Include="templates\giftcard.html" />
+    <Content Include="templates\recover.html" />
     <Content Include="templates\user.html" />
     <Content Include="templates\addreference.html" />
     <Content Include="templates\participantslist.html" />

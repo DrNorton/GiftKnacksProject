@@ -327,7 +327,7 @@ app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase
                     }
                 ]
             };
-            return res;
+            //return res;
              return response;
          });
     };
@@ -355,7 +355,7 @@ app.factory('authInterceptorService', ['$q', '$location', 'localStorageService',
 
 	var _responseError = function ( rejection ) {
 		if ( rejection.status === 401 ) {
-			$location.path( '/login' );
+			$location.path( '/landing' );
 		}
 		return $q.reject( rejection );
 	}
