@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -108,7 +109,11 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
            
         }
 
+        public Task<List<ParticipantDto>> GetAllParticipants(long closedItemId)
+        {
+            return Db.Set<WishGiftLink>().Where(x => x.WishId == closedItemId).Select(x => new ParticipantDto() { Id = x.UserId }).ToListAsync();
 
+        }
         //Закрытие гифта
 
         public async Task CloseGift(long giftId,long currentUserId)
@@ -121,7 +126,12 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             findedGift.GiftWishStatus = Db.Set<GiftWishStatus>().FirstOrDefault(x => x.Code == 1);
             base.Update(findedGift);
             base.Save();
-        } 
+        }
+
+        public Task<BasicWishGiftDto> GetBasicInfo(long id)
+        {
+            return Db.Set<Gift>().Where(x => x.Id == id).Select(x => new BasicWishGiftDto() { Id = x.Id, Title = x.Name,Owner = x.UserId}).FirstOrDefaultAsync();
+        }
 
         //Добавление виша
         public async Task<long> AddGift(long userId, GiftDto gift)

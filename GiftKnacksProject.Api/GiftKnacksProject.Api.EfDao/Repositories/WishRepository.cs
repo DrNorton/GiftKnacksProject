@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -172,6 +173,16 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             wish.GiftWishStatus = Db.Set<GiftWishStatus>().FirstOrDefault(x => x.Code == 1);
             base.Update(wish);
             base.Save();
+        }
+
+        public Task<BasicWishGiftDto> GetBasicInfo(long id)
+        {
+            return Db.Set<Wish>().Where(x=>x.Id==id).Select(x=>new BasicWishGiftDto() {Id = x.Id,Title = x.Name,Owner = x.UserId,ImageUrl=x.ImageUrl}).FirstOrDefaultAsync();
+        }
+
+        public Task<List<ParticipantDto>> GetAllParticipants(long closedItemId)
+        {
+            return Db.Set<WishGiftLink>().Where(x => x.WishId == closedItemId).Select(x => new ParticipantDto() { Id = x.UserId }).ToListAsync();
         }
 
         //Получение виша по городу округу

@@ -4,5 +4,4 @@
     [Status] NVARCHAR(15) NOT NULL, 
     [Code] INT NOT NULL,
 	
-	
 )

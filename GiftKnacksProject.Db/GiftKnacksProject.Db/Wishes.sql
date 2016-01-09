@@ -21,3 +21,26 @@
 	CONSTRAINT [FK_Wishes_GiftWishStatuses] FOREIGN KEY ([StatusId]) REFERENCES [GiftWishStatuses]([Id]),
 	CONSTRAINT [FK_Wishes_Users_Closer] FOREIGN KEY ([WishUserCloserId]) REFERENCES [Users]([Id])
 )
+
+GO
+
+CREATE TRIGGER [dbo].[UpdateTotalClosedTrigger]
+    ON [dbo].[Wishes]
+    FOR DELETE, INSERT, UPDATE
+    AS
+    BEGIN
+        SET NoCount ON
+    END
+	 DECLARE @OldStatus int, @NewStatus int,@TotalClosed INT
+		SELECT @OldStatus = StatusId FROM DELETED
+		SELECT @NewStatus = StatusId FROM INSERTED
+	
+
+		if(@OldStatus=3 AND @NewStatus=4)
+		BEGIN
+		   SELECT @TotalClosed = Select TotalClosed from Users Where I 
+		  Update Users Set TotalClosed
+		END
+		     
+	GO
+

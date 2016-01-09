@@ -118,6 +118,21 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             Db.SaveChanges();
         }
 
+        public  Task<TinyProfileDto> GetTinyProfile(long id)
+        {
+            return  Db.Set<Profile>().Where(x=>x.Id== id).Select(x=> new TinyProfileDto()
+            {
+                AvatarUrl = x.AvatarUrl,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Id = x.Id
+            }).FirstOrDefaultAsync();
+           
+        }
+
+        
+
+
         public async Task<List<TinyProfileDto>> Search(string pattern)
         {
             return Db.Set<Profile>()

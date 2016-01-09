@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using GiftKnackProject.NotificationTypes;
 using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos;
 using GiftKnacksProject.Api.Dto.Dtos.Gifts;
 using GiftKnacksProject.Api.EfDao;
+using GiftKnacksProject.Api.Services.Interfaces;
 using Microsoft.AspNet.Identity;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
@@ -21,10 +23,12 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     public class GiftController:CustomApiController
     {
         private readonly IGiftRepository _giftRepository;
+        private readonly INotificationService _notificationService;
 
-        public GiftController(IGiftRepository giftRepository)
+        public GiftController(IGiftRepository giftRepository,INotificationService notificationService)
         {
             _giftRepository = giftRepository;
+            _notificationService = notificationService;
         }
 
         //[System.Web.Http.Authorize]
@@ -34,6 +38,13 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
             await _giftRepository.CloseGift((long)model.Id, userId);
+
+            await
+             _notificationService.SentNotificationToQueue(new CloseItemQueueNotification()
+             {
+                 CreatorId = userId,
+                 TargetType = "gift"
+             });
             return SuccessApiResult(null);
         }
 

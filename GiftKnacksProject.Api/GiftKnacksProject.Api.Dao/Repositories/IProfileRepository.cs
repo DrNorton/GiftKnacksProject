@@ -17,5 +17,6 @@ namespace GiftKnacksProject.Api.Dao.Repositories
         void UpdateLastLoginTime(long userId,DateTime time);
         Task<List<TinyProfileDto>> Search(string pattern);
         Task<bool> CheckActivity(long userId);
+        Task<TinyProfileDto> GetTinyProfile(long id);
     }
 }

@@ -64,6 +64,10 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Azure.Documents.Client, Version=1.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.DocumentDB.1.5.2\lib\net40\Microsoft.Azure.Documents.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.1\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -97,8 +101,8 @@
     <Reference Include="Mvc.Mailer">
       <HintPath>..\packages\MvcMailer.4.5\lib\45\Mvc.Mailer.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
@@ -221,6 +225,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GiftKnackProject.NotificationTypes\GiftKnackProject.NotificationTypes.csproj">
+      <Project>{3f187808-0a0b-4a30-8927-ee2819fb08e3}</Project>
+      <Name>GiftKnackProject.NotificationTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GiftKnacksProject.Api.Dao\GiftKnacksProject.Api.Dao.csproj">
       <Project>{ff0fa806-2745-4d30-93ba-e1fd8c171d21}</Project>
       <Name>GiftKnacksProject.Api.Dao</Name>

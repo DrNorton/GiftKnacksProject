@@ -11,6 +11,7 @@ using GiftKnacksProject.Api.Services.Interfaces;
 using GiftKnacksProject.Api.Services.Services;
 using GiftKnacksProject.Api.Services.Services.FeedService;
 using GiftKnacksProject.Api.Services.Storages;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure;
 
@@ -21,6 +22,15 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
     {
         public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
         {
+            var endpointUrl = ConfigurationManager.AppSettings["EndPointUrl"];
+            var authorizationKey = ConfigurationManager.AppSettings["AuthorizationKey"];
+            container.Register(
+                Component.For<DocumentClient>()
+                    .DependsOn(Dependency.OnValue("serviceEndpoint", new Uri(endpointUrl)),
+                        Dependency.OnValue("authKeyOrResourceToken", authorizationKey))
+                    .LifestyleTransient());
+
+
             var fileService = new FileService(container.Resolve<UrlSettings>());
             container.Register(Component.For<IFileService>().Instance(fileService));
             var connectionQmString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];

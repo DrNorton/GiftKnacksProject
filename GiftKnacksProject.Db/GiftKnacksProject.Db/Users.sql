@@ -6,5 +6,7 @@
     [DateRegister] DATETIME NOT NULL, 
     [ConfirmMail] BIT NOT NULL DEFAULT 0, 
     [EmailStamp] NVARCHAR(200) NULL, 
-    [LastLoginTime] DATETIME NULL 
+    [LastLoginTime] DATETIME NULL, 
+    [AvgRate] FLOAT NOT NULL DEFAULT 0, 
+    [TotalClosed] BIGINT NOT NULL DEFAULT 0 
 )

@@ -23,7 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api.Servi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workers", "Workers", "{DA831952-651F-4FB7-818B-7D0DA9B7F754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackNotificationAgent", "..\GiftKnackNotificationAgent\GiftKnackNotificationAgent\GiftKnackNotificationAgent.csproj", "{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackProject.NotificationTypes", "GiftKnackProject.NotificationTypes\GiftKnackProject.NotificationTypes.csproj", "{3F187808-0A0B-4A30-8927-EE2819FB08E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackNotificationAgent", "GiftKnackNotificationAgent\GiftKnackNotificationAgent.csproj", "{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{476ABD28-C0DC-4FB1-9669-FD10779DBB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{476ABD28-C0DC-4FB1-9669-FD10779DBB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{476ABD28-C0DC-4FB1-9669-FD10779DBB43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F187808-0A0B-4A30-8927-EE2819FB08E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F187808-0A0B-4A30-8927-EE2819FB08E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F187808-0A0B-4A30-8927-EE2819FB08E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F187808-0A0B-4A30-8927-EE2819FB08E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}.Release|Any CPU.ActiveCfg = Release|Any CPU

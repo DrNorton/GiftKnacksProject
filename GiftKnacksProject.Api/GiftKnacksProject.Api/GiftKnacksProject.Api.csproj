@@ -73,6 +73,10 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Azure.Documents.Client, Version=1.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.DocumentDB.1.5.2\lib\net40\Microsoft.Azure.Documents.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -104,9 +108,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -236,6 +240,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GiftKnackProject.NotificationTypes\GiftKnackProject.NotificationTypes.csproj">
+      <Project>{3f187808-0a0b-4a30-8927-ee2819fb08e3}</Project>
+      <Name>GiftKnackProject.NotificationTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GiftKnacksProject.Api.Dependencies\GiftKnacksProject.Api.Dependencies.csproj">
       <Project>{d08aa878-ea84-423a-bb89-1c67ddadc275}</Project>
       <Name>GiftKnacksProject.Api.Dependencies</Name>

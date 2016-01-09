@@ -3,34 +3,69 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GiftKnackNotificationAgent.Models;
+using GiftKnackNotificationAgent.Models.Handlers;
 using GiftKnackNotificationAgent.Models.Infos;
+using GiftKnackProject.NotificationTypes;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.ServiceBus.Messaging;
+using Newtonsoft.Json;
 
 namespace GiftKnackNotificationAgent.Services
 {
     public class MessageFromMqProcessor : IMessageFromMqProcessor
     {
+   
         private  DocumentClient _client;
-        private INotificationFabric _notificationFabric;
+        private readonly IHandlersDispatcher _handlersDispatcher;
+
         private const string DatabaseId = "notificationslenta";
 
-        public MessageFromMqProcessor(INotificationFabric notificationFabric, DocumentClient client)
+        public MessageFromMqProcessor(DocumentClient client,IHandlersDispatcher handlersDispatcher)
         {
-            _notificationFabric = notificationFabric;
             _client = client;
+            _handlersDispatcher = handlersDispatcher;
         }
 
         public async Task ProcessMessage(BrokeredMessage message)
         {
-            var creatorId = message.Properties["CreatorId"];
             var type = message.Properties["Type"].ToString().ToLower();
-            var notification= await _notificationFabric.CreateNotification(type, message.Properties);
+            var body=message.GetBody<string>();
+            IEnumerable<Notification> notifications=null;
+            
+            switch (type)
+            {
+                case "addcomment":
+                    notifications = await _handlersDispatcher.FindHandlerAndExecute<AddCommentQueueNotification>(body);
+                     
+                    break;
+
+                case "join":
+                    notifications = await _handlersDispatcher.FindHandlerAndExecute<JoinQueueNotification>(body);
+                    break;
+
+
+                case "addreference":
+                    notifications = await _handlersDispatcher.FindHandlerAndExecute<AddReferenceQueueNotification>(body);
+                    break;
+
+                case "closejoineditem":
+                    notifications = await _handlersDispatcher.FindHandlerAndExecute<CloseItemQueueNotification>(body);
+                    break;
+
+
+            }
+
+          
             var database = await RetrieveOrCreateDatabaseAsync(DatabaseId);
-            var collection = await RetrieveOrCreateCollectionAsync(database.SelfLink, creatorId.ToString());
-            await _client.CreateDocumentAsync(collection.DocumentsLink, new AddCommentInfo());
+            foreach (var notification in notifications)
+            {
+                var collection = await RetrieveOrCreateCollectionAsync(database.SelfLink, notification.Info.OwnerId.ToString());
+                await _client.CreateDocumentAsync(collection.DocumentsLink, notification);
+            }
+           
         }
 
 

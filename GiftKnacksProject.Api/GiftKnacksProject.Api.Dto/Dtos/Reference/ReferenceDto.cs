@@ -9,6 +9,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Reference
 {
     public class ReferenceDto
     {
+        public long? OwnerId { get; set; }
         public byte? Rate { get; set; }
         public string ReferenceText { get; set; }
         public TinyProfileDto Replyer { get; set; }

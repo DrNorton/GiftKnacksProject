@@ -18,7 +18,6 @@ namespace GiftKnackNotificationAgent
     public class Functions
     {
         private readonly IMessageFromMqProcessor _messageFromMqProcessor;
- 
 
         public Functions(IMessageFromMqProcessor messageFromMqProcessor)
         {
@@ -28,7 +27,7 @@ namespace GiftKnackNotificationAgent
         public  async Task ProcessQueueMessage([ServiceBusTrigger("notifications")] BrokeredMessage message,
       TextWriter logger)
         {
-           await _messageFromMqProcessor.ProcessMessage(message);
+            await _messageFromMqProcessor.ProcessMessage(message);
             await logger.WriteLineAsync("dadad");
         }
 
