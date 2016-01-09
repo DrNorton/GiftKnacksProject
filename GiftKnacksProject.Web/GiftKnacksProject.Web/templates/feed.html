@@ -1,23 +1,51 @@
 <div ng-switch="feed.Action" ng-init="item=feed.Info" class="col-md-12">
-    <div class="feed-item feed-item-join" ng-switch-when="join">
-        <!--<div class="feed-item-heading">Join</div>-->
-        <div class="feed-item-body">
-            <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a> joined your <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a>.
+    <div class="media feed-item feed-item-join" ng-switch-when="join">
+        <div class="media-left item-img">
+            <a href="/user/{{item.User.Id}}">
+                <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
+            </a>
+            <i class="fa fa-lg fa-user-plus"></i>
+        </div>
+        <div class="media-body">
+            <div>
+                <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a> became an ally in <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a>
+            </div>
+            <div class="date">{{feed.Time | date: 'medium'}}</div>
+        </div>
+        <div class="media-right avatar">
+            <a href="/{{item.TargetType}}/{{item.Target.Id}}">
+                <img class="media-object img-thumbnail" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.jpg" alt="item" />
+            </a>
+          
         </div>
     </div>
-    <div class="feed-item feed-item-comment" ng-switch-when="addComment">
-        <!--<div class="feed-item-heading">Comment</div>-->
-        <div class="feed-item-body">
-            You have a new comment for <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a> from <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a>.
+    <div class="media feed-item feed-item-comment col-md-12" ng-switch-when="addcomment">
+            <div class="media-left item-img">
+                <a href="/user/{{item.User.Id}}">
+                    <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
+                </a>
+                <i class="fa fa-lg fa-comments"></i>
+            </div>
+            <div class="media-body">
+                <div>
+                    <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a> commented <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a>
+                </div>
+                <div class="date">{{feed.Time | date: 'medium'}}</div>
+            </div>
+        <div class="media-right avatar">
+            <a href="/{{item.TargetType}}/{{item.Target.Id}}">
+                <img class="media-object img-thumbnail" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.jpg" alt="item" />
+            </a>
+           
         </div>
     </div>
-    <div class="feed-item feed-item-reference" ng-switch-when="addReference">
+    <div class="feed-item feed-item-reference" ng-switch-when="addreference">
         <!--<div class="feed-item-heading">Reference</div>-->
         <div class="feed-item-body">
             You received {{item.Target.Score}} score from <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a>. Check <a href="/user/{{item.Target.Id}}">references</a>.
         </div>
     </div>
-    <div class="feed-item feed-item-danger" ng-switch-when="closeJoinedItem">
+    <div class="feed-item feed-item-close" ng-switch-when="closejoineditem">
         <!--<div class="feed-item-heading">Closed</div>-->
         <div class="feed-item-body">
             <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a> has been closed.

@@ -39,42 +39,12 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                templateUrl: '/templates/helpus.html',
                controller: 'HelpUsCtrl'
            })
-          .when('/login', {
-              title: 'KnacksGifter | Login',
-              metaDescription: 'KnacksGifter Login',
-              metaKeywords: 'KnacksGifter Login Page',
-              controller: 'LoginCtrl',
-              templateUrl: "/templates/login.html",
-              resolve: {
-                  confirmUser: ['authService', '$route', function (authService, $route) {
-                      var userId = $route.current.params.userId;
-                      if (userId) {
-                          var verify = {
-                              userId: userId,
-                              code: $route.current.params.code
-                          }
-                          return authService.verifyEmail(verify)
-                      }
-                      else {
-                          return false;
-                      }
-
-                  }]
-              }
-          })
-              .when("/signup", {
-                  title: 'KnacksGifter | Signup',
-                  metaDescription: 'KnacksGifter Signup',
-                  metaKeywords: 'KnacksGifter Signup Page',
-                  controller: "SignupCtrl",
-                  templateUrl: "/templates/signup.html"
-              })
               .when("/recover", {
                   title: 'KnacksGifter | Recover',
                   metaDescription: 'KnacksGifter Recover',
                   metaKeywords: 'KnacksGifter Recover Page',
                   controller: "RecoverCtrl",
-                  templateUrl: "/templates/signup.html"
+                  templateUrl: "/templates/recover.html"
               })
               .when("/forgotpass", {
                   title: 'KnacksGifter | ForgotPass',
@@ -234,11 +204,10 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
   }]);
 
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
-app.constant("cacheVersion", '1');
+app.constant("cacheVersion", '8');
 
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', '$window', function (authService, $rootScope, $location, $anchorScroll, $window) {
     authService.fillAuthData();
-
     if (!String.prototype.startsWith) {
         Object.defineProperty(String.prototype, 'startsWith', {
             enumerable: false,

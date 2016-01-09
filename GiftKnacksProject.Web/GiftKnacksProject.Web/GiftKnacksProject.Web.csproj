@@ -198,13 +198,29 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\arrow_left45.svg" />
+    <Content Include="img\arrow_right.svg" />
+    <Content Include="img\map.png" />
+    <Content Include="img\arrow_down.svg" />
+    <Content Include="img\arrow_down45.svg" />
+    <Content Include="img\arrow_left_long.svg" />
+    <Content Include="img\arrow_up45.svg" />
     <Content Include="img\avatar.jpg" />
+    <Content Include="img\form.svg" />
+    <Content Include="img\landing.png" />
     <Content Include="img\large_1.jpg" />
     <Content Include="img\logo.png" />
     <Content Include="img\made-for.png" />
     <Content Include="img\palms.jpg" />
+    <Content Include="img\people.svg" />
     <Content Include="img\present.jpg" />
+    <Content Include="img\present.svg" />
     <Content Include="img\presents.jpg" />
+    <Content Include="img\print.svg" />
+    <Content Include="img\promo.png" />
+    <Content Include="img\smile.svg" />
+    <Content Include="img\stars.svg" />
+    <Content Include="img\sun.svg" />
     <Content Include="robots.txt" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -1052,7 +1068,9 @@
     <Content Include="Scripts\vendors\loading-bar.js" />
     <Content Include="Scripts\vendors\ng-img-crop.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="sitemap.xml" />
+    <Content Include="sitemap.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="templates\blog.html" />
     <Content Include="templates\helpus.html" />
     <Content Include="templates\feed.html" />
@@ -1063,6 +1081,7 @@
     <Content Include="templates\findgift.html" />
     <Content Include="templates\giftform.html" />
     <Content Include="templates\giftcard.html" />
+    <Content Include="templates\recover.html" />
     <Content Include="templates\user.html" />
     <Content Include="templates\addreference.html" />
     <Content Include="templates\participantslist.html" />

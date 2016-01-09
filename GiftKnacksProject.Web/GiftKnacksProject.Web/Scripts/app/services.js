@@ -292,7 +292,7 @@ app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase
                 "ErrorMessage": null,
                 "Result": [
                     {
-                        "Action": "Join",
+                        "Action": "join",
                         "Time": "2015-10-24T15:49:48.97622",
                         "Info": {
                             TargetType: 'wish',
@@ -301,7 +301,7 @@ app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase
                         }
                     },
                     {
-                        "Action": "AddComment",
+                        "Action": "addcomment",
                         "Time": "2015-10-18T17:31:50.742444",
                         "Info": {
                             TargetType: 'wish',
@@ -310,7 +310,7 @@ app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase
                         }
                     },
                     {
-                        "Action": "AddReference",
+                        "Action": "addreference",
                         "Time": "2015-10-18T17:31:02.094518",
                         "Info": {
                             User: { "Id": '168', "FirstName": 'bk', "LastName": 'lkhk' },
@@ -318,7 +318,7 @@ app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase
                         }
                     },
                     {
-                        "Action": "CloseJoinedItem",
+                        "Action": "closejoineditem",
                         "Time": "2015-10-18T17:30:51.340553",
                         "Info": {
                             TargetType: 'wish',
@@ -355,7 +355,7 @@ app.factory('authInterceptorService', ['$q', '$location', 'localStorageService',
 
 	var _responseError = function ( rejection ) {
 		if ( rejection.status === 401 ) {
-			$location.path( '/login' );
+			$location.path( '/landing' );
 		}
 		return $q.reject( rejection );
 	}

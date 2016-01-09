@@ -1,68 +1,71 @@
-<div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="/profile" class="alert-link">profile.</a></div>
-	<div class="col-md-12"><h2 class="find-gift-heading">Find gift</h2></div>
-<div class="filters col-md-4 col-md-push-8">
-    <form class="form-serchgift form-horizontal" role="form" name="searchGiftForm" novalidate>
-        <div class="form-group" ng-hide="getCountryError">
-            <label class="col-lg-3 control-label">Country:</label>
-            <div class="col-lg-8">
-                <div class="ui-select">
-                    <input type="text" autocomplete="off" name="country" ng-model="queryGift.Country.Name" placeholder="Country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" ng-disabled="getCountryError" empty-to-null />
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+<div class="container ">
+    <div class="row">
+        <div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="/profile" class="alert-link">profile.</a></div>
+        <div class="col-md-12"><h2 class="find-gift-heading">Find gift</h2></div>
+        <div class="filters col-md-4 col-md-push-8">
+            <form class="form-serchgift form-horizontal" role="form" name="searchGiftForm" novalidate>
+                <div class="form-group" ng-hide="getCountryError">
+                    <label class="col-lg-3 control-label">Country:</label>
+                    <div class="col-lg-8">
+                        <div class="ui-select">
+                            <input type="text" autocomplete="off" name="country" ng-model="queryGift.Country.Name" placeholder="Country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" ng-disabled="getCountryError" empty-to-null />
+                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-3 control-label">Location:</label>
-            <div class="col-lg-8">
-                <input type="text" name="city" ng-model="queryGift.City" placeholder="City" class="form-control" empty-to-null />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-3 control-label">Keywords:</label>
-            <div class="col-lg-8">
-                <input type="text" class="form-control" name="keywords" placeholder="Keywords" data-ng-model="queryGift.Keyword" empty-to-null />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-3 control-label">Creator:</label>
-            <div class="col-lg-8">
-                <input ng-hide="creatorSelected" type="text" autocomplete="off" name="creator" id="creator" placeholder="Creator" ng-model="queryGift.Creator" class="form-control" empty-to-null typeahead="item.Title for item in getCreators($viewValue)" typeahead-min-length="2" typeahead-on-select="creatorSelect($item, $model, $label)" />
-                <div ng-show="creatorSelected" class="btn btn-default" ng-click="creatorDelete()">{{queryGift.Creator}} <i class="glyphicon glyphicon-remove"></i></div>
-                <div ng-show="noCreators">
-                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Location:</label>
+                    <div class="col-lg-8">
+                        <input type="text" name="city" ng-model="queryGift.City" placeholder="City" class="form-control" empty-to-null />
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Keywords:</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="keywords" placeholder="Keywords" data-ng-model="queryGift.Keyword" empty-to-null />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Creator:</label>
+                    <div class="col-lg-8">
+                        <input ng-hide="creatorSelected" type="text" autocomplete="off" name="creator" id="creator" placeholder="Creator" ng-model="queryGift.Creator" class="form-control" empty-to-null typeahead="item.Title for item in getCreators($viewValue)" typeahead-min-length="2" typeahead-on-select="creatorSelect($item, $model, $label)" />
+                        <div ng-show="creatorSelected" class="btn btn-default" ng-click="creatorDelete()">{{queryGift.Creator}} <i class="glyphicon glyphicon-remove"></i></div>
+                        <div ng-show="noCreators">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Period:</label>
+                    <div class="col-lg-4">
+                        <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="queryGift.From" ng-required="queryGift.To" empty-to-null date-lower-than="{{queryGift.To| date:'short'}}" />
+                        <div class="label label-danger" ng-show="searchGiftForm.fromdate.$error.required">Required</div>
+                        <div class="label label-danger" ng-show="searchGiftForm.fromdate.$error.dateLowerThan">Must be lower than Ends date</div>
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="queryGift.To" ng-required="queryGift.From" empty-to-null />
+                        <div class="label label-danger" ng-show="searchGiftForm.todate.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-md btn-primary" type="submit" ng-disabled="!enoughData" data-ng-click="submitGift(searchGiftForm.$valid)">Submit</button>
+                    <button class="btn btn-md btn-primary" type="reset" data-ng-click="resetGift()">Clear</button>
+                </div>
+            </form>
+        </div>
+        <div class="search-list col-md-8 col-md-pull-4" infinite-scroll='loadGifts()' infinite-scroll-disabled='queryGift.busy' infinite-scroll-distance='1'>
+            <div class="list-group">
+                <a href="/gift/{{gift.Id}}" ng-repeat="gift in listGift" class="list-group-item">
+                    <div class="search-item">
+                        <h4 class="list-group-item-heading">{{gift.Name}}</h4>
+                        <!--<p class="list-group-item-text">{{gift.Country.Name}}</p>-->
+                        <p class="list-group-item-text">{{gift.City}}</p>
+                        <p class="list-group-item-text"><span ng-if="gift.FromDate">From {{gift.FromDate}} </span><span ng-if="gift.ToDate">to {{gift.ToDate}}</span></p>
+                    </div>
+                </a>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-lg-3 control-label">Period:</label>
-            <div class="col-lg-4">
-                <input type="text" set-mask="d.m.y" class="form-control" name="fromdate" placeholder="Starts" data-ng-model="queryGift.From" ng-required="queryGift.To" empty-to-null date-lower-than="{{queryGift.To| date:'short'}}" />
-                <div class="label label-danger" ng-show="searchGiftForm.fromdate.$error.required">Required</div>
-                <div class="label label-danger" ng-show="searchGiftForm.fromdate.$error.dateLowerThan">Must be lower than Ends date</div>
-            </div>
-            <div class="col-lg-4">
-                <input type="text" set-mask="d.m.y" class="form-control" name="todate" placeholder="Ends" data-ng-model="queryGift.To" ng-required="queryGift.From" empty-to-null />
-                <div class="label label-danger" ng-show="searchGiftForm.todate.$error.required">Required</div>
-            </div>
-        </div>
-        <div class="col-md-12 text-center">
-            <button class="btn btn-md btn-primary" type="submit" ng-disabled="!enoughData" data-ng-click="submitGift(searchGiftForm.$valid)">Submit</button>
-            <button class="btn btn-md btn-primary" type="reset" data-ng-click="resetGift()">Clear</button>
-        </div>
-    </form>
-</div>
-<div class="search-list col-md-8 col-md-pull-4" infinite-scroll='loadGifts()' infinite-scroll-disabled='queryGift.busy' infinite-scroll-distance='1'>
-    <div class="list-group">
-        <a href="/gift/{{gift.Id}}" ng-repeat="gift in listGift"  class="list-group-item">
-            <div class="search-item">
-                <h4 class="list-group-item-heading">{{gift.Name}}</h4>
-                <!--<p class="list-group-item-text">{{gift.Country.Name}}</p>-->
-                <p class="list-group-item-text">{{gift.City}}</p>
-                <p class="list-group-item-text"><span ng-if="gift.FromDate">From {{gift.FromDate}} </span><span ng-if="gift.ToDate">to {{gift.ToDate}}</span></p>
-            </div>
-        </a>
+
     </div>
 </div>
-
-
 
