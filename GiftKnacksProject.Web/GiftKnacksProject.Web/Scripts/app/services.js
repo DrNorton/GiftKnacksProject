@@ -339,7 +339,7 @@ app.factory('feedService', ['$http', 'serviceBase', function ($http, serviceBase
 
 }]);
 
-app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', 'serviceBase', function ($q, $location, localStorageService, serviceBase) {
+app.factory('authInterceptorService', ['$q', '$location', 'localStorageService', 'serviceBase', '$injector', function ($q, $location, localStorageService, serviceBase, $injector) {
 
 	var _request = function ( config ) {
 
@@ -354,8 +354,9 @@ app.factory('authInterceptorService', ['$q', '$location', 'localStorageService',
 	}
 
 	var _responseError = function ( rejection ) {
-		if ( rejection.status === 401 ) {
-			$location.path( '/landing' );
+	    if (rejection.status === 401) {
+	        $injector.get('authService').authentication.isAuth = false;
+			$location.path( '/' );
 		}
 		return $q.reject( rejection );
 	}
