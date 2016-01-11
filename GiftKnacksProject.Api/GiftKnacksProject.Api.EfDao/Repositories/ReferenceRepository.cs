@@ -21,10 +21,12 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             _context = context;
         }
 
-        public async Task AddReference(long ownerId, long replyerId,byte rate,string text)
+        public async Task<long> AddReference(long ownerId, long replyerId,byte rate,string text)
         {
-            base.Insert(new Reference() {OwnerId = ownerId,ReplyerId = replyerId,Text = text,Rate = rate});
+            var newReference = new Reference() {OwnerId = ownerId, ReplyerId = replyerId, Text = text, Rate = rate};
+            base.Insert(newReference);
             await _context.SaveChangesAsync();
+            return newReference.Id;
         }
 
         public async Task<List<ReferenceDto>> GetByOwnerId(long ownerId)
@@ -37,6 +39,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                     x =>
                         new ReferenceDto()
                         {
+                            OwnerId = x.OwnerId,
                             Rate = x.Rate,
                             ReferenceText = x.Text,
                             Replyer =
@@ -51,6 +54,28 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                                 }
                         }).ToList();
 
+        }
+
+        public Task<ReferenceDto> GetById(long referenceId)
+        {
+           
+                return _context.Set<Reference>()
+                    .Where(x => x.Id == referenceId).Select(
+                    x =>
+                        new ReferenceDto()
+                        {
+                            OwnerId = x.OwnerId,
+                            Rate = x.Rate,
+                            ReferenceText = x.Text,
+                            Replyer =
+                                new TinyProfileDto()
+                                {
+                                    Id = x.User1.Id,
+                                    AvatarUrl = x.User1.Profile.AvatarUrl,
+                                    FirstName = x.User1.Profile.FirstName,
+                                    LastName = x.User1.Profile.LastName,
+                                }
+                        }).FirstOrDefaultAsync();
         }
 
         private double CalculateAvg(long userId)

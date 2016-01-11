@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using GiftKnackProject.NotificationTypes;
 using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos.Gifts;
@@ -33,8 +34,14 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> LinkWithGift(WishGiftLinkDto participantDto)
         {
             var userId = long.Parse(User.Identity.GetUserId());
-            var ownerWish=await _linkRepository.LinkWithGift(userId, participantDto.WishId,participantDto.GiftId);
-           
+            var ownerWishUserId=await _linkRepository.LinkWithGift(userId, participantDto.WishId,participantDto.GiftId);
+            await _notificationService.SentNotificationToQueue(new JoinQueueNotification()
+            {
+                CreatorId = userId,
+                OwnerWish=ownerWishUserId,
+                TargetWishId = participantDto.WishId,
+                TargetGiftId = participantDto.GiftId
+            });
             return EmptyApiResult();
         }
 

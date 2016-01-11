@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using GiftKnackProject.NotificationTypes;
 using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.Repositories;
@@ -83,6 +84,13 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         {
             var userId = long.Parse(User.Identity.GetUserId());
             await _wishRepository.CloseWish((long)model.Id, userId,model.CloserId);
+            await
+                _notificationService.SentNotificationToQueue(new CloseItemQueueNotification()
+                {
+                    CreatorId = userId,
+                    TargetType = "wish",
+                    ClosedItemId= (long)model.Id
+                });
             return SuccessApiResult(null);
         }
 
@@ -111,6 +119,8 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
          //    await _feedService.AddActivityFeed(userId);
              return SuccessApiResult(new IdModel() { Id = result });
         }
+
+
 
     }
 }

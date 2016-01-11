@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Azure.Documents.Client, Version=1.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.DocumentDB.1.5.2\lib\net40\Microsoft.Azure.Documents.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
@@ -58,8 +62,8 @@
       <HintPath>..\packages\WindowsAzure.Storage.5.0.2\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -67,6 +71,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -88,10 +93,6 @@
     <Compile Include="Interfaces\IFileService.cs" />
     <Compile Include="Interfaces\IUserOnlineStorage.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
-    <Compile Include="Services\NotificationsType\AddCommentNotification.cs" />
-    <Compile Include="Services\NotificationsType\AddCommentToWishNotification.cs" />
-    <Compile Include="Services\NotificationsType\BaseNotification.cs" />
-    <Compile Include="Services\NotificationsType\UserGeneratedNotification.cs" />
     <Compile Include="Storages\UserConnectionSignalR.cs" />
     <Compile Include="UrlSettings.cs" />
     <Compile Include="Storages\UserOnlineStorage.cs" />
@@ -101,6 +102,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GiftKnackProject.NotificationTypes\GiftKnackProject.NotificationTypes.csproj">
+      <Project>{3f187808-0a0b-4a30-8927-ee2819fb08e3}</Project>
+      <Name>GiftKnackProject.NotificationTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GiftKnacksProject.Api.Dao\GiftKnacksProject.Api.Dao.csproj">
       <Project>{ff0fa806-2745-4d30-93ba-e1fd8c171d21}</Project>
       <Name>GiftKnacksProject.Api.Dao</Name>
@@ -114,7 +119,9 @@
       <Name>GiftKnacksProject.Api.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\NotificationsType\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

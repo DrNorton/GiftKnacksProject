@@ -18,7 +18,7 @@ namespace GiftKnackNotificationAgent.Installers
         {
             var endpointUrl = ConfigurationManager.AppSettings["EndPointUrl"];
             var authorizationKey = ConfigurationManager.AppSettings["AuthorizationKey"];
-
+          
             container.Register(
                 Component.For<DocumentClient>()
                     .DependsOn(Dependency.OnValue("serviceEndpoint", new Uri(endpointUrl)),
@@ -26,11 +26,8 @@ namespace GiftKnackNotificationAgent.Installers
                     .LifestyleTransient());
 
             container.Register(Component.For<Functions>().LifestyleTransient());
-            container.Register(Component.For<INotificationFabric>().ImplementedBy<NotificationFabric>().LifestyleTransient());
-            container.Register(
-                Component.For<IMessageFromMqProcessor>()
-                    .ImplementedBy<MessageFromMqProcessor>()
-                    .LifestyleTransient());
+
+        
 
         }
     }

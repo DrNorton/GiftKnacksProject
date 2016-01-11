@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GiftKnacksProject.Api.Services.Services.NotificationsType;
+using GiftKnackProject.NotificationTypes;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 
 namespace GiftKnacksProject.Api.Services.Interfaces
 {
     public interface INotificationService
     {
-        Task SentNotificationToQueue(BaseNotification activity);
+        Task SentNotificationToQueue(BaseQueueNotification activity);
+        Task<List<Document>> GetLenta(long id);
     }
 }

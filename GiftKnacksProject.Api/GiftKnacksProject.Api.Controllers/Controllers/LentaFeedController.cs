@@ -28,8 +28,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> GetLenta()
         {
             var userId = long.Parse(User.Identity.GetUserId());
-            return null;
-         //   return SuccessApiResult(await _notificationService.GetLenta(userId));
+           return SuccessApiResult(await _notificationService.GetLenta(userId));
 
         }
     }

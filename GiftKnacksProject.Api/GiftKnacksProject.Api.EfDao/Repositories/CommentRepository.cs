@@ -39,6 +39,11 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             return findedGift.User.Id;
         }
 
+        public Task<long> GetAutorUserIdByCommentId(long parentCommentId)
+        {
+            return  Db.Set<Comment>().Where(x => x.Id == parentCommentId).Select(x => x.UserId).FirstOrDefaultAsync();
+        }
+
         public  Task<CommentDto> AddCommentToGift(long giftId, long commentUserId, string text, long? parentId = null)
         {
             var newComment = InsertComment(commentUserId,text,parentId);

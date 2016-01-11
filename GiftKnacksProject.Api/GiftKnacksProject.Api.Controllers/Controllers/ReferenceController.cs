@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using GiftKnackProject.NotificationTypes;
 using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos.Reference;
 using GiftKnacksProject.Api.EfDao;
+using GiftKnacksProject.Api.Services.Interfaces;
 using Microsoft.AspNet.Identity;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
@@ -17,10 +19,12 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
     public class ReferenceController:CustomApiController
     {
         private readonly IReferenceRepository _referenceRepository;
+        private readonly INotificationService _notificationService;
 
-        public ReferenceController(IReferenceRepository referenceRepository)
+        public ReferenceController(IReferenceRepository referenceRepository,INotificationService notificationService)
         {
             _referenceRepository = referenceRepository;
+            _notificationService = notificationService;
         }
 
         [System.Web.Http.Authorize]
@@ -29,10 +33,15 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         public async Task<IHttpActionResult> Add(AddReferenceDto referenceDto)
         {
             var replyerId = long.Parse(User.Identity.GetUserId());
-            await
+            var referenceId=await
                 _referenceRepository.AddReference(referenceDto.OwnerId, replyerId, referenceDto.Rate,
                     referenceDto.ReferenceText);
-
+            await _notificationService.SentNotificationToQueue(new AddReferenceQueueNotification()
+            {
+                CreatorId = replyerId,
+                RefefenceId = referenceId
+            });
+            
             return SuccessApiResult(null);
         }
 

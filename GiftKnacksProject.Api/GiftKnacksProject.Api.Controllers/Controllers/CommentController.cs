@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using GiftKnackProject.NotificationTypes;
 using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos.Comments;
 using GiftKnacksProject.Api.Services.Interfaces;
-using GiftKnacksProject.Api.Services.Services.NotificationsType;
 using Microsoft.AspNet.Identity;
 
 namespace GiftKnacksProject.Api.Controllers.Controllers
@@ -37,12 +37,26 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             var insertedComment=await  _commentRepository.AddCommentToWish(model.WishId, userId, model.Text, model.ParentCommentId);
            
             await
-                _notificationService.SentNotificationToQueue(new AddCommentToWishNotification()
+                _notificationService.SentNotificationToQueue(new AddCommentQueueNotification()
                 {
+                   TargetType="wish",
                     TargetId = model.WishId,
                     CreatorId = userId,
                     CommentId=insertedComment.Id
                 });
+
+            if (model.ParentCommentId != null)
+            {
+                //Если это ответ к комменту то шлём юзеру владельцу коммента
+                await
+               _notificationService.SentNotificationToQueue(new AddCommentQueueNotification()
+               {
+                   TargetType = "wish",
+                   TargetId = model.WishId,
+                   CreatorId = userId,
+                   CommentId = insertedComment.Id
+               });
+            }
             return SuccessApiResult(insertedComment);
         }
 
@@ -55,7 +69,30 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             var userId = long.Parse(User.Identity.GetUserId());
             var insertedComment = await _commentRepository.AddCommentToGift(model.GiftId, userId, model.Text, model.ParentCommentId);
             var ownerId= await _commentRepository.GetOwnerGift(model.GiftId);
-           
+
+            await
+               _notificationService.SentNotificationToQueue(new AddCommentQueueNotification()
+               {
+                   TargetType = "gift",
+                   TargetId = model.GiftId,
+                   CreatorId = userId,
+                   CommentId = insertedComment.Id
+               });
+
+
+            if (model.ParentCommentId != null)
+            {
+                //Если это ответ к комменту то шлём ещё и юзеру владельцу коммента
+                await
+               _notificationService.SentNotificationToQueue(new ReplyToCommentQueueNotification()
+               {
+                   TargetType = "gift",
+                   TargetId = model.GiftId,
+                   CreatorId = userId,
+                   CommentId = insertedComment.Id,
+                   ParentCommentId=(long)model.ParentCommentId
+               });
+            }
             return SuccessApiResult(insertedComment);
         }
 

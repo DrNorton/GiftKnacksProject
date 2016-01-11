@@ -8,8 +8,9 @@ namespace GiftKnackNotificationAgent.Models
 {
     public class Notification
     {
-        public string Action { get; set; }
         public DateTime Time { get; set; }
+        public string Action { get; set; }
+
         public BaseNotificationInfo Info { get; set; }
     }
 }
