@@ -1,9 +1,10 @@
 <div class="container">
     <div class="row">
         <div ng-hide="enoughData" class="not-enough-info alert alert-danger" role="alert">For more action fill your <a href="/profile" class="alert-link">profile.</a></div>
-        <div class="col-md-12">
-            <h2 class="history-heading">My history</h2>
+        <div class="row">
+            <div class="col-md-12"><h1 class="header">My history</h1></div>
         </div>
+        <hr />
         <div class="filters col-md-4 col-md-push-8">
             <form class="form-serchgift form-horizontal" role="form" name="searchHistoryForm" novalidate>
                 <div class="form-group">
@@ -57,8 +58,8 @@
         </div>
         <tabset justified="true" class="knacks-list col-md-8 col-md-pull-4">
             <tab heading="Gifts" select="getGifts('gifts')">
-                <div ng-repeat="gift in gifts" class="list-group">
-                    <a href="/gift/{{gift.Id}}" class="list-group-item">
+                <div class="list-group">
+                    <a ng-repeat="gift in gifts" href="/gift/{{gift.Id}}" class="list-group-item">
                         <div class="hisory-item">
                             <h4 class="list-group-item-heading">{{gift.Name}}</h4>
                             <p class="list-group-item-text">{{gift.City}}</p>
@@ -68,8 +69,8 @@
                 </div>
             </tab>
             <tab heading="Wishes" select="getWishes('wishes')">
-                <div ng-repeat="wish in wishes" class="list-group">
-                    <a href="/wish/{{wish.Id}}" class="list-group-item">
+                <div class="list-group">
+                    <a href="/wish/{{wish.Id}}" ng-repeat="wish in wishes" class="list-group-item">
                         <div class="hisory-item">
                             <h4 class="list-group-item-heading">{{wish.Name}}</h4>
                             <p class="list-group-item-text">{{wish.City}}</p>

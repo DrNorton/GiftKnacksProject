@@ -89,7 +89,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }]
                   }
               })
-                  .when("/giftform", {
+              .when("/giftform", {
                       title: 'KnacksGifter | GiftForm',
                       metaDescription: 'KnacksGifter GiftForm',
                       metaKeywords: 'KnacksGifter GiftForm Page',
@@ -106,7 +106,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                               return wishAndGiftService.setReturnPoint($route.current.params.itemtype, $route.current.params.itemid);
                           }]
                       }
-                  })
+              })
               .when("/profile", {
                   title: 'KnacksGifter | Profile',
                   metaDescription: 'KnacksGifter Profile',
@@ -201,10 +201,11 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
       $httpProvider.interceptors.push('authInterceptorService');
       $locationProvider.html5Mode(true);
       //$locationProvider.hashPrefix('!');
+
   }]);
 
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
-app.constant("cacheVersion", '8');
+app.constant("cacheVersion", '23');
 
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', '$window', function (authService, $rootScope, $location, $anchorScroll, $window) {
     authService.fillAuthData();
