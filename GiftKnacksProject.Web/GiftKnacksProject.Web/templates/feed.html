@@ -72,11 +72,11 @@
             <a href="/user/{{item.WishOwner.Id}}">
                 <img class="media-object img-circle" src="{{item.WishOwner.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
             </a>
-            <i class="fa fa-lg fa-thumbs-up"></i>
+            <i class="fa fa-lg fa-smile-o"></i>
         </div>
         <div class="media-body">
             <div>
-                <a href="/user/{{item.WishOwner.Id}}">{{item.WishOwner.FirstName}}&nbsp;{{item.WishOwner.LastName}}</a> hug you for <a href="/wish/{{item.ClosedWish.Id}}">{{item.ClosedWish.Title}}</a>
+                <a href="/user/{{item.WishOwner.Id}}">{{item.WishOwner.FirstName}}&nbsp;{{item.WishOwner.LastName}}</a> give you a hug for <a href="/wish/{{item.ClosedWish.Id}}">{{item.ClosedWish.Title}}</a>
             </div>
             <div class="date">{{feed.Time | date: 'medium'}}</div>
         </div>

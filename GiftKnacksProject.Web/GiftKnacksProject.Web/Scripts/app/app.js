@@ -18,42 +18,42 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
             templateUrl: '/templates/landing.html',
             controller: 'MainCtrl'
         })
-          .when('/blog', {
+        .when('/blog', {
               title: 'KnacksGifter | Blog',
               metaDescription: 'KnacksGifter Blog',
               metaKeywords: 'KnacksGifter Blog Page',
               templateUrl: '/templates/blog.html',
               controller: 'BlogCtrl'
           })
-          .when('/about', {
+        .when('/about', {
               title: 'KnacksGifter | About',
               metaDescription: 'KnacksGifter Info',
               metaKeywords: 'KnacksGifter About Page',
               templateUrl: '/templates/about.html',
               controller: 'AboutCtrl'
           })
-           .when('/helpus', {
+        .when('/helpus', {
                title: 'KnacksGifter | FAQ',
                metaDescription: 'KnacksGifter Help Us',
                metaKeywords: 'KnacksGifter Help Us Page',
                templateUrl: '/templates/helpus.html',
                controller: 'HelpUsCtrl'
            })
-              .when("/recover", {
+        .when("/recover", {
                   title: 'KnacksGifter | Recover',
                   metaDescription: 'KnacksGifter Recover',
                   metaKeywords: 'KnacksGifter Recover Page',
                   controller: "RecoverCtrl",
                   templateUrl: "/templates/recover.html"
               })
-              .when("/forgotpass", {
+        .when("/forgotpass", {
                   title: 'KnacksGifter | ForgotPass',
                   metaDescription: 'KnacksGifter ForgotPass',
                   metaKeywords: 'KnacksGifter ForgotPass Page',
                   controller: "ForgotPassCtrl",
                   templateUrl: "/templates/email.html"
               })
-              .when("/dashboard", {
+        .when("/dashboard", {
                   title: 'KnacksGifter | Dashboard',
                   metaDescription: 'KnacksGifter Dashboard',
                   metaKeywords: 'KnacksGifter Dashboard Page',
@@ -71,7 +71,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }]
                   }
               })
-              .when("/wishform", {
+        .when("/wishform", {
                   title: 'KnacksGifter | WishForm',
                   metaDescription: 'KnacksGifter WishForm',
                   metaKeywords: 'KnacksGifter WishForm Page',
@@ -89,7 +89,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }]
                   }
               })
-              .when("/giftform", {
+        .when("/giftform", {
                       title: 'KnacksGifter | GiftForm',
                       metaDescription: 'KnacksGifter GiftForm',
                       metaKeywords: 'KnacksGifter GiftForm Page',
@@ -107,7 +107,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                           }]
                       }
               })
-              .when("/profile", {
+        .when("/profile", {
                   title: 'KnacksGifter | Profile',
                   metaDescription: 'KnacksGifter Profile',
                   metaKeywords: 'KnacksGifter Profile Page',
@@ -122,7 +122,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }]
                   }
               })
-              .when("/findgift", {
+        .when("/findgift", {
                   title: 'KnacksGifter | FindGift',
                   metaDescription: 'KnacksGifter FindGift',
                   metaKeywords: 'KnacksGifter FindGift Page',
@@ -134,7 +134,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }]
                   }
               })
-              .when("/findwish", {
+        .when("/findwish", {
                   title: 'KnacksGifter | FindWish',
                   metaDescription: 'KnacksGifter FindWish',
                   metaKeywords: 'KnacksGifter FindWish Page',
@@ -146,7 +146,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }]
                   }
               })
-              .when("/history", {
+        .when("/history", {
                   title: 'KnacksGifter | History',
                   metaDescription: 'KnacksGifter History',
                   metaKeywords: 'KnacksGifter History Page',
@@ -158,7 +158,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }]
                   }
               })
-                .when("/gift/:itemId", {
+        .when("/gift/:itemId", {
                     title: 'KnacksGifter | GiftCard',
                     metaDescription: 'KnacksGifter GiftCard',
                     metaKeywords: 'KnacksGifter GiftCard Page',
@@ -170,7 +170,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                         }]
                     }
                 })
-              .when("/wish/:itemId", {
+        .when("/wish/:itemId", {
                   title: 'KnacksGifter | WishCard',
                   metaDescription: 'KnacksGifter WishCard',
                   metaKeywords: 'KnacksGifter WishCard Page',
@@ -182,7 +182,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                       }]
                   }
               })
-              .when("/user/:userId", {
+        .when("/user/:userId", {
                   title: 'KnacksGifter | User',
                   metaDescription: 'KnacksGifter User',
                   metaKeywords: 'KnacksGifter User Page',
