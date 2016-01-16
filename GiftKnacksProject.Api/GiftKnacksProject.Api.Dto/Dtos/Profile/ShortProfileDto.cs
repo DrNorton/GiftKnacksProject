@@ -34,7 +34,7 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Profile
 
         public double AvgRate { get; set; }
 
-        public int TotalClosed { get; set; }
+        public long TotalClosed { get; set; }
 
         public bool IsOnline { get; set; }
         [JsonConverter(typeof(CustomDateTimeConverter))]

@@ -49,40 +49,15 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             };
         }
 
-        private double CalculateAvg(long userId)
-        {
-            var references = Db.Set<Reference>().Where(x => x.OwnerId == userId).ToList();
-            if (references.Any())
-            {
-                var sum = references.Sum(x => x.Rate);
-                if (sum != null)
-                {
-
-                    double db = (double)sum.Value / (double)references.Count;
-                    return db;
-                }
-                else
-                {
-                    return 0;
-                }
-
-            }
-            else
-            {
-                return 0;
-            }
-
-        }
-
+     
         public async Task<ShortProfileDto> GetShortProfile(long userId)
         {
-            var profile = Db.Set<Profile>().FirstOrDefault(x => x.Id == userId);
-
+            var user = Db.Set<User>().FirstOrDefault(x => x.Id == userId);
+            var profile = user.Profile;
             if (profile == null)
             {
                 return null;
             }
-            var types = Db.Set<ContactType>();
 
             int? calcAge = null;
             if (profile.HideBirthday == false)
@@ -91,7 +66,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 calcAge = AgeCalulator.CalcAge((DateTime)profile.Birthday);
             }
            
-            var totalClosed = Db.Set<Wish>().Count(x => x.WishUserCloserId == userId);
+           
             return new ShortProfileDto()
             {
                 AboutMe = profile.AboutMe,
@@ -105,8 +80,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                 LastName = profile.LastName,
                 FavoriteContact = profile.Contacts.Where(x=>x.MainContact).Select(x => new ContactDto() { Name = x.ContactType.Name, Value = x.Value, MainContact = x.MainContact }).FirstOrDefault(),
                 Gender = GetGenderStringFromBool(profile.Gender),
-                AvgRate = CalculateAvg(userId),
-                TotalClosed = totalClosed,
+                AvgRate = user.AvgRate,
+                TotalClosed = user.TotalClosed,
                 LastLoginTime = profile.LastLoginTime
 
             };

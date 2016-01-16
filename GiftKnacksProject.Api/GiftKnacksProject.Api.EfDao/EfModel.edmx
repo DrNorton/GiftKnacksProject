@@ -109,6 +109,8 @@
           <Property Name="ConfirmMail" Type="bit" Nullable="false" />
           <Property Name="EmailStamp" Type="nvarchar" MaxLength="200" />
           <Property Name="LastLoginTime" Type="datetime" />
+          <Property Name="AvgRate" Type="float" Nullable="false" />
+          <Property Name="TotalClosed" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="WishCategories">
           <Key>
@@ -816,6 +818,8 @@
           <NavigationProperty Name="Wishes1" Relationship="GiftKnacks_dbModel.FK_Wishes_Users_Closer" FromRole="User" ToRole="Wish" />
           <NavigationProperty Name="WishGiftLinks" Relationship="GiftKnacks_dbModel.FK_WishGiftLinks_Users" FromRole="User" ToRole="WishGiftLink" />
           <Property Name="LastLoginTime" Type="DateTime" Precision="3" />
+          <Property Name="AvgRate" Type="Double" Nullable="false" />
+          <Property Name="TotalClosed" Type="Int64" Nullable="false" />
         </EntityType>
         <EntityType Name="WishCategory">
           <Key>
@@ -1284,6 +1288,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="TotalClosed" ColumnName="TotalClosed" />
+                <ScalarProperty Name="AvgRate" ColumnName="AvgRate" />
                 <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
                 <ScalarProperty Name="EmailStamp" ColumnName="EmailStamp" />
                 <ScalarProperty Name="ConfirmMail" ColumnName="ConfirmMail" />

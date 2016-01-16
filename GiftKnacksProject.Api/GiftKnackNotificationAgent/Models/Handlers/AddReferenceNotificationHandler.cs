@@ -22,8 +22,8 @@ namespace GiftKnackNotificationAgent.Models.Handlers
         public override async Task<BaseNotificationInfo> ProcessInputMessageAndLoadAdditionalInfoForSingleNotification(AddReferenceQueueNotification messageFromQueue)
         {
             var referenceId = messageFromQueue.RefefenceId;
-           var reference=await _referenceRepository.GetById(referenceId);
-                 return new AddReferenceInfo() {OwnerId = (long)reference.OwnerId,User = reference.Replyer,Rate = reference.Rate};
+            var reference = await _referenceRepository.GetById(referenceId);
+            return new AddReferenceInfo() { OwnerId = (long)reference.OwnerId, User = reference.Replyer, Rate = reference.Rate,TargetUserId=(long)reference.OwnerId };
         }
 
         public override Task<IEnumerable<BaseNotificationInfo>> ProcessInputMessageAndLoadAdditionalInfoForMultipleNotification(AddReferenceQueueNotification messageFromQueue)

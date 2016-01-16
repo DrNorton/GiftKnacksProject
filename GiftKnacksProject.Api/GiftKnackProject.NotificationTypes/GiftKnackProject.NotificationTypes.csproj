@@ -52,6 +52,7 @@
     <Compile Include="JoinQueueNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplyToCommentQueueNotification.cs" />
+    <Compile Include="TotalClosedQueueNotification.cs" />
     <Compile Include="UserGeneratedQueueNotification.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -24,23 +24,19 @@
 
 GO
 
-CREATE TRIGGER [dbo].[UpdateTotalClosedTrigger]
+CREATE TRIGGER [dbo].[TotalClosedTrigger]
     ON [dbo].[Wishes]
-    FOR DELETE, INSERT, UPDATE
+    FOR  UPDATE
     AS
     BEGIN
+	DECLARE @oldStatus int,@newStatus int,@userId bigint
         SET NoCount ON
-    END
-	 DECLARE @OldStatus int, @NewStatus int,@TotalClosed INT
-		SELECT @OldStatus = StatusId FROM DELETED
-		SELECT @NewStatus = StatusId FROM INSERTED
-	
+		SELECT @oldStatus = StatusId FROM deleted
+		SELECT @newStatus = StatusId FROM inserted
+		SELECT @userId = WishUserCloserId From inserted
 
-		if(@OldStatus=3 AND @NewStatus=4)
+		IF @oldStatus=3 AND @newStatus=4
 		BEGIN
-		   SELECT @TotalClosed = Select TotalClosed from Users Where I 
-		  Update Users Set TotalClosed
+		   Update Users Set TotalClosed=TotalClosed+1
 		END
-		     
-	GO
-
+    END

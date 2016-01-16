@@ -40,6 +40,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             {
                 CreatorId = replyerId,
                 RefefenceId = referenceId
+              
             });
             
             return SuccessApiResult(null);

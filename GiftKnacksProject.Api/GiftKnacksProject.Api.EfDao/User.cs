@@ -32,6 +32,8 @@ namespace GiftKnacksProject.Api.EfDao
         public bool ConfirmMail { get; set; }
         public string EmailStamp { get; set; }
         public Nullable<System.DateTime> LastLoginTime { get; set; }
+        public double AvgRate { get; set; }
+        public long TotalClosed { get; set; }
     
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Gift> Gifts { get; set; }
