@@ -7,8 +7,14 @@
  * Controller of the giftknacksApp
  */
 app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubProxy', '$modal','cacheVersion', function ($scope, $location, authService, signalRHubProxy, $modal, cacheVersion) {
-    $scope.isActive = function (path) {
-        return $location.path().substr(0, path.length) === path;
+    $scope.isActive = function (pathArr) {
+        for (var i = 0; i < pathArr.length; i++) {
+            var path = pathArr[i];
+            if ($location.path().substr(0, path.length) === path) {
+                return true
+            }
+        }
+        return false;
     }
 
 	$scope.logOut = function () {
@@ -45,6 +51,20 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
             controller: 'SignupCtrl',
             size: 'sm',
             resolve: {}
+        });
+    }
+    $scope.findChoicePopup = function () {
+        $scope.navbarExpanded = false;
+        $modal.open({
+            templateUrl: '/templates/choicefind.html?ver=' + cacheVersion,
+            controller: 'ChoiceFindCtrl',
+        });
+    }
+    $scope.addChoicePopup = function () {
+        $scope.navbarExpanded = false;
+        $modal.open({
+            templateUrl: '/templates/choiceadd.html?ver=' + cacheVersion,
+            controller: 'ChoiceAddCtrl',
         });
     }
 	$scope.authentication = authService.authentication;
@@ -105,7 +125,6 @@ app.controller('AboutCtrl', ['$scope', '$location', '$anchorScroll', function ($
         $anchorScroll();
     }
 }]);
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:HelpUsCtrl
@@ -198,7 +217,6 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 	}
 	$location.search('action', null);
 }] );
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:UserCtrl
@@ -214,6 +232,7 @@ app.controller('HistoryCtrl', ['$scope', 'authService', 'commonService', 'wishAn
 	$scope.queryGift = null;
 	$scope.queryWish = null;
 	$scope.wasSubmitted = false;
+	$scope.countries = [];
 	$scope.tab = '';
 
     //#region получение стран и городов
@@ -502,7 +521,7 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 	    $scope.wasSubmittedGift = false;
 	    $scope.creatorDelete();
 	};
-}] );
+}]);
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:ItemCardCtrl
@@ -735,7 +754,6 @@ app.controller('ItemCardCtrl', ['$scope', '$modal', '$compile', '$route', 'authS
 	    });
 	}
 }] );
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:ModalInstanceCtrl
@@ -762,7 +780,6 @@ app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'para
 		$modalInstance.dismiss( 'cancel' );
 	};
 }]);
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:AddReferenceCtrl
@@ -839,7 +856,6 @@ app.controller('ModalCloseItemCtrl', ['$scope', '$modalInstance', 'items', 'para
         $modalInstance.dismiss('cancel');
     };
 }]);
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:WishFormCtrl
@@ -989,7 +1005,6 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 		$scope.percent = 0;
 	};
 }] );
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:GiftFormCtrl
@@ -1004,7 +1019,6 @@ app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialDa
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
 	$scope.wasSubmitted = false;
-	$scope.firstAppearance = true;
 	$scope.countries = [];
 	$scope.cityOptions = {};
 	$scope.getCountryError = false;
@@ -1088,7 +1102,6 @@ app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialDa
 		$scope.wasSubmitted = false;
 	};
 }] );
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:ProfileCtrl
@@ -1445,7 +1458,6 @@ app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser'
 	    $modalInstance.dismiss('cancel');
 	};
 }] );
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:ForgotPassCtrl
@@ -1538,5 +1550,38 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
          });
 		}, 2000 );
 	}
+
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:ChoiceFindCtrl
+ * @description
+ * # Контроллер выбора нэка для поиска
+ * Controller of the giftknacksApp
+ */
+app.controller('ChoiceFindCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+
+    $scope.close = function () {
+        $modalInstance.close();
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:ChoiceAddCtrl
+ * @description
+ * # Контроллер выбора нэка для добавления
+ * Controller of the giftknacksApp
+ */
+app.controller('ChoiceAddCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+    $scope.close = function () {
+        $modalInstance.close();
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
 
 }]);

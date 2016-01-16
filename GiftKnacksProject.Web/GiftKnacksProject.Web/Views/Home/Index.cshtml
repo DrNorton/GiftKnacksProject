@@ -9,17 +9,19 @@
             </div>
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
-                    <li ng-class="{active:isActive('/blog')}"> <a ng-click="navbarExpanded = false" href="/blog"><i class="glyphicon glyphicon-book"></i>Blog</a></li>
-                    <li ng-class="{active:isActive('/wishform')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/wishform"><i class="glyphicon glyphicon-gift"></i>Add</a></li>
+                    <li ng-class="{active:isActive(['/blog'])}"> <a ng-click="navbarExpanded = false" href="/blog"><i class="glyphicon glyphicon-book"></i>Blog</a></li>
+                    <li ng-class="{active:isActive(['/wishform','/giftform'])}" ng-show="authentication.isAuth"> <a href="" ng-click="addChoicePopup()"><i class="glyphicon glyphicon-gift"></i>Add</a></li>
+                    @*<li ng-class="{active:isActive('/wishform')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/wishform"><i class="glyphicon glyphicon-gift"></i>Add</a></li>*@
                     @*<li ng-class="{active:isActive('/giftform')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/giftform"><i class="fa fa-plus-square-o"></i>Gift</a></li>*@
-                    <li ng-class="{active:isActive('/findwish')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findwish"><i class="glyphicon glyphicon-search"></i>Find knack</a></li>
+                    <li ng-class="{active:isActive(['/findwish','/findgift'])}" ng-show="authentication.isAuth"> <a href="" ng-click="findChoicePopup()"><i class="glyphicon glyphicon-search"></i>Find knack</a></li>
+                    @*<li ng-class="{active:isActive('/findwish')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findwish"><i class="glyphicon glyphicon-search"></i>Find knack</a></li>*@
                     @*<li ng-class="{active:isActive('/findgift')}" ng-show="authentication.isAuth"> <a ng-click="navbarExpanded = false" href="/findgift">Find gift</a></li>*@
                     <li ng-show="authentication.isAuth" class="dropdown">
                         <a ng-href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"></i>Menu<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-class="{active:isActive('/profile')}"><a ng-click="navbarExpanded = false" href="/profile">My Profile</a></li>
-                            <li ng-class="{active:isActive('/dashboard')}"><a ng-click="navbarExpanded = false" href="/dashboard">Dashboard</a></li>
-                            <li ng-class="{active:isActive('/history')}"><a ng-click="navbarExpanded = false" href="/history">History</a></li>
+                            <li ng-class="{active:isActive(['/profile'])}"><a ng-click="navbarExpanded = false" href="/profile">My Profile</a></li>
+                            <li ng-class="{active:isActive(['/dashboard'])}"><a ng-click="navbarExpanded = false" href="/dashboard">Dashboard</a></li>
+                            <li ng-class="{active:isActive(['/history'])}"><a ng-click="navbarExpanded = false" href="/history">History</a></li>
                             <li class="divider"></li>
                             <li><a href="" ng-click="logOut();navbarExpanded = false;">Log out</a></li>
                         </ul>

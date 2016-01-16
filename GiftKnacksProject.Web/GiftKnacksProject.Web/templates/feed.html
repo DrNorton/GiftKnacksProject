@@ -40,18 +40,58 @@
         </div>
     </div>
     <div class="feed-item feed-item-reference" ng-switch-when="addreference">
-        <!--<div class="feed-item-heading">Reference</div>-->
-        <div class="feed-item-body">
-            You received {{item.Target.Score}} score from <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a>. Check <a href="/user/{{item.Target.Id}}">references</a>.
+        <div class="media-left item-img">
+            <a href="/user/{{item.User.Id}}">
+                <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
+            </a>
+            <i class="fa fa-lg fa-star"></i>
+        </div>
+        <div class="media-body">
+            <div>
+                <a href="/user/{{item.User.Id}}">{{item.User.FirstName}}&nbsp;{{item.User.LastName}}</a> add <a href="/user/{{item.TargetUserId}}">reference</a> and give you {{item.Rate}} stars
+            </div>
+            <div class="date">{{feed.Time | date: 'medium'}}</div>
         </div>
     </div>
     <div class="feed-item feed-item-close" ng-switch-when="closejoineditem">
-        <!--<div class="feed-item-heading">Closed</div>-->
-        <div class="feed-item-body">
-            <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a> has been closed.
+        <div class="media-left item-img">
+            <a href="/{{item.TargetType}}/{{item.Target.Id}}">
+                <img class="media-object img-circle" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.jpg" alt="item" />
+            </a>
+            <i class="fa fa-lg fa-times-circle"></i>
         </div>
+        <div class="media-body">
+            <div>
+                <a href="/{{item.TargetType}}/{{item.Target.Id}}">{{item.Target.Title}}</a> has been closed
+            </div>
+            <div class="date">{{feed.Time | date: 'medium'}}</div>
+        </div>
+    </div>
+    <div class="feed-item feed-item-totalclosed" ng-switch-when="totalclosechange">
+        <div class="media-left item-img">
+            <a href="/user/{{item.WishOwner.Id}}">
+                <img class="media-object img-circle" src="{{item.WishOwner.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
+            </a>
+            <i class="fa fa-lg fa-smile-o"></i>
+        </div>
+        <div class="media-body">
+            <div>
+                <a href="/user/{{item.WishOwner.Id}}">{{item.WishOwner.FirstName}}&nbsp;{{item.WishOwner.LastName}}</a> give you a hug for <a href="/wish/{{item.ClosedWish.Id}}">{{item.ClosedWish.Title}}</a>
+            </div>
+            <div class="date">{{feed.Time | date: 'medium'}}</div>
+        </div>
+        <div class="media-right avatar">
+            <a href="/wish/{{item.ClosedWish.Id}}">
+                <img class="media-object img-thumbnail" src="{{item.ClosedWish.ImageUrl}}" on-error-src="/img/present.jpg" alt="item" />
+            </a>
+
+        </div>
+    </div>
+    <div class="feed-item feed-item-answer" ng-switch-when="commentreply">
+
     </div>
     <div class="feed-item feed-item-default" ng-switch-default>
         <div class="feed-item-body">no such type</div>
     </div>
+
 </div>  
