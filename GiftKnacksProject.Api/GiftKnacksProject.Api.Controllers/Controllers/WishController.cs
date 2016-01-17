@@ -91,6 +91,17 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                     TargetType = "wish",
                     ClosedItemId= (long)model.Id
                 });
+            if (model.CloserId != null)
+            {
+                await
+               _notificationService.SentNotificationToQueue(new TotalClosedQueueNotification()
+               {
+                   CreatorId = userId,
+                   CloserId =(long)model.CloserId,
+                   ClosedWishId=(long)model.Id
+               });
+            }
+          
             return SuccessApiResult(null);
         }
 

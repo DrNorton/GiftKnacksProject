@@ -50,7 +50,7 @@ namespace GiftKnackNotificationAgent.Models.Handlers
             var ownerWishOrGift = await _profileRepository.GetTinyProfile(wishOrGiftDto.Owner);
             foreach (var participant in participants)
             {
-                list.Add(new CloseJoinInfo() {OwnerId = participant.Id,Target = wishOrGiftDto,User = ownerWishOrGift });
+                list.Add(new CloseJoinInfo() {OwnerId = participant.Id,Target = wishOrGiftDto,User = ownerWishOrGift,TargetType = messageFromQueue.TargetType});
             }
 
             return list;

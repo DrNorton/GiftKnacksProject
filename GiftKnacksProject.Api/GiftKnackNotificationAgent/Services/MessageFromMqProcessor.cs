@@ -55,6 +55,10 @@ namespace GiftKnackNotificationAgent.Services
                     notifications = await _handlersDispatcher.FindHandlerAndExecute<CloseItemQueueNotification>(body);
                     break;
 
+                case "totalclosechange":
+                    notifications = await _handlersDispatcher.FindHandlerAndExecute<TotalClosedQueueNotification>(body);
+                    break;
+
 
             }
 

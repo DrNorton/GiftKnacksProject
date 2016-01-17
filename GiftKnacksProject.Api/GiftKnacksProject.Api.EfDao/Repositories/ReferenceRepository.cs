@@ -49,8 +49,8 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                                     AvatarUrl = x.User1.Profile.AvatarUrl,
                                     FirstName = x.User1.Profile.FirstName,
                                     LastName = x.User1.Profile.LastName,
-                                    AvgRate = CalculateAvg(x.User1.Id),
-                                    TotalClosed = Db.Set<Wish>().Count(y => y.WishUserCloserId == x.User1.Id)
+                                    AvgRate = x.User1.AvgRate,
+                                    TotalClosed = x.User1.TotalClosed
                                 }
                         }).ToList();
 
@@ -78,29 +78,6 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                         }).FirstOrDefaultAsync();
         }
 
-        private double CalculateAvg(long userId)
-        {
-            var references = Db.Set<Reference>().Where(x => x.OwnerId == userId).ToList();
-            if (references.Any())
-            {
-                var sum = references.Sum(x => x.Rate);
-                if (sum != null)
-                {
-
-                    double db = (double)sum.Value / (double)references.Count;
-                    return db;
-                }
-                else
-                {
-                    return 0;
-                }
-
-            }
-            else
-            {
-                return 0;
-            }
-
-        }
+   
     }
 }

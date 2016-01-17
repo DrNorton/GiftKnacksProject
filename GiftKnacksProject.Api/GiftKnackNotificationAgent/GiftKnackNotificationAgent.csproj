@@ -148,6 +148,7 @@
     <Compile Include="Models\Handlers\AddReferenceNotificationHandler.cs" />
     <Compile Include="Models\Handlers\CloseItemNotificationHandler.cs" />
     <Compile Include="Models\Handlers\ReplyToCommentNotificationHandler.cs" />
+    <Compile Include="Models\Handlers\TotalClosedNotificationHandler.cs" />
     <Compile Include="Models\Infos\INotificationHandlerFactory.cs" />
     <Compile Include="Models\Handlers\JoinNotificationHandler.cs" />
     <Compile Include="Models\Infos\AddCommentInfo.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Models\Infos\CloseJoinInfo.cs" />
     <Compile Include="Models\BaseNotificationHandler.cs" />
     <Compile Include="Models\Handlers\AddCommentNotificationHandler.cs" />
+    <Compile Include="Models\Infos\TotalClosedInfo.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Functions.cs" />
@@ -169,7 +171,8 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\giftknackApi.pubxml" />
+    <None Include="Properties\PublishProfiles\giftknackApi - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\giftknackApi - Web Deploy.pubxml" />
     <None Include="Properties\webjob-publish-settings.json" />
   </ItemGroup>
   <ItemGroup>

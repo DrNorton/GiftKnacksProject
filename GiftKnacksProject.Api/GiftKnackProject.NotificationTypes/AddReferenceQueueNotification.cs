@@ -10,5 +10,6 @@ namespace GiftKnackProject.NotificationTypes
     {
         public override string Type { get { return "addreference"; } }
         public long RefefenceId { get; set; }
+       
     }
 }
