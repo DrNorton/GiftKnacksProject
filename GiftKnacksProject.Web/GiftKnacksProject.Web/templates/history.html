@@ -11,9 +11,9 @@
                     <label class="col-lg-3 control-label">Status:</label>
                     <div class="col-lg-8">
                         <div class="btn-group">
-                            <label class="btn btn-info" ng-model="query.StatusCode" btn-radio="-1">All</label>
-                            <label class="btn btn-info" ng-model="query.StatusCode" btn-radio="0">Open</label>
-                            <label class="btn btn-info" ng-model="query.StatusCode" btn-radio="1">Closed</label>
+                            <label class="btn btn-info" ng-model="query.StatusCode" uib-btn-radio="-1">All</label>
+                            <label class="btn btn-info" ng-model="query.StatusCode" uib-btn-radio="0">Open</label>
+                            <label class="btn btn-info" ng-model="query.StatusCode" uib-btn-radio="1">Closed</label>
                         </div>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
                 </div>
             </form>
         </div>
-        <tabset justified="true" class="knacks-list col-md-8 col-md-pull-4">
-            <tab heading="Gifts" select="getGifts('gifts')">
+        <uib-tabset justified="true" class="knacks-list col-md-8 col-md-pull-4">
+            <uib-tab heading="Gifts" select="getGifts('gifts')">
                 <div class="list-group">
                     <a ng-repeat="gift in gifts" href="/gift/{{gift.Id}}" class="list-group-item">
                         <div class="hisory-item">
@@ -67,8 +67,8 @@
                         </div>
                     </a>
                 </div>
-            </tab>
-            <tab heading="Wishes" select="getWishes('wishes')">
+            </uib-tab>
+            <uib-tab heading="Wishes" select="getWishes('wishes')">
                 <div class="list-group">
                     <a href="/wish/{{wish.Id}}" ng-repeat="wish in wishes" class="list-group-item">
                         <div class="hisory-item">
@@ -78,8 +78,8 @@
                         </div>
                     </a>
                 </div>
-            </tab>
-        </tabset>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>
 

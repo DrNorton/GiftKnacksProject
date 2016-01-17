@@ -1,27 +1,28 @@
-
-<div class="modal-header">
-    <h3 class="modal-title">Add reference</h3>
-</div>
-<div class="modal-body">
-    <form class="form-reference form-horizontal " role="form" name="referenceForm" novalidate>
-        <div class="form-group">
-            <label class="col-lg-4">Score:</label>
-            <div class="col-lg-8 ">
-                <div class="list-group-item">
-                    <rating ng-model="reference.Rate" class="reference-rating" max="5" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-                    <span class="label" ng-class="{'label-danger': rateHover<3, 'label-warning': rateHover==3, 'label-success': rateHover>3}" ng-show="overStar">{{rateHover}}</span>
+<div ng-cloak>
+    <div class="modal-header">
+        <h3 class="modal-title">Add reference</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-reference form-horizontal " role="form" name="referenceForm" novalidate>
+            <div class="form-group">
+                <label class="col-lg-4">Score:</label>
+                <div class="col-lg-8 ">
+                    <div class="list-group-item">
+                        <uib-rating ng-model="reference.Rate" class="reference-rating" max="5" on-hover="hoveringOver(value)" on-leave="overStar = null"></uib-rating>
+                        <span class="label" ng-class="{'label-danger': rateHover<3, 'label-warning': rateHover==3, 'label-success': rateHover>3}" ng-show="overStar">{{rateHover}}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-lg-4">Reference:</label>
-            <div class="col-lg-8 ">
-                <textarea spellcheck="false" name="message" ng-model="reference.ReferenceText" class="form-control" rows="8"></textarea>
+            <div class="form-group">
+                <label class="col-lg-4">Reference:</label>
+                <div class="col-lg-8 ">
+                    <textarea spellcheck="false" name="message" ng-model="reference.ReferenceText" class="form-control" rows="8"></textarea>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
-<div class="modal-footer">
-    <a href="" class="btn btn-primary" ng-click="add()">Add</a>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="" class="btn btn-primary" ng-click="add()">Add</a>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
 </div>

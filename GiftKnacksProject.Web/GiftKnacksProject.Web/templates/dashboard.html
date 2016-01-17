@@ -1,11 +1,12 @@
 <div class="dashboard container">
+    <button ng-click=feedPopup()>Popup</button>
     <div class=" row">
         <div class="col-md-12">
             <div class="row">
                 <div ng-hide="enoughData" class="not-enough-info alert alert-danger col-md-12" role="alert">
                     For more action fill your <a href="/profile" class="alert-link">profile.</a>
                 </div>
-                <!--<div class="awesomeness-bar col-md-12 voffset3"><progressbar class="progress-striped " value="50" type="success"> You are awesome!</progressbar></div>-->
+                <!--<div class="awesomeness-bar col-md-12 voffset3"><uib-progressbar class="progress-striped " value="50" type="success"> You are awesome!</progressbar></div>-->
                 <div ng-if="!activity" class="welcome-msg col-md-12 text-center">
                     <h1>Welcome!</h1>
                     <h2>We are glad that you are here!</h2>

@@ -7,7 +7,7 @@
 	</div>
 	<div class="row">
 		<h1 class="header header-inline">Profile</h1>
-		<div class="col-sm-4 profile-progress"><progressbar class="progress-striped" value="profile.ProfileProgress" type="success">{{profile.ProfileProgress}}%</progressbar></div>
+		<div class="col-sm-4 profile-progress"><uib-progressbar class="progress-striped" value="profile.ProfileProgress" type="success">{{profile.ProfileProgress}}%</uib-progressbar></div>
 	</div>
 
 	<hr>
@@ -38,7 +38,7 @@
 						<div class="label label-danger" ng-show="wasSubmitted && profileForm.birthday.$error.required">Required</div>
 					</div>
 					<div class="col-lg-3">
-						<button type="button" class="btn btn-primary" ng-model="profile.HideBirthday" btn-checkbox>
+						<button type="button" class="btn btn-primary" ng-model="profile.HideBirthday" uib-btn-checkbox>
 							Hide from others
 						</button>
 					</div>
@@ -47,8 +47,8 @@
 					<label class="col-lg-3 control-label">Gender:</label>
 					<div class="col-lg-8">
 						<div class="btn-group">
-							<label class="btn btn-primary" ng-model="profile.Gender" btn-radio="'male'">Male</label>
-							<label class="btn btn-primary" ng-model="profile.Gender" btn-radio="'female'">Female</label>
+                            <label class="btn btn-primary" ng-model="profile.Gender" uib-btn-radio="'male'">Male</label>
+                            <label class="btn btn-primary" ng-model="profile.Gender" uib-btn-radio="'female'">Female</label>
 						</div>
 					</div>
 				</div>
