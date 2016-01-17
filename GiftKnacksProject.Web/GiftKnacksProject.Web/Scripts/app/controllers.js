@@ -67,7 +67,7 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
             controller: 'SimplePopupCtrl',
         });
     }
-    $scope.feedPopup = function () {
+    $scope.feedPopup = function (feedObj) {
         var modalInstance = $uibModal.open({
             templateUrl: '/templates/feed.html?ver=' + cacheVersion,
             controller: 'FeedPopupCtrl',
@@ -77,9 +77,7 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
             appendTo:$('.feed-container').eq(0),
             resolve: {
                 feed: function () {
-                    return {
-                        "id": "e6084d4d-33b3-4fa7-bf2a-75c85f18a9c2", "_rid": "vmFeAJ4CZAESAAAAAAAAAA==", "_self": "dbs/vmFeAA==/colls/vmFeAJ4CZAE=/docs/vmFeAJ4CZAESAAAAAAAAAA==/", "_ts": 1452637915, "_etag": "\"00001a00-0000-0000-0000-56957edb0000\"", "Time": "2016-01-12T22:31:55.8768422+00:00", "Action": "totalclosechange", "Info": { "WishOwner": { "Id": 162, "FirstName": "Andrew", "LastName": "Kozak", "AvatarUrl": "https://giftknackstorage.blob.core.windows.net/avatars/e82073b1-f497-4fdb-93fa-24e8c4f1dadf.png", "AvgRate": 0, "TotalClosed": 0 }, "ClosedWish": { "Id": 43, "Title": "123", "Owner": 162, "ImageUrl": null } }
-                    }
+                    return feedObj;
                 }
             }
         });
@@ -100,6 +98,9 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
 	var onlineHubProxy = signalRHubProxy(signalRHubProxy.defaultServer, 'onlinehub');
 	onlineHubProxy.startPromise.done(function () {
 	    onlineHubProxy.invoke('getUserOnline', function () {
+	    });
+	    onlineHubProxy.on('showMessage', function (obj) {
+	        $scope.feedPopup(obj);
 	    });
 	});
 }] );
@@ -177,7 +178,7 @@ app.controller('UserCtrl', ['$scope', '$uibModal', 'authService', 'initialData',
     $scope.gifts = [];
     $scope.wishes = [];
     $scope.references = [];
-    
+    $scope.isActive = { tabs: [{ active: true }, { active: false }, { active: false }] };
 
 	$scope.recentRequestsExist = false;
 	if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -207,7 +208,7 @@ app.controller('UserCtrl', ['$scope', '$uibModal', 'authService', 'initialData',
 
 	$scope.addReference = function () {
 	 
-	    $uibModal.open({
+	    var modalInstance = $uibModal.open({
 	        templateUrl: '/templates/addreference.html?ver=' + cacheVersion,
 	        controller: 'AddReferenceCtrl',
 	        resolve: {
@@ -216,7 +217,12 @@ app.controller('UserCtrl', ['$scope', '$uibModal', 'authService', 'initialData',
 	            }
 	        }
 	    });
-
+	    modalInstance.result.then(function () {
+	        $scope.isActive.tabs = [{ active: false }, { active: false }, { active: true }];
+	        $scope.getReferences();
+	    }, function () {
+	        //'Modal dismissed ';
+	    });
 	}
 
 	$scope.getReferences = function () {
@@ -807,7 +813,7 @@ app.controller( 'ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'items', 'p
  * # Контроллер popup'а для добавлния отзыва
  * Controller of the giftknacksApp
  */
-app.controller('AddReferenceCtrl', ['$scope', '$uibModalInstance', 'referenceService', 'params', '$route', function ($scope, $uibModalInstance, referenceService, params, $route) {
+app.controller('AddReferenceCtrl', ['$scope', '$uibModalInstance', 'referenceService', 'params', function ($scope, $uibModalInstance, referenceService, params) {
 
 
     $scope.reference = { 'Rate': 3, 'ReferenceText': '' };
@@ -823,16 +829,13 @@ app.controller('AddReferenceCtrl', ['$scope', '$uibModalInstance', 'referenceSer
     $scope.add = function () {
         referenceService.addReference($scope.reference).then(function (response) {
             if (response.data && !response.data.ErrorCode) {
-                $route.reload();
-                //TODO: trigger show reference tab
+                $uibModalInstance.close();
             } else {
                 //$scope.message = response.data.ErrorMessage;
             }
         }, function (response) {
             //$scope.message = "Failed to add wish due to: " + commonService.displayError();
-
         });
-        $uibModalInstance.close();
     };
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
@@ -845,7 +848,7 @@ app.controller('AddReferenceCtrl', ['$scope', '$uibModalInstance', 'referenceSer
  * # Контроллер popup'а для закрытия айтема
  * Controller of the giftknacksApp
  */
-app.controller('ModalCloseItemCtrl', ['$scope', '$uibModalInstance', 'items', 'params', 'wishAndGiftService', '$route', function ($scope, $uibModalInstance, items, params, wishAndGiftService, $route) {
+app.controller('ModalCloseItemCtrl', ['$scope', '$uibModalInstance', 'items', 'params', 'wishAndGiftService', '$location', function ($scope, $uibModalInstance, items, params, wishAndGiftService, $location) {
 
     $scope.participants = items;
 
@@ -862,7 +865,7 @@ app.controller('ModalCloseItemCtrl', ['$scope', '$uibModalInstance', 'items', 'p
         wishAndGiftService[method](obj).then(function (response) {
             if (response.data && !response.data.ErrorCode) {
                 $uibModalInstance.close();
-                $route.reload();
+                $location.path('/user/'+userId).search({ action: 'addreference' });
             } else {
                 //TODO: popup message error
             }
@@ -1143,6 +1146,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.cityOptions = {};
 	$scope.getCountryError = false;
 	$scope.latinTooltip = [false, false];
+	$scope.userId = authService.authentication.userId;
 
 	$scope.showLatinTooltip = function (index, result) {
 	    $scope.$apply(function () {
@@ -1321,6 +1325,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		$scope.wasSubmitted = true;
 		if (isValid) {
 		    if ($scope.cropControl) {
+		        $scope.profile.UploadAvatar = $scope.profile.UploadAvatar || {};
 		        $scope.profile.UploadAvatar.result = $scope.profile.AvatarUrl = $scope.croppedImage;
 		    }
 		   

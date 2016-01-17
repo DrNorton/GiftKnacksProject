@@ -23,8 +23,8 @@
         </div>
         <div class="col-md-8 user-tabs">
             <uib-tabset justified="true" class="knacks-list" ng-init="tabs[initialTab].isActive = true">
-                <uib-tab heading="About me">{{user.AboutMe}}</uib-tab>
-                <uib-tab heading="Recent requests" select="getRecentRequests(recentRequestsExist)">
+                <uib-tab heading="About me" active="isActive.tabs[0].active">{{user.AboutMe}}</uib-tab>
+                <uib-tab heading="Recent requests" active="isActive.tabs[1].active" select="getRecentRequests(recentRequestsExist)">
                     <div class="col-md-6">
                         <h4>Gifts</h4>
                         <div ng-repeat="gift in gifts" class="list-group">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </uib-tab>
-                <uib-tab heading="References" select="getReferences()">
+                <uib-tab heading="References" active="isActive.tabs[2].active" select="getReferences()">
                     <button type="button" class="btn btn-info" ng-click="addReference()" ng-hide="user.Id===myId">Add reference</button>
                     <div class="list-group references-list">
                         <div ng-repeat="reference in references" class="reference-item list-group-item row">

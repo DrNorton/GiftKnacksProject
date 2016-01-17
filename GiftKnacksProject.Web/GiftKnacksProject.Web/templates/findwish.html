@@ -11,7 +11,7 @@
                     <label class="col-lg-3 control-label">Country:</label>
                     <div class="col-lg-8">
                         <div class="ui-select">
-                            <input type="text" autocomplete="off" name="country" ng-model="queryWish.Country.Name" placeholder="Country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" ng-disabled="getCountryError" empty-to-null />
+                            <input type="text" autocomplete="off" name="country" ng-model="queryWish.Country.Name" placeholder="Country" uib-typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" ng-disabled="getCountryError" empty-to-null />
                             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Creator:</label>
                     <div class="col-lg-8">
-                        <input ng-hide="creatorSelected" type="text" autocomplete="off" name="creator" id="creator" placeholder="Creator" ng-model="queryWish.Creator" class="form-control" empty-to-null typeahead="item.Title for item in getCreators($viewValue)" typeahead-min-length="2" typeahead-on-select="creatorSelect($item, $model, $label)" />
+                        <input ng-hide="creatorSelected" type="text" autocomplete="off" name="creator" id="creator" placeholder="Creator" ng-model="queryWish.Creator" class="form-control" empty-to-null uib-typeahead="item.Title for item in getCreators($viewValue)" typeahead-min-length="2" typeahead-on-select="creatorSelect($item, $model, $label)" />
                         <div ng-show="creatorSelected" class="btn btn-default" ng-click="creatorDelete()">{{queryWish.Creator}} <i class="glyphicon glyphicon-remove"></i></div>
                         <div ng-show="noCreators">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found

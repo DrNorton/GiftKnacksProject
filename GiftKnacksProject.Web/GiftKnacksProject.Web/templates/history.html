@@ -21,7 +21,7 @@
                     <label class="col-lg-3 control-label">Country:</label>
                     <div class="col-lg-8">
                         <div class="ui-select">
-                            <input type="text" autocomplete="off" name="country" ng-model="query.Country.Name" placeholder="Country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" ng-disabled="getCountryError" empty-to-null/>
+                            <input type="text" autocomplete="off" name="country" ng-model="query.Country.Name" placeholder="Country" uib-typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" ng-disabled="getCountryError" empty-to-null />
                             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         </div>
                     </div>

@@ -204,7 +204,7 @@ textarea {
         text-align: left;
     }
 
-    margin-top: 50px;
+    margin-top: 0;
 }
 
 .header-inline {
@@ -332,6 +332,7 @@ textarea {
         right: auto;
         bottom: 10px;
         left: 10px;
+            z-index: 1040;
     .feed-alert {
         overflow: hidden;
         position:relative;

@@ -28,7 +28,7 @@
                 <label class="col-lg-3 control-label">Country:</label>
                 <div class="col-lg-8">
                     <div class="ui-select">
-                        <input type="text" autocomplete="off" name="country" ng-model="wish.Country.Name" placeholder="Add your country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
+                        <input type="text" autocomplete="off" name="country" ng-model="wish.Country.Name" placeholder="Add your country" uib-typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div class="label label-danger" ng-show="wasSubmitted && wishForm.country.$error.required">Required</div>
                     </div>
