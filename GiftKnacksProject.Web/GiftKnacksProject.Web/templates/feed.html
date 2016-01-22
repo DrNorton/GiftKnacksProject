@@ -6,7 +6,7 @@
     <div class="media feed-item feed-item-join" ng-switch-when="join">
         <div class="media-left item-img">
             <a href="/user/{{item.User.Id}}">
-                <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
+                <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.png" alt="avatar" />
             </a>
             <i class="fa fa-lg fa-user-plus"></i>
         </div>
@@ -18,7 +18,7 @@
         </div>
         <div class="media-right avatar">
             <a href="/{{item.TargetType}}/{{item.Target.Id}}">
-                <img class="media-object img-thumbnail" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.jpg" alt="item" />
+                <img class="media-object img-thumbnail" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.png" alt="item" />
             </a>
 
         </div>
@@ -26,7 +26,7 @@
     <div class="media feed-item feed-item-comment col-md-12" ng-switch-when="addcomment">
         <div class="media-left item-img">
             <a href="/user/{{item.User.Id}}">
-                <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
+                <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.png" alt="avatar" />
             </a>
             <i class="fa fa-lg fa-comments"></i>
         </div>
@@ -38,15 +38,15 @@
         </div>
         <div class="media-right avatar">
             <a href="/{{item.TargetType}}/{{item.Target.Id}}">
-                <img class="media-object img-thumbnail" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.jpg" alt="item" />
+                <img class="media-object img-thumbnail" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.png" alt="item" />
             </a>
 
         </div>
     </div>
-    <div class="feed-item feed-item-reference" ng-switch-when="addreference">
+    <div class="media feed-item feed-item-reference" ng-switch-when="addreference">
         <div class="media-left item-img">
             <a href="/user/{{item.User.Id}}">
-                <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
+                <img class="media-object img-circle" src="{{item.User.AvatarUrl}}" on-error-src="/img/avatar.png" alt="avatar" />
             </a>
             <i class="fa fa-lg fa-star"></i>
         </div>
@@ -57,10 +57,10 @@
             <div class="date">{{feed.Time | date: 'medium'}}</div>
         </div>
     </div>
-    <div class="feed-item feed-item-close" ng-switch-when="closejoineditem">
+    <div class="media feed-item feed-item-close" ng-switch-when="closejoineditem">
         <div class="media-left item-img">
             <a href="/{{item.TargetType}}/{{item.Target.Id}}">
-                <img class="media-object img-circle" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.jpg" alt="item" />
+                <img class="media-object img-circle" src="{{item.Target.ImageUrl}}" on-error-src="/img/present.png" alt="item" />
             </a>
             <i class="fa fa-lg fa-times-circle"></i>
         </div>
@@ -71,10 +71,10 @@
             <div class="date">{{feed.Time | date: 'medium'}}</div>
         </div>
     </div>
-    <div class="feed-item feed-item-totalclosed" ng-switch-when="totalclosechange">
+    <div class="media feed-item feed-item-totalclosed" ng-switch-when="totalclosechange">
         <div class="media-left item-img">
             <a href="/user/{{item.WishOwner.Id}}">
-                <img class="media-object img-circle" src="{{item.WishOwner.AvatarUrl}}" on-error-src="/img/avatar.jpg" alt="avatar" />
+                <img class="media-object img-circle" src="{{item.WishOwner.AvatarUrl}}" on-error-src="/img/avatar.png" alt="avatar" />
             </a>
             <i class="fa fa-lg fa-smile-o"></i>
         </div>
@@ -86,15 +86,15 @@
         </div>
         <div class="media-right avatar">
             <a href="/wish/{{item.ClosedWish.Id}}">
-                <img class="media-object img-thumbnail" src="{{item.ClosedWish.ImageUrl}}" on-error-src="/img/present.jpg" alt="item" />
+                <img class="media-object img-thumbnail" src="{{item.ClosedWish.ImageUrl}}" on-error-src="/img/present.png" alt="item" />
             </a>
 
         </div>
     </div>
-    <div class="feed-item feed-item-answer" ng-switch-when="commentreply">
+    <div class="media feed-item feed-item-answer" ng-switch-when="commentreply">
 
     </div>
-    <div class="feed-item feed-item-default" ng-switch-default>
+    <div class="media feed-item feed-item-default" ng-switch-default>
         <div class="feed-item-body">no such type</div>
     </div>
 </div>  

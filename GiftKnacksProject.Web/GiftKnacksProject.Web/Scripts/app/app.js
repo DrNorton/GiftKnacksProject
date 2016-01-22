@@ -206,7 +206,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
   }]);
 
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
-app.constant("cacheVersion", '48');
+app.constant("cacheVersion", '56');
 
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', '$window', function (authService, $rootScope, $location, $anchorScroll, $window) {
     authService.fillAuthData();

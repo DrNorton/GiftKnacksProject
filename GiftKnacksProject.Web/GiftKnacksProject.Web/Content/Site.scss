@@ -235,6 +235,8 @@ textarea {
 
 .emergency-rating {
     outline: none;
+        font-size: 11px;
+            cursor: pointer;
 }
 
 .emergency-label {
@@ -385,14 +387,25 @@ textarea {
 }
 
 .reference-item {
-    .list-group-item-heading {
-        text-align: center;
+    margin: 20px 0;
+     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      .name{
+                margin-bottom:10px;
+            }
+    .replyer-avatar {
+        font-size:14px;
+        a {
+                display: block;
+            img {
+               max-height: 100px;
+            }
+        }
     }
-
-    .replyer-avatar img {
-        max-height: 100px;
+    .rating{
+         color:#e98717;
     }
 }
+
 //comments
 .comments-list {
     .replyer-avatar img {
@@ -495,23 +508,6 @@ textarea {
     }
 }
 //главная
-.image-madefor {
-    background: url(../img/made-for.png);
-    background-repeat: no-repeat;
-    height: 125px;
-
-    &.image-madefor-1 {
-        background-position: 0 0;
-    }
-
-    &.image-madefor-2 {
-        background-position: 45px -140px;
-    }
-
-    &.image-madefor-3 {
-        background-position: 15px -270px;
-    }
-}
 
 .user-info {
     .online-status {
@@ -812,8 +808,25 @@ body {
     }
 }
 
-.mission{
-    font-size:28px;
+.mission {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 30px;
+    text-align: center;
+}
+.made-for {
+
+    .media {
+
+        .media-object {
+            max-height: 250px;
+        }
+
+        .media-body {
+            vertical-align: middle;
+            font-size: 18px;
+            line-height: 28px;
+        }
+    }
 }
 @-moz-keyframes swing
 {

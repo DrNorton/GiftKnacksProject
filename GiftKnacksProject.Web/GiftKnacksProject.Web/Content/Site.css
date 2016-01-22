@@ -209,6 +209,8 @@ textarea {
 
 .emergency-rating {
   outline: none;
+  font-size: 11px;
+  cursor: pointer;
 }
 
 .emergency-label {
@@ -365,12 +367,29 @@ textarea {
   margin-top: 20px;
 }
 
-.reference-item .list-group-item-heading {
-  text-align: center;
+.reference-item {
+  margin: 20px 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.reference-item .replyer-avatar img {
+.reference-item .name {
+  margin-bottom: 10px;
+}
+
+.reference-item .replyer-avatar {
+  font-size: 14px;
+}
+
+.reference-item .replyer-avatar a {
+  display: block;
+}
+
+.reference-item .replyer-avatar a img {
   max-height: 100px;
+}
+
+.reference-item .rating {
+  color: #e98717;
 }
 
 .comments-list .replyer-avatar img {
@@ -469,24 +488,6 @@ textarea {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
-}
-
-.image-madefor {
-  background: url(../img/made-for.png);
-  background-repeat: no-repeat;
-  height: 125px;
-}
-
-.image-madefor.image-madefor-1 {
-  background-position: 0 0;
-}
-
-.image-madefor.image-madefor-2 {
-  background-position: 45px -140px;
-}
-
-.image-madefor.image-madefor-3 {
-  background-position: 15px -270px;
 }
 
 .user-info .online-status {
@@ -790,7 +791,19 @@ body {
 }
 
 .mission {
-  font-size: 28px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
+
+.made-for .media .media-object {
+  max-height: 250px;
+}
+
+.made-for .media .media-body {
+  vertical-align: middle;
+  font-size: 18px;
+  line-height: 28px;
 }
 
 @-moz-keyframes swing
