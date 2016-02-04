@@ -6,7 +6,7 @@
  * # Контроллер всего приложения
  * Controller of the giftknacksApp
  */
-app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubProxy', '$modal','cacheVersion', function ($scope, $location, authService, signalRHubProxy, $modal, cacheVersion) {
+app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubProxy', '$uibModal','cacheVersion', function ($scope, $location, authService, signalRHubProxy, $uibModal, cacheVersion) {
     $scope.isActive = function (pathArr) {
         for (var i = 0; i < pathArr.length; i++) {
             var path = pathArr[i];
@@ -22,7 +22,7 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
 		$location.path( '/' );
 	}
     $scope.loginPopup = function() {
-        $modal.open({
+        $uibModal.open({
             templateUrl: '/templates/login.html?ver=' + cacheVersion,
             controller: 'LoginCtrl',
             size: 'sm',
@@ -46,7 +46,7 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
         });
     };
     $scope.signupPopup = function () {
-        $modal.open({
+        $uibModal.open({
             templateUrl: '/templates/signup.html?ver=' + cacheVersion,
             controller: 'SignupCtrl',
             size: 'sm',
@@ -55,17 +55,35 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
     }
     $scope.findChoicePopup = function () {
         $scope.navbarExpanded = false;
-        $modal.open({
+        $uibModal.open({
             templateUrl: '/templates/choicefind.html?ver=' + cacheVersion,
-            controller: 'ChoiceFindCtrl',
+            controller: 'SimplePopupCtrl'
         });
     }
     $scope.addChoicePopup = function () {
         $scope.navbarExpanded = false;
-        $modal.open({
+        $uibModal.open({
             templateUrl: '/templates/choiceadd.html?ver=' + cacheVersion,
-            controller: 'ChoiceAddCtrl',
+            controller: 'SimplePopupCtrl',
         });
+    }
+    $scope.feedPopup = function (feedObj) {
+        var modalInstance = $uibModal.open({
+            templateUrl: '/templates/feed.html?ver=' + cacheVersion,
+            controller: 'FeedPopupCtrl',
+            backdrop: false,
+            windowClass: 'feed-alert',
+            //openedClass: 'feed-open',
+            appendTo:$('.feed-container').eq(0),
+            resolve: {
+                feed: function () {
+                    return feedObj;
+                }
+            }
+        });
+        //modalInstance.opened.then(function () {
+        //    alert("OPENED!");
+        //});
     }
 	$scope.authentication = authService.authentication;
 	$scope.$on( '$locationChangeStart', function ( event, next, current ) {
@@ -80,6 +98,9 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
 	var onlineHubProxy = signalRHubProxy(signalRHubProxy.defaultServer, 'onlinehub');
 	onlineHubProxy.startPromise.done(function () {
 	    onlineHubProxy.invoke('getUserOnline', function () {
+	    });
+	    onlineHubProxy.on('showMessage', function (obj) {
+	        $scope.feedPopup(obj);
 	    });
 	});
 }] );
@@ -150,14 +171,14 @@ app.controller('HelpUsCtrl', ['$scope', '$location', '$anchorScroll', function (
  * # Контроллер страницы юзера
  * Controller of the giftknacksApp
  */
-app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService', 'referenceService', '$location', 'cacheVersion', function ($scope, $modal, authService, initialData, commonService, wishAndGiftService, profileService, referenceService, $location, cacheVersion) {
+app.controller('UserCtrl', ['$scope', '$uibModal', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'profileService', 'referenceService', '$location', 'cacheVersion', function ($scope, $uibModal, authService, initialData, commonService, wishAndGiftService, profileService, referenceService, $location, cacheVersion) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
     $scope.user = {};
     $scope.gifts = [];
     $scope.wishes = [];
     $scope.references = [];
-    
+    $scope.isActive = { tabs: [{ active: true }, { active: false }, { active: false }] };
 
 	$scope.recentRequestsExist = false;
 	if ( initialData.data && !initialData.data.ErrorCode ) {
@@ -187,7 +208,7 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 
 	$scope.addReference = function () {
 	 
-	    $modal.open({
+	    var modalInstance = $uibModal.open({
 	        templateUrl: '/templates/addreference.html?ver=' + cacheVersion,
 	        controller: 'AddReferenceCtrl',
 	        resolve: {
@@ -196,7 +217,12 @@ app.controller('UserCtrl', ['$scope', '$modal', 'authService', 'initialData', 'c
 	            }
 	        }
 	    });
-
+	    modalInstance.result.then(function () {
+	        $scope.isActive.tabs = [{ active: false }, { active: false }, { active: true }];
+	        $scope.getReferences();
+	    }, function () {
+	        //'Modal dismissed ';
+	    });
 	}
 
 	$scope.getReferences = function () {
@@ -529,7 +555,7 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
  * # Контроллер страницы информации о гифте или више
  * Controller of the giftknacksApp
  */
-app.controller('ItemCardCtrl', ['$scope', '$modal', '$compile', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', 'cacheVersion', function ($scope, $modal, $compile, $route, authService, initialData, commonService, wishAndGiftService, commentService, cacheVersion) {
+app.controller('ItemCardCtrl', ['$scope', '$uibModal', '$compile', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', 'cacheVersion', function ($scope, $uibModal, $compile, $route, authService, initialData, commonService, wishAndGiftService, commentService, cacheVersion) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
     $scope.wasSubmitted = false;
@@ -696,7 +722,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal', '$compile', '$route', 'authS
 	    wishAndGiftService[method]({}).then(function (response) {
 			if ( response.data && !response.data.ErrorCode ) {
 
-					var modalInstance = $modal.open({
+					var modalInstance = $uibModal.open({
 					    templateUrl: '/templates/wishgiftlist.html?ver=' + cacheVersion,
 						controller: 'ModalInstanceCtrl',
 						resolve: {
@@ -740,7 +766,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal', '$compile', '$route', 'authS
 	}
 
 	$scope.closeItem = function (type) {
-	    var modalInstance = $modal.open({
+	    var modalInstance = $uibModal.open({
 	        templateUrl: '/templates/participantslist.html?ver=' + cacheVersion,
 	        controller: 'ModalCloseItemCtrl',
 	        resolve: {
@@ -761,7 +787,7 @@ app.controller('ItemCardCtrl', ['$scope', '$modal', '$compile', '$route', 'authS
  * # Контроллер popup'а для join
  * Controller of the giftknacksApp
  */
-app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'params', function ( $scope, $modalInstance, items, params ) {
+app.controller( 'ModalInstanceCtrl', ['$scope', '$uibModalInstance', 'items', 'params', function ( $scope, $uibModalInstance, items, params ) {
 
 	$scope.items = items;
 	$scope.type = params.type;
@@ -770,14 +796,14 @@ app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'para
 	$scope.link = params.type + 'form';
 
 	$scope.select = function (id) {
-		$modalInstance.close( id );
+		$uibModalInstance.close( id );
 	};
 	$scope.create = function ( ) {
-		$modalInstance.dismiss( 'add new' );
+		$uibModalInstance.dismiss( 'add new' );
 	};
 
 	$scope.cancel = function () {
-		$modalInstance.dismiss( 'cancel' );
+		$uibModalInstance.dismiss( 'cancel' );
 	};
 }]);
 /**
@@ -787,7 +813,7 @@ app.controller( 'ModalInstanceCtrl', ['$scope', '$modalInstance', 'items', 'para
  * # Контроллер popup'а для добавлния отзыва
  * Controller of the giftknacksApp
  */
-app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'referenceService', 'params', '$route', function ($scope, $modalInstance, referenceService, params, $route) {
+app.controller('AddReferenceCtrl', ['$scope', '$uibModalInstance', 'referenceService', 'params', function ($scope, $uibModalInstance, referenceService, params) {
 
 
     $scope.reference = { 'Rate': 3, 'ReferenceText': '' };
@@ -803,19 +829,16 @@ app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'referenceServic
     $scope.add = function () {
         referenceService.addReference($scope.reference).then(function (response) {
             if (response.data && !response.data.ErrorCode) {
-                $route.reload();
-                //TODO: trigger show reference tab
+                $uibModalInstance.close();
             } else {
                 //$scope.message = response.data.ErrorMessage;
             }
         }, function (response) {
             //$scope.message = "Failed to add wish due to: " + commonService.displayError();
-
         });
-        $modalInstance.close();
     };
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 }]);
 /**
@@ -825,7 +848,7 @@ app.controller('AddReferenceCtrl', ['$scope', '$modalInstance', 'referenceServic
  * # Контроллер popup'а для закрытия айтема
  * Controller of the giftknacksApp
  */
-app.controller('ModalCloseItemCtrl', ['$scope', '$modalInstance', 'items', 'params', 'wishAndGiftService', '$route', function ($scope, $modalInstance, items, params, wishAndGiftService, $route) {
+app.controller('ModalCloseItemCtrl', ['$scope', '$uibModalInstance', 'items', 'params', 'wishAndGiftService', '$location', function ($scope, $uibModalInstance, items, params, wishAndGiftService, $location) {
 
     $scope.participants = items;
 
@@ -841,8 +864,8 @@ app.controller('ModalCloseItemCtrl', ['$scope', '$modalInstance', 'items', 'para
        
         wishAndGiftService[method](obj).then(function (response) {
             if (response.data && !response.data.ErrorCode) {
-                $modalInstance.close();
-                $route.reload();
+                $uibModalInstance.close();
+                $location.path('/user/'+userId).search({ action: 'addreference' });
             } else {
                 //TODO: popup message error
             }
@@ -853,7 +876,7 @@ app.controller('ModalCloseItemCtrl', ['$scope', '$modalInstance', 'items', 'para
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 }]);
 /**
@@ -1123,6 +1146,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 	$scope.cityOptions = {};
 	$scope.getCountryError = false;
 	$scope.latinTooltip = [false, false];
+	$scope.userId = authService.authentication.userId;
 
 	$scope.showLatinTooltip = function (index, result) {
 	    $scope.$apply(function () {
@@ -1301,6 +1325,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 		$scope.wasSubmitted = true;
 		if (isValid) {
 		    if ($scope.cropControl) {
+		        $scope.profile.UploadAvatar = $scope.profile.UploadAvatar || {};
 		        $scope.profile.UploadAvatar.result = $scope.profile.AvatarUrl = $scope.croppedImage;
 		    }
 		   
@@ -1331,7 +1356,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
  * # Контроллер регистрации
  * Controller of the giftknacksApp
  */
-app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 'commonService', '$modalInstance', function ($scope, $location, $timeout, authService, commonService, $modalInstance) {
+app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 'commonService', '$uibModalInstance', function ($scope, $location, $timeout, authService, commonService, $uibModalInstance) {
     $scope.inline = false;
 	$scope.savedSuccessfully = false;
 	$scope.message = "";
@@ -1347,7 +1372,7 @@ app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if (isValid) {
-		    $modalInstance.close();
+		    $uibModalInstance.close();
 			authService.saveRegistration( $scope.registration ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
 					$scope.savedSuccessfully = true;
@@ -1367,7 +1392,7 @@ app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 
 
 	};
 	$scope.cancel = function () {
-	    $modalInstance.dismiss('cancel');
+	    $uibModalInstance.dismiss('cancel');
 	};
 	var startTimer = function () {
 		var timer = $timeout( function () {
@@ -1427,7 +1452,7 @@ app.controller('SignupInlineCtrl', ['$scope', 'authService', 'commonService', fu
  * # Контроллер авторизации
  * Controller of the giftknacksApp
  */
-app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser', '$routeParams', '$modalInstance', function ($scope, $location, authService, confirmUser, $routeParams, $modalInstance) {
+app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser', '$routeParams', '$uibModalInstance', function ($scope, $location, authService, confirmUser, $routeParams, $uibModalInstance) {
 	authService.logOut();
 	var email = $routeParams.email || '';
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -1442,7 +1467,7 @@ app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser'
 	$scope.login = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if (isValid) {
-		    $modalInstance.close();
+		    $uibModalInstance.close();
 			authService.login( $scope.loginData ).then( function ( response ) {
 				$location.url( $location.path() );
 				$location.path( '/dashboard' );
@@ -1455,7 +1480,7 @@ app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser'
 
 	};
 	$scope.cancel = function () {
-	    $modalInstance.dismiss('cancel');
+	    $uibModalInstance.dismiss('cancel');
 	};
 }] );
 /**
@@ -1554,34 +1579,34 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
 }]);
 /**
  * @ngdoc function
- * @name giftknacksApp.controller:ChoiceFindCtrl
+ * @name giftknacksApp.controller:SimplePopupCtrl
  * @description
- * # Контроллер выбора нэка для поиска
+ * # Контроллер простого popup
  * Controller of the giftknacksApp
  */
-app.controller('ChoiceFindCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+app.controller('SimplePopupCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
 
     $scope.close = function () {
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
-
 }]);
 /**
  * @ngdoc function
- * @name giftknacksApp.controller:ChoiceAddCtrl
+ * @name giftknacksApp.controller:FeedPopupCtrl
  * @description
- * # Контроллер выбора нэка для добавления
+ * # Контроллер popup для ленты
  * Controller of the giftknacksApp
  */
-app.controller('ChoiceAddCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+app.controller('FeedPopupCtrl', ['$scope', '$uibModalInstance', 'feed', function ($scope, $uibModalInstance, feed) {
+    $scope.feed = feed;
+    $scope.modal = true;
     $scope.close = function () {
-        $modalInstance.close();
+        $uibModalInstance.close();
     };
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
-
 }]);

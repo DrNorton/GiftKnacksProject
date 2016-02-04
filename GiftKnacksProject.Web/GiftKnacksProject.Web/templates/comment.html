@@ -1,8 +1,8 @@
-<div class="comment-item row">
+<div class="comment-item row commentid-{{comment.Id}}">
     <div class="left-ref col-md-2">
         <div class="replyer-avatar">
             <img ng-show="comment.User.AvatarUrl" ng-src="{{comment.User.AvatarUrl}}" alt="avatar" class="img-thumbnail">
-            <img ng-hide="comment.User.AvatarUrl" src="./img/avatar.jpg" alt="avatar">
+            <img ng-hide="comment.User.AvatarUrl" src="./img/avatar.png" alt="avatar">
         </div>
         <div>Score: {{comment.User.AvgRate| number:2}}</div>
         <div>Total hugs: {{comment.User.TotalClosed}}</div>

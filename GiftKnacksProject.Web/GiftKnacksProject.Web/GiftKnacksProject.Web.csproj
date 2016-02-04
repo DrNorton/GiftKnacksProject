@@ -101,8 +101,8 @@
       <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -200,22 +200,21 @@
     <Content Include="Content\Site.css" />
     <Content Include="img\arrow_left45.svg" />
     <Content Include="img\arrow_right.svg" />
+    <Content Include="img\avatar.png" />
+    <Content Include="img\madefor_gift.png" />
+    <Content Include="img\madefor_share.png" />
+    <Content Include="img\madefor_wish.png" />
     <Content Include="img\map.png" />
     <Content Include="img\arrow_down.svg" />
     <Content Include="img\arrow_down45.svg" />
     <Content Include="img\arrow_left_long.svg" />
     <Content Include="img\arrow_up45.svg" />
-    <Content Include="img\avatar.jpg" />
     <Content Include="img\form.svg" />
     <Content Include="img\landing.png" />
-    <Content Include="img\large_1.jpg" />
     <Content Include="img\logo.png" />
-    <Content Include="img\made-for.png" />
-    <Content Include="img\palms.jpg" />
     <Content Include="img\people.svg" />
-    <Content Include="img\present.jpg" />
+    <Content Include="img\present.png" />
     <Content Include="img\present.svg" />
-    <Content Include="img\presents.jpg" />
     <Content Include="img\print.svg" />
     <Content Include="img\promo.png" />
     <Content Include="img\smile.svg" />
@@ -245,7 +244,6 @@
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.12.0.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
@@ -1017,12 +1015,12 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
-    <None Include="Properties\PublishProfiles\giftknack - Web Deploy.pubxml" />
-    <None Include="Scripts\jquery-2.1.4.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.4.js" />
-    <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <None Include="Scripts\jquery-2.2.0.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.0.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\jquery-2.2.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -1039,6 +1037,7 @@
       <DependentUpon>Site.css</DependentUpon>
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\giftknack.pubxml" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
@@ -1052,7 +1051,6 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\vendors\angular-local-storage.js" />
-    <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Content\loading-bar.css" />
     <Content Include="Scripts\vendors\infinite-scroll.min.js" />
     <Content Include="Scripts\vendors\inputmask\jquery.inputmask.date.extensions.js" />

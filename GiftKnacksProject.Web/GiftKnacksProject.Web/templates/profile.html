@@ -7,136 +7,139 @@
 	</div>
 	<div class="row">
 		<h1 class="header header-inline">Profile</h1>
-		<div class="col-sm-4 profile-progress"><progressbar class="progress-striped" value="profile.ProfileProgress" type="success">{{profile.ProfileProgress}}%</progressbar></div>
+		<div class="col-sm-4 profile-progress"><uib-progressbar class="progress-striped" value="profile.ProfileProgress" type="success">{{profile.ProfileProgress}}%</uib-progressbar></div>
 	</div>
 
 	<hr>
 	<div class="row">
-		<form name="profileForm" class="form-horizontal form-profile" role="form" novalidate>
-			<!-- edit form column -->
-			<div class="col-md-6 personal-info">
-				<div class="form-group">
-					<label class="col-lg-3 control-label">First name:</label>
-					<div class="col-lg-8">
+        <form name="profileForm" class="form-horizontal form-profile" role="form" novalidate>
+            <!-- edit form column -->
+            <div class="col-md-6 personal-info">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">First name:</label>
+                    <div class="col-lg-8">
                         <input set-mask="l" mask-greedy="true" on-key-validation="showLatinTooltip(0,result)" class="form-control" type="text" name="name" data-ng-model="profile.FirstName" required>
-						<div class="label label-danger" ng-show="wasSubmitted && profileForm.name.$error.required">Required</div>
+                        <div class="label label-danger" ng-show="wasSubmitted && profileForm.name.$error.required">Required</div>
                         <div class="label label-warning" ng-show="latinTooltip[0]">Only latin characters</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3 control-label">Last name:</label>
-					<div class="col-lg-8">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Last name:</label>
+                    <div class="col-lg-8">
                         <input set-mask="l" mask-greedy="true" on-key-validation="showLatinTooltip(1,result)" class="form-control" type="text" name="surname" data-ng-model="profile.LastName" required>
-						<div class="label label-danger" ng-show="wasSubmitted && profileForm.surname.$error.required">Required</div>
+                        <div class="label label-danger" ng-show="wasSubmitted && profileForm.surname.$error.required">Required</div>
                         <div class="label label-warning" ng-show="latinTooltip[1]">Only latin characters</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3 control-label">Birthday:</label>
-					<div class="col-lg-5">
-						<input set-mask="d.m.y" class="form-control" type="text" name="birthday" data-ng-model="profile.Birthday" required>
-						<div class="label label-danger" ng-show="wasSubmitted && profileForm.birthday.$error.required">Required</div>
-					</div>
-					<div class="col-lg-3">
-						<button type="button" class="btn btn-primary" ng-model="profile.HideBirthday" btn-checkbox>
-							Hide from others
-						</button>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3 control-label">Gender:</label>
-					<div class="col-lg-8">
-						<div class="btn-group">
-							<label class="btn btn-primary" ng-model="profile.Gender" btn-radio="'male'">Male</label>
-							<label class="btn btn-primary" ng-model="profile.Gender" btn-radio="'female'">Female</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group" ng-hide="getCountryError">
-					<label class="col-lg-3 control-label">Country:</label>
-					<div class="col-lg-8">
-							<input type="text" autocomplete="off" name="country" ng-model="profile.Country.Name" placeholder="Add your country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
-							<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-							<div class="label label-danger" ng-show="wasSubmitted && profileForm.country.$error.required">Required</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-lg-3 control-label">Location:</label>
-					<div class="col-lg-8">
-							<input type="text" name="city" id="city" ng-model="profile.City" class="form-control" ng-autocomplete options="cityOptions" details="details" required ng-disabled="!getCountryError && (!profile.Country || !countryFromTypehead)" />
-							<div class="label label-danger" ng-show="wasSubmitted && profileForm.city.$error.required">Required</div>
-					</div>
-				</div>
-				<hr class="">
-				<div class="form-group" ng-repeat="contact in profile.Contacts">
-					<label class="col-lg-3 control-label">{{contact.Name}}:</label>
-					<div class="col-lg-5">
-						<input class="form-control" type="text" name="{{contact.Name}}" data-ng-model="contact.Value" required custom-contact/>
-						<div class="label label-danger" ng-show="wasSubmitted && profileForm.{{contact.Name}}.$error.required">Fill or remove</div>
-						<div class="label label-danger" ng-show="wasSubmitted && profileForm.{{contact.Name}}.$error.customContact">Incorrect contact</div>
-					</div>
-					<div class="col-md-2">
-						<label class="btn btn-primary" ng-class="{'active': profile.MainContact===contact.Name}" tooltip="Choose this contact as main method of communication." tooltip-placement="top">
-							<input ng-change="chooseMainContact(contact.Name)" name="contacts" type="radio" ng-model="profile.MainContact" ng-value="contact.Name" />Main
-						</label>
-					</div>
-					<div class="col-md-2" ng-if="profile.Contacts.length > 1">
-						<button class="btn btn-danger" type="button" ng-click="removeContact(contact.Name)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-					</div>
-				</div>
-				<div class="form-group" ng-show="profile.ContactTypes.length">
-					<label class="col-lg-3 control-label">Add:</label>
-					<div class="col-lg-8">
-						<div class="ui-select">
-							<select class="form-control" name="addContact" ng-model="newContact" ng-change="updateContacts()">
-								<option value="new" selected>--New contact--</option>
-								<option ng-value="contact" ng-repeat="contact in profile.ContactTypes">{{contact}}</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<hr class="">
-				<div class="form-group">
-					<label class="col-md-3 control-label"></label>
-					<div class="col-md-8">
-						<input type="submit" class="btn btn-primary" value="Save Changes" data-ng-click="updatePtofile(profileForm.$valid)">
-					</div>
-					<div class="col-md-12" data-ng-hide="profileMessage == ''" data-ng-class="(profileSavedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
-						{{profileMessage}}
-					</div>
-				</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Birthday:</label>
+                    <div class="col-lg-5">
+                        <input set-mask="d.m.y" class="form-control" type="text" name="birthday" data-ng-model="profile.Birthday" required>
+                        <div class="label label-danger" ng-show="wasSubmitted && profileForm.birthday.$error.required">Required</div>
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-primary" ng-model="profile.HideBirthday" uib-btn-checkbox>
+                            Hide from others
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Gender:</label>
+                    <div class="col-lg-8">
+                        <div class="btn-group">
+                            <label class="btn btn-primary" ng-model="profile.Gender" uib-btn-radio="'male'">Male</label>
+                            <label class="btn btn-primary" ng-model="profile.Gender" uib-btn-radio="'female'">Female</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-hide="getCountryError">
+                    <label class="col-lg-3 control-label">Country:</label>
+                    <div class="col-lg-8">
+                        <input type="text" autocomplete="off" name="country" ng-model="profile.Country.Name" placeholder="Add your country" uib-typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
+                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                        <div class="label label-danger" ng-show="wasSubmitted && profileForm.country.$error.required">Required</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Location:</label>
+                    <div class="col-lg-8">
+                        <input type="text" name="city" id="city" ng-model="profile.City" class="form-control" ng-autocomplete options="cityOptions" details="details" required ng-disabled="!getCountryError && (!profile.Country || !countryFromTypehead)" />
+                        <div class="label label-danger" ng-show="wasSubmitted && profileForm.city.$error.required">Required</div>
+                    </div>
+                </div>
+                <hr class="">
+                <div class="form-group" ng-repeat="contact in profile.Contacts">
+                    <label class="col-lg-3 control-label">{{contact.Name}}:</label>
+                    <div class="col-lg-5">
+                        <input class="form-control" type="text" name="{{contact.Name}}" data-ng-model="contact.Value" required custom-contact />
+                        <div class="label label-danger" ng-show="wasSubmitted && profileForm.{{contact.Name}}.$error.required">Fill or remove</div>
+                        <div class="label label-danger" ng-show="wasSubmitted && profileForm.{{contact.Name}}.$error.customContact">Incorrect contact</div>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="btn btn-primary" ng-class="{'active': profile.MainContact===contact.Name}" tooltip="Choose this contact as main method of communication." tooltip-placement="top">
+                            <input ng-change="chooseMainContact(contact.Name)" name="contacts" type="radio" ng-model="profile.MainContact" ng-value="contact.Name" />Main
+                        </label>
+                    </div>
+                    <div class="col-md-2" ng-if="profile.Contacts.length > 1">
+                        <button class="btn btn-danger" type="button" ng-click="removeContact(contact.Name)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="profile.ContactTypes.length">
+                    <label class="col-lg-3 control-label">Add:</label>
+                    <div class="col-lg-8">
+                        <div class="ui-select">
+                            <select class="form-control" name="addContact" ng-model="newContact" ng-change="updateContacts()">
+                                <option value="new" selected>--New contact--</option>
+                                <option ng-value="contact" ng-repeat="contact in profile.ContactTypes">{{contact}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- right column -->
+            <div class="col-md-6 text-center">
+                <div ng-class="{'fileinput-new' : !avatarExist, 'fileinput-exists' : avatarExist}" class="fileinput ">
+                    <div ng-hide="cropControl || !profile.AvatarUrl" class="thumbnail" style="width: 150px; height: 150px;">
+                        <img ng-src="{{profile.AvatarUrl}}" alt="avatar">
+                    </div>
+                    <div ng-show="!profile.AvatarUrl  && !cropControl" class="thumbnail" style="width: 150px; height: 150px;">
+                        <img src="./img/avatar.png" alt="avatar">
+                    </div>
+                    <!--crop-->
+                    <div ng-show="cropControl" class="cropArea">
+                        <img-crop image="profile.AvatarUrl" result-image="croppedImage"></img-crop>
+                    </div>
+                    <div class="thumbnail" ng-show="cropControl" style="width: 150px; height: 150px;">
+                        <img ng-src="{{croppedImage}}" alt="avatar">
+                    </div>
+                    <div>
+                        <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" fileread="profile.UploadAvatar" name="uploadAvatar"></span>
+                        <a ng-href="" class="btn btn-default fileinput-exists" ng-click="clearAvatar()">Remove</a>
+                    </div>
+                </div>
+                <div class="form-group block-bio">
+                    <label class="col-xs-12 control-label">About me:</label>
+                    <div class="col-xs-12">
+                        <textarea spellcheck="false" name="bio" ng-model="profile.AboutMe" class="form-control col-xs-12" rows="10"></textarea>
+                    </div>
+                </div>
 
-			</div>
-			<!-- right column -->
-			<div class="col-md-6">
-				<div class="text-center">
-					<div ng-class="{'fileinput-new' : !avatarExist, 'fileinput-exists' : avatarExist}" class="fileinput ">
-                        <div ng-hide="cropControl || !profile.AvatarUrl" class="thumbnail" style="width: 150px; height: 150px;">
-                            <img ng-src="{{profile.AvatarUrl}}" alt="avatar">
-                        </div>
-                        <div ng-show="!profile.AvatarUrl  && !cropControl" class="thumbnail" style="width: 150px; height: 150px;">
-                            <img src="./img/avatar.jpg" alt="avatar">
-                        </div>
-                        <!--crop-->
-                        <div ng-show="cropControl" class="cropArea">
-                            <img-crop image="profile.AvatarUrl" result-image="croppedImage"></img-crop>
-                        </div>
-                        <div class="thumbnail" ng-show="cropControl" style="width: 150px; height: 150px;">
-                            <img ng-src="{{croppedImage}}" alt="avatar">
-                        </div>
-						<div>
-							<span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" fileread="profile.UploadAvatar" name="uploadAvatar"></span>
-                            <a ng-href="" class="btn btn-default fileinput-exists" ng-click="clearAvatar()">Remove</a>
-						</div>
-					</div>
-					<div class="form-group block-bio">
-						<label class="col-lg-12 control-label">About me:</label>
-						<textarea spellcheck="false" name="bio" ng-model="profile.AboutMe" class="form-control" rows="10"></textarea>
-					</div>
-
-				</div>
-			</div>
-		</form>
+            </div>
+            <div class="col-xs-12">
+                <hr class="">
+                <div class="form-group">
+                    <div class="col-md-2 col-md-offset-4">
+                        <input type="submit" class="btn btn-primary" value="Save Changes" data-ng-click="updatePtofile(profileForm.$valid)">
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-warning" href="/user/{{userId}}">Show my page</a>
+                    </div>
+                    <div class="col-md-12" data-ng-hide="profileMessage == ''" data-ng-class="(profileSavedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+                        {{profileMessage}}
+                    </div>
+                </div>
+            </div>
+        </form>
 	</div>
 </div>
 

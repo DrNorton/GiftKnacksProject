@@ -28,7 +28,7 @@
                 <label class="col-lg-3 control-label">Country:</label>
                 <div class="col-lg-8">
                     <div class="ui-select">
-                        <input type="text" autocomplete="off" name="country" ng-model="wish.Country.Name" placeholder="Add your country" typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
+                        <input type="text" autocomplete="off" name="country" ng-model="wish.Country.Name" placeholder="Add your country" uib-typeahead="country.Name for country in getCountries($viewValue) | limitTo:8" typeahead-loading="loadingLocations" class="form-control" typeahead-on-select="countrySelect($item, $model, $label)" ng-change="countryChange()" ng-required="!getCountryError" ng-disabled="getCountryError" />
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div class="label label-danger" ng-show="wasSubmitted && wishForm.country.$error.required">Required</div>
                     </div>
@@ -67,7 +67,7 @@
                 <label class="col-lg-3 control-label">Emergency:</label>
                 <div class="col-lg-8">
                     <div class="list-group-item">
-                        <rating ng-model="wish.Emergency" class="emergency-rating" name="emergency" max="20" state-off="'glyphicon-unchecked'" state-on="'glyphicon-expand'" on-hover="hoveringOver( value )" on-leave="overEmergency=0"></rating>
+                        <uib-rating ng-model="wish.Emergency" class="emergency-rating" name="emergency" max="20" state-off="'glyphicon-unchecked'" state-on="'glyphicon-expand'" on-hover="hoveringOver( value )" on-leave="overEmergency=0"></uib-rating>
                         <span class="label emergency-label" ng-class="{'label-success': percent<30, 'label-warning': percent>=30 && percent<70, 'label-danger': percent>=70}" ng-show="overEmergency" ng-hide="wish.Emergency||firstAppearance">{{percent}}%</span>
                         <span class="label emergency-label" ng-class="{'label-success': wish.Emergency<6, 'label-warning': wish.Emergency>=6 && wish.Emergency<14, 'label-danger': wish.Emergency>=14}" ng-show="wish.Emergency" ng-hide="overEmergency">{{wish.Emergency*5}}%</span>
                     </div>
@@ -88,7 +88,7 @@
                         <img ng-src="{{wish.ImageUrl}}" alt="avatar">
                     </div>
                     <div ng-show="!wish.ImageUrl  && !cropControl" class="thumbnail" style="width: 150px; height: 150px;">
-                        <img src="./img/present.jpg" alt="avatar">
+                        <img src="./img/present.png" alt="avatar">
                     </div>
                     <!--crop-->
                     <div ng-show="cropControl" class="cropArea">

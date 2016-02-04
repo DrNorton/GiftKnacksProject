@@ -1,8 +1,8 @@
-<div ng-hide="inline" class="modal-header">
+<div ng-hide="inline" class="modal-header" ng-cloak>
     <button type="button" class="close" ng-click="cancel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <h3 class="modal-title header">Sign up</h3>
 </div>
-<div ng-class="{'modal-body' : !inline}">
+<div ng-class="{'modal-body' : !inline}" ng-cloak>
     <form id="signupForm" class="form-signup" role="form" name="signupForm" novalidate>
         <div class="form-group">
             <input type="text" class="form-control" name="email" placeholder="Email" data-ng-model="registration.email" required ng-pattern="emailPattern" autofocus>

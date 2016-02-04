@@ -188,6 +188,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                   metaKeywords: 'KnacksGifter User Page',
                   controller: "UserCtrl",
                   templateUrl: "/templates/user.html",
+                  reloadOnSearch:false,
                   resolve: {
                       initialData: ['$route', 'profileService', function ($route, profileService) {
                           return profileService.getShortPtofile($route.current.params.userId);
@@ -205,7 +206,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
   }]);
 
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
-app.constant("cacheVersion", '35');
+app.constant("cacheVersion", '56');
 
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', '$window', function (authService, $rootScope, $location, $anchorScroll, $window) {
     authService.fillAuthData();

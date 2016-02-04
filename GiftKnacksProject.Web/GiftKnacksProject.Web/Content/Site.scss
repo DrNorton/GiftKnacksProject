@@ -204,7 +204,7 @@ textarea {
         text-align: left;
     }
 
-    margin-top: 50px;
+    margin-top: 0;
 }
 
 .header-inline {
@@ -235,6 +235,8 @@ textarea {
 
 .emergency-rating {
     outline: none;
+        font-size: 11px;
+            cursor: pointer;
 }
 
 .emergency-label {
@@ -251,6 +253,7 @@ textarea {
     }
 }
 //feed
+
 .feed-item {
     padding: 20px;
     margin: 10px 0;
@@ -325,6 +328,54 @@ textarea {
     }
 }
 
+.feed-container {
+    position:fixed;
+            top: auto;
+        right: auto;
+        bottom: 10px;
+        left: 10px;
+            z-index: 1040;
+    .feed-alert {
+        overflow: hidden;
+        position:relative;
+          height:130px;
+         
+        &.fade:not(.in) .modal-dialog {
+            -webkit-transform: translate(0, 25%);
+            -moz-transform: translate(0, 25%);
+            -ms-transform: translate(0, 25%);
+            -o-transform: translate(0, 25%);
+            transform: translate(0, 25%);
+        }
+
+        .modal-dialog {
+             width: 470px;
+              margin: auto;
+            .modal-content {
+                   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    width: 460px;
+    margin: auto;
+
+                .modal-body {
+                    padding: 20px;
+
+                    .close-btn {
+                        position: absolute;
+                        right: 5px;
+                        top: 0;
+                    }
+
+                    .feed-item {
+                        border: none;
+                        box-shadow: none;
+                        padding: 0;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}
 
 //reference
 .reference-rating {
@@ -336,14 +387,25 @@ textarea {
 }
 
 .reference-item {
-    .list-group-item-heading {
-        text-align: center;
+    margin: 20px 0;
+     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      .name{
+                margin-bottom:10px;
+            }
+    .replyer-avatar {
+        font-size:14px;
+        a {
+                display: block;
+            img {
+               max-height: 100px;
+            }
+        }
     }
-
-    .replyer-avatar img {
-        max-height: 100px;
+    .rating{
+         color:#e98717;
     }
 }
+
 //comments
 .comments-list {
     .replyer-avatar img {
@@ -446,23 +508,6 @@ textarea {
     }
 }
 //главная
-.image-madefor {
-    background: url(../img/made-for.png);
-    background-repeat: no-repeat;
-    height: 125px;
-
-    &.image-madefor-1 {
-        background-position: 0 0;
-    }
-
-    &.image-madefor-2 {
-        background-position: 45px -140px;
-    }
-
-    &.image-madefor-3 {
-        background-position: 15px -270px;
-    }
-}
 
 .user-info {
     .online-status {
@@ -482,16 +527,13 @@ textarea {
 
 .user-tabs {
     margin-top: 55px;
-
-    .nav-tabs {
-        margin-bottom: 20px;
-    }
 }
 //knacks list
 .knacks-list {
     margin-top: 10px;
 
     .tab-content {
+        overflow:hidden;
         padding: 20px;
         background: #fff;
         border-radius: 0 0 4px 4px;
@@ -504,7 +546,8 @@ textarea {
 
     .nav-tabs {
         & > li {
-            &.active > a {
+            text-align:center;
+            &.active > div {
                 background-color: #fff;
                 border-color: #68d598;
                   border-bottom-color: #fff;
@@ -516,14 +559,20 @@ textarea {
                 }
             }
 
-            & > a {
+            & > div {
+                cursor:pointer;
                 border-radius: 10px 10px 0 0;
                 border: 1px solid #dddddd;
                  border-bottom-color: #68d598;
                 background-color: #f3f3f3;
                     font-size: 18px;
+                    margin:0;
+                        color: #3cb370;
                 &:hover {
                     background-color: #eee;
+                        color: #297a4c;
+                         border-color: #dddddd;
+                          border-bottom-color: #68d598;
                 }
             }
         }
@@ -759,8 +808,25 @@ body {
     }
 }
 
-.mission{
-    font-size:28px;
+.mission {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 30px;
+    text-align: center;
+}
+.made-for {
+
+    .media {
+
+        .media-object {
+            max-height: 250px;
+        }
+
+        .media-body {
+            vertical-align: middle;
+            font-size: 18px;
+            line-height: 28px;
+        }
+    }
 }
 @-moz-keyframes swing
 {
