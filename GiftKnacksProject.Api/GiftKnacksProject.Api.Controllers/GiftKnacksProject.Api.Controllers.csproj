@@ -193,12 +193,14 @@
     <Compile Include="ApiResults\ApiResult.cs" />
     <Compile Include="ApiResults\CustomApiController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\GiftController.cs" />
     <Compile Include="Controllers\InterestingController.cs" />
     <Compile Include="Controllers\LentaFeedController.cs" />
     <Compile Include="Controllers\LinkerController.cs" />
+    <Compile Include="Controllers\RealTimePushController.cs" />
     <Compile Include="Controllers\ReferenceController.cs" />
     <Compile Include="Controllers\WishController.cs" />
     <Compile Include="Hubs\OnlineHub.cs" />

@@ -48,8 +48,16 @@
     <Compile Include="AddCommentQueueNotification.cs" />
     <Compile Include="AddReferenceQueueNotification.cs" />
     <Compile Include="BaseQueueNotification.cs" />
+    <Compile Include="Chat\ChatMqMessage.cs" />
     <Compile Include="CloseItemQueueNotification.cs" />
     <Compile Include="JoinQueueNotification.cs" />
+    <Compile Include="ProcessedNotifications\BaseNotificationInfo.cs" />
+    <Compile Include="ProcessedNotifications\Infos\AddCommentInfo.cs" />
+    <Compile Include="ProcessedNotifications\Infos\AddReferenceInfo.cs" />
+    <Compile Include="ProcessedNotifications\Infos\CloseItemInfo.cs" />
+    <Compile Include="ProcessedNotifications\Infos\CloseJoinInfo.cs" />
+    <Compile Include="ProcessedNotifications\Infos\TotalClosedInfo.cs" />
+    <Compile Include="ProcessedNotifications\Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplyToCommentQueueNotification.cs" />
     <Compile Include="TotalClosedQueueNotification.cs" />
@@ -57,6 +65,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GiftKnacksProject.Api.Dto\GiftKnacksProject.Api.Dto.csproj">
+      <Project>{ca6f7446-8c7f-4909-9a02-2203565598c9}</Project>
+      <Name>GiftKnacksProject.Api.Dto</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RealTimePush\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,6 +9,7 @@ using Castle.MicroKernel.Registration;
 using GiftKnacksProject.Api.Services;
 using GiftKnacksProject.Api.Services.Interfaces;
 using GiftKnacksProject.Api.Services.Services;
+using GiftKnacksProject.Api.Services.Services.ChatMessages;
 using GiftKnacksProject.Api.Services.Services.FeedService;
 using GiftKnacksProject.Api.Services.Storages;
 using Microsoft.Azure.Documents.Client;
@@ -25,25 +26,21 @@ namespace GiftKnacksProject.Api.Dependencies.Installers
             var endpointUrl = ConfigurationManager.AppSettings["EndPointUrl"];
             var authorizationKey = ConfigurationManager.AppSettings["AuthorizationKey"];
             container.Register(
-                Component.For<DocumentClient>()
-                    .DependsOn(Dependency.OnValue("serviceEndpoint", new Uri(endpointUrl)),
-                        Dependency.OnValue("authKeyOrResourceToken", authorizationKey))
-                    .LifestyleTransient());
+                Component.For<DocumentClient>().UsingFactoryMethod((kernel,parameters)=>new DocumentClient(new Uri(endpointUrl),authorizationKey)).LifestyleTransient());
 
 
             var fileService = new FileService(container.Resolve<UrlSettings>());
             container.Register(Component.For<IFileService>().Instance(fileService));
-            var connectionQmString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
-       
-            container.Register(
-                Component.For<QueueClient>()
-                    .UsingFactoryMethod(() => QueueClient.CreateFromConnectionString(connectionQmString,"notifications"))
-                    .LifestyleTransient());
- 
+            var notificationConnectionQmString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.NotificationMQConnectionString"];
+            var messageMqConnectionQmString = ConfigurationManager.AppSettings["Microsoft.ServiceBus.MessagesMQConnectionString"];
+        
+            container.Register(Component.For<INotificationService>().ImplementedBy<NotificationService>()
+                .DependsOn(Dependency.OnValue("notififactionQueueClient", QueueClient.CreateFromConnectionString(notificationConnectionQmString, "notifications"))).LifestyleTransient());
 
+            container.Register(Component.For<IChatMessageService>().ImplementedBy<ChatMessageService>()
+              .DependsOn(Dependency.OnValue("chatQueueClient", QueueClient.CreateFromConnectionString(messageMqConnectionQmString, "messages"))).LifestyleTransient());
 
-            container.Register(Component.For<INotificationService>().ImplementedBy<NotificationService>().LifestyleTransient());
-            container.Register(Component.For<IUserOnlineStorage>().ImplementedBy<UserOnlineStorage>().LifeStyle.Singleton.Start());
+            container.Register(Component.For<IUserOnlineSignalService>().ImplementedBy<UserOnlineSignalService>().LifeStyle.Singleton.Start());
         }
     }
 }

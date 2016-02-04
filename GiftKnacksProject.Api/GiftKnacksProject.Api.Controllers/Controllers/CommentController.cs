@@ -39,7 +39,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             await
                 _notificationService.SentNotificationToQueue(new AddCommentQueueNotification()
                 {
-                   TargetType="wish",
+                    TargetType="wish",
                     TargetId = model.WishId,
                     CreatorId = userId,
                     CommentId=insertedComment.Id

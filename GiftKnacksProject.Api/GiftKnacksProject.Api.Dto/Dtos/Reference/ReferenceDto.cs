@@ -14,6 +14,8 @@ namespace GiftKnacksProject.Api.Dto.Dtos.Reference
         public string ReferenceText { get; set; }
         public TinyProfileDto Replyer { get; set; }
 
+        public DateTime? CreatedTime { get; set; }
+
 
     }
 }

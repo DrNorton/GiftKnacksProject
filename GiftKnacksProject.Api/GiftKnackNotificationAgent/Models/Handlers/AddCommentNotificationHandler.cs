@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using GiftKnackNotificationAgent.Models.Infos;
+
 using GiftKnackProject.NotificationTypes;
+using GiftKnackProject.NotificationTypes.ProcessedNotifications;
+using GiftKnackProject.NotificationTypes.ProcessedNotifications.Infos;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos.Wishes;
 using Microsoft.ServiceBus.Messaging;
@@ -44,7 +46,8 @@ namespace GiftKnackNotificationAgent.Models.Handlers
                 TargetType = messageFromQueue.TargetType,
                 User = user,
                 Target = wishGiftDto,
-                OwnerId = wishGiftDto.Owner
+                OwnerId = wishGiftDto.Owner,
+                CommentId=messageFromQueue.CommentId
             };
         }
 

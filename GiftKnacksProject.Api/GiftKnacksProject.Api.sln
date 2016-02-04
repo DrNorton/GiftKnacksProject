@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnacksProject.Api", "GiftKnacksProject.Api\GiftKnacksProject.Api.csproj", "{D4CDF438-C121-4B5F-B13F-B985B65B2C44}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackProject.NotificationTypes", "GiftKnackProject.NotificationTypes\GiftKnackProject.NotificationTypes.csproj", "{3F187808-0A0B-4A30-8927-EE2819FB08E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackNotificationAgent", "GiftKnackNotificationAgent\GiftKnackNotificationAgent.csproj", "{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackMessageAgent", "GiftKnackMessageAgent\GiftKnackMessageAgent.csproj", "{B12199A7-10FB-4CF5-971D-06C098F94EF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{266ABCBF-E13A-45F6-9805-6C4FFE0DF327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B12199A7-10FB-4CF5-971D-06C098F94EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B12199A7-10FB-4CF5-971D-06C098F94EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B12199A7-10FB-4CF5-971D-06C098F94EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B12199A7-10FB-4CF5-971D-06C098F94EF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +86,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D08AA878-EA84-423A-BB89-1C67DDADC275} = {2282BB18-8427-4FFC-B3D4-E5801CD4F54D}
 		{266ABCBF-E13A-45F6-9805-6C4FFE0DF327} = {DA831952-651F-4FB7-818B-7D0DA9B7F754}
+		{B12199A7-10FB-4CF5-971D-06C098F94EF9} = {DA831952-651F-4FB7-818B-7D0DA9B7F754}
 	EndGlobalSection
 EndGlobal

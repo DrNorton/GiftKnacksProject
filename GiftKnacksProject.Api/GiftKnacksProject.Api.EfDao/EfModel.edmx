@@ -97,6 +97,7 @@
           <Property Name="Rate" Type="tinyint" />
           <Property Name="ReplyerId" Type="bigint" />
           <Property Name="OwnerId" Type="bigint" />
+          <Property Name="CreatedTime" Type="datetime" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -798,6 +799,7 @@
           <Property Name="OwnerId" Type="Int64" />
           <NavigationProperty Name="User" Relationship="GiftKnacks_dbModel.FK_References_OwnerUserId" FromRole="Reference" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="GiftKnacks_dbModel.FK_References_ReplyUserId" FromRole="Reference" ToRole="User" />
+          <Property Name="CreatedTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1277,6 +1279,7 @@
           <EntitySetMapping Name="References">
             <EntityTypeMapping TypeName="GiftKnacks_dbModel.Reference">
               <MappingFragment StoreEntitySet="References">
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
                 <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
                 <ScalarProperty Name="ReplyerId" ColumnName="ReplyerId" />
                 <ScalarProperty Name="Rate" ColumnName="Rate" />

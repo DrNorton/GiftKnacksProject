@@ -16,24 +16,22 @@ namespace GiftKnacksProject.Api.Services.Services.FeedService
 {
     public class NotificationService : INotificationService
     {
-        private QueueClient _client;
+        private QueueClient _queueClient;
         private readonly DocumentClient _databaseClient;
         private const string DatabaseId = "notificationslenta";
 
 
-        public NotificationService(QueueClient client)
+        public NotificationService(QueueClient notififactionQueueClient, DocumentClient databaseClient)
         {
-            _client = client;
-            var endpointUrl = ConfigurationManager.AppSettings["EndPointUrl"];
-            var authorizationKey = ConfigurationManager.AppSettings["AuthorizationKey"];
-            _databaseClient = new DocumentClient(new Uri(endpointUrl),authorizationKey );
+            _queueClient = notififactionQueueClient;
+            _databaseClient = databaseClient;
         }
 
         public  Task SentNotificationToQueue(BaseQueueNotification queueNotification)
         {
             var message=new BrokeredMessage(queueNotification.GetJson());
             message.Properties["Type"] = queueNotification.Type;
-            return _client.SendAsync(message);
+            return _queueClient.SendAsync(message);
         }
 
         public async Task<List<Document>> GetLenta(long id)

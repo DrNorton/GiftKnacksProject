@@ -22,6 +22,11 @@ namespace GiftKnacksProject.Api.Services.Storages
             get { return _userId; }
         }
 
+        public List<string> Connections
+        {
+            get { return _connections; }
+        }
+
         public void AddConnection(string connectionId)
         {
             _connections.Add(connectionId);

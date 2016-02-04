@@ -26,8 +26,7 @@ namespace GiftKnackNotificationAgent.Installers
                     .LifestyleTransient());
 
             container.Register(Component.For<Functions>().LifestyleTransient());
-
-        
+            container.Register(Component.For<IRealTimePushNotificationService>().ImplementedBy<RealTimePushNotificationService>().LifestyleTransient());
 
         }
     }

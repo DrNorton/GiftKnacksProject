@@ -23,7 +23,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
 
         public async Task<long> AddReference(long ownerId, long replyerId,byte rate,string text)
         {
-            var newReference = new Reference() {OwnerId = ownerId, ReplyerId = replyerId, Text = text, Rate = rate};
+            var newReference = new Reference() {OwnerId = ownerId, ReplyerId = replyerId, Text = text, Rate = rate,CreatedTime = DateTime.Now};
             base.Insert(newReference);
             await _context.SaveChangesAsync();
             return newReference.Id;
@@ -34,13 +34,14 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
           
             return (await
                 _context.Set<Reference>()
-                    .Where(x => x.OwnerId == ownerId).ToListAsync())
+                    .Where(x => x.OwnerId == ownerId).OrderByDescending(x=>x.CreatedTime).ToListAsync())
                 .Select(
                     x =>
                         new ReferenceDto()
                         {
                             OwnerId = x.OwnerId,
                             Rate = x.Rate,
+                            CreatedTime = x.CreatedTime,
                             ReferenceText = x.Text,
                             Replyer =
                                 new TinyProfileDto()

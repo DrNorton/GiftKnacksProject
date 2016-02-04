@@ -15,12 +15,12 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
     [HubName("onlinehub")]
     public class OnlineHub:Hub
     {
-        private readonly IUserOnlineStorage _userOnlineStorage;
+        private readonly IUserOnlineSignalService _userOnlineSignalService;
         private readonly IProfileRepository _profileRepository;
 
-        public OnlineHub(IUserOnlineStorage userOnlineStorage,IProfileRepository profileRepository)
+        public OnlineHub(IUserOnlineSignalService userOnlineSignalService,IProfileRepository profileRepository)
         {
-            _userOnlineStorage = userOnlineStorage;
+            _userOnlineSignalService = userOnlineSignalService;
             _profileRepository = profileRepository;
         }
 
@@ -34,7 +34,7 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
             {
                 return null;
             }
-            _userOnlineStorage.AddUserToOnline(clientId, Context.ConnectionId);
+            _userOnlineSignalService.AddUserToOnline(clientId, Context.ConnectionId);
              SetUserLastLoginTime(clientId);
             Debug.WriteLine("Подключение Id-{0} Время {1}", clientId, DateTime.Now);
             var context = GlobalHost.ConnectionManager.GetHubContext<OnlineHub>();
@@ -75,7 +75,7 @@ namespace GiftKnacksProject.Api.Controllers.Hubs
             {
                 return null;
             }
-            _userOnlineStorage.RemoveUserFromOnline(clientId, Context.ConnectionId);
+            _userOnlineSignalService.RemoveUserFromOnline(clientId, Context.ConnectionId);
             Debug.WriteLine("Дисконнект Id-{0} Время {1}", clientId, DateTime.Now);
             return null;
         }

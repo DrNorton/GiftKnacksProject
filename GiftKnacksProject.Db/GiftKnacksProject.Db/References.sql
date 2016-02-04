@@ -5,7 +5,8 @@
     [Rate] tinyint NULL, 
     [ReplyerId] BIGINT NULL, 
     [OwnerId] BIGINT NULL,
-	CONSTRAINT [FK_References_ReplyUserId] FOREIGN KEY ([ReplyerId]) REFERENCES [Users]([Id]),
+	[CreatedTime] DATETIME NULL, 
+    CONSTRAINT [FK_References_ReplyUserId] FOREIGN KEY ([ReplyerId]) REFERENCES [Users]([Id]),
 	CONSTRAINT [FK_References_OwnerUserId] FOREIGN KEY ([OwnerId]) REFERENCES [Users]([Id])
 		
 )

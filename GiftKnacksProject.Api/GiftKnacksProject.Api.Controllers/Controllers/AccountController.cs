@@ -37,18 +37,18 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         private readonly IProfileRepository _profileRepository;
         private readonly UrlSettings _urlSettings;
         private readonly IFileService _fileService;
-        private readonly IUserOnlineStorage _userOnlineStorage;
+        private readonly IUserOnlineSignalService _userOnlineSignalService;
         private readonly INotificationService _notificationService;
 
 
-        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService,IUserOnlineStorage userOnlineStorage,INotificationService notificationService)
+        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService,IUserOnlineSignalService userOnlineSignalService,INotificationService notificationService)
         {
             
             _userManager = userManager;
             _profileRepository = profileRepository;
             _urlSettings = urlSettings;
             _fileService = fileService;
-            _userOnlineStorage = userOnlineStorage;
+            _userOnlineSignalService = userOnlineSignalService;
             _notificationService = notificationService;
         }
 
@@ -242,7 +242,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
             else
             {
-                profile.IsOnline = _userOnlineStorage.GetOnlineStatus(userId);
+                profile.IsOnline = _userOnlineSignalService.GetOnlineStatus(userId);
                 return SuccessApiResult(profile);
             }
         }
@@ -270,7 +270,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             }
             else
             {
-                profile.IsOnline = _userOnlineStorage.GetOnlineStatus(userId);
+                profile.IsOnline = _userOnlineSignalService.GetOnlineStatus(userId);
                 return SuccessApiResult(profile);
             }
         }

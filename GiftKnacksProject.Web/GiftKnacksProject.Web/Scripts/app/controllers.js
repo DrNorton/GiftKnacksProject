@@ -11,7 +11,7 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
         for (var i = 0; i < pathArr.length; i++) {
             var path = pathArr[i];
             if ($location.path().substr(0, path.length) === path) {
-                return true
+                return true;
             }
         }
         return false;

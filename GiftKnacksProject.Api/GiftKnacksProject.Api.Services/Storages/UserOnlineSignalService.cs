@@ -4,13 +4,13 @@ using GiftKnacksProject.Api.Services.Interfaces;
 
 namespace GiftKnacksProject.Api.Services.Storages
 {
-    public class UserOnlineStorage : IUserOnlineStorage
+    public class UserOnlineSignalService : IUserOnlineSignalService
     {
         private object _synch;
         private List<UserConnectionSignalR> _usersOnline;
         
 
-        public UserOnlineStorage()
+        public UserOnlineSignalService()
         {
             _synch = new object();
             _usersOnline =new List<UserConnectionSignalR>();
@@ -56,6 +56,12 @@ namespace GiftKnacksProject.Api.Services.Storages
         {
             var findedUser = _usersOnline.FirstOrDefault(x => x.UserId == userId);
             return findedUser != null;
+        }
+
+        public UserConnectionSignalR FindUser(long userId)
+        {
+            var findedUser = _usersOnline.FirstOrDefault(x => x.UserId == userId);
+            return findedUser;
         }
     }
 }

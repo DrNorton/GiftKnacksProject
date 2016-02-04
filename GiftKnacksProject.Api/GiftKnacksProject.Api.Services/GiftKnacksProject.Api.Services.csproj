@@ -87,15 +87,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IChatMessageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ChatMessages\ChatMessageService.cs" />
     <Compile Include="Services\FeedService\NotificationService.cs" />
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Interfaces\IFileService.cs" />
-    <Compile Include="Interfaces\IUserOnlineStorage.cs" />
+    <Compile Include="Interfaces\IUserOnlineSignalService.cs" />
     <Compile Include="Interfaces\INotificationService.cs" />
     <Compile Include="Storages\UserConnectionSignalR.cs" />
     <Compile Include="UrlSettings.cs" />
-    <Compile Include="Storages\UserOnlineStorage.cs" />
+    <Compile Include="Storages\UserOnlineSignalService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

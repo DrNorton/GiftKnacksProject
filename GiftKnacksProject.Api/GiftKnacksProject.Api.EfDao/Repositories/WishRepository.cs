@@ -182,7 +182,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
 
         public Task<List<ParticipantDto>> GetAllParticipants(long closedItemId)
         {
-            return Db.Set<WishGiftLink>().Where(x => x.WishId == closedItemId).Select(x => new ParticipantDto() { Id = x.UserId }).ToListAsync();
+            return Db.Set<WishGiftLink>().Where(x => x.WishId == closedItemId).Select(x => new ParticipantDto() { Id = x.Gift.UserId }).ToListAsync();
         }
 
         //Получение виша по городу округу

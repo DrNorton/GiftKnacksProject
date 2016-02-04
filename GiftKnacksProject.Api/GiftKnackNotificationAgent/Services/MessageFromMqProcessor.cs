@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GiftKnackNotificationAgent.Models;
-using GiftKnackNotificationAgent.Models.Handlers;
-using GiftKnackNotificationAgent.Models.Infos;
+
 using GiftKnackProject.NotificationTypes;
+using GiftKnackProject.NotificationTypes.ProcessedNotifications;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
@@ -29,7 +29,7 @@ namespace GiftKnackNotificationAgent.Services
             _handlersDispatcher = handlersDispatcher;
         }
 
-        public async Task ProcessMessage(BrokeredMessage message)
+        public async Task<IEnumerable<Notification>> ProcessMessage(BrokeredMessage message)
         {
             var type = message.Properties["Type"].ToString().ToLower();
             var body=message.GetBody<string>();
@@ -69,7 +69,7 @@ namespace GiftKnackNotificationAgent.Services
                 var collection = await RetrieveOrCreateCollectionAsync(database.SelfLink, notification.Info.OwnerId.ToString());
                 await _client.CreateDocumentAsync(collection.DocumentsLink, notification);
             }
-           
+            return notifications;
         }
 
 

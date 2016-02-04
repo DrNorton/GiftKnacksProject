@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GiftKnackNotificationAgent.Models.Infos;
+
 using GiftKnackProject.NotificationTypes;
+using GiftKnackProject.NotificationTypes.ProcessedNotifications;
+using GiftKnackProject.NotificationTypes.ProcessedNotifications.Infos;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.Dtos.Links;
 using GiftKnacksProject.Api.Dto.Dtos.Wishes;

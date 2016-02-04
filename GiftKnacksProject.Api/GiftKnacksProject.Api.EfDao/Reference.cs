@@ -19,6 +19,7 @@ namespace GiftKnacksProject.Api.EfDao
         public Nullable<byte> Rate { get; set; }
         public Nullable<long> ReplyerId { get; set; }
         public Nullable<long> OwnerId { get; set; }
+        public Nullable<System.DateTime> CreatedTime { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }

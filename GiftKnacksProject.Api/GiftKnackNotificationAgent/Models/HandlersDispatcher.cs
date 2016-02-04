@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GiftKnackNotificationAgent.Models.Handlers;
+using GiftKnackNotificationAgent.Services;
 using GiftKnackProject.NotificationTypes;
+using GiftKnackProject.NotificationTypes.ProcessedNotifications;
 using Newtonsoft.Json;
 
 namespace GiftKnackNotificationAgent.Models
