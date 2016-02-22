@@ -431,12 +431,24 @@ app.factory('commentService', ['$http', 'serviceBase', function ($http, serviceB
             return response;
         });
     };
+    var _getWishCommentsQueue = function (id) {
+        return $http.post(serviceBase + 'api/comment/getqueuebywishid', { Id: id }).then(function (response) {
+            return response;
+        });
+    };
+    var _getGiftCommentsQueue = function (id) {
+        return $http.post(serviceBase + 'api/comment/getqueuebygiftid', { Id: id }).then(function (response) {
+            return response;
+        });
+    };
 
     var referenceServiceFactory = {
         addWishComment: _addWishComment,
         addGiftComment: _addGiftComment,
         getWishComments: _getWishComments,
-        getGiftComments: _getGiftComments
+        getGiftComments: _getGiftComments,
+        getWishCommentsQueue: _getWishCommentsQueue,
+        getGiftCommentsQueue: _getGiftCommentsQueue
     };
     return referenceServiceFactory;
 
