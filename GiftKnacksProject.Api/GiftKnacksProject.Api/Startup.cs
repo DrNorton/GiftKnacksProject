@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Http;
@@ -41,8 +44,12 @@ namespace GiftKnacksProject.Api
                 };
                 map.RunSignalR(hubConfiguration);
             });
+
+           
         }
 
+
+   
 
 
         public void ConfigureOAuth(IAppBuilder app, IWindsorContainer container)
