@@ -1412,7 +1412,7 @@ app.controller('SignupInlineCtrl', ['$scope', 'authService', 'commonService', fu
             authService.saveRegistration($scope.registration).then(function (response) {
                 if (response.data && !response.data.ErrorCode) {
                     $scope.savedSuccessfully = true;
-                    $scope.message = "Thanks for signing up on KnacksGifter! We just sent you a confirmation email to " + $scope.registration.email + ".";
+                    $scope.message = "Thanks! Check your email.";
                 } else {
                     $scope.savedSuccessfully = false;
                     $scope.message = response.data.ErrorMessage;
