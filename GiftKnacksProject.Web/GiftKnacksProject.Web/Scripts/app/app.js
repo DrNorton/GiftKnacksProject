@@ -18,6 +18,29 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
             templateUrl: '/templates/landing.html',
             controller: 'MainCtrl'
         })
+          .when('/loginpage', {
+              title: 'KnacksGifter | Login',
+              metaDescription: 'KnacksGifter Login',
+              metaKeywords: 'KnacksGifter Login Page',
+              controller: 'LoginPageCtrl',
+              templateUrl: "/templates/loginpage.html",
+              resolve: {
+                  confirmUser: ['authService', '$route', function (authService, $route) {
+                      var userId = $route.current.params.userId;
+                      if (userId) {
+                          var verify = {
+                              userId: userId,
+                              code: $route.current.params.code
+                          }
+                          return authService.verifyEmail(verify)
+                      }
+                      else {
+                          return false;
+                      }
+
+                  }]
+              }
+          })
         .when('/blog', {
               title: 'KnacksGifter | Blog',
               metaDescription: 'KnacksGifter Blog',
@@ -45,7 +68,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                   metaKeywords: 'KnacksGifter Recover Page',
                   controller: "RecoverCtrl",
                   templateUrl: "/templates/recover.html"
-              })
+        })
         .when("/forgotpass", {
                   title: 'KnacksGifter | ForgotPass',
                   metaDescription: 'KnacksGifter ForgotPass',

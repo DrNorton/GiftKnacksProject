@@ -1079,6 +1079,7 @@
     <Content Include="templates\findgift.html" />
     <Content Include="templates\giftform.html" />
     <Content Include="templates\giftcard.html" />
+    <Content Include="templates\loginpage.html" />
     <Content Include="templates\recover.html" />
     <Content Include="templates\choicefind.html" />
     <Content Include="templates\user.html" />

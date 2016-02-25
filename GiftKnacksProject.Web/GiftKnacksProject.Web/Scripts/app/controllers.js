@@ -26,23 +26,7 @@ app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubPro
             templateUrl: '/templates/login.html?ver=' + cacheVersion,
             controller: 'LoginCtrl',
             size: 'sm',
-            resolve: {
-                confirmUser: [
-                    'authService', '$route', function(authService, $route) {
-                        var userId = $route.current.params.userId;
-                        if (userId) {
-                            var verify = {
-                                userId: userId,
-                                code: $route.current.params.code
-                            }
-                            return authService.verifyEmail(verify);
-                        } else {
-                            return false;
-                        }
-
-                    }
-                ]
-            }
+            resolve: {}
         });
     };
     $scope.signupPopup = function () {
@@ -1372,7 +1356,6 @@ app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 
 	$scope.submit = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if (isValid) {
-		    $uibModalInstance.close();
 			authService.saveRegistration( $scope.registration ).then( function ( response ) {
 				if ( response.data && !response.data.ErrorCode ) {
 					$scope.savedSuccessfully = true;
@@ -1382,7 +1365,7 @@ app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 
 					$scope.savedSuccessfully = false;
 					$scope.message = response.data.ErrorMessage;
 				}
-
+				
 
 			}, function ( response ) {
 				$scope.savedSuccessfully = false;
@@ -1396,7 +1379,8 @@ app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 
 	};
 	var startTimer = function () {
 		var timer = $timeout( function () {
-			$timeout.cancel( timer );
+		    $timeout.cancel(timer);
+		    $uibModalInstance.close();
 			$location.path( '/' );
 		}, 10000 );
 	}
@@ -1449,10 +1433,10 @@ app.controller('SignupInlineCtrl', ['$scope', 'authService', 'commonService', fu
  * @ngdoc function
  * @name giftknacksApp.controller:LoginCtrl
  * @description
- * # Контроллер авторизации
+ * # Контроллер авторизации в popup
  * Controller of the giftknacksApp
  */
-app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser', '$routeParams', '$uibModalInstance', function ($scope, $location, authService, confirmUser, $routeParams, $uibModalInstance) {
+app.controller('LoginCtrl', ['$scope', '$location', 'authService', '$routeParams', '$uibModalInstance', function ($scope, $location, authService, $routeParams, $uibModalInstance) {
 	authService.logOut();
 	var email = $routeParams.email || '';
 	$scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -1467,8 +1451,8 @@ app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser'
 	$scope.login = function ( isValid ) {
 		$scope.wasSubmitted = true;
 		if (isValid) {
-		    $uibModalInstance.close();
-			authService.login( $scope.loginData ).then( function ( response ) {
+		    authService.login($scope.loginData).then(function (response) {
+		        $uibModalInstance.close();
 				$location.url( $location.path() );
 				$location.path( '/dashboard' );
 
@@ -1482,7 +1466,44 @@ app.controller('LoginCtrl', ['$scope', '$location', 'authService', 'confirmUser'
 	$scope.cancel = function () {
 	    $uibModalInstance.dismiss('cancel');
 	};
-}] );
+}]);
+
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:LoginPageCtrl
+ * @description
+ * # Контроллер страницы авторизации
+ * Controller of the giftknacksApp
+ */
+app.controller('LoginPageCtrl', ['$scope', '$location', 'authService', 'confirmUser', '$routeParams', function ($scope, $location, authService, confirmUser, $routeParams) {
+    authService.logOut();
+    var email = $routeParams.email || '';
+    $scope.emailPattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    $scope.wasSubmitted = false;
+    $scope.loginData = {
+        userName: email,
+        password: ""
+    };
+
+    $scope.message = "";
+
+    $scope.login = function (isValid) {
+        $scope.wasSubmitted = true;
+        if (isValid) {
+            authService.login($scope.loginData).then(function (response) {
+                $location.url($location.path());
+                $location.path('/dashboard');
+
+            },
+					 function (err) {
+					     $scope.message = err.error_description;
+					 });
+        }
+
+    };
+
+}]);
+
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:ForgotPassCtrl
