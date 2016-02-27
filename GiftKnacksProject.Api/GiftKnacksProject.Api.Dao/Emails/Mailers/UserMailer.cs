@@ -28,7 +28,7 @@ namespace GiftKnacksProject.Api.Dao.Emails.Mailers
                 </html>";
            
           var result=Razor.Parse(template, new {Email = email, Url = code});
-          return SendEmail("dimaivanov1@mail.ru", email, "Valid Acc", result, true);
+          return SendEmail("noreply@knacksgifter.com", email, "Valid Acc", result, true);
         }
 
         public Task RecoveryPasswordEmail(string email, string code)
@@ -44,13 +44,13 @@ namespace GiftKnacksProject.Api.Dao.Emails.Mailers
                 </html>";
 
             var result = Razor.Parse(template, new { Email = email, Url = code });
-            return SendEmail("dimaivanov1@mail.ru", email, "Valid Acc", result, true);
+            return SendEmail("noreply@knacksgifter.com", email, "Valid Acc", result, true);
         }
 
         private  Task SendEmail(string from, string to, string subject, string body, bool isHtml)
         {
-            SmtpClient mailClient = new SmtpClient("smtp.mail.ru", 25);
-            mailClient.Credentials = new NetworkCredential("dimaivanov1@mail.ru", "dimarianon1990");
+            SmtpClient mailClient = new SmtpClient("smtp.yandex.ru", 25);
+            mailClient.Credentials = new NetworkCredential("noreply@knacksgifter.com", "rianon1990");
             mailClient.EnableSsl = true;
 
             MailMessage message = new MailMessage();

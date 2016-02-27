@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using GiftKnackProject.NotificationTypes;
+using GiftKnackProject.NotificationTypes.ProcessedNotifications;
 using GiftKnacksProject.Api.Services.Interfaces;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
@@ -18,7 +19,7 @@ namespace GiftKnacksProject.Api.Services.Services.FeedService
     {
         private QueueClient _queueClient;
         private readonly DocumentClient _databaseClient;
-        private const string DatabaseId = "notificationslenta";
+        private const string DatabaseId = "knackgifterstorage";
 
 
         public NotificationService(QueueClient notififactionQueueClient, DocumentClient databaseClient)
@@ -34,11 +35,11 @@ namespace GiftKnacksProject.Api.Services.Services.FeedService
             return _queueClient.SendAsync(message);
         }
 
-        public async Task<List<Document>> GetLenta(long id)
+        public async Task<List<Notification>> GetLenta(long id)
         {
             var database = await RetrieveOrCreateDatabaseAsync(DatabaseId);
-            var collection = await RetrieveOrCreateCollectionAsync(database.SelfLink, id.ToString());
-            var data = _databaseClient.CreateDocumentQuery(collection.DocumentsLink).OrderByDescending(x=>x.Timestamp).ToList();
+            var collection = await RetrieveOrCreateCollectionAsync(database.SelfLink, "notificationLenta");
+            var data = _databaseClient.CreateDocumentQuery<Notification>(collection.DocumentsLink).Where(x=>x.TargetUserId==id).OrderByDescending(x=>x.Time).ToList();
             return data;
         }
 
