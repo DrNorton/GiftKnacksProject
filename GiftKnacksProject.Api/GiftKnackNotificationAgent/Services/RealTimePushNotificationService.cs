@@ -24,7 +24,6 @@ namespace GiftKnackNotificationAgent.Services
 
         public async Task SentRealTimeMessages(IEnumerable<Notification> notifications)
         {
-    
 
             string notifs = JsonConvert.SerializeObject(notifications, Formatting.Indented,
                 new JsonSerializerSettings
