@@ -79,7 +79,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
                    
-                    var callbackUrl = String.Format("{0}/#/login?userId={1}&code={2}&email={3}", _urlSettings.SiteUrl,user.Id,
+                    var callbackUrl = String.Format("{0}/loginpage?userId={1}&code={2}&email={3}", _urlSettings.SiteUrl,user.Id,
                         WebUtility.UrlEncode(code), user.UserName);
                     await _userManager.SendEmailAsync(user.Id, "ConfirmEmail", callbackUrl);
                 }
@@ -308,7 +308,7 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             var user = _userManager.FindByEmailAsync(model.Email);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user.Result.Id);
            
-            var callbackUrl = String.Format("{0}/#/recover?email={1}&token={2}",_urlSettings.SiteUrl, model.Email, WebUtility.UrlEncode(token));
+            var callbackUrl = String.Format("{0}/recover?email={1}&token={2}",_urlSettings.SiteUrl, model.Email, WebUtility.UrlEncode(token));
             await _userManager.SendEmailAsync(user.Result.Id, "RecoverPassword", callbackUrl);
             return EmptyApiResult();
         }

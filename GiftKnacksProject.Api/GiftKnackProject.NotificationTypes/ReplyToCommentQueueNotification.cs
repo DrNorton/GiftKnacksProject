@@ -8,7 +8,13 @@ namespace GiftKnackProject.NotificationTypes
 {
     public class ReplyToCommentQueueNotification:UserGeneratedQueueNotification
     {
-        public override string Type => "replytocomment";
+        public override string Type
+        {
+            get
+            {
+                return  "replytocomment";
+            }
+        }
         public long TargetId { get; set; }
         public string TargetType { get; set; }
         public long CommentId { get; set; }
