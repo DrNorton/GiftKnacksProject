@@ -15,6 +15,7 @@ using System.Web.Mvc;
 using GiftKnacksProject.Api.Controllers.ApiResults;
 using GiftKnacksProject.Api.Controllers.Models;
 using GiftKnacksProject.Api.Dao.AuthUsers;
+using GiftKnacksProject.Api.Dao.Emails.Mailers;
 using GiftKnacksProject.Api.Dao.Repositories;
 using GiftKnacksProject.Api.Dto.AuthUsers;
 using GiftKnacksProject.Api.Dto.Dtos;
@@ -39,18 +40,22 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
         private readonly IFileService _fileService;
         private readonly IUserOnlineSignalService _userOnlineSignalService;
         private readonly INotificationService _notificationService;
+        private readonly IUserMailer _mailer;
 
 
-        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository,UrlSettings urlSettings,IFileService fileService,IUserOnlineSignalService userOnlineSignalService,INotificationService notificationService)
+        public AccountController(CustomUserManager userManager, IProfileRepository profileRepository, UrlSettings urlSettings, IFileService fileService, IUserOnlineSignalService userOnlineSignalService, INotificationService notificationService,IUserMailer mailer)
         {
-            
+
             _userManager = userManager;
             _profileRepository = profileRepository;
             _urlSettings = urlSettings;
             _fileService = fileService;
             _userOnlineSignalService = userOnlineSignalService;
             _notificationService = notificationService;
+            _mailer = mailer;
         }
+
+
 
         // POST api/Account/Register
         [System.Web.Http.AllowAnonymous]

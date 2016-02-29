@@ -12,7 +12,7 @@ namespace GiftKnackProject.NotificationTypes
         {
             get
             {
-                return  "replytocomment";
+                return "commentreply";
             }
         }
         public long TargetId { get; set; }

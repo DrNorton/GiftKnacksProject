@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using GiftKnackAgentCore.Services;
 using GiftKnackNotificationAgent.Services;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;

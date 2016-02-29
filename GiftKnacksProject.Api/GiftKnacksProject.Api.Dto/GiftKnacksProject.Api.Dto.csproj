@@ -61,6 +61,7 @@
     <Compile Include="AuthUsers\ApplicationUser.cs" />
     <Compile Include="Dtos\Chat\SendToChatMessageDto.cs" />
     <Compile Include="Dtos\Comments\CommentDto.cs" />
+    <Compile Include="Dtos\Comments\GetCommentDto.cs" />
     <Compile Include="Dtos\Comments\GetCommentsDto.cs" />
     <Compile Include="Dtos\ContactDto.cs" />
     <Compile Include="Dtos\CountryDto.cs" />

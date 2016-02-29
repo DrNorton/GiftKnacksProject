@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackNotificationAgent"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackMessageAgent", "GiftKnackMessageAgent\GiftKnackMessageAgent.csproj", "{B12199A7-10FB-4CF5-971D-06C098F94EF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftKnackAgentCore", "GiftKnackAgentCore\GiftKnackAgentCore.csproj", "{153730D7-C316-492B-B4F5-23D280D93879}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{B12199A7-10FB-4CF5-971D-06C098F94EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B12199A7-10FB-4CF5-971D-06C098F94EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B12199A7-10FB-4CF5-971D-06C098F94EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{153730D7-C316-492B-B4F5-23D280D93879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{153730D7-C316-492B-B4F5-23D280D93879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{153730D7-C316-492B-B4F5-23D280D93879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{153730D7-C316-492B-B4F5-23D280D93879}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,5 +93,6 @@ Global
 		{D08AA878-EA84-423A-BB89-1C67DDADC275} = {2282BB18-8427-4FFC-B3D4-E5801CD4F54D}
 		{266ABCBF-E13A-45F6-9805-6C4FFE0DF327} = {DA831952-651F-4FB7-818B-7D0DA9B7F754}
 		{B12199A7-10FB-4CF5-971D-06C098F94EF9} = {DA831952-651F-4FB7-818B-7D0DA9B7F754}
+		{153730D7-C316-492B-B4F5-23D280D93879} = {DA831952-651F-4FB7-818B-7D0DA9B7F754}
 	EndGlobalSection
 EndGlobal

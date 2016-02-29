@@ -44,6 +44,53 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
             return  Db.Set<Comment>().Where(x => x.Id == parentCommentId).Select(x => x.UserId).FirstOrDefaultAsync();
         }
 
+        public async Task<List<CommentDto>> GetWishCommentsOlderById(GetCommentDto getCommentDto)
+        {
+            var query= Db.Set<WishLinkComment>().Where(x => x.WishId == getCommentDto.Id).AsQueryable();
+            //берём коммент
+            var comment = await Db.Set<Comment>().FirstOrDefaultAsync(x => x.Id == getCommentDto.CommentId);
+            //смотрим, корневой ли он
+            if (comment.ParentCommentId == null)
+            {
+                //корневой
+                 query = query.Where(x=>x.Comment.UpdateTime<=comment.UpdateTime);
+            }
+            else
+            {
+                //ищем корневой
+                var rootComment = await Db.Set<Comment>().FirstOrDefaultAsync(x => x.Id == comment.ParentCommentId);
+                query = query.Where(x => x.Comment.UpdateTime <= rootComment.UpdateTime);
+            }
+
+            query = query.OrderByDescending(x => x.Comment.UpdateTime).Skip(getCommentDto.Offset).Take(getCommentDto.Length);
+            var collection = await query.ToListAsync();
+            return ConvertToCommentDto(collection);
+        }
+
+        public async Task<List<CommentDto>> GetGiftCommentsOlderById(GetCommentDto getCommentDto)
+        {
+            var query = Db.Set<GiftLinkComment>().Where(x => x.GiftId == getCommentDto.Id).AsQueryable();
+
+            //берём коммент
+            var comment = await Db.Set<Comment>().FirstOrDefaultAsync(x => x.Id == getCommentDto.CommentId);
+            //смотрим, корневой ли он
+            if (comment.ParentCommentId == null)
+            {
+                //корневой
+                query = query.Where(x => x.Comment.UpdateTime <= comment.UpdateTime);
+            }
+            else
+            {
+                //ищем корневой
+                var rootComment = await Db.Set<Comment>().FirstOrDefaultAsync(x => x.Id == comment.ParentCommentId);
+                query = query.Where(x => x.Comment.UpdateTime <= rootComment.UpdateTime);
+            }
+
+            query = query.OrderByDescending(x => x.Comment.UpdateTime).Skip(getCommentDto.Offset).Take(getCommentDto.Length);
+            var collection = await query.ToListAsync();
+            return ConvertToCommentDto(collection);
+        }
+
         public  Task<CommentDto> AddCommentToGift(long giftId, long commentUserId, string text, long? parentId = null)
         {
             var newComment = InsertComment(commentUserId,text,parentId);

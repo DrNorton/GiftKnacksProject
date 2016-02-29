@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace GiftKnackProject.NotificationTypes.ProcessedNotifications
 {
@@ -12,7 +13,7 @@ namespace GiftKnackProject.NotificationTypes.ProcessedNotifications
             get { return Info.OwnerId; }
         }
 
-
+        [JsonProperty(TypeNameHandling = TypeNameHandling.Objects)]
         public BaseNotificationInfo Info { get; set; }
     }
 }
