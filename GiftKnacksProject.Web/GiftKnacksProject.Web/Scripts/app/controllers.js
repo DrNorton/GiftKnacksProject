@@ -138,7 +138,43 @@ app.controller('AboutCtrl', ['$scope', '$location', '$anchorScroll', function ($
  * Controller of the giftknacksApp
  */
 app.controller('HelpUsCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
-    $scope.selectedLink = 'ideas';
+    $scope.selectedLink = 'helpus';
+    if ($location.hash()) {
+        $anchorScroll();
+        $scope.selectedLink = $location.hash();
+    }
+    $scope.scrollTo = function (id) {
+        $location.hash(id);
+        $anchorScroll();
+    }
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:FaqCtrl
+ * @description
+ * # Контроллер информационной страницы
+ * Controller of the giftknacksApp
+ */
+app.controller('HelpUsCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
+    $scope.selectedLink = 'faq';
+    if ($location.hash()) {
+        $anchorScroll();
+        $scope.selectedLink = $location.hash();
+    }
+    $scope.scrollTo = function (id) {
+        $location.hash(id);
+        $anchorScroll();
+    }
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:SupportCtrl
+ * @description
+ * # Контроллер информационной страницы
+ * Controller of the giftknacksApp
+ */
+app.controller('SupportCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
+    $scope.selectedLink = 'support';
     if ($location.hash()) {
         $anchorScroll();
         $scope.selectedLink = $location.hash();
@@ -177,7 +213,7 @@ app.controller('UserCtrl', ['$scope', '$uibModal', 'authService', 'initialData',
 	            } else {
 	                //TODO:  message error
 	            }
-	        }, function (response) { /*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
+	        }, function (response) { /*TODO:  message error "Failed to add wish due to: " + commonService.displayError(response);*/ });
 
 	        wishAndGiftService.showWishes({ Length: 5, UserId: $scope.user.Id }).then(function (response) {
 	            if (response.data && !response.data.ErrorCode) {
@@ -185,7 +221,7 @@ app.controller('UserCtrl', ['$scope', '$uibModal', 'authService', 'initialData',
 	            } else {
 	                //TODO:  message error
 	            }
-	        }, function (response) {/*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
+	        }, function (response) {/*TODO:  message error "Failed to add wish due to: " + commonService.displayError(response);*/ });
 	    }
 	 
 	}
@@ -217,7 +253,7 @@ app.controller('UserCtrl', ['$scope', '$uibModal', 'authService', 'initialData',
 	            //$scope.message = response.data.ErrorMessage;
 	        }
 	    }, function (response) {
-	        //$scope.message = "Failed to add wish due to: " + commonService.displayError();
+	        //$scope.message = "Failed to add wish due to: " + commonService.displayError(response);
 
 	    });
 	}
@@ -296,7 +332,7 @@ app.controller('HistoryCtrl', ['$scope', 'authService', 'commonService', 'wishAn
 	            } else {
 	                //TODO:  message error
 	            }
-	        }, function (response) { /*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
+	        }, function (response) { /*TODO:  message error "Failed to add wish due to: " + commonService.displayError(response);*/ });
         }
 	    }
 	$scope.getWishes = function (tab) {
@@ -311,7 +347,7 @@ app.controller('HistoryCtrl', ['$scope', 'authService', 'commonService', 'wishAn
 	            } else {
 	                //TODO:  message error
 	            }
-	        }, function (response) {/*TODO:  message error "Failed to add wish due to: " + commonService.displayError();*/ });
+	        }, function (response) {/*TODO:  message error "Failed to add wish due to: " + commonService.displayError(response);*/ });
 	    }
 
 	}
@@ -373,7 +409,7 @@ app.controller( 'FindWishCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 				$scope.listWish = newSearch ? { Name: response.data.ErrorMessage } : $scope.listWish.concat( { Name: response.data.ErrorMessage } );
 			}
 		}, function ( response ) {
-			$scope.listWish = $scope.listWish.concat( { Name: "Failed to search wishes due to: " + commonService.displayError() } );
+		    $scope.listWish = $scope.listWish.concat({ Name: "Failed to search wishes due to: " + commonService.displayError(response) });
 			$scope.queryWish.busy = false;
 		} );
 	};
@@ -469,7 +505,7 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
 				$scope.listGift = newSearch ? { Name: response.data.ErrorMessage } : $scope.listGift.concat( { Name: response.data.ErrorMessage } );
 			}
 		}, function ( response ) {
-			$scope.listGift = $scope.listGift.concat( { Name: "Failed to search gifts due to: " + commonService.displayError() } );
+		    $scope.listGift = $scope.listGift.concat({ Name: "Failed to search gifts due to: " + commonService.displayError(response) });
 			$scope.queryGift.busy = false;
 		} );
 	};
@@ -539,7 +575,7 @@ app.controller( 'FindGiftCtrl', ['$scope', 'authService', /*'initialData',*/ 'co
  * # Контроллер страницы информации о гифте или више
  * Controller of the giftknacksApp
  */
-app.controller('ItemCardCtrl', ['$scope', '$uibModal', '$compile', '$route', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', 'cacheVersion', function ($scope, $uibModal, $compile, $route, authService, initialData, commonService, wishAndGiftService, commentService, cacheVersion) {
+app.controller('ItemCardCtrl', ['$scope', '$uibModal', '$compile', '$route','$location', 'authService', 'initialData', 'commonService', 'wishAndGiftService', 'commentService', 'cacheVersion', function ($scope, $uibModal, $compile, $route,$location, authService, initialData, commonService, wishAndGiftService, commentService, cacheVersion) {
     $scope.enoughData = authService.authentication.isFilled;
     $scope.myId = authService.authentication.userId;
     $scope.wasSubmitted = false;
@@ -547,9 +583,13 @@ app.controller('ItemCardCtrl', ['$scope', '$uibModal', '$compile', '$route', 'au
     $scope.comments = [];
     $scope.allCommentsLoaded = false;
     $scope.commentText = '';
+    $scope.message = '';
     $scope.replyText = {};
     $scope.newComments = {};
     $scope.replyForms = {};
+    $scope.commentId = $location.search().commentId || false;
+    $scope.firstView = !!$scope.commentId;
+
 	if ( initialData.data && !initialData.data.ErrorCode ) {
 		$scope.item = initialData.data.Result;
 
@@ -573,6 +613,15 @@ app.controller('ItemCardCtrl', ['$scope', '$uibModal', '$compile', '$route', 'au
 
 	$scope.query = { busy: false, Id: $scope.item.Id, Offset: -10, Length: 10 };
 
+	$scope.resetComments = function (type) {
+	    $location.search('commentId', null);
+	    $scope.commentId = false;
+	    $scope.query = { busy: false, Id: $scope.item.Id, Offset: -10, Length: 10 };
+	    $scope.allCommentsLoaded = false;
+	    $scope.comments = [];
+	    $scope.firstView = true;
+	    $scope.loadComments(type);
+	}
 	//lazy load
 	$scope.loadComments = function (type, offset) {
 	    if ($scope.allCommentsLoaded) {
@@ -582,20 +631,30 @@ app.controller('ItemCardCtrl', ['$scope', '$uibModal', '$compile', '$route', 'au
 	    if (type=='gift') {
 	        method = 'getGiftComments';
 	    }
+	    if ($scope.commentId) {
+	        method += 'ById';
+	        $scope.query.CommentId = $scope.commentId;
+	    }
 	    $scope.query.busy = true;
 	    $scope.query.Offset = typeof offset == "undefined" ? ($scope.query.Offset + $scope.query.Length) : offset;
+
 	    commentService[method]($scope.query).then(function (response) {
+	        if ($scope.firstView) {
+	            $("body").animate({ scrollTop: $('.panel.comments-list').offset().top - $('.navbar').outerHeight() }, "slow");
+	        }
+	        $scope.firstView = false;
 	        $scope.query.busy = false;
+	        $scope.message = '';
 			if ( response.data && !response.data.ErrorCode ) {
 			    $scope.comments = $scope.comments.concat(response.data.Result);
 			    if (response.data.Result.length < $scope.query.Length) {
 			        $scope.allCommentsLoaded = true;
 			    }
 			} else {
-			    $scope.comments = $scope.comments.concat({ Name: response.data.ErrorMessage });
+			    $scope.message =  response.data.ErrorMessage;
 			}
 		}, function ( response ) {
-		    $scope.comments = $scope.comments.concat({ Name: "Failed to search wishes due to: " + commonService.displayError() });
+		    $scope.message ="Failed to search wishes due to: " + commonService.displayError(response);
 			$scope.query.busy = false;
 		} );
 	};
@@ -734,7 +793,7 @@ app.controller('ItemCardCtrl', ['$scope', '$uibModal', '$compile', '$route', 'au
 								//$scope.message = response.data.ErrorMessage;
 							}
 						}, function ( response ) {
-							//$scope.message = "Failed to add wish due to: " + commonService.displayError();
+						    //$scope.message = "Failed to add wish due to: " + commonService.displayError(response);
 
 						} );
 					}, function () {
@@ -745,7 +804,7 @@ app.controller('ItemCardCtrl', ['$scope', '$uibModal', '$compile', '$route', 'au
 				//TODO: popup message error
 			}
 		}, function ( response ) {
-			//TODO: popup message error "Failed to add wish due to: " + commonService.displayError();
+		    //TODO: popup message error "Failed to add wish due to: " + commonService.displayError(response);
 		} );
 	}
 
@@ -818,7 +877,7 @@ app.controller('AddReferenceCtrl', ['$scope', '$uibModalInstance', 'referenceSer
                 //$scope.message = response.data.ErrorMessage;
             }
         }, function (response) {
-            //$scope.message = "Failed to add wish due to: " + commonService.displayError();
+            //$scope.message = "Failed to add wish due to: " + commonService.displayError(response);
         });
     };
     $scope.cancel = function () {
@@ -854,7 +913,7 @@ app.controller('ModalCloseItemCtrl', ['$scope', '$uibModalInstance', 'items', 'p
                 //TODO: popup message error
             }
         }, function (response) {
-            //TODO: popup message error "Failed to add wish due to: " + commonService.displayError();
+            //TODO: popup message error "Failed to add wish due to: " + commonService.displayError(response);
         });
        
     };
@@ -990,7 +1049,7 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 								//$scope.message = response.data.ErrorMessage;
 							}
 						}, function ( response ) {
-							//$scope.message = "Failed to add wish due to: " + commonService.displayError();
+						    //$scope.message = "Failed to add wish due to: " + commonService.displayError(response);
 						} );
 					}
 					else {
@@ -1002,7 +1061,7 @@ app.controller( 'WishFormCtrl', ['$scope','$location', 'authService', 'initialDa
 				}
 			}, function ( response ) {
 				$scope.savedSuccessfully = false;
-				$scope.message = "Failed to add wish due to: " + commonService.displayError();
+				$scope.message = "Failed to add wish due to: " + commonService.displayError(response);
 			} );
 		}
 	};
@@ -1089,7 +1148,7 @@ app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialDa
 								//$scope.message = response.data.ErrorMessage;
 							}
 						}, function ( response ) {
-							//$scope.message = "Failed to add wish due to: " + commonService.displayError();
+						    //$scope.message = "Failed to add wish due to: " + commonService.displayError(response);
 						} );
 					}
 					else {
@@ -1101,7 +1160,7 @@ app.controller( 'GiftFormCtrl', ['$scope','$location', 'authService', 'initialDa
 				}
 			}, function ( response ) {
 				$scope.savedSuccessfully = false;
-				$scope.message = "Failed to add gift due to: " + commonService.displayError();
+				$scope.message = "Failed to add gift due to: " + commonService.displayError(response);
 			} );
 		}
 	};
@@ -1326,7 +1385,7 @@ app.controller( 'ProfileCtrl', ['$scope', '$location', '$timeout', 'authService'
 				}
 			}, function ( response ) {
 				$scope.profileSavedSuccessfully = false;
-				$scope.profileMessage = "Failed to save profile due to: " + commonService.displayError();
+				$scope.profileMessage = "Failed to save profile due to: " + commonService.displayError(response);
 			} );
 		}
 
@@ -1369,7 +1428,7 @@ app.controller('SignupCtrl', ['$scope', '$location', '$timeout', 'authService', 
 
 			}, function ( response ) {
 				$scope.savedSuccessfully = false;
-				$scope.message = "Failed to register user due to:" + commonService.displayError();
+				$scope.message = "Failed to register user due to:" + commonService.displayError(response);
 			} );
 		}
 
@@ -1421,7 +1480,7 @@ app.controller('SignupInlineCtrl', ['$scope', 'authService', 'commonService', fu
 
             }, function (response) {
                 $scope.savedSuccessfully = false;
-                $scope.message = "Failed to register user due to:" + commonService.displayError();
+                $scope.message = "Failed to register user due to:" + commonService.displayError(response);
             });
         }
 
@@ -1467,7 +1526,6 @@ app.controller('LoginCtrl', ['$scope', '$location', 'authService', '$routeParams
 	    $uibModalInstance.dismiss('cancel');
 	};
 }]);
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:LoginPageCtrl
@@ -1503,7 +1561,6 @@ app.controller('LoginPageCtrl', ['$scope', '$location', 'authService', 'confirmU
     };
 
 }]);
-
 /**
  * @ngdoc function
  * @name giftknacksApp.controller:ForgotPassCtrl
@@ -1577,7 +1634,7 @@ app.controller( 'RecoverCtrl', ['$scope', '$location', '$timeout', '$routeParams
 
 			}, function ( response ) {
 				$scope.savedSuccessfully = false;
-				$scope.message = "Failed to reset password due to:" + commonService.displayError();
+				$scope.message = "Failed to reset password due to:" + commonService.displayError(response);
 			} );
 		}
 
@@ -1630,4 +1687,30 @@ app.controller('FeedPopupCtrl', ['$scope', '$uibModalInstance', 'feed', function
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:DialogsCtrl
+ * @description
+ * # Контроллер страницы с диалогами
+ * Controller of the giftknacksApp
+ */
+app.controller('DialogsCtrl', ['$scope', 'initialData', 'authService', function ($scope, initialData,authService) {
+    $scope.enoughData = authService.authentication.isFilled;
+    if (initialData.data && !initialData.data.ErrorCode) {
+        $scope.dialogs = initialData.data.Result;
+    }
+}]);
+/**
+ * @ngdoc function
+ * @name giftknacksApp.controller:ChatCtrl
+ * @description
+ * # Контроллер страницы с сообщениями
+ * Controller of the giftknacksApp
+ */
+app.controller('ChatCtrl', ['$scope', 'initialData', 'authService', function ($scope, initialData, authService) {
+    $scope.enoughData = authService.authentication.isFilled;
+    if (initialData.data && !initialData.data.ErrorCode) {
+        $scope.chat = initialData.data.Result;
+    }
 }]);

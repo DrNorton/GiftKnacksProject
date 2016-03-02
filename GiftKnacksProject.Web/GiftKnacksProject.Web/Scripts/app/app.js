@@ -56,12 +56,26 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
               controller: 'AboutCtrl'
           })
         .when('/helpus', {
-               title: 'KnacksGifter | FAQ',
+            title: 'KnacksGifter | Help Us',
                metaDescription: 'KnacksGifter Help Us',
                metaKeywords: 'KnacksGifter Help Us Page',
                templateUrl: '/templates/helpus.html',
                controller: 'HelpUsCtrl'
+        })
+        .when('/faq', {
+               title: 'KnacksGifter | FAQ',
+               metaDescription: 'KnacksGifter FAQ',
+               metaKeywords: 'KnacksGifter FAQ Page',
+               templateUrl: '/templates/faq.html',
+               controller: 'FaqCtrl'
            })
+        .when('/support', {
+              title: 'KnacksGifter | Support',
+              metaDescription: 'KnacksGifter Support',
+              metaKeywords: 'KnacksGifter Support Page',
+              templateUrl: '/templates/support.html',
+              controller: 'SupportCtrl'
+          })
         .when("/recover", {
                   title: 'KnacksGifter | Recover',
                   metaDescription: 'KnacksGifter Recover',
@@ -217,7 +231,31 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
                           return profileService.getShortPtofile($route.current.params.userId);
                       }]
                   }
-              })
+        })
+        .when("/dialogs", {
+               title: 'KnacksGifter | Dialogs',
+               metaDescription: 'KnacksGifter Dialogs',
+               metaKeywords: 'KnacksGifter Dialogs Page',
+               controller: "DialogsCtrl",
+               templateUrl: "/templates/dialogs.html",
+               resolve: {
+                   initialData: ['chatService', function (chatService) {
+                       return chatService.getDialogs();
+                   }]
+               }
+        })
+          .when("/chat/:sender/:recipient", {
+              title: 'KnacksGifter | Chat',
+              metaDescription: 'KnacksGifter Chat',
+              metaKeywords: 'KnacksGifter Chat Page',
+              controller: "ChatCtrl",
+              templateUrl: "/templates/chat.html",
+              resolve: {
+                  initialData: ['$route', 'chatService', function ($route, chatService) {
+                      return chatService.getChat($route.current.params.sender, $route.current.params.recipient);
+                  }]
+              }
+          })
         .otherwise({
             redirectTo: '/'
         });
@@ -229,7 +267,7 @@ var app = angular.module('giftknacksApp', ['ngRoute', 'ui.bootstrap', 'LocalStor
   }]);
 
 app.value('serviceBase', 'http://giftknackapi.azurewebsites.net/');
-app.constant("cacheVersion", '59');
+app.constant("cacheVersion", '63');
 
 app.run(['authService', '$rootScope', '$location', '$anchorScroll', '$window', function (authService, $rootScope, $location, $anchorScroll, $window) {
     authService.fillAuthData();

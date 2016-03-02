@@ -141,27 +141,36 @@
             </div>
         </form>
 	</div>
+    <hr class="">
+    <div class="row">
+        <div class="col-md-4">
+            <form class="form-change-password" role="form" name="changePasswordForm" novalidate>
+                <h3 class="form-change-password-heading">Change password</h3>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="oldPassword" placeholder="Old Password" data-ng-model="passwordData.oldPassword" required>
+                    <div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.oldPassword.$error.required">Required</div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="newPassword" placeholder="New Password" data-ng-model="passwordData.newPassword" required>
+                    <div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.newPassword.$error.required">Required</div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="confimNewPassword" placeholder="Confirm New Password" data-ng-model="passwordData.confirmNewPassword" required field-match="passwordData.newPassword">
+                    <div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.confimNewPassword.$error.required">Required</div>
+                    <div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.confimNewPassword.$error.fieldMatch">Passwords are not equal</div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-click="changePassword(changePasswordForm.$valid)">Change</button>
+                </div>
+                <div data-ng-hide="passwordMessage == ''" data-ng-class="(passwordSavedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+                    {{passwordMessage}}
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
-<hr class="">
-<div class="row">
-	<div class="col-md-4 col-md-offset-6">
-		<form class="form-change-password" role="form" name="changePasswordForm" novalidate>
-			<h3 class="form-change-password-heading">Change password</h3>
-			<input type="password" class="form-control" name="oldPassword" placeholder="Old Password" data-ng-model="passwordData.oldPassword" required>
-			<div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.oldPassword.$error.required">Required</div>
-			<input type="password" class="form-control" name="newPassword" placeholder="New Password" data-ng-model="passwordData.newPassword" required>
-			<div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.newPassword.$error.required">Required</div>
-			<input type="password" class="form-control" name="confimNewPassword" placeholder="Confirm New Password" data-ng-model="passwordData.confirmNewPassword" required field-match="passwordData.newPassword">
-			<div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.confimNewPassword.$error.required">Required</div>
-			<div class="label label-danger" ng-show="wasChangePasswordSubmitted && changePasswordForm.confimNewPassword.$error.fieldMatch">Passwords are not equal</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-click="changePassword(changePasswordForm.$valid)">Change</button>
-			<div data-ng-hide="passwordMessage == ''" data-ng-class="(passwordSavedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
-				{{passwordMessage}}
-			</div>
-		</form>
-	</div>
-</div>
+
 
 
 

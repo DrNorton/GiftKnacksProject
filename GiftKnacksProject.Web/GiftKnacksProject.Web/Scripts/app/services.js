@@ -372,7 +372,8 @@ app.factory('authInterceptorService', ['$q', '$location', 'localStorageService',
 app.factory('commonService', ['$http', 'serviceBase', function ($http, serviceBase) {
 
 	var _displayError = function ( response) {
-		var errors = [];
+	    var errors = [];
+
 		for ( var key in response.data.modelState ) {
 			for ( var i = 0; i < response.data.modelState[key].length; i++ ) {
 				errors.push( response.data.modelState[key][i] );
@@ -421,23 +422,23 @@ app.factory('commentService', ['$http', 'serviceBase', function ($http, serviceB
             return response;
         });
     };
-    var _getWishComments = function (id) {
-        return $http.post(serviceBase + 'api/comment/getbywishid', { Id: id }).then(function (response) {
+    var _getWishComments = function (query) {
+        return $http.post(serviceBase + 'api/comment/getbywishid', query).then(function (response) {
             return response;
         });
     };
-    var _getGiftComments = function (id) {
-        return $http.post(serviceBase + 'api/comment/getbygiftid', { Id: id }).then(function (response) {
+    var _getGiftComments = function (query) {
+        return $http.post(serviceBase + 'api/comment/getbygiftid', query).then(function (response) {
             return response;
         });
     };
-    var _getWishCommentsQueue = function (id) {
-        return $http.post(serviceBase + 'api/comment/getqueuebywishid', { Id: id }).then(function (response) {
+    var _getWishCommentsById = function (query) {
+        return $http.post(serviceBase + 'api/comment/getwishcommentbyid', query).then(function (response) {
             return response;
         });
     };
-    var _getGiftCommentsQueue = function (id) {
-        return $http.post(serviceBase + 'api/comment/getqueuebygiftid', { Id: id }).then(function (response) {
+    var _getGiftCommentsById = function (query) {
+        return $http.post(serviceBase + 'api/comment/getgiftcommentbyid', query).then(function (response) {
             return response;
         });
     };
@@ -447,8 +448,8 @@ app.factory('commentService', ['$http', 'serviceBase', function ($http, serviceB
         addGiftComment: _addGiftComment,
         getWishComments: _getWishComments,
         getGiftComments: _getGiftComments,
-        getWishCommentsQueue: _getWishCommentsQueue,
-        getGiftCommentsQueue: _getGiftCommentsQueue
+        getWishCommentsById: _getWishCommentsById,
+        getGiftCommentsById: _getGiftCommentsById
     };
     return referenceServiceFactory;
 
@@ -512,4 +513,90 @@ app.factory('signalRHubProxy', ['$rootScope', 'authService', 'serviceBase', func
         };
 
         return signalRHubProxyFactory;
+}]);
+
+app.factory('chatService', ['$http', 'serviceBase', function ($http, serviceBase) {
+    var _getDialogs = function () {
+        var response = {
+            data: {
+                ErrorCode: 0,
+                Result: [
+                    {
+                        Sender: {
+                            Id: '162',
+                            FirstName: 'Andrew',
+                            LastName: 'Kozak',
+                            AvatarUrl: 'https://giftknackstorage.blob.core.windows.net/avatars/e82073b1-f497-4fdb-93fa-24e8c4f1dadf.png'
+                        },
+                        Recipient: {
+                            Id: '165',
+                            FirstName: 'Val',
+                            LastName: 'Kurasova',
+                            AvatarUrl: 'https://giftknackstorage.blob.core.windows.net/avatars/121202cc-c2e4-4b64-91be-1c9da9aaa7f1.png'
+                        },
+                        Time: '2016-03-01T16:52:16.6816485+00:00',
+                        LastMessage: 'New message',
+                        NewCount: '2',
+                        IsRead: true,
+                        LastFromSender: true,
+                    },
+                    {
+                        Sender: {
+                            Id: '168',
+                            FirstName: 'bk',
+                            LastName: 'lkhk',
+                            AvatarUrl: 'https://giftknackstorage.blob.core.windows.net/avatars/bcb69f3c-2f6b-4bd7-b83d-0590761e82ee.png'
+                        },
+                        Recipient: {
+                            Id: '165',
+                            FirstName: 'Val',
+                            LastName: 'Kurasova',
+                            AvatarUrl: 'https://giftknackstorage.blob.core.windows.net/avatars/121202cc-c2e4-4b64-91be-1c9da9aaa7f1.png'
+                        },
+                            Time: '2016-02-01T16:52:16.6816485+00:00',
+                            LastMessage: 'My text to bk',
+                        NewCount: '0',
+                        IsRead: false,
+                        LastFromSender: false,
+                    },
+                    {
+                        Sender: {
+                            Id: '172',
+                            FirstName: 'Vitaly',
+                            LastName: 'Grachev',
+                            AvatarUrl: 'https://giftknackstorage.blob.core.windows.net/avatars/4bcdb839-0c19-4dc1-8a11-869b167fd788.png'
+                        },
+                        Recipient: {
+                            Id: '165',
+                            FirstName: 'Val',
+                            LastName: 'Kurasova',
+                            AvatarUrl: 'https://giftknackstorage.blob.core.windows.net/avatars/121202cc-c2e4-4b64-91be-1c9da9aaa7f1.png'
+                        },
+                            Time: '2016-01-02T12:20:16.6816485+00:00',
+                            LastMessage: 'Old message',
+                            NewCount: '0',
+                            IsRead: true,
+                            LastFromSender: false,
+                    }
+                ]
+            }
+        }
+        return response;
+        return $http.post(serviceBase + 'api/comment/getdialogs').then(function (response) {
+            return response;
+        });
+    };
+    var _getChat = function (sender, recipient) {
+        return $http.post(serviceBase + 'api/comment/getdialogs', { 'user1': sender, 'user2': recipient }).then(function (response) {
+            return response;
+        });
+    };
+
+
+    var chatServiceFactory = {
+        getDialogs: _getDialogs,
+        getChat:_getChat
+    };
+    return chatServiceFactory;
+
 }]);

@@ -1069,6 +1069,10 @@
     <Content Include="sitemap.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="templates\chat.html" />
+    <Content Include="templates\dialogs.html" />
+    <Content Include="templates\support.html" />
+    <Content Include="templates\faq.html" />
     <Content Include="templates\blog.html" />
     <Content Include="templates\helpus.html" />
     <Content Include="templates\feed.html" />
