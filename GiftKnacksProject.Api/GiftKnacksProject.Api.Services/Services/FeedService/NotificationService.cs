@@ -40,6 +40,8 @@ namespace GiftKnacksProject.Api.Services.Services.FeedService
             var database = await RetrieveOrCreateDatabaseAsync(DatabaseId);
             var collection = await RetrieveOrCreateCollectionAsync(database.SelfLink, "notificationLenta");
             var data = _databaseClient.CreateDocumentQuery<Notification>(collection.DocumentsLink).Where(x=>x.TargetUserId==id).OrderByDescending(x=>x.Time).ToList();
+           
+
             return data;
         }
 

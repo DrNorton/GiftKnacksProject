@@ -103,6 +103,21 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
            return SuccessApiResult(await _commentRepository.GetCommentListByWishId(idModel));
         }
 
+        [System.Web.Http.Route("getwishcommentbyid")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetWishCommentById(GetCommentDto idModel)
+        {
+        
+            return SuccessApiResult(await _commentRepository.GetWishCommentsOlderById(idModel));
+        }
+
+        [System.Web.Http.Route("getgiftcommentbyid")]
+        [System.Web.Http.HttpPost]
+        public async Task<IHttpActionResult> GetGiftCommentById(GetCommentDto idModel)
+        {
+            return SuccessApiResult(await _commentRepository.GetGiftCommentsOlderById(idModel));
+        }
+
         [System.Web.Http.Route("getbygiftid")]
         [System.Web.Http.HttpPost]
         public async Task<IHttpActionResult> GetByGiftId(GetCommentsDto idModel)

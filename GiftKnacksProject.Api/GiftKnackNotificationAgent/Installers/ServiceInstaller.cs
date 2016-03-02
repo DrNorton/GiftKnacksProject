@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using GiftKnackAgentCore.Services;
 using GiftKnackNotificationAgent.Services;
 using Microsoft.Azure.Documents.Client;
 
@@ -27,7 +28,7 @@ namespace GiftKnackNotificationAgent.Installers
 
             container.Register(Component.For<Functions>().LifestyleTransient());
             container.Register(Component.For<IRealTimePushNotificationService>().ImplementedBy<RealTimePushNotificationService>().LifestyleTransient());
-
+            container.Register(Component.For<INoSqlDatabaseRepository>().ImplementedBy<NoSqlDatabaseRepository>().LifestyleTransient());
         }
     }
 }

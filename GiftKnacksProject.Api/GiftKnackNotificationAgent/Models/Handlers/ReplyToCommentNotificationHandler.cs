@@ -48,7 +48,8 @@ namespace GiftKnackNotificationAgent.Models.Handlers
                 TargetType = messageFromQueue.TargetType,
                 User = user,
                 Target = wishGiftDto,
-                OwnerId = userCommentId
+                OwnerId = userCommentId,
+                CommentId = messageFromQueue.CommentId
             };
         }
 

@@ -13,5 +13,8 @@ namespace GiftKnacksProject.Api.Dao.Repositories
         Task<long> GetOwnerWish(long wishId);
         Task<long> GetOwnerGift(long giftId);
         Task<long> GetAutorUserIdByCommentId(long parentCommentId);
+        Task<List<CommentDto>> GetWishCommentsOlderById(GetCommentDto getCommentDto);
+
+        Task<List<CommentDto>> GetGiftCommentsOlderById(GetCommentDto getCommentDto);
     }
 }

@@ -2,8 +2,9 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Threading.Tasks;
-
+using System.Web;
 using RazorEngine;
 
 namespace GiftKnacksProject.Api.Dao.Emails.Mailers
@@ -17,18 +18,9 @@ namespace GiftKnacksProject.Api.Dao.Emails.Mailers
 		
         public Task ConfirmEmail(string email,string code)
         {
-             string template =
-              @"<html>
-                  <head>
-                    <title>Hello @Model.Email</title>
-                  </head>
-                  <body>
-                    Email: @Model.Url
-                  </body>
-                </html>";
-           
-          var result=Razor.Parse(template, new {Email = email, Url = code});
-          return SendEmail("noreply@knacksgifter.com", email, "Valid Acc", result, true);
+            var template = System.IO.File.ReadAllText(HttpContext.Current.Server.MapPath(@"~/App_Data/EmailTemplates/AfterRegisterEmail.html"), System.Text.Encoding.UTF8);
+            var result=Razor.Parse(template, new {Email = email, Url = code});
+            return SendEmail("noreply@knacksgifter.com", email, "KnacksGifter regstration", result, true);
         }
 
         public Task RecoveryPasswordEmail(string email, string code)
