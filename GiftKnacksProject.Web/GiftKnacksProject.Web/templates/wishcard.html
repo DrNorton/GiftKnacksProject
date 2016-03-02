@@ -80,7 +80,7 @@
                 <div class="panel-heading"><div class="panel-title">Comments</div></div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12" ng-hide="commentId">
                             <form ng-show="enoughData" class="form-comment" role="form" name="commentForm" novalidate>
                                 <div class="form-group">
                                     <textarea spellcheck="false" name="comment" ng-model="commentText" class="form-control" rows="4" required></textarea>
@@ -90,6 +90,7 @@
                             </form>
                             <div ng-hide="enoughData" class="alert alert-warning">For comments fill your <a href="/profile" class="alert-link">profile.</a></div>
                         </div>
+                        <div class="col-md-12" ng-show="commentId"><button type="button" class="btn btn-success reset" ng-click="resetComments('gift')">Show new comments</button></div>
                     </div>
                     <div class="row voffset3">
                         <div class="col-md-12">
@@ -105,6 +106,9 @@
 
                                 </li>
                             </ul>
+                        </div>
+                        <div ng-show="message" class="alert alert-danger col-md-12">
+                            {{message}}
                         </div>
                     </div>
                 </div>

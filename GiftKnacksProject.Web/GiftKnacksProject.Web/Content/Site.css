@@ -359,6 +359,90 @@ textarea {
   margin: 0;
 }
 
+.dialog-item {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-item.active {
+  background: #f8f8f8;
+}
+
+.dialog-item .media-left {
+  position: relative;
+}
+
+.dialog-item .media-left .name {
+  text-align: center;
+}
+
+.dialog-item .media-left .date {
+  color: #bbb;
+  font-size: 10px;
+  text-align: center;
+  line-height: 20px;
+}
+
+.dialog-item .media-left img {
+  height: 100px;
+  width: 100px;
+}
+
+.dialog-item .media-body .message-item {
+  position: relative;
+}
+
+.dialog-item .media-body .message-item.active {
+  border-radius: 4px;
+  border: 1px solid #e7e7e7;
+  background: #f8f8f8;
+}
+
+.dialog-item .media-body .message-item .new-count {
+  position: absolute;
+  background: #187942;
+  font-weight: bold;
+  border-radius: 4px;
+  color: #fff;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+}
+
+.dialog-item .media-body .media-left {
+  height: 100px;
+  width: 100px;
+}
+
+.dialog-item .media-body .media-left img {
+  height: 80px;
+  width: 80px;
+  margin: 10px;
+}
+
+.dialog-item .media-body .media-body {
+  vertical-align: middle;
+}
+
+.dialog-item .chat-link {
+  display: block;
+  border-radius: 4px;
+  border: 1px solid;
+  border-color: transparent;
+}
+
+.dialog-item .chat-link:hover {
+  text-decoration: none;
+  background: #eee;
+  border: 1px solid #e7e7e7;
+}
+
 .reference-rating {
   outline: none;
 }
@@ -650,7 +734,7 @@ body {
 }
 
 .btn-social-icon {
-  min-width: 45px;
+  min-width: 30px;
   margin-right: 10px;
 }
 
@@ -839,8 +923,7 @@ body {
   }
 }
 
-@-moz-keyframes swing
-{
+@-moz-keyframes swing {
   33% {
     -webkit-transform: scale(0.9);
     -moz-transform: scale(0.9);
@@ -864,8 +947,7 @@ body {
   }
 }
 
-@-webkit-keyframes swing
-{
+@-webkit-keyframes swing {
   33% {
     -webkit-transform: scale(0.9);
     -moz-transform: scale(0.9);
@@ -889,8 +971,7 @@ body {
   }
 }
 
-@keyframes swing
-{
+@keyframes swing {
   33% {
     -webkit-transform: scale(0.9);
     -moz-transform: scale(0.9);

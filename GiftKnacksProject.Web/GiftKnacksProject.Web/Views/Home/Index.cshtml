@@ -22,6 +22,7 @@
                             <li ng-class="{active:isActive(['/profile'])}"><a ng-click="navbarExpanded = false" href="/profile">My Profile</a></li>
                             <li ng-class="{active:isActive(['/dashboard'])}"><a ng-click="navbarExpanded = false" href="/dashboard">Dashboard</a></li>
                             <li ng-class="{active:isActive(['/history'])}"><a ng-click="navbarExpanded = false" href="/history">History</a></li>
+                            <li ng-class="{active:isActive(['/dialogs'])}"><a ng-click="navbarExpanded = false" href="/dialogs">Dialogs</a></li>
                             <li class="divider"></li>
                             <li><a href="" ng-click="logOut();navbarExpanded = false;">Log out</a></li>
                         </ul>
@@ -38,39 +39,48 @@
 <div id="footer" class="row-footer navbar navbar-default navbar-fixed-bottom">
     <div class="container ">
         <div class="row voffset3">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="footer-title"><a href="/about#about"><i class="glyphicon glyphicon-info-sign"></i>About</a></div>
                 <ul class="list-unstyled">
-                    <li><a href="/about#faq">FAQ</a></li>
-                    <li><a href="/about#safety">Safety</a></li>
-                    <li><a href="/about#support">Support</a></li>
+                    <li><a href="/about#mission">Mission</a></li>
+                    <li><a href="/about#team">Team</a></li>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <div class="footer-title"><a href="/faq#faq"><i class="glyphicon glyphicon-question-sign"></i>FAQ</a></div>
+            </div>
+            <div class="col-md-2">
+                <div class="footer-title"><a href="/support#support"><i class="glyphicon glyphicon-cog"></i>Support</a></div>
+                <ul class="list-unstyled">
+                    <li><a href="/support#policies">Policies</a></li>
+                    <li><a href="/support#safety">Safety</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
                 <div class="footer-title"><a href="/helpus#helpus"><i class="glyphicon glyphicon-exclamation-sign"></i>Help Us</a></div>
                 <ul class="list-unstyled">
-                    <li><a href="/helpus#ideas">Ideas</a></li>
                     <li><a href="/helpus#vacancy">Vacancy</a></li>
                     <li><a href="/helpus#donate">Donate</a></li>
                 </ul>
             </div>
-            <div class="col-md-3">
+
+            <div class="col-md-2">
                 <div class="footer-title"><a href="/blog"><i class="glyphicon glyphicon-book"></i>Blog</a></div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <div class="col-md-12">
-                    <a class="btn btn-primary btn-social-icon btn-facebook" target="_blank" href="http://www.facebook.com/knacksgifter"><i class="fa fa-lg fa-facebook"></i></a>
-                    <a class="btn btn-primary btn-social-icon btn-twitter" target="_blank" href="http://twitter.com/"><i class="fa fa-lg fa-twitter"></i></a>
-                    <a class="btn btn-primary btn-social-icon btn-google-plus" target="_blank" href="http://google.com/+"><i class="fa fa-lg fa-google-plus"></i></a>
+                    <a class="btn btn-xs btn-primary btn-social-icon btn-facebook" target="_blank" href="http://www.facebook.com/knacksgifter"><i class="fa fa-lg fa-facebook"></i></a>
+                    <a class="btn btn-xs btn-primary btn-social-icon btn-twitter" target="_blank" href="http://twitter.com/"><i class="fa fa-lg fa-twitter"></i></a>
+                    <a class="btn btn-xs btn-primary btn-social-icon btn-google-plus" target="_blank" href="http://google.com/+"><i class="fa fa-lg fa-google-plus"></i></a>
                 </div>
                 <div class="col-md-12 voffset2">
-                    <a class="btn btn-primary btn-social-icon btn-vk" target="_blank" href="http://vk.com/knacksgifter"><i class="fa fa-lg fa-vk"></i></a>
-                    <a class="btn btn-primary btn-social-icon btn-instagram" target="_blank" href="http://instagram.com/"><i class="fa fa-lg fa-instagram"></i></a>
-                    <a class="btn btn-primary btn-social-icon btn-email" href="mailto:social@knacksgifter.com"><i class="fa fa-lg fa-envelope-o"></i></a>
+                    <a class="btn btn-xs btn-primary btn-social-icon btn-vk" target="_blank" href="http://vk.com/knacksgifter"><i class="fa fa-lg fa-vk"></i></a>
+                    <a class="btn btn-xs btn-primary btn-social-icon btn-instagram" target="_blank" href="http://instagram.com/"><i class="fa fa-lg fa-instagram"></i></a>
+                    <a class="btn btn-xs btn-primary btn-social-icon btn-email" href="mailto:social@knacksgifter.com"><i class="fa fa-lg fa-envelope-o"></i></a>
                 </div>
             </div>
-            <div class="col-md-12">
-                <p align="center">© Copyright 2016 Ideas Band</p>
+            <div class="col-md-12 voffset4">
+                <p align="center">Copyright © 2016 Ideas Band for KnacksGifter.com. All rights reserved. </p>
             </div>
         </div>
     </div>

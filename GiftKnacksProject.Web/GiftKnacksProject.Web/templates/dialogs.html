@@ -1,0 +1,35 @@
+
+<div class="container ">
+    <div class="row voffset4">
+        <div class="col-xs-12" ng-repeat="item in dialogs">
+            <div ng-class="item.NewCount > 0? 'media dialog-item active' : 'media dialog-item'">
+                <div class="media-left item-img">
+                    <a href="/user/{{item.Sender.Id}}">
+                        <img class="media-object img-thumbnail" src="{{item.Sender.AvatarUrl}}" on-error-src="/img/avatar.png" alt="avatar" />
+                    </a>
+                    <div class="name">
+                        <a href="/user/{{item.Sender.Id}}">{{item.Sender.FirstName}}&nbsp;{{item.Sender.LastName}}</a>
+                        <div class="date" ng-if="item.LastFromSender">{{item.Time | date: 'short'}}</div>
+                    </div>
+                </div>
+                <div class="media-body">
+                    <div ng-class="item.IsRead && !item.LastFromSender? 'media message-item active' : 'media message-item'">
+                        <a href="/chat/{{item.Sender.Id}}/{{item.Recipient.Id}}" class="chat-link">
+                            <div class="media-left item-img">
+                                <img class="media-object img-thumbnail" ng-if="!item.LastFromSender" src="{{item.Recipient.AvatarUrl}}" on-error-src="/img/avatar.png" alt="avatar" />
+                                <div class="date" ng-if="!item.LastFromSender">{{item.Time | date: 'short'}}</div>
+                            </div>
+                            <div class="media-body">
+                                <div class="message-text">{{item.LastMessage}}</div>
+                            </div>
+                        </a>
+                        <div class="new-count" ng-if="item.NewCount>0 && item.LastFromSender">+{{item.NewCount}}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
