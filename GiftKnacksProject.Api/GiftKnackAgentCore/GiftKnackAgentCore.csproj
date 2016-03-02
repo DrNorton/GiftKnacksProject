@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseSchemas\LastMessageDocumentDbSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IRealTimePushNotificationService.cs" />
     <Compile Include="Services\NoSqlDatabaseRepository.cs" />
