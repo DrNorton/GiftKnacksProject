@@ -7,6 +7,7 @@
  * Controller of the giftknacksApp
  */
 app.controller('RootCtrl', ['$scope', '$location', 'authService', 'signalRHubProxy', '$uibModal','cacheVersion', function ($scope, $location, authService, signalRHubProxy, $uibModal, cacheVersion) {
+    $scope.navbarExpanded = false;
     $scope.isActive = function (pathArr) {
         for (var i = 0; i < pathArr.length; i++) {
             var path = pathArr[i];
@@ -155,7 +156,7 @@ app.controller('HelpUsCtrl', ['$scope', '$location', '$anchorScroll', function (
  * # Контроллер информационной страницы
  * Controller of the giftknacksApp
  */
-app.controller('HelpUsCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
+app.controller('FaqCtrl', ['$scope', '$location', '$anchorScroll', function ($scope, $location, $anchorScroll) {
     $scope.selectedLink = 'faq';
     if ($location.hash()) {
         $anchorScroll();

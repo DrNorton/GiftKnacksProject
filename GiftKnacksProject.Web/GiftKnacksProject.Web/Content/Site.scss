@@ -567,7 +567,9 @@ textarea {
 .navbar-nav > li > a {
     line-height: 80px;
     padding: 0 10px;
-
+     @media (max-width: 768px) {
+         line-height: 30px;
+    }
     & > button {
         font-size: 16px;
 
@@ -712,6 +714,7 @@ textarea {
 
     @media (max-width: 992px) {
         height: 350px;
+            z-index: 0;
     }
 
     .footer-title {
@@ -741,7 +744,12 @@ body {
     }
 }
 
+.empty-page{
+    margin-top:40px;
+    text-align:center;
+    font-size:26px;
 
+}
 .cropArea {
     background: #E4E4E4;
     //overflow: hidden;
