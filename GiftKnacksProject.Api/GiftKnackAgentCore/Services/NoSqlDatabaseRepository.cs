@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GiftKnackAgentCore.DatabaseSchemas;
 using GiftKnackProject.NotificationTypes.Chat;
 using GiftKnackProject.NotificationTypes.ProcessedNotifications;
 using Microsoft.Azure.Documents;
@@ -16,7 +17,7 @@ namespace GiftKnackAgentCore.Services
     public interface INoSqlDatabaseRepository
     {
         Task SaveNotification(IEnumerable<Notification> notifications);
-        Task SaveMessageFromUser(ChatMqMessage message);
+        Task SaveMessageToLastMessages(ChatMqMessage message);
     }
 
     public class NoSqlDatabaseRepository : INoSqlDatabaseRepository
@@ -47,9 +48,27 @@ namespace GiftKnackAgentCore.Services
             }
         }
 
-        public Task SaveMessageFromUser(ChatMqMessage message)
+        public async Task SaveMessageToLastMessages(ChatMqMessage message)
         {
-            return null;
+            var database = await RetrieveOrCreateDatabaseAsync();
+            var collection = await RetrieveOrCreateCollectionAsync(database.SelfLink, "lastmessages");
+            var lastMessage = new LastMessageDocumentDbSchema()
+            {
+                LastMessage = message.Message,
+                Recepient = message.To.ToString(),
+                Sender = message.From
+            };
+
+            try
+            {
+                await _client.CreateDocumentAsync(collection.DocumentsLink, lastMessage);
+            }
+            catch (Exception e)
+            {
+                
+            }
+          
+
         }
 
 
