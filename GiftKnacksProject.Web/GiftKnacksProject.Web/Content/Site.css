@@ -666,6 +666,19 @@ textarea {
   margin-top: -80px;
 }
 
+.info-page h2 i {
+  vertical-align: text-top;
+  margin-right: 10px;
+}
+
+.info-page .info-panel {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 6px;
+  background: #f3fbf6;
+  margin-bottom: 30px;
+}
+
 .row-footer {
   position: absolute;
   bottom: 0;

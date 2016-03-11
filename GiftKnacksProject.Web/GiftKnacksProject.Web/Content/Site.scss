@@ -701,6 +701,18 @@ textarea {
     h2 {
         padding-top: 100px;
         margin-top: -80px;
+
+        i{
+            vertical-align: text-top;
+            margin-right:10px;
+        }
+    }
+    .info-panel{
+           box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+           padding:20px;
+           border-radius:6px;
+               background: #f3fbf6;
+                   margin-bottom: 30px;
     }
 }
 //footer stick at bottom of page
