@@ -543,6 +543,13 @@ textarea {
 
 .navbar-nav > li > a > button {
   font-size: 16px;
+  margin-top: -3px;
+}
+
+@media (max-width: 768px) {
+  .navbar-nav > li > a > button {
+    margin: 10px 0;
+  }
 }
 
 .navbar-nav > li > a > button.btn-default:hover, .navbar-nav > li > a > button.btn-default:active {
