@@ -581,13 +581,13 @@ app.factory('chatService', ['$http', 'serviceBase', function ($http, serviceBase
                 ]
             }
         }
-        return response;
-        return $http.post(serviceBase + 'api/comment/getdialogs').then(function (response) {
+
+        return $http.post(serviceBase + 'api/chat/getdialogs', {}).then(function (response) {
             return response;
         });
     };
     var _getChat = function (sender, recipient) {
-        return $http.post(serviceBase + 'api/comment/getdialogs', { 'user1': sender, 'user2': recipient }).then(function (response) {
+        return $http.post(serviceBase + 'api/chat/getdialog', { 'user1': sender, 'user2': recipient }).then(function (response) {
             return response;
         });
     };

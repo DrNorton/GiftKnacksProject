@@ -227,6 +227,18 @@ textarea {
   font-size: 16px;
 }
 
+.feed-empty {
+  font-size: 18px;
+}
+
+.welcome-msg {
+  font-size: 18px;
+}
+
+.welcome-msg h2 {
+  margin: 50px 0 30px;
+}
+
 .feed-item {
   padding: 20px;
   margin: 10px 0;
@@ -496,6 +508,19 @@ textarea {
 
 .comments-list .comment-author {
   margin-bottom: 20px;
+  float: left;
+}
+
+.comments-list .date {
+  margin-bottom: 20px;
+  float: right;
+  font-size: 12px;
+  line-height: 20px;
+  color: #888;
+}
+
+.comments-list .text {
+  clear: both;
 }
 
 .navbar-brand {
