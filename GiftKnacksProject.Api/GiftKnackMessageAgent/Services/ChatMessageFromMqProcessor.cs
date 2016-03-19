@@ -23,7 +23,8 @@ namespace GiftKnackMessageAgent.Services
         {
             var body = brokeredMessage.GetBody<string>();
             var message = JsonConvert.DeserializeObject<ChatMqMessage>(body);
-             await _noSqlDatabaseRepository.SaveMessageToLastMessages(message);
+            await _noSqlDatabaseRepository.SaveMessageToLastMessages(message);
+            await _noSqlDatabaseRepository.SaveMessageToAllMessages(message);
             return;
         }
     }

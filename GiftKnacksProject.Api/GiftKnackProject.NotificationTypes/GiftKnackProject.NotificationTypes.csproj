@@ -51,6 +51,8 @@
     <Compile Include="AddReferenceQueueNotification.cs" />
     <Compile Include="BaseQueueNotification.cs" />
     <Compile Include="Chat\ChatMqMessage.cs" />
+    <Compile Include="Chat\LastMessageDocumentDbSchema.cs" />
+    <Compile Include="Chat\MessageDbSchema.cs" />
     <Compile Include="CloseItemQueueNotification.cs" />
     <Compile Include="JoinQueueNotification.cs" />
     <Compile Include="ProcessedNotifications\BaseNotificationInfo.cs" />

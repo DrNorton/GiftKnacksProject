@@ -63,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthUsers\ApplicationUser.cs" />
+    <Compile Include="Dtos\Chat\DialogDto.cs" />
+    <Compile Include="Dtos\Chat\GetDialogDto.cs" />
+    <Compile Include="Dtos\Chat\MessageFromDialog.cs" />
     <Compile Include="Dtos\Chat\SendToChatMessageDto.cs" />
     <Compile Include="Dtos\Comments\CommentDto.cs" />
     <Compile Include="Dtos\Comments\GetCommentDto.cs" />

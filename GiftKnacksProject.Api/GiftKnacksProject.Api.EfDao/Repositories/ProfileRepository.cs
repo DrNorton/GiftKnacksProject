@@ -105,10 +105,19 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
            
         }
 
-        
+        public Task<List<TinyProfileDto>> GetTinyProfiles(IEnumerable<long> usersIds)
+        {
+            return Db.Set<Profile>().Where(x => usersIds.Contains(x.Id)).Select(x => new TinyProfileDto()
+            {
+                AvatarUrl = x.AvatarUrl,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Id = x.Id
+            }).ToListAsync();
+        }
 
 
-        public async Task<List<TinyProfileDto>> Search(string pattern)
+        public  Task<List<TinyProfileDto>> Search(string pattern)
         {
             return Db.Set<Profile>()
                 .Where(x => x.FirstName.Contains(pattern) ||x.LastName.Contains(pattern))
@@ -123,7 +132,7 @@ namespace GiftKnacksProject.Api.EfDao.Repositories
                             LastName = x.LastName,
                             TotalClosed = 0
                         })
-                .ToList();
+                .ToListAsync();
         }
 
         public async Task<bool> CheckActivity(long userId)

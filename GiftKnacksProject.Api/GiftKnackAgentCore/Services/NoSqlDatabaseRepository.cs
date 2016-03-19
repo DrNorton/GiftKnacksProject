@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GiftKnackAgentCore.DatabaseSchemas;
 using GiftKnackProject.NotificationTypes.Chat;
 using GiftKnackProject.NotificationTypes.ProcessedNotifications;
 using Microsoft.Azure.Documents;
@@ -18,6 +17,8 @@ namespace GiftKnackAgentCore.Services
     {
         Task SaveNotification(IEnumerable<Notification> notifications);
         Task SaveMessageToLastMessages(ChatMqMessage message);
+
+        Task SaveMessageToAllMessages(ChatMqMessage message);
     }
 
     public class NoSqlDatabaseRepository : INoSqlDatabaseRepository
@@ -55,13 +56,15 @@ namespace GiftKnackAgentCore.Services
             var lastMessage = new LastMessageDocumentDbSchema()
             {
                 LastMessage = message.Message,
-                Recepient = message.To.ToString(),
-                Sender = message.From
+                Recepient = message.To,
+                Sender = message.From,
+                Time=DateTime.Now
             };
 
             try
             {
-                await _client.CreateDocumentAsync(collection.DocumentsLink, lastMessage);
+              
+                await _client.UpsertDocumentAsync(collection.DocumentsLink, lastMessage);
             }
             catch (Exception e)
             {
@@ -69,6 +72,21 @@ namespace GiftKnackAgentCore.Services
             }
           
 
+        }
+
+        public async Task SaveMessageToAllMessages(ChatMqMessage messagefromMq)
+        {
+            var database = await RetrieveOrCreateDatabaseAsync();
+            var collection = await RetrieveOrCreateCollectionAsync(database.SelfLink, "messages");
+            var message = new MessageDbSchema()
+            {
+                Message = messagefromMq.Message,
+                Recepient = messagefromMq.To,
+                Sender = messagefromMq.From,
+                Time = DateTime.Now
+            };
+
+            await _client.UpsertDocumentAsync(collection.DocumentsLink, message);
         }
 
 

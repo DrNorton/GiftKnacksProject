@@ -35,12 +35,34 @@ namespace GiftKnacksProject.Api.Controllers.Controllers
             await
                 _chatMessageService.SendMessageToQueue(new ChatMqMessage()
                 {
-                    From = newChatMessage.From,
+                    From = newChatMessage.From, 
                     Message = newChatMessage.Message,
                     To = newChatMessage.To
                 });
 
             return SuccessApiResult(currentUser);
+        }
+
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("getdialogs")]
+        [System.Web.Http.HttpPost]
+
+        public async Task<IHttpActionResult> GetDialogs()
+        {
+            var currentUser = long.Parse(User.Identity.GetUserId());
+            var dialogList=await _chatMessageService.GetDialogs(currentUser);
+            return SuccessApiResult(dialogList);
+        }
+
+        [System.Web.Http.Authorize]
+        [System.Web.Http.Route("getdialog")]
+        [System.Web.Http.HttpPost]
+
+        public async Task<IHttpActionResult> GetMessagesFromDialog(GetDialogDto getdialogs)
+        {
+            var currentUser = long.Parse(User.Identity.GetUserId());
+            var dialogList = await _chatMessageService.GetMessagesFromDialog(getdialogs.User1,getdialogs.User2);
+            return SuccessApiResult(dialogList);
         }
 
     }
