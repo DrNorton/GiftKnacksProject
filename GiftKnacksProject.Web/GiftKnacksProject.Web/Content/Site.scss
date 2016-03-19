@@ -252,6 +252,15 @@ textarea {
         font-size: 16px;
     }
 }
+.feed-empty{
+    font-size: 18px;
+}
+.welcome-msg{
+font-size: 18px;
+h2{
+    margin:50px 0 30px;
+}
+}
 //feed
 
 .feed-item {
@@ -530,6 +539,17 @@ textarea {
 
     .comment-author {
         margin-bottom: 20px;
+        float:left
+    }
+     .date {
+           margin-bottom: 20px;
+       float:right;
+           font-size: 12px;
+    line-height: 20px;
+    color: #888;
+    }
+      .text {
+       clear: both;
     }
 }
 
@@ -567,10 +587,15 @@ textarea {
 .navbar-nav > li > a {
     line-height: 80px;
     padding: 0 10px;
-
+     @media (max-width: 768px) {
+         line-height: 30px;
+    }
     & > button {
         font-size: 16px;
-
+        margin-top:-3px;
+         @media (max-width: 768px) {
+        margin:10px 0;
+    }
         &.btn-default:hover, &.btn-default:active {
             color: #2f8d58;
             background: #fff;
@@ -699,6 +724,18 @@ textarea {
     h2 {
         padding-top: 100px;
         margin-top: -80px;
+
+        i{
+            vertical-align: text-top;
+            margin-right:10px;
+        }
+    }
+    .info-panel{
+           box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+           padding:20px;
+           border-radius:6px;
+               background: #f3fbf6;
+                   margin-bottom: 30px;
     }
 }
 //footer stick at bottom of page
@@ -712,6 +749,7 @@ textarea {
 
     @media (max-width: 992px) {
         height: 350px;
+            z-index: 0;
     }
 
     .footer-title {
@@ -741,7 +779,12 @@ body {
     }
 }
 
+.empty-page{
+    margin-top:40px;
+    text-align:center;
+    font-size:26px;
 
+}
 .cropArea {
     background: #E4E4E4;
     //overflow: hidden;
@@ -789,6 +832,7 @@ body {
 .promo {
     background: url('../img/promo.png') no-repeat scroll top center;
     min-height: 300px;
+
 
     @media (max-width: 992px) {
         background-position-x: -750px;
