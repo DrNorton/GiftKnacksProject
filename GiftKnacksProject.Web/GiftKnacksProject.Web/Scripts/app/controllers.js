@@ -1711,7 +1711,16 @@ app.controller('DialogsCtrl', ['$scope', 'initialData', 'authService', function 
  */
 app.controller('ChatCtrl', ['$scope', 'initialData', 'authService', function ($scope, initialData, authService) {
     $scope.enoughData = authService.authentication.isFilled;
+    $scope.myId = authService.authentication.userId;
+    $scope.wasSubmitted = false;
     if (initialData.data && !initialData.data.ErrorCode) {
         $scope.chat = initialData.data.Result;
+    }
+    $scope.addMessage = function (isValid) {
+        $scope.wasSubmitted = true;
+     
+        if (isValid) {
+            
+        }
     }
 }]);

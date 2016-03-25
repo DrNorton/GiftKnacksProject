@@ -371,6 +371,10 @@ textarea {
   margin: 0;
 }
 
+.chat {
+  margin-top: 50px;
+}
+
 .dialog-item {
   padding: 20px;
   margin: 20px 0;
@@ -690,6 +694,7 @@ textarea {
 @media (max-width: 992px) {
   .sidebar {
     position: relative;
+    z-index: 1;
   }
 }
 

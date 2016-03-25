@@ -1,10 +1,31 @@
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            dialogs
+    <div class="row chat">
+        <div class="col-xs-12" ng-repeat="item in chat">
+            <div ng-class="!item.isRead ? 'media dialog-item active' : 'media dialog-item'">
+                <div class="media-left item-img">
+                    <a href="/user/{{item.Sender}}">
+                        <img class="media-object img-thumbnail" src="{{item.Sender.AvatarUrl}}" on-error-src="/img/avatar.png" alt="avatar" />
+                    </a>
+                    <div class="name">
+                        <a href="/user/{{item.Sender}}">{{item.Sender.FirstName}}&nbsp;{{item.Sender.LastName}}</a>
+                        <div class="date">{{item.Time | date: 'short'}}</div>
+                    </div>
+                </div>
+                <div class="media-body">
+                    <div class="message-text">{{item.Message}}</div>
+                </div>
+            </div>
         </div>
-
+            <div class="col-xs-12">
+                <form class="form-chat" role="form" name="chatForm" novalidate>
+                    <div class="form-group">
+                        <textarea spellcheck="false" name="message" ng-model="messageText" class="form-control" rows="4" required></textarea>
+                        <div class="label label-danger" ng-show="wasSubmitted && chatForm.message.$error.required">Required</div>
+                    </div>
+                    <button type="submit" class="btn btn-info" ng-click="addMessage(chatForm.$valid)">Send</button>
+                </form>
+            </div>
     </div>
 
 </div>

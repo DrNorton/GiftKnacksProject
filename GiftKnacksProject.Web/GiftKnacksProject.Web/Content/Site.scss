@@ -397,6 +397,9 @@ h2{
     }
 }
 
+.chat{
+    margin-top:50px;
+}
 //dialog
 .dialog-item {
     padding: 20px;
@@ -716,6 +719,7 @@ h2{
 
     @media (max-width: 992px) {
         position: relative;
+        z-index:1;
     }
 }
 

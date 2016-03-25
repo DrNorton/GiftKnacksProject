@@ -27,7 +27,7 @@
                             <div class="row"><label class="col-lg-4">Status:</label><div class="col-lg-8 ">{{item.Status.Status}}</div></div>
                             <div class="row"><label class="col-lg-4">Category:</label><div class="col-lg-8 ">{{item.Category}}</div></div>
                             <div class="row"><label class="col-lg-4">Author:</label><div class="col-lg-8 "><a href="/user/{{item.Creator.CreatorId}}">{{item.Creator.FirstName}}&nbsp;{{item.Creator.LastName}}</a></div></div>
-                            <div class="row"><label class="col-lg-4">Date:</label><div class="col-lg-8 ">{{item.FromDate}}-{{item.ToDate}}</div></div>
+                            <div class="row"><label class="col-lg-4">Period:</label><div class="col-lg-8 ">from {{item.FromDate}}<br/><span ng-if="item.ToDate">to {{item.ToDate}}</span><span ng-if="!item.ToDate">without time limit</span></div></div>
                         </div>
                         <div class="panel-footer" ng-show="item.Status.Code==0 && myId!==item.Creator.CreatorId"><button type="button" class="btn btn-success col-md-offset-4" ng-click="showmyitems('gift')">Join!</button></div>
                     </div>
